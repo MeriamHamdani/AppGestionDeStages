@@ -15,9 +15,10 @@ use Illuminate\Support\Facades\Route;
 
 @include('admin_web.php');
 @include('etudiant_web.php');
+@include('enseignant_web.php');
 
 Route::get('/', function () {
-    return redirect()->route('dash_etudiant');
+    return redirect()->route('dash_enseignant');
 })->name('/');
 
 Route::view('sample-page', 'admin.pages.sample-page')->name('sample-page');
