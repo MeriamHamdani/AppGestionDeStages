@@ -1,6 +1,8 @@
 #!/usr/bin/env php
 <?php
 
+use Symfony\Component\Console\Input\Input;
+
 define('LARAVEL_START', microtime(true));
 
 /*
