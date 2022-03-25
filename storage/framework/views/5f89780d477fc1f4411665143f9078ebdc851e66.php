@@ -1,18 +1,13 @@
 <header class="main-nav">
     <div class="sidebar-user text-center">
         <a class="setting-primary" href="javascript:void(0)"><i data-feather="settings"></i></a><img
-            class="img-90 rounded-circle" src="{{asset('assets/images/dashboard/1.png')}}" alt="" />
+            class="img-90 rounded-circle" src="<?php echo e(asset('assets/images/dashboard/1.png')); ?>" alt="" />
         <div class="badge-bottom"><span class="badge badge-primary">New</span></div>
         <a href="user-profile">
             <h6 class="mt-3 f-14 f-w-600">Admin Nom prenom</h6>
         </a>
         <p class="mb-0 font-roboto">université</p>
-        {{-- <ul>
-            <li>
-                <span><span class="counter">2</span>
-                    <p>Stages</p>
-            </li>
-        </ul>--}}
+        
     </div>
     <nav>
         <div class="main-navbar">
@@ -29,7 +24,7 @@
                         </div>
                     </li>
                     <li class="dropdown">
-                        <a class="nav-link menu-title {{ prefixActive('/dashboard') }}" href="javascript:void(0)"><i
+                        <a class="nav-link menu-title <?php echo e(prefixActive('/dashboard')); ?>" href="javascript:void(0)"><i
                                 data-feather="home"></i><span>Dashboard</span></a>
                     </li>
                     <li class="sidebar-main-title">
@@ -38,15 +33,15 @@
                         </div>
                     </li>
                     <li class="dropdown">
-                        <a class="nav-link menu-title" href="{{ route('liste_admin') }}"
-                            class="{{ routeActive('liste_admin') }}"><i
+                        <a class="nav-link menu-title" href="<?php echo e(route('liste_admin')); ?>"
+                            class="<?php echo e(routeActive('liste_admin')); ?>"><i
                                 class="icofont icofont-users-alt-2"></i>&nbsp&nbsp&nbsp<span>La liste des
                                 administrateurs</span></a>
                     </li>
 
                     <li class="dropdown">
-                        <a class="nav-link menu-title " href="{{ route('ajouter_admin') }}"
-                            class="{{ routeActive('ajouter_admin') }}"><i
+                        <a class="nav-link menu-title " href="<?php echo e(route('ajouter_admin')); ?>"
+                            class="<?php echo e(routeActive('ajouter_admin')); ?>"><i
                                 class="icofont icofont-user-suited"></i>&nbsp&nbsp&nbsp<span>Ajouter un
                                 administrateur</span></a>
                     </li>
@@ -60,7 +55,7 @@
                         <a class="nav-link menu-title" href="javascript:void(0)"><i
                                 class="icofont icofont-listing-box"></i>&nbsp&nbsp&nbsp<span>Les demandes de
                                 stages</span></a>
-                        <ul class="nav-submenu menu-content" style="display: {{ prefixBlock('/') }};">
+                        <ul class="nav-submenu menu-content" style="display: <?php echo e(prefixBlock('/')); ?>;">
                             <li><a href="#"><strong><i class="icofont icofont-pen-nib"></i>Stage volantaire 1ère et 2ème
                                         license et master</strong></a> </li>
                             <li><a href="#"><strong><i class="icofont icofont-pen-nib"></i>Stage obligatoire 2ème
@@ -74,8 +69,8 @@
                         </ul>
                     </li>
                     <li class="dropdown">
-                        <a class="nav-link menu-title " href="{{ route('gerer_cahiers_stages') }}"
-                            class="{{ routeActive('gerer_cahiers_stages') }}"><i
+                        <a class="nav-link menu-title " href="<?php echo e(route('gerer_cahiers_stages')); ?>"
+                            class="<?php echo e(routeActive('gerer_cahiers_stages')); ?>"><i
                                 class="icofont icofont-book-alt"></i>&nbsp&nbsp&nbsp<span>Gérer les cahiers des
                                 stages</span></a>
                     </li>
@@ -185,3 +180,4 @@
     </nav>
 </header>
 
+<?php /**PATH C:\laragon\www\AppGestionDeStages\resources\views/layouts/admin/partials/sidebar.blade.php ENDPATH**/ ?>

@@ -2,8 +2,18 @@
 
 use Illuminate\Support\Facades\Route;
 
+/*Route::prefix('admin')->group(function () {
+});*/
+//-------------------------------------------------------------------------------------------------
 Route::prefix('admin')->group(function () {
+    Route::view('administration/liste-admin', 'admin.administration.liste_des_admin')->name('liste_admin');
+    Route::view('administration/ajouter-admin', 'admin.administration.ajouter_admin')->name('ajouter_admin');
+
+    Route::view('stage/gerer-cahiers-stages', 'admin.stage.gerer_cahiers_stages')->name('gerer_cahiers_stages');
+    Route::view('stage/cahier-de-stage', 'admin.stage.cahier_de_stage')->name('cahier_de_stage');
 });
+
+//-------------------------------------------------------------------------------------------------
 
 Route::prefix('dashboard')->group(function () {
 	Route::view('dashboard-02', 'admin.dashboard.dashboard-02')->name('dashboard-02');
