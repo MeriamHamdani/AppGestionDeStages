@@ -1,7 +1,7 @@
 <header class="main-nav">
     <div class="sidebar-user text-center">
         <a class="setting-primary" href="javascript:void(0)"><i data-feather="settings"></i></a><img
-            class="img-90 rounded-circle" src="{{asset('assets/images/dashboard/1.png')}}" alt="" />
+            class="img-90 rounded-circle" src="<?php echo e(asset('assets/images/dashboard/1.png')); ?>" alt="" />
         <div class="badge-bottom"><span class="badge badge-primary">New</span></div>
         <a href="user-profile">
             <h6 class="mt-3 f-14 f-w-600">Enseignant Nom et prénom</h6>
@@ -25,15 +25,16 @@
                         </div>
                     </li>
                     <li class="dropdown">
-                        <a class="nav-link menu-title" {{ prefixActive('enseignant/encadrement')}}
-                            href="{{ route('liste_demandes') }}" class="{{routeActive('liste_demandes')}}"><i
+                        <a class="nav-link menu-title" <?php echo e(prefixActive('enseignant/encadrement')); ?>
+
+                            href="<?php echo e(route('liste_demandes')); ?>" class="<?php echo e(routeActive('liste_demandes')); ?>"><i
                                 class="icofont icofont-listine-dots"></i>&nbsp&nbsp&nbsp<span>La liste des demandes
                                 d'encadrement</span></a>
 
                     </li>
                     <li class="dropdown">
-                        <a class="nav-link menu-title" href="{{ route('liste_stages_actifs') }}"
-                            class="{{ routeActive('liste_stages_actifs') }}"><i
+                        <a class="nav-link menu-title" href="<?php echo e(route('liste_stages_actifs')); ?>"
+                            class="<?php echo e(routeActive('liste_stages_actifs')); ?>"><i
                                 class="icofont icofont-listine-dots"></i>&nbsp&nbsp&nbsp<span>La liste des stages
                                 actifs</span></a>
 
@@ -45,16 +46,9 @@
                         </div>
                     </li>
                     <li class="dropdown">
-
                         <a class="nav-link menu-title" href="javascript:void(0)"><i
                                 class="icofont icofont-papers"></i>&nbsp&nbsp&nbsp<span>La liste des demandes de dépot
                                 de memoire </span></a>
-
-                        <a class="nav-link menu-title" {{ prefixActive('enseignant/depot')}}
-                            href="{{ route('depots') }}" class="{{routeActive('depots')}}"><i
-                                class="icofont icofont-papers"></i>&nbsp&nbsp&nbsp<span>La liste des demandes de dépot
-                                de memoire </span></a>
-
 
                     </li>
 
@@ -64,7 +58,6 @@
                         </div>
                     </li>
                     <li class="dropdown">
-
                         <a class="nav-link menu-title" href="javascript:void(0)"><i
                                 class="icofont icofont-teacher"></i>&nbsp&nbsp&nbsp<span>En tant qu'Encadrant</span></a>
 
@@ -73,18 +66,6 @@
                         <a class="nav-link menu-title" href="javascript:void(0)"><i
                                 class="icofont icofont-users-alt-2"></i>&nbsp&nbsp&nbsp<span>En tant que membre de jury
                             </span></a>
-
-                        <a class="nav-link menu-title" {{ prefixActive('enseignant/soutenance')}}
-                            href="{{ route('role_encadrant') }}" class="{{routeActive('role_encadrant')}}"><i
-                                class="icofont icofont-teacher"></i>&nbsp&nbsp&nbsp<span>En tant qu'Encadrant</span></a>
-
-                    </li>
-                    <li class="dropdown">
-                        <a class="nav-link menu-title" {{ prefixActive('enseignant/soutenance')}}
-                            href="{{ route('role_membre_jury') }}" class="{{routeActive('role_membre_jury')}}"><i
-                                class="icofont icofont-users-alt-2"></i>&nbsp&nbsp&nbsp<span>En tant que membre de jury
-                            </span></a>
-
 
                     </li>
 
@@ -95,16 +76,16 @@
                         </div>
                     </li>
                     <li class="dropdown">
-                        <a class="nav-link menu-title" href="{{ route('liste_stages_paye') }}"
-                            class="{{ routeActive('liste_stages_paye') }}"><i
+                        <a class="nav-link menu-title" href="<?php echo e(route('liste_stages_paye')); ?>"
+                            class="<?php echo e(routeActive('liste_stages_paye')); ?>"><i
                                 class="icofont icofont-cur-dollar"></i>&nbsp&nbsp&nbsp<span>La liste des stages
                                 payés</span></a>
 
                     </li>
 
                     <li class="dropdown">
-                        <a class="nav-link menu-title" href="{{ route('liste_stages_non_paye') }}"
-                            class="{{ routeActive('liste_stages_non_paye') }}"><i
+                        <a class="nav-link menu-title" href="<?php echo e(route('liste_stages_non_paye')); ?>"
+                            class="<?php echo e(routeActive('liste_stages_non_paye')); ?>"><i
                                 class="icofont icofont-close-squared"></i>&nbsp&nbsp&nbsp<span>La liste des stages
                                 non-payés</span></a>
 
@@ -118,3 +99,4 @@
     </nav>
 </header>
 
+<?php /**PATH C:\laragon\www\AppGestionDeStages\resources\views/layouts/enseignant/partials/sidebar.blade.php ENDPATH**/ ?>
