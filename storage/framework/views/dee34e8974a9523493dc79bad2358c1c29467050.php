@@ -46,9 +46,15 @@
                         </div>
                     </li>
                     <li class="dropdown">
-                        <a class="nav-link menu-title" href="javascript:void(0)"><i
+
+
+
+                        <a class="nav-link menu-title" <?php echo e(prefixActive('enseignant/depot')); ?>
+
+                            href="<?php echo e(route('depots')); ?>" class="<?php echo e(routeActive('depots')); ?>"><i
                                 class="icofont icofont-papers"></i>&nbsp&nbsp&nbsp<span>La liste des demandes de dépot
                                 de memoire </span></a>
+
 
                     </li>
 
@@ -58,14 +64,24 @@
                         </div>
                     </li>
                     <li class="dropdown">
-                        <a class="nav-link menu-title" href="javascript:void(0)"><i
+
+
+                    </li>
+                    <li class="dropdown">
+
+                        <a class="nav-link menu-title" <?php echo e(prefixActive('enseignant/soutenance')); ?>
+
+                            href="<?php echo e(route('role_encadrant')); ?>" class="<?php echo e(routeActive('role_encadrant')); ?>"><i
                                 class="icofont icofont-teacher"></i>&nbsp&nbsp&nbsp<span>En tant qu'Encadrant</span></a>
 
                     </li>
                     <li class="dropdown">
-                        <a class="nav-link menu-title" href="javascript:void(0)"><i
+                        <a class="nav-link menu-title" <?php echo e(prefixActive('enseignant/soutenance')); ?>
+
+                            href="<?php echo e(route('role_membre_jury')); ?>" class="<?php echo e(routeActive('role_membre_jury')); ?>"><i
                                 class="icofont icofont-users-alt-2"></i>&nbsp&nbsp&nbsp<span>En tant que membre de jury
                             </span></a>
+
 
                     </li>
 
@@ -97,6 +113,4 @@
             <div class="right-arrow" id="right-arrow"><i data-feather="arrow-right"></i></div>
         </div>
     </nav>
-</header>
-
-<?php /**PATH C:\laragon\www\AppGestionDeStages\resources\views/layouts/enseignant/partials/sidebar.blade.php ENDPATH**/ ?>
+</header><?php /**PATH C:\laragon\www\AppGestionDeStages\resources\views/layouts/enseignant/partials/sidebar.blade.php ENDPATH**/ ?>
