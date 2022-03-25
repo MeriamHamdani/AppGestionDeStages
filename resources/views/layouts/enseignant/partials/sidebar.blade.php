@@ -36,7 +36,8 @@
                         </div>
                     </li>
                     <li class="dropdown">
-                        <a class="nav-link menu-title" href="javascript:void(0)"><i class="icofont icofont-papers"></i>&nbsp&nbsp&nbsp<span>La liste des demandes de dépot de memoire </span></a>
+                        <a class="nav-link menu-title" {{ prefixActive('enseignant/depot')}}
+                        href="{{ route('depots') }}" class="{{routeActive('depots')}}"><i class="icofont icofont-papers"></i>&nbsp&nbsp&nbsp<span>La liste des demandes de dépot de memoire </span></a>
 
                     </li>
 
@@ -46,11 +47,13 @@
                         </div>
                     </li>
                     <li class="dropdown">
-                        <a class="nav-link menu-title"  href="javascript:void(0)"><i class="icofont icofont-teacher"></i>&nbsp&nbsp&nbsp<span>En tant qu'Encadrant</span></a>
+                        <a class="nav-link menu-title"{{ prefixActive('enseignant/soutenance')}}
+                        href="{{ route('role_encadrant') }}" class="{{routeActive('role_encadrant')}}"><i class="icofont icofont-teacher"></i>&nbsp&nbsp&nbsp<span>En tant qu'Encadrant</span></a>
 
                     </li>
                     <li class="dropdown">
-                        <a class="nav-link menu-title" href="javascript:void(0)"><i class="icofont icofont-users-alt-2"></i>&nbsp&nbsp&nbsp<span>En tant que membre de jury </span></a>
+                        <a class="nav-link menu-title" {{ prefixActive('enseignant/soutenance')}}
+                        href="{{ route('role_membre_jury') }}" class="{{routeActive('role_membre_jury')}}"><i class="icofont icofont-users-alt-2"></i>&nbsp&nbsp&nbsp<span>En tant que membre de jury </span></a>
 
                     </li>
 
