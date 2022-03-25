@@ -1,3 +1,5 @@
+
+
 <?php $__env->startSection('title'); ?>Dépôt
 <?php echo e($title); ?>
 

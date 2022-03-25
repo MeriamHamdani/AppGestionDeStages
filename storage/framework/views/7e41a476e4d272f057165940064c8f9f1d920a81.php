@@ -5,8 +5,8 @@
                 <?php echo e($breadcrumb_title ?? ''); ?>
 
                 <ol class="breadcrumb">
-                    <!--<li class="breadcrumb-item"><a href="<?php echo e(route('index')); ?>">Accueil</a></li>-->
-                    <li class="breadcrumb-item"><a href="<?php echo e(route('dash_etudiant')); ?>">Accueil</a></li>
+
+                    <!--<li class="breadcrumb-item"><a href="<?php echo e(route('dash_enseignant')); ?>">Accueil</a></li>-->
                     <?php echo e($slot ?? ''); ?>
 
                 </ol>
