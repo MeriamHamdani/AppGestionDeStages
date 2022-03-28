@@ -47,34 +47,30 @@
                                     <td>88888888</td>
                                     <td>66666666</td>
                                     <td>Foulen@foulen.com</td>
-                                    <td>
+                                    <td class="text-center">
+                                        <!--<img style="width : 20px;
+                                            height : 20px;" src="<?php echo e(asset('assets/images/drapeau-vert.jpg')); ?>">-->
 
-                                        <div class="media">
-                                            <a data-title="inactif" data-toggle="tooltip" title="admin inactif">
-                                                <i data-feather="pause"></i></a>
-                                        </div>
+                                        <a class=" btn btn-icon-only default" href="#" data-placement="top"
+                                            data-toggle="tooltip" title="Désactiver"><img
+                                                src="<?php echo e(asset('assets/images/userActive.png')); ?>">
+
+                                        </a>
 
                                     </td>
                                     <td>
 
 
-                                        <div class="media">
-                                            <a href="#" data-title="désactiver" data-toggle="tooltip"
-                                                title="désactiver"> <i data-feather="pause-circle"></i></a>
+                                        <a href="#" data-title="activer cet admin" data-toggle="tooltip"
+                                            title="activer cet admin">
+                                            <i class="icofont icofont-checked"></i></a>
+                                        <a href="#" data-title="desactiver cet admin" data-toggle="tooltip"
+                                            title="desactiver cet admin">
+                                            <i class="icofont icofont-close-squared"></i></a>
 
-                                        </div>
-
-
-                                        <div class="media">
-                                            <a href="#" data-title="activer" data-toggle="tooltip" title="activer">
-                                                <i data-feather="play-circle"></i></a>
-
-                                        </div>
-                                        <div class="media">
-                                            <a href="#" data-title="supprimer" data-toggle="tooltip" title="supprimer">
-                                                <i data-feather="delete"></i></a>
-
-                                        </div>
+                                        <a href="#" data-title="supprimer" data-toggle="tooltip"
+                                            data-original-title="supprimer cet admin" title="Supprimer cet admin">
+                                            <i class="icofont icofont-trash"></i></a>
 
 
                                     </td>
@@ -85,35 +81,28 @@
                                     <td>88888888</td>
                                     <td>66666666</td>
                                     <td>Foulen@foulen.com</td>
-                                    <td>
+                                    <td class="text-center">
+                                        <a class=" btn btn-icon-only default" href="#" data-placement="top"
+                                            data-toggle="tooltip" title="Désactiver"><img
+                                                src="<?php echo e(asset('assets/images/userActive.png')); ?>">
 
-                                        <div class="media">
-                                            <a data-title="actif" data-toggle="tooltip" title="Admin actif">
-                                                <i data-feather="play"></i></a>
-                                        </div>
+                                        </a>
+
 
                                     </td>
 
                                     <td>
 
-                                        <div class="media">
-                                            <a disabled href="#" data-title="désactiver" data-toggle="tooltip"
-                                                title="désactiver"> <i data-feather="pause-circle"></i></a>
+                                        <a href="#" data-title="activer cet admin" data-toggle="tooltip"
+                                            title="activer cet admin">
+                                            <i class="icofont icofont-checked"></i></a>
+                                        <a href="#" data-title="desactiver cet admin" data-toggle="tooltip"
+                                            title="desactiver cet admin">
+                                            <i class="icofont icofont-close-squared"></i></a>
 
-                                        </div>
-
-
-                                        <div class="media">
-                                            <a href="#" data-title="activer" data-toggle="tooltip" title="activer">
-                                                <i data-feather="play-circle"></i></a>
-
-                                        </div>
-
-                                        <div class="media">
-                                            <a href="#" data-title="supprimer" data-toggle="tooltip" title="supprimer">
-                                                <i data-feather="delete"></i></a>
-
-                                        </div>
+                                        <a href="#" data-title="supprimer" data-toggle="tooltip"
+                                            data-original-title="supprimer cet admin" title="Supprimer cet admin">
+                                            <i class="icofont icofont-trash"></i></a>
 
                                     </td>
                                 </tr>
@@ -123,33 +112,26 @@
                                     <td>88888888</td>
                                     <td>66666666</td>
                                     <td>Foulen@foulen.com</td>
-                                    <td>
+                                    <td class="text-center">
 
-                                        <div class="media">
-                                            <a data-title="inactif" data-toggle="tooltip" title="admin inactif">
-                                                <i data-feather="pause"></i></a>
-                                        </div>
+                                        <a class=" btn btn-icon-only default" href="#" data-placement="top"
+                                            data-toggle="tooltip" title="Désactiver"><img
+                                                src="<?php echo e(asset('assets/images/usercancled.png')); ?>">
 
+                                        </a>
                                     </td>
                                     <td>
 
-                                        <div class="media">
-                                            <a href="#" data-title="désactiver" data-toggle="tooltip"
-                                                title="désactiver"> <i data-feather="pause-circle"></i></a>
+                                        <a href="#" data-title="activer cet admin" data-toggle="tooltip"
+                                            title="activer cet admin">
+                                            <i class="icofont icofont-checked"></i></a>
+                                        <a href="#" data-title="desactiver cet admin" data-toggle="tooltip"
+                                            title="desactiver cet admin">
+                                            <i class="icofont icofont-close-squared"></i></a>
 
-                                        </div>
-
-
-                                        <div class="media">
-                                            <a href="#" data-title="activer" data-toggle="tooltip" title="activer">
-                                                <i data-feather="play-circle"></i></a>
-
-                                        </div>
-                                        <div class="media">
-                                            <a href="#" data-title="supprimer" data-toggle="tooltip" title="supprimer">
-                                                <i data-feather="delete"></i></a>
-
-                                        </div>
+                                        <a href="#" data-title="supprimer" data-toggle="tooltip"
+                                            data-original-title="supprimer cet admin" title="Supprimer cet admin">
+                                            <i class="icofont icofont-trash"></i></a>
 
                                     </td>
                                 </tr>
@@ -209,4 +191,6 @@
 <?php $__env->stopPush(); ?>
 
 <?php $__env->stopSection(); ?>
+
+
 <?php echo $__env->make('layouts.admin.master', \Illuminate\Support\Arr::except(get_defined_vars(), ['__data', '__path']))->render(); ?><?php /**PATH C:\laragon\www\AppGestionDeStages\resources\views/admin/administration/liste_des_admin.blade.php ENDPATH**/ ?>

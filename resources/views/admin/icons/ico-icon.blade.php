@@ -2445,9 +2445,9 @@
 			</div>
 		</div>
 	</div>
-	
 
-	@push('scripts') 
+
+	@push('scripts')
 	<script src="{{ asset('assets/js/notify/bootstrap-notify.min.js') }}"></script>
     <script src="{{ asset('assets/js/icons/icons-notify.js') }}"></script>
     <script src="{{ asset('assets/js/icons/icon-clipart.js') }}"></script>
