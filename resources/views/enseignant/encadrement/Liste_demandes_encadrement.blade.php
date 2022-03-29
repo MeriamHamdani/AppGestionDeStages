@@ -125,7 +125,7 @@
                                             onclick="this.disabled = 'disabled'">
                                             <span><i class="fa fa-check text-white"></i></span> Confirmer
                                         </button>-->
-                                        <div style="align-content: center">
+                                        <div>
 
                                             <a href="#" data-title="confirmer-demande" data-toggle="tooltip"
                                                 title="confirmer la demande" onclick="this.disabled = true">

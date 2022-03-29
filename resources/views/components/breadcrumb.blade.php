@@ -6,6 +6,7 @@
                 <ol class="breadcrumb">
 
                     <!--<li class="breadcrumb-item"><a href="{{ route('dash_enseignant') }}">Accueil</a></li>-->
+
                     {{ $slot ?? ''}}
                 </ol>
             </div>
