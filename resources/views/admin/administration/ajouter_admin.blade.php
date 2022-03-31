@@ -1,6 +1,6 @@
 @extends('layouts.admin.master')
 
-@section('title')Ajouter admin
+@section('title')Ajouter Admin
 {{ $title }}
 @endsection
 
@@ -48,15 +48,15 @@
                                 <div class="mb-3">
 
                                     <label class="form-label" for="exampleFormControlInput1">Numéro de téléphone</label>
-                                    <input class="form-control" id="exampleFormControlInput1" type="text"
+                                    <input class="form-control" id="exampleFormControlInput1" type="number"
                                         placeholder="entrez le numéro de téléphone de l'administrateur..." />
                                 </div>
                             </div>
                             <div class="col">
                                 <div class="mb-3">
 
-                                    <label class="form-label" for="exampleFormControlInput1">e-mail </label>
-                                    <input class="form-control" id="exampleFormControlInput1" type="text"
+                                    <label class="form-label" for="exampleFormControlInput1">E-mail </label>
+                                    <input class="form-control" id="exampleFormControlInput1" type="email"
                                         placeholder="entrez l'adresse mail de l'administrateur..." />
                                 </div>
                             </div>
@@ -66,8 +66,16 @@
                                 <div class="mb-3">
 
                                     <label class="form-label" for="exampleFormControlInput1">Numéro de CIN</label>
-                                    <input class="form-control" id="exampleFormControlInput1" type="text"
+                                    <input class="form-control" id="exampleFormControlInput1" type="number"
                                         placeholder="entrez le numéro de CIN de l'administrateur..." />
+                                </div>
+                            </div>
+                            <div class="col">
+                                <div class="mb-3">
+
+                                    <label class="form-label" for="exampleFormControlInput1">Mot de passe </label>
+                                    <input class="form-control" id="exampleFormControlInput1" type="password"
+                                           placeholder="entrez le mot de passe" />
                                 </div>
                             </div>
 
@@ -76,8 +84,8 @@
                         </div>
                     </div>
                     <div class="card-footer text-end">
-                        <button class="btn btn-primary" type="submit">Ajouter</button>
                         <input class="btn btn-light" type="reset" value="Annuler" />
+                        <button class="btn btn-primary" type="submit">Ajouter</button>
                     </div>
                 </form>
             </div>

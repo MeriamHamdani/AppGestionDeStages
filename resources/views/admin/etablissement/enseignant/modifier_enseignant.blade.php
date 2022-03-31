@@ -1,111 +1,120 @@
 @extends('layouts.admin.master')
 
-@section('title')Modifier les informations de l'enseignant
+@section('title')modifier les informations d'enseignant
 {{ $title }}
 @endsection
 
 @push('css')
+    <link rel="stylesheet" type="text/css" href="{{ asset('assets/css/select2.css') }}">
 @endpush
 
 @section('content')
-@component('components.breadcrumb')
-@slot('breadcrumb_title')
-<h3>Modifier les informations de l'enseignant</h3>
-@endslot
+    @component('components.breadcrumb')
+        @slot('breadcrumb_title')
+            <h3>modifier les informations d'un enseignant</h3>
+        @endslot
+        <li class="breadcrumb-item">Administration</li>
+        <li class="breadcrumb-item">modifier les informations d'un enseignant</li>
+    @endcomponent
 
-@endcomponent
-
-<div class="container-fluid">
-    <div class="row">
-        <div class="col-sm-12">
-            <div class="card">
-
-                <form class="form theme-form">
-                    <div class="card-body">
-                        <div class="row">
-                            <div class="col">
-                                <div class="mb-3">
-                                    <label class="form-label">Nom de l'enseignant</label>
-                                    <div class="mb-3">
-                                        <input class="form-control" placeholder="Le nom..." type="text"
-                                            value="Ben Foulène" />
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="row">
-                            <div class="col">
-                                <div class="mb-3">
-                                    <label class="form-label" for="exampleFormControlSelect9">Le prénom de
-                                        l'Encadrant</label>
-                                    <div class="mb-3">
-                                        <input class="form-control" placeholder="Le prénom..." type="text"
-                                            value=" Foulène" />
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="row">
-                            <div class="col">
-                                <div class="mb-3">
-                                    <label class="form-label" for="exampleFormControlSelect9">Le numéro de CIN de
-                                        l'enseignant</label>
-                                    <div class="mb-3">
-                                        <input class="form-control" placeholder="le num de CIN..." type="text"
-                                            value="88888888" />
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="row">
-                            <div class="col">
-                                <div class="mb-3">
-                                    <label class="form-label" for="exampleFormControlSelect9">La grade de
-                                        l'enseignant</label>
-                                    <div class="mb-3">
-                                        <input class="form-control" placeholder="La grade..." type="text"
-                                            value="mètre assistant" />
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="row">
-                            <div class="col">
-                                <div class="mb-3">
-                                    <label class="form-label" for="exampleFormControlSelect9">L'adresse mail de
-                                        l'enseignant</label>
-                                    <div class="mb-3">
-                                        <input class="form-control" placeholder="e-mail..." type="text"
-                                            value="foulene@foulene.com" />
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="row">
-                            <div class="col">
-                                <div class="mb-3">
-                                    <label class="form-label" for="exampleFormControlSelect9">Le numéro de
-                                        téléphone de l'enseignant</label>
-                                    <div class="mb-3">
-                                        <input class="form-control" placeholder="Le numéro de telephone..." type="text"
-                                            value="55555555" />
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-sm-12">
+                <div class="card">
+                    <div class="card-header pb-0">
+                        <h5>modifier les informations d'un enseignant</h5>
                     </div>
-                    <div class="card-footer text-end">
-                        <button class="btn btn-primary" type="submit">Modifier</button>
-                        <input class="btn btn-light" type="reset" value="Annuler" />
-                    </div>
-                </form>
+                    <form class="form theme-form">
+                        <div class="card-body">
+                            <div class="row">
+                                <div class="col">
+                                    <div class="mb-3">
+
+                                        <label class="form-label" for="exampleFormControlInput1">Nom </label>
+                                        <input class="form-control" id="exampleFormControlInput1" type="text"
+                                               placeholder="entrez le nom de l'enseignant..." />
+                                    </div>
+                                </div>
+                                <div class="col">
+                                    <div class="mb-3">
+
+                                        <label class="form-label" for="exampleFormControlInput1">Prénom </label>
+                                        <input class="form-control" id="exampleFormControlInput1" type="text"
+                                               placeholder="entrez le prénom de l'enseignant..." />
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col">
+                                    <div class="mb-3">
+
+                                        <label class="form-label" for="exampleFormControlInput1">Numéro de téléphone</label>
+                                        <input class="form-control" id="exampleFormControlInput1" type="number"
+                                               placeholder="entrez le numéro de téléphone de l'enseignant..." />
+                                    </div>
+                                </div>
+                                <div class="col">
+                                    <div class="mb-3">
+
+                                        <label class="form-label" for="exampleFormControlInput1">E-mail </label>
+                                        <input class="form-control" id="exampleFormControlInput1" type="email"
+                                               placeholder="entrez l'adresse mail de l'enseignant..." />
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row align-items-center">
+                                <div class="col">
+                                    <div class="mb-3">
+                                        <label class="form-label" for="exampleFormControlInput1">Adresse</label>
+                                        <input class="form-control" id="exampleFormControlInput1" type="text"
+                                               placeholder="entrez le mot de passe" />
+                                    </div>
+
+                                </div>
+
+                            </div>
+                            <div class="row">
+                                <div class="col">
+                                    <div class="mb-3">
+                                        <label class="form-label" for="exampleFormControlInput1">Grade</label>
+                                        <select class="js-example-basic-single col-sm-12">
+                                            <option value="0">Sélectionnez le grade</option>
+                                            <option value="1">maitre assistant</option>
+                                            <option value="2">maitre de conférence</option>
+                                            <option value="3">professeur</option>
+                                        </select>
+                                    </div>
+                                </div>
+                                <div class="col">
+                                    <div class="mb-3">
+
+                                        <label class="form-label" for="exampleFormControlInput1">Département</label>
+                                        <select class="js-example-basic-single col-sm-12">
+                                            <option value="0">Sélectionnez le département</option>
+                                            <option value="1">Comptabilité</option>
+                                            <option value="2">GRH</option>
+                                            <option value="3">Finance</option>
+                                            <option value="4">Info</option>
+                                        </select>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="card-footer text-end">
+                            <input class="btn btn-light" type="reset" value="Annuler" />
+                            <button class="btn btn-primary" type="submit">Valider</button>
+                        </div>
+                    </form>
+                </div>
             </div>
         </div>
     </div>
-</div>
 
-@push('scripts')
-@endpush
+
+    @push('scripts')
+        <script src="{{ asset('assets/js/select2/select2.full.min.js') }}"></script>
+        <script src="{{ asset('assets/js/select2/select2-custom.js') }}"></script>
+    @endpush
+
 @endsection
 

@@ -53,7 +53,12 @@ Route::prefix('admin')->group(function () {
     Route::view('paiement/gerer-paiements', 'admin.paiement.gerer_paiements')->name('gerer_paiements');
     Route::view('paiement/details-paiement-ens', 'admin.paiement.details_paiement_ens')->name('details_paiement_ens');
 // CONFIGURATION
-    Route::view('configuration/generale', 'admin.configuration.config_generale')->name('config_generale');
+    Route::prefix('configuration/generale')->group(function () {
+        Route::view('coordonnees', 'admin.configuration.generale.coordonnees')->name('coordonnees');
+        Route::view('montant-selon-grade', 'admin.configuration.generale.montant_selon_grade')->name('montant_selon_grade');
+        Route::view('dates-stages', 'admin.configuration.generale.dates_stages')->name('dates_stages');
+
+    });
     Route::view('configuration/annee-universitaire', 'admin.configuration.config_annee_universitaire')->name('config_annee_universitaire');
 
 });

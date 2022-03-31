@@ -186,16 +186,26 @@
                         </div>
                     </li>
                     <li class="dropdown">
-                        <a class="nav-link menu-title" href="{{ route('config_generale') }}"
-                           class="{{ routeActive('config_generale') }}"><i
-                                class="icofont icofont-university"></i>&nbsp&nbsp&nbsp<span>Configuration
+                        <a class="nav-link menu-title" >
+                            <i class="icofont icofont-university"></i>&nbsp&nbsp&nbsp<span>Configuration
                                 générale</span></a>
+                        <ul class="nav-submenu menu-content" style="display: {{ prefixBlock('/') }};">
+                            <li><a href="{{ route('coordonnees') }}"
+                                class="{{ routeActive('coordonnees') }}" >
+                                <strong><i class="icofont icofont-pen-nib"></i>Cordonnées de l'établissement</strong></a> </li>
+                            <li><a href="{{ route('montant_selon_grade') }}"
+                                   class="{{ routeActive('montant_selon_grade') }}">
+                                    <strong><i class="icofont icofont-pen-nib"></i>Montant Paiement selon Grade d'enseignant</strong></a> </li>
+                            <li><a href="{{ route('dates_stages') }}"
+                                   class="{{ routeActive('dates_stages') }}">
+                                    <strong><i class="icofont icofont-pen-nib"></i>Dates des stages selon Formation</strong></a> </li>
+                        </ul>
                     </li>
                     <li class="dropdown">
                         <a class="nav-link menu-title" href="{{ route('config_annee_universitaire') }}"
-                           class="{{ routeActive('config_annee_universitaire') }}"><i
-                                class="icofont icofont-settings"></i>&nbsp&nbsp&nbsp<span>Configuration des années
-                                universitaires</span></a>
+                           class="{{ routeActive('config_annee_universitaire') }}">
+                            <i class="icofont icofont-settings"></i>&nbsp&nbsp&nbsp<span>Configuration
+                                des années universitaires</span></a>
                     </li>
 
                 </ul>
