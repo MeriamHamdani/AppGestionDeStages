@@ -21838,11 +21838,11 @@ var helpers = {
     },
 
     'titlePlaceholder-tmpl': function() {
-        return 'Subject';
+        return 'Etudiant';
     },
 
     'locationPlaceholder-tmpl': function() {
-        return 'Location';
+        return 'Lieu';
     },
 
     'startDatePlaceholder-tmpl': function() {

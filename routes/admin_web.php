@@ -44,11 +44,13 @@ Route::prefix('admin')->group(function () {
 // ENTRPRISE
     Route::view('entreprise/liste-entreprises', 'admin.entreprise.liste_entreprises')->name('list_entreprises');
     Route::view('entreprise/ajouter-entreprise', 'admin.entreprise.ajouter_entreprise')->name('ajouter_entreprise');
- // DEPOT
+    Route::view('entreprise/modifier-entreprise', 'admin.entreprise.modifier_entreprise')->name('modifier_entreprise');
+    // DEPOT
     Route::view('depot/gerer-depot', 'admin.depot.gerer_depot')->name('gerer_depot');
 // SOUTENANCE
     Route::view('soutenance/planifier', 'admin.soutenance.planifier_soutenance')->name('planifier_soutenance');
     Route::view('soutenance/liste', 'admin.soutenance.liste_soutenances')->name('list_soutenances');
+    Route::view('soutenance/evaluer', 'admin.soutenance.evaluer_soutenance')->name('evaluer_soutenance');
 // PAIEMENT
     Route::view('paiement/gerer-paiements', 'admin.paiement.gerer_paiements')->name('gerer_paiements');
     Route::view('paiement/details-paiement-ens', 'admin.paiement.details_paiement_ens')->name('details_paiement_ens');
