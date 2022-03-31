@@ -1,6 +1,6 @@
 @extends('layouts.admin.master')
 
-@section('title')Ajouter une entreprise
+@section('title')Modifier les coordonnées de l'entreprise
 {{ $title }}
 @endsection
 
@@ -10,7 +10,7 @@
 @section('content')
 @component('components.breadcrumb')
 @slot('breadcrumb_title')
-<h3>Ajouter une entreprise</h3>
+<h3>Modifier les coordonnées de l'entreprise</h3>
 @endslot
 
 @endcomponent
@@ -19,15 +19,15 @@
     <div class="row">
         <div class="col-sm-12">
             <div class="card">
+
                 <form class="form theme-form">
                     <div class="card-body">
                         <div class="row">
                             <div class="col">
                                 <div class="mb-3">
-                                    <label class="form-label">Nom de l'entreprise</label>
+                                    <label class="form-label">Le nom de l'entreprise</label>
                                     <div class="mb-3">
-                                        <input class="form-control" placeholder="Tapez le nom de l'entreprise ici..."
-                                            type="text" />
+                                        <input class="form-control" type="text" value="Hyper-group" />
                                     </div>
                                 </div>
                             </div>
@@ -38,8 +38,7 @@
                                     <label class="form-label" for="exampleFormControlSelect9">L'adresse de
                                         l'entreprise</label>
                                     <div class="mb-3">
-                                        <input class="form-control" placeholder="Tapez l'adresse de l'entreprise ici..."
-                                            type="text" />
+                                        <input class="form-control" type="text" value=" Sfax " />
                                     </div>
                                 </div>
                             </div>
@@ -47,23 +46,21 @@
                         <div class="row">
                             <div class="col">
                                 <div class="mb-3">
-                                    <label class="form-label" for="exampleFormControlSelect9">L'adresse e-mail de
-                                        l'entreprise'</label>
-                                    <div class="mb-3">
-                                        <input class="form-control" placeholder="Tapez l'adresse e-mail ici..."
-                                            type="text" />
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="row">
-                            <div class="col">
-                                <div class="mb-3">
-                                    <label class="form-label" for="exampleFormControlSelect9">Le numéro de téléphone de
+                                    <label class="form-label" for="exampleFormControlSelect9">l'adresse e-mail de
                                         l'entreprise</label>
                                     <div class="mb-3">
-                                        <input class="form-control" placeholder="Tapez le numéro de téléphone ici..."
-                                            type="text" />
+                                        <input class="form-control" type="text" value="hyper@groupe.com" />
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col">
+                                <div class="mb-3">
+                                    <label class="form-label" for="exampleFormControlSelect9">Le numéro de
+                                        téléphone</label>
+                                    <div class="mb-3">
+                                        <input class="form-control" type="text" value="88888888" />
                                     </div>
                                 </div>
                             </div>
@@ -71,7 +68,7 @@
 
                     </div>
                     <div class="card-footer text-end">
-                        <button class="btn btn-primary" type="submit">Ajouter</button>
+                        <button class="btn btn-primary" type="submit">Modifier</button>
                         <input class="btn btn-light" type="reset" value="Annuler" />
                     </div>
                 </form>

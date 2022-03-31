@@ -48,7 +48,7 @@ function hexToRGBA(hex) {
     calendar = new CalendarInfo();
     id += 1;
     calendar.id = String(id);
-    calendar.name = 'My Calendar';
+    calendar.name = '2 MP CI';
     calendar.color = '#ffffff';
     calendar.bgColor = '#24695c';
     calendar.dragBgColor = '#24695c';
@@ -58,7 +58,7 @@ function hexToRGBA(hex) {
     calendar = new CalendarInfo();
     id += 1;
     calendar.id = String(id);
-    calendar.name = 'Company';
+    calendar.name = '2 MP Comp';
     calendar.color = '#ffffff';
     calendar.bgColor = '#ba895d';
     calendar.dragBgColor = '#ba895d';
@@ -68,7 +68,7 @@ function hexToRGBA(hex) {
     calendar = new CalendarInfo();
     id += 1;
     calendar.id = String(id);
-    calendar.name = 'Family';
+    calendar.name = '2 MP Comp';
     calendar.color = '#ffffff';
     calendar.bgColor = '#ff5583';
     calendar.dragBgColor = '#ff5583';
@@ -78,7 +78,7 @@ function hexToRGBA(hex) {
     calendar = new CalendarInfo();
     id += 1;
     calendar.id = String(id);
-    calendar.name = 'Friend';
+    calendar.name = '3 LCo Cons Comp';
     calendar.color = '#ffffff';
     calendar.bgColor = '#03bd9e';
     calendar.dragBgColor = '#03bd9e';
@@ -88,7 +88,7 @@ function hexToRGBA(hex) {
     calendar = new CalendarInfo();
     id += 1;
     calendar.id = String(id);
-    calendar.name = 'Travel';
+    calendar.name = '3 LAG Comp';
     calendar.color = '#ffffff';
     calendar.bgColor = '#1b4c43';
     calendar.dragBgColor = '#1b4c43';
@@ -98,7 +98,7 @@ function hexToRGBA(hex) {
     calendar = new CalendarInfo();
     id += 1;
     calendar.id = String(id);
-    calendar.name = 'etc';
+    calendar.name = '3 LAG GEE';
     calendar.color = '#ffffff';
     calendar.bgColor = '#9d9d9d';
     calendar.dragBgColor = '#9d9d9d';
@@ -108,7 +108,7 @@ function hexToRGBA(hex) {
     calendar = new CalendarInfo();
     id += 1;
     calendar.id = String(id);
-    calendar.name = 'Birthdays';
+    calendar.name = '3 LAG Mkg';
     calendar.color = '#ffffff';
     calendar.bgColor = '#e2c636';
     calendar.dragBgColor = '#e2c636';
@@ -118,10 +118,20 @@ function hexToRGBA(hex) {
     calendar = new CalendarInfo();
     id += 1;
     calendar.id = String(id);
-    calendar.name = 'National Holidays';
+    calendar.name = '3 LAIG ES';
     calendar.color = '#ffffff';
     calendar.bgColor = '#d22d3d';
     calendar.dragBgColor = '#d22d3d';
     calendar.borderColor = '#d22d3d';
+    addCalendar(calendar);
+	
+	calendar = new CalendarInfo();
+    id += 1;
+    calendar.id = String(id);
+    calendar.name = '3 LAIG IAA';
+    calendar.color = '#ffffff';
+    calendar.bgColor = '#8E368A';
+    calendar.dragBgColor = '#8E368A';
+    calendar.borderColor = '#8E368A';
     addCalendar(calendar);
 })();
