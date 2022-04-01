@@ -29,8 +29,8 @@
                         </div>
                     </li>
                     <li class="dropdown">
-                        <a class="nav-link menu-title {{ prefixActive('/dashboard') }}" href="{{ route('dashboard-02') }}"
-                           class="{{ routeActive('dashboard-02') }}"><i
+                        <a class="nav-link menu-title {{ prefixActive('/dashboard') }}"
+                            href="{{ route('dashboard-02') }}" class="{{ routeActive('dashboard-02') }}"><i
                                 data-feather="home"></i><span>Dashboard</span></a>
                     </li>
                     <li class="sidebar-main-title">
@@ -63,19 +63,25 @@
                                 stages</span></a>
                         <ul class="nav-submenu menu-content" style="display: {{ prefixBlock('/') }};">
                             <li><a href="{{ route('demandes_stage.sv12lm') }}"
-                                   class="{{ routeActive('demandes_stage.sv12lm') }}"><strong><i class="icofont icofont-pen-nib"></i>Stage volontaire 1ère et 2ème
-                                        licence et master</strong></a> </li>
+                                    class="{{ routeActive('demandes_stage.sv12lm') }}"><strong><i
+                                            class="icofont icofont-pen-nib"></i>Stage volontaire 1ère et 2ème
+                                        licence informatique et 1ére master</strong></a> </li>
                             <li><a href="{{ route('demandes_stage.so2l') }}"
-                                   class="{{ routeActive('demandes_stage.so2l') }}"><strong><i class="icofont icofont-pen-nib"></i>Stage obligatoire 2ème
-                                        licence</strong></a> </li>
+                                    class="{{ routeActive('demandes_stage.so2l') }}"><strong><i
+                                            class="icofont icofont-pen-nib"></i>Stage obligatoire 2ème
+                                        licence non-informatique</strong></a> </li>
                             <li><a href="{{ route('demandes_stage.so3l') }}"
-                                   class="{{ routeActive('demandes_stage.so3l') }}"><strong><i class="icofont icofont-pen-nib"></i>Stage obligatoire 3ème
-                                        licence</strong></a> </li>
+                                    class="{{ routeActive('demandes_stage.so3l') }}"><strong><i
+                                            class="icofont icofont-pen-nib"></i>Stage obligatoire 3ème
+                                        licence non-informatique </strong></a> </li>
                             <li><a href="{{ route('demandes_stage.so3Info') }}"
-                                   class="{{ routeActive('demandes_stage.so3Info') }}"><strong><i class="icofont icofont-pen-nib"></i>Stage obligatoire 3ème
-                                        info</strong></a> </li>
+                                    class="{{ routeActive('demandes_stage.so3Info') }}"><strong><i
+                                            class="icofont icofont-pen-nib"></i>Stage obligatoire 3ème licence
+                                        informatique
+                                    </strong></a> </li>
                             <li><a href="{{ route('demandes_stage.so2m') }}"
-                                   class="{{ routeActive('demandes_stage.so2m') }}"><strong><i class="icofont icofont-pen-nib"></i>Stage obligatoire 2ème
+                                    class="{{ routeActive('demandes_stage.so2m') }}"><strong><i
+                                            class="icofont icofont-pen-nib"></i>Stage obligatoire 2ème
                                         master</strong></a> </li>
                         </ul>
                     </li>
@@ -92,30 +98,30 @@
                     </li>
                     <li>
                         <a class="nav-link menu-title" href="{{ route('liste_enseignants') }}"
-                           class="{{ routeActive('liste_enseignants') }}"><i
+                            class="{{ routeActive('liste_enseignants') }}"><i
                                 class="icofont icofont-teacher"></i>&nbsp&nbsp&nbsp<span>Gestion des
                                 enseignants</span></a>
                     </li>
                     <li>
                         <a class="nav-link menu-title" href="{{ route('liste_etudiants') }}"
-                           class="{{ routeActive('liste_etudiants') }}"><i
+                            class="{{ routeActive('liste_etudiants') }}"><i
                                 class="icofont icofont-group-students"></i>&nbsp&nbsp&nbsp<span>Gestion des
                                 étudiants</span></a>
                     </li>
                     <li>
                         <a class="nav-link menu-title" href="{{ route('liste_departements') }}"
-                           class="{{ routeActive('liste_departements') }}"><i
+                            class="{{ routeActive('liste_departements') }}"><i
                                 class="icofont icofont-building"></i>&nbsp<span>Gestion des départements</span></a>
                     </li>
                     <li class="dropdown">
                         <a class="nav-link menu-title" href="{{ route('liste_specialites') }}"
-                           class="{{ routeActive('liste_specialites') }}"><i
+                            class="{{ routeActive('liste_specialites') }}"><i
                                 class="icofont icofont-list"></i>&nbsp&nbsp&nbsp<span>Gestion des spécialités
                             </span></a>
                     </li>
                     <li class="dropdown">
                         <a class="nav-link menu-title" href="{{ route('liste_classes') }}"
-                           class="{{ routeActive('liste_classes') }}"><i
+                            class="{{ routeActive('liste_classes') }}"><i
                                 class="icofont icofont-users-social"></i>&nbsp&nbsp&nbsp<span>Gestion des
                                 classes</span></a>
                     </li>
@@ -126,13 +132,13 @@
                     </li>
                     <li class="dropdown">
                         <a class="nav-link menu-title" href="{{ route('list_entreprises') }}"
-                           class="{{ routeActive('list_entreprises') }}"><i
+                            class="{{ routeActive('list_entreprises') }}"><i
                                 class="icofont icofont-list"></i>&nbsp&nbsp&nbsp<span>La liste des
                                 entreprises</span></a>
                     </li>
                     <li class="dropdown">
                         <a class="nav-link menu-title" href="{{ route('ajouter_entreprise') }}"
-                           class="{{ routeActive('ajouter_entreprise') }}"><i
+                            class="{{ routeActive('ajouter_entreprise') }}"><i
                                 class="icofont icofont-building-alt"></i>&nbsp&nbsp&nbsp<span>Ajouter une
                                 entreprise</span></a>
                     </li>
@@ -143,7 +149,7 @@
                     </li>
                     <li class="dropdown">
                         <a class="nav-link menu-title" href="{{ route('gerer_depot') }}"
-                           class="{{ routeActive('gerer_depot') }}"><i
+                            class="{{ routeActive('gerer_depot') }}"><i
                                 class="icofont icofont-papers"></i>&nbsp&nbsp&nbsp<span>Gérer les dépôts</span></a>
                     </li>
                     <li class="sidebar-main-title">
@@ -152,14 +158,14 @@
                         </div>
                     </li>
                     <li class="dropdown">
-                        <a class="nav-link menu-title"href="{{ route('planifier_soutenance') }}"
-                           class="{{ routeActive('planifier_soutenance') }}"><i
+                        <a class="nav-link menu-title" href="{{ route('planifier_soutenance') }}"
+                            class="{{ routeActive('planifier_soutenance') }}"><i
                                 class="icofont icofont-calendar"></i>&nbsp&nbsp&nbsp<span>Planifier une
                                 soutenance</span></a>
                     </li>
                     <li class="dropdown">
                         <a class="nav-link menu-title" href="{{ route('list_soutenances') }}"
-                           class="{{ routeActive('list_soutenances') }}"><i
+                            class="{{ routeActive('list_soutenances') }}"><i
                                 class="icofont icofont-graduate"></i>&nbsp&nbsp&nbsp<span>La liste des
                                 soutenances</span></a>
                     </li>
@@ -170,13 +176,13 @@
                     </li>
                     <li class="dropdown">
                         <a class="nav-link menu-title" href="{{ route('gerer_paiements') }}"
-                           class="{{ routeActive('gerer_paiements') }}"><i
+                            class="{{ routeActive('gerer_paiements') }}"><i
                                 class="icofont icofont-cur-dollar"></i>&nbsp&nbsp&nbsp<span>Gérer les
                                 paiements</span></a>
                     </li>
                     <li class="dropdown">
                         <a class="nav-link menu-title" href="{{ route('details_paiement_ens') }}"
-                           class="{{ routeActive('details_paiement_ens') }}"><i
+                            class="{{ routeActive('details_paiement_ens') }}"><i
                                 class="icofont icofont-cur-dollar-plus"></i>&nbsp&nbsp&nbsp<span>Détails de paiement
                                 d'un enseignant</span></a>
                     </li>
@@ -186,24 +192,25 @@
                         </div>
                     </li>
                     <li class="dropdown">
-                        <a class="nav-link menu-title" >
+                        <a class="nav-link menu-title">
                             <i class="icofont icofont-university"></i>&nbsp&nbsp&nbsp<span>Configuration
                                 générale</span></a>
                         <ul class="nav-submenu menu-content" style="display: {{ prefixBlock('/') }};">
-                            <li><a href="{{ route('coordonnees') }}"
-                                class="{{ routeActive('coordonnees') }}" >
-                                <strong><i class="icofont icofont-pen-nib"></i>Cordonnées de l'établissement</strong></a> </li>
+                            <li><a href="{{ route('coordonnees') }}" class="{{ routeActive('coordonnees') }}">
+                                    <strong><i class="icofont icofont-pen-nib"></i>Cordonnées de
+                                        l'établissement</strong></a> </li>
                             <li><a href="{{ route('montant_selon_grade') }}"
-                                   class="{{ routeActive('montant_selon_grade') }}">
-                                    <strong><i class="icofont icofont-pen-nib"></i>Montant Paiement selon Grade d'enseignant</strong></a> </li>
-                            <li><a href="{{ route('dates_stages') }}"
-                                   class="{{ routeActive('dates_stages') }}">
-                                    <strong><i class="icofont icofont-pen-nib"></i>Dates des stages selon Formation</strong></a> </li>
+                                    class="{{ routeActive('montant_selon_grade') }}">
+                                    <strong><i class="icofont icofont-pen-nib"></i>Montant Paiement selon Grade
+                                        d'enseignant</strong></a> </li>
+                            <li><a href="{{ route('dates_stages') }}" class="{{ routeActive('dates_stages') }}">
+                                    <strong><i class="icofont icofont-pen-nib"></i>Dates des stages selon
+                                        Formation</strong></a> </li>
                         </ul>
                     </li>
                     <li class="dropdown">
                         <a class="nav-link menu-title" href="{{ route('config_annee_universitaire') }}"
-                           class="{{ routeActive('config_annee_universitaire') }}">
+                            class="{{ routeActive('config_annee_universitaire') }}">
                             <i class="icofont icofont-settings"></i>&nbsp&nbsp&nbsp<span>Configuration
                                 des années universitaires</span></a>
                     </li>
@@ -214,4 +221,3 @@
         </div>
     </nav>
 </header>
-

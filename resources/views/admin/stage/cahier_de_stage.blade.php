@@ -39,8 +39,7 @@
                                                         <div class="modal-content">
                                                             <div class="modal-header">
                                                                 <h5 class="modal-title" id="exampleModalLabel">Ajouter
-                                                                    une
-                                                                    tâhe</h5>
+                                                                    une tâhe</h5>
                                                                 <button class="btn-close" type="button"
                                                                     data-bs-dismiss="modal" aria-label="Close"></button>
                                                             </div>
@@ -171,7 +170,7 @@
                                                                 <td>
                                                                     <h6 class="task_title_0">Titre de la tâche
                                                                     </h6>
-                                                                    <p class="f-w-300">Lundi</p>
+                                                                    <p class="f-w-300">07-03-22</p>
                                                                 </td>
                                                                 <td>
                                                                     <p class="task_desc_0">Ceci est la
@@ -187,7 +186,7 @@
                                                                 <td>
                                                                     <h6 class="task_title_0">Titre de la tâche
                                                                     </h6>
-                                                                    <p class="project_name_0">Mardi</p>
+                                                                    <p class="project_name_0">08-03-22</p>
                                                                 </td>
                                                                 <td>
                                                                     <p class="task_desc_0">Lorem Ipsum is simply
@@ -203,7 +202,7 @@
                                                                 <td>
                                                                     <h6 class="task_title_0">Titre de la tâche
                                                                     </h6>
-                                                                    <p class="project_name_0">Mercredi</p>
+                                                                    <p class="project_name_0">09-03-22</p>
                                                                 </td>
                                                                 <td>
                                                                     <p class="task_desc_0">Lorem Ipsum is simply
@@ -219,7 +218,7 @@
                                                                 <td>
                                                                     <h6 class="task_title_0">Titre de la tâche
                                                                     </h6>
-                                                                    <p class="project_name_0">Jeudi</p>
+                                                                    <p class="project_name_0">10-03-22</p>
                                                                 </td>
                                                                 <td>
                                                                     <p class="task_desc_0">Lorem Ipsum is simply
@@ -235,7 +234,7 @@
                                                                 <td>
                                                                     <h6 class="task_title_0">Titre de la tâche
                                                                     </h6>
-                                                                    <p class="project_name_0">Vendredi</p>
+                                                                    <p class="project_name_0">11-03-22</p>
                                                                 </td>
                                                                 <td>
                                                                     <p class="task_desc_0">Lorem Ipsum is simply
@@ -633,4 +632,3 @@
     @endpush
 
     @endsection
-

@@ -59,7 +59,7 @@
                                         </a>
 
                                     </td>
-                                    <td>
+                                    <td class="text-center">
 
 
                                         <a href="#" data-title="activer cet admin" data-toggle="tooltip"
@@ -67,8 +67,11 @@
                                             <i class="icofont icofont-checked"></i></a>
                                         <a href="#" data-title="desactiver cet admin" data-toggle="tooltip"
                                             title="desactiver cet admin">
-                                            <i class="icofont icofont-close-squared"></i></a>
-
+                                            <i class="icofont icofont-ui-block"></i></a>
+                                        <a href="{{ route('modifier_admin') }}"
+                                            data-title="Modifer les coordonnées de cet admin" data-toggle="tooltip"
+                                            title="Modifer les coordonnées de cet admin"><i
+                                                class="icofont icofont-ui-edit"></i></a>
                                         <a href="#" data-title="supprimer" data-toggle="tooltip"
                                             data-original-title="supprimer cet admin" title="Supprimer cet admin">
                                             <i class="icofont icofont-trash"></i></a>
@@ -92,15 +95,17 @@
 
                                     </td>
 
-                                    <td>
+                                    <td class="text-center">
 
                                         <a href="#" data-title="activer cet admin" data-toggle="tooltip"
                                             title="activer cet admin">
                                             <i class="icofont icofont-checked"></i></a>
                                         <a href="#" data-title="desactiver cet admin" data-toggle="tooltip"
                                             title="desactiver cet admin">
-                                            <i class="icofont icofont-close-squared"></i></a>
-
+                                            <i class="icofont icofont-ui-block"></i></a>
+                                        <a href="#" data-title="Modifer les coordonnées de cet admin"
+                                            data-toggle="tooltip" title="Modifer les coordonnées de cet admin"><i
+                                                class="icofont icofont-ui-edit"></i></a>
                                         <a href="#" data-title="supprimer" data-toggle="tooltip"
                                             data-original-title="supprimer cet admin" title="Supprimer cet admin">
                                             <i class="icofont icofont-trash"></i></a>
@@ -121,15 +126,17 @@
 
                                         </a>
                                     </td>
-                                    <td>
+                                    <td class="text-center">
 
                                         <a href="#" data-title="activer cet admin" data-toggle="tooltip"
                                             title="activer cet admin">
                                             <i class="icofont icofont-checked"></i></a>
                                         <a href="#" data-title="desactiver cet admin" data-toggle="tooltip"
                                             title="desactiver cet admin">
-                                            <i class="icofont icofont-close-squared"></i></a>
-
+                                            <i class="icofont icofont-ui-block"></i></a>
+                                        <a href="#" data-title="Modifer les coordonnées de cet admin"
+                                            data-toggle="tooltip" title="Modifer les coordonnées de cet admin"><i
+                                                class="icofont icofont-ui-edit"></i></a>
                                         <a href="#" data-title="supprimer" data-toggle="tooltip"
                                             data-original-title="supprimer cet admin" title="Supprimer cet admin">
                                             <i class="icofont icofont-trash"></i></a>
@@ -192,4 +199,3 @@
 @endpush
 
 @endsection
-
