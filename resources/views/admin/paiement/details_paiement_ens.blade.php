@@ -1,6 +1,6 @@
 @extends('layouts.admin.master')
 
-@section('title')Gérer les paiements de chaque enseignant
+@section('title')Attrayant de chaque enseignant
 {{ $title }}
 @endsection
 
@@ -13,10 +13,10 @@
 @section('content')
     @component('components.breadcrumb')
         @slot('breadcrumb_title')
-            <h3>Gérer les paiements de chaque enseignant</h3>
+            <h3>Attrayant de chaque enseignant</h3>
         @endslot
         <li class="breadcrumb-item">Paiement</li>
-        <li class="breadcrumb-item">Détails des paiements de l'enseignant</li>
+        <li class="breadcrumb-item">Attrayant de chaque enseignant</li>
 
     @endcomponent
 
@@ -25,10 +25,15 @@
             <div class="col-md-5-sm-12">
                 <div class="card">
                     <div class="card-header pb-0">
-                        <h5>Détails de paiement de chaque enseignant</h5>
-                        <div style="padding-left: 800px">
+                        <h5>Attrayant de chaque enseignant</h5>
+
+                    </div>
+                    <div class="card-body">
+                        <div style="text-align: center">
                             <a href=#>
                                 <i class="text-right" aria-hidden="true">
+                                    <label class="form-label" for="message-text"><strong>Télécharger l'attrayant de chaque enseignant</strong></label>
+
                                     <button class="btn btn-primary" type="button"
                                             data-bs-toggle="modal" data-bs-target="#import"
                                             data-whatever="@getbootstrap">
@@ -106,23 +111,6 @@
                                 </i>
                             </a>
                         </div>
-                    </div>
-                    <div class="card-body">
-                        <form class="needs-validation" novalidate="">
-                            <div class="mb-3">
-                                <label class="form-label" for="exampleFormControlInput1">Sélectionnez l'enseignant que vous voulez consulter ses détails de paiement </label>
-                                <select class="js-example-basic-single col-md-5-sm-12">
-                                    <option value="0">Sélectionnez l'enseignant</option>
-                                    <option value="5">enseignant 1</option>
-                                    <option value="1">enseignant 2</option>
-                                    <option value="2">enseignant 3</option>
-                                    <option value="3">enseignant 4</option>
-                                    <option value="4">enseignant 5</option>
-                                </select>
-                            </div>
-                            <button class="btn btn-primary" type="submit">Voir Détails</button>
-
-                        </form>
                     </div>
                 </div>
             </div>

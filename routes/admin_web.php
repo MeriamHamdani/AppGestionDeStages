@@ -52,7 +52,6 @@ Route::prefix('admin')->group(function () {
     Route::view('soutenance/liste', 'admin.soutenance.liste_soutenances')->name('list_soutenances');
     Route::view('soutenance/evaluer', 'admin.soutenance.evaluer_soutenance')->name('evaluer_soutenance');
 // PAIEMENT
-    Route::view('paiement/gerer-paiements', 'admin.paiement.gerer_paiements')->name('gerer_paiements');
     Route::view('paiement/details-paiement-ens', 'admin.paiement.details_paiement_ens')->name('details_paiement_ens');
 // CONFIGURATION
     Route::prefix('configuration/generale')->group(function () {

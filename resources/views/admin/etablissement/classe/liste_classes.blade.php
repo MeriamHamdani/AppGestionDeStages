@@ -8,8 +8,6 @@
     <link rel="stylesheet" type="text/css" href="{{asset('assets/css/datatables.css')}}">
     <link rel="stylesheet" type="text/css" href="{{asset('assets/css/datatable-extension.css')}}">
     <link rel="stylesheet" type="text/css" href="{{ asset('assets/css/select2.css') }}">
-
-
 @endpush
 
 @section('content')

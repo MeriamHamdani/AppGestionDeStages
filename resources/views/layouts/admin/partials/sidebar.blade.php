@@ -169,12 +169,6 @@
                         </div>
                     </li>
                     <li class="dropdown">
-                        <a class="nav-link menu-title" href="{{ route('gerer_paiements') }}"
-                           class="{{ routeActive('gerer_paiements') }}"><i
-                                class="icofont icofont-cur-dollar"></i>&nbsp&nbsp&nbsp<span>Gérer les
-                                paiements</span></a>
-                    </li>
-                    <li class="dropdown">
                         <a class="nav-link menu-title" href="{{ route('details_paiement_ens') }}"
                            class="{{ routeActive('details_paiement_ens') }}"><i
                                 class="icofont icofont-cur-dollar-plus"></i>&nbsp&nbsp&nbsp<span>Détails de paiement
