@@ -9,13 +9,15 @@ Route::prefix('admin')->group(function () {
 // ADMINISTRATION
     Route::view('administration/liste-admin', 'admin.administration.liste_des_admin')->name('liste_admin');
     Route::view('administration/ajouter-admin', 'admin.administration.ajouter_admin')->name('ajouter_admin');
-// STAGE
+    Route::view('administration/modifier-admin', 'admin.administration.modifier_infos_admin')->name('modifier_admin');
+    // STAGE
     Route::prefix('stage/demandes-stage')->group(function () {
         Route::view('1ere-2eme-licence-master', 'admin.stage.listes_demandes_stage.sv12lm')->name('demandes_stage.sv12lm');
         Route::view('2eme-licence', 'admin.stage.listes_demandes_stage.so2l')->name('demandes_stage.so2l');
         Route::view('3eme-licence', 'admin.stage.listes_demandes_stage.so3l')->name('demandes_stage.so3l');
         Route::view('3eme-licence-info', 'admin.stage.listes_demandes_stage.so3Info')->name('demandes_stage.so3Info');
         Route::view('2eme-master', 'admin.stage.listes_demandes_stage.so2m')->name('demandes_stage.so2m');
+        Route::view('modifier', 'admin.stage.listes_demandes_stage.modifier_demande_stage')->name('demandes_stage.modifier_demande');
 
     });
     Route::view('stage/gerer-cahiers-stages', 'admin.stage.gerer_cahiers_stages')->name('gerer_cahiers_stages');

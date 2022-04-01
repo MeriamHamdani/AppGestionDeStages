@@ -32,8 +32,8 @@
                                 <tr>
                                     <th>Titre de sujet</th>
                                     <th>Etudiant</th>
-                                    <th>Date début</th>
-                                    <th>Date fin</th>
+                                    <th>Date d'envoi de la demande</th>
+                                    <th>Encadrant</th>
                                     <th>confirmation de l'encadrant</th>
                                     <th>Actions</th>
                                 </tr>
@@ -43,7 +43,7 @@
                                     <td>Tiger Nixon</td>
                                     <td>System Architect</td>
                                     <td>2011/04/25</td>
-                                    <td>2011/04/25</td>
+                                    <td>encadrant</td>
                                     <td class="text-center">
                                         <button class="buttonload" data-toggle="tooltip" title="demande en attente">
                                             <i class="fa fa-spinner fa-spin"></i>
@@ -65,7 +65,7 @@
                                     <td>Michael Bruce</td>
                                     <td>Javascript Developer</td>
                                     <td>2011/04/25</td>
-                                    <td>2011/04/25</td>
+                                    <td>encadrant</td>
                                     <td>
                                         <a href="#" data-toggle="tooltip" title="demande refusée"
                                             onclick="this.disabled = true">
@@ -91,8 +91,9 @@
                                 <tr>
                                     <td>Donna Snider</td>
                                     <td>Customer Support</td>
+
                                     <td>2011/04/25</td>
-                                    <td>2011/04/25</td>
+                                    <td>encadrant</td>
                                     <td>
                                         <a href="#" data-toggle="tooltip" title="demande confirmée"
                                             onclick="this.disabled = true">
@@ -120,8 +121,8 @@
                                 <tr>
                                     <th>Titre de sujet</th>
                                     <th>Etudiant</th>
-                                    <th>Date début</th>
-                                    <th>Date fin</th>
+                                    <th>Date d'envoi de la demande</th>
+                                    <th>encadrant</th>
                                     <th>confirmation de l'encadrant</th>
                                     <th>Actions</th>
                                 </tr>
