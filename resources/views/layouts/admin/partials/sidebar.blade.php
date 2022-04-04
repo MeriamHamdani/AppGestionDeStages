@@ -200,6 +200,9 @@
                             <li><a href="{{ route('dates_stages') }}" class="{{ routeActive('dates_stages') }}">
                                     <strong><i class="icofont icofont-pen-nib"></i>Dates des stages selon
                                         Formation</strong></a> </li>
+                            <li><a href="{{ route('liste_grille') }}" class="{{ routeActive('liste_grille') }}">
+                                    <strong><i class="icofont icofont-pen-nib"></i>Configurer la grille
+                                        d'évaluation</strong></a> </li>
                         </ul>
                     </li>
                     <li class="dropdown">
@@ -215,3 +218,4 @@
         </div>
     </nav>
 </header>
+

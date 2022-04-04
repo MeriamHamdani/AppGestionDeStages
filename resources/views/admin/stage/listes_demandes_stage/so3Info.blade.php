@@ -38,7 +38,7 @@
                                     <th>Encadrant</th>
                                     <th>La fiche de demande</th>
                                     <th>Confirmation de l'encadrant</th>
-                                    <th>action</th>
+                                    <th>Action</th>
                                 </tr>
                             </thead>
                             <tbody>
@@ -152,7 +152,7 @@
                                     <th>Encadrant</th>
                                     <th>La fiche de demande</th>
                                     <th>Confirmation de l'encadrant</th>
-                                    <th>action</th>
+                                    <th>Action</th>
 
                                 </tr>
                             </tfoot>
@@ -194,4 +194,3 @@
 @endpush
 
 @endsection
-
