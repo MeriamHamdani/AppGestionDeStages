@@ -45,9 +45,9 @@
                                     <td>
                                         <a href="#" data-title="Consulter le mémoire" data-toggle="tooltip" data-original-title="Consulter le mémoire" title="Consulter le mémoire">
                                             <i class="icofont icofont-papers icon-large" style="color:#bf9168 "></i></a>
-                                        <a data-title="Détails dépôt" data-toggle="tooltip"  title="Détails dépôt"
+                                        <a data-title="Commenter le dépôt" data-toggle="tooltip"  title="Commenter le dépôt"
                                            href={{ route('details_depot') }}>
-                                            <i class="icofont icofont-info-square icon-large"></i></a>
+                                            <i class="icofont icofont-comment icon-large"></i></a>
                                     </td>
 
                                 </tr>
@@ -59,9 +59,9 @@
                                     <td>
                                         <a href="#" data-title="Consulter le mémoire" data-toggle="tooltip" data-original-title="Consulter le mémoire" title="Consulter le mémoire">
                                             <i class="icofont icofont-papers icon-large" style="color:#bf9168 "></i></a>
-                                        <a data-title="Détails dépôt" data-toggle="tooltip"  title="Détails dépôt"
+                                        <a data-title="Commenter le dépôt" data-toggle="tooltip"  title="Commenter le dépôt"
                                            href={{ route('details_depot') }}>
-                                            <i class="icofont icofont-info-square icon-large"></i></a>
+                                            <i class="icofont icofont-comment icon-large"></i></a>
                                     </td>
                                 </tr>
                                 <tr>
@@ -72,9 +72,9 @@
                                     <td>
                                         <a href="#" data-title="Consulter le mémoire" data-toggle="tooltip" data-original-title="Consulter le mémoire" title="Consulter le mémoire">
                                            <i class="icofont icofont-papers icon-large" style="color:#bf9168 "></i></a>
-                                        <a  data-title="Détails dépôt" data-toggle="tooltip"  title="Détails dépôt"
+                                        <a  data-title="Commenter le dépôt" data-toggle="tooltip"  title="Commenter le dépôt"
                                            href={{ route('details_depot') }}>
-                                            <i class="icofont icofont-info-square icon-large"></i></a>
+                                            <i class="icofont icofont-comment icon-large"></i></a>
                                     </td>
                                 </tr>
                                 </tbody>

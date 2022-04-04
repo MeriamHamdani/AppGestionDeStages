@@ -1,6 +1,6 @@
 @extends('layouts.enseignant.master')
 
-@section('title')Cahier de stage
+@section('title')Commenter le dépôt
 {{ $title }}
 @endsection
 
@@ -16,10 +16,10 @@
 @section('content')
     @component('components.breadcrumb')
         @slot('breadcrumb_title')
-            <h3>Détails de stage de : l'etudiant</h3>
+            <h3>Commenter le dépôt de : l'etudiant</h3>
         @endslot
         <li class="breadcrumb-item">Enacdrement</li>
-        <li class="breadcrumb-item active">Détails de stage de : l'etudiant</li>
+        <li class="breadcrumb-item active">Commenter le dépôt de : l'etudiant</li>
     @endcomponent
     <div class="container-fluid">
         <div class="user-profile social-app-profile">
@@ -27,7 +27,7 @@
                 <div class="card">
                     <div class="card-header">
                         <h5>
-                            Détails de demande de dépôt de : l'etudiant
+                            Commenter le dépôt de : l'etudiant
                         </h5>
                             </div>
                             <div class="collapse show" id="collapseicon2" aria-labelledby="collapseicon2" data-parent="#accordion">
