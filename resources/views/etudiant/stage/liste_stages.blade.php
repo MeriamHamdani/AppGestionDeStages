@@ -34,7 +34,7 @@
                                     <th>Type</th>
                                     <th>Année universitaire</th>
                                     <th>Entreprise</th>
-                                    <th>Date de debut</th>
+                                    <th>Date de début</th>
                                     <th>Date de fin</th>
                                     <th>Etat</th>
                                 </tr>
@@ -46,33 +46,32 @@
                                     <td>Hyper-groupe</td>
                                     <td>01-07-2020</td>
                                     <td>30-07-2020</td>
-                                    <td><img style="width : 20px;
-                                        height : 20px;" src="{{asset('assets/images/drapeau-rouge.jpg') }}"></td>
-                                </tr>
-                                <tr>
-                                    <td>Obligatoire LF2I</td>
-                                    <td>2020-2021</td>
-                                    <td>Hyper-groupe</td>
-                                    <td>01-07-2021</td>
-                                    <td>31-08-2021</td>
-                                    <td><img style="width : 20px;
-                                        height : 20px;" src="{{asset('assets/images/drapeau-rouge.jpg') }}">
+                                    <td><button class="btn btn-primary btn-sm" data-toggle="tooltip" title="Stage terminée">
+                                            <i class="icofont icofont-ui-check"></i>
+                                        </button>
                                     </td>
                                 </tr>
                                 <tr>
                                     <td>Obligatoire LF3I</td>
+                                    <td>2020-2021</td>
+                                    <td>Hyper-groupe</td>
+                                    <td>01-07-2021</td>
+                                    <td>31-08-2021</td>
+                                    <td><button class="btn btn-secondary" data-toggle="tooltip" title="Stage en cours">
+                                            <i class="fa fa-spinner fa-spin"></i>
+                                        </button>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>Obligatoire LF2I</td>
                                     <td>2021-2022</td>
                                     <td>Hyper-groupe</td>
                                     <td>01-02-2022</td>
                                     <td>31-05-2022</td>
-                                    <td><img style="width : 20px;
-                                        height : 20px;" src="{{asset('assets/images/drapeau-vert.jpg') }}">
+                                    <td><button class="btn btn-secondary" data-toggle="tooltip" title="Stage en cours">
+                                            <i class="fa fa-spinner fa-spin"></i>
+                                        </button>
                                     </td>
-
-                                    <!-- <td style=" padding: 10px;
-                                    border: 2px solid #3CB371;
-                                    border-radius: 5px;
-                                    background-color: #e5e5e5;">En cours</td>-->
                                 </tr>
 
                             </tbody>
@@ -81,7 +80,7 @@
                                     <th>Type</th>
                                     <th>Année universitaire</th>
                                     <th>Entreprise</th>
-                                    <th>Date de debut</th>
+                                    <th>Date de début</th>
                                     <th>Date de fin</th>
                                     <th>Etat</th>
                                 </tr>
@@ -116,6 +115,7 @@
 <script src="{{asset('assets/js/datatable/datatable-extension/dataTables.rowReorder.min.js')}}"></script>
 <script src="{{asset('assets/js/datatable/datatable-extension/dataTables.scroller.min.js')}}"></script>
 <script src="{{asset('assets/js/datatable/datatable-extension/custom.js')}}"></script>
+<script src="{{ asset('assets/js/tooltip-init.js')}}"></script>
 @endpush
 
 @endsection

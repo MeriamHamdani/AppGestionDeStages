@@ -8,6 +8,7 @@
 <link rel="stylesheet" type="text/css" href="{{asset('assets/css/select2.css')}}">
 <link rel="stylesheet" type="text/css" href="{{asset('assets/css/date-picker.css')}}">
 <link rel="stylesheet" type="text/css" href="{{asset('assets/css/scrollable.css')}}">
+<link rel="stylesheet" type="text/css" href="{{ asset('assets/css/timepicker.css') }}">
 @endpush
 
 @section('content')
@@ -60,38 +61,8 @@
                                                                                     type="text" data-language="en"
                                                                                     placeholder="Date" />
                                                                             </div>
-                                                                            <div class="d-inline-block">
-                                                                                <select class="form-control">
-                                                                                    <option>7:00 am</option>
-                                                                                    <option>7:30 am</option>
-                                                                                    <option>8:00 am</option>
-                                                                                    <option>8:30 am</option>
-                                                                                    <option>9:00 am</option>
-                                                                                    <option>9:30 am</option>
-                                                                                    <option>10:00 am</option>
-                                                                                    <option>10:30 am</option>
-                                                                                    <option>11:00 am</option>
-                                                                                    <option>11:30 am</option>
-                                                                                    <option>12:00 pm</option>
-                                                                                    <option>12:30 pm</option>
-                                                                                    <option>1:00 pm</option>
-                                                                                    <option>2:00 pm</option>
-                                                                                    <option>3:00 pm</option>
-                                                                                    <option>4:00 pm</option>
-                                                                                    <option>5:00 pm</option>
-                                                                                    <option>6:00 pm</option>
-                                                                                </select>
-                                                                            </div>
-                                                                        </div>
-                                                                    </div>
-                                                                    <div class="row">
-                                                                        <div class="pb-3">
-                                                                            <label class="col-lg-12 form-label"
-                                                                                for="filebutton">Choisir un
-                                                                                fichier</label>
-                                                                            <div class="col-lg-12">
-                                                                                <input id="filebutton" name="filebutton"
-                                                                                    class="input-file" type="file">
+                                                                            <div class="input-group clockpicker" data-placement="top" data-align="left" data-donetext="Done">
+                                                                                <input class="form-control" type="text" value="18:00"><span class="input-group-addon"><span class="glyphicon glyphicon-time"></span></span>
                                                                             </div>
                                                                         </div>
                                                                     </div>
@@ -158,7 +129,7 @@
                                                         <tr>
                                                             <td>
                                                                 <h6 class="task_title_0">Titre de la tâche</h6>
-                                                                <p class="f-w-300">Lundi</p>
+                                                                <p class="f-w-300"><strong>06-04-2022</strong></p>
                                                             </td>
                                                             <td>
                                                                 <p class="task_desc_0">Ceci est le description de la
@@ -166,8 +137,7 @@
                                                                     je dois remplir mes taches </p>
                                                             </td>
                                                             <td>
-                                                                <a class="me-2" href="javascript:void(0)"><i
-                                                                        data-feather="link"></i></a><a
+                                                                <a
                                                                     href="javascript:void(0)"><i
                                                                         data-feather="edit"></i></a>
                                                             </td>
@@ -179,7 +149,7 @@
                                                         <tr>
                                                             <td>
                                                                 <h6 class="task_title_0">Titre de la tâche</h6>
-                                                                <p class="project_name_0">Mardi</p>
+                                                                <p class="project_name_0"><strong>01-04-2022</strong></p>
                                                             </td>
                                                             <td>
                                                                 <p class="task_desc_0">Lorem Ipsum is simply dummy text
@@ -187,8 +157,7 @@
                                                                     Ipsum has been</p>
                                                             </td>
                                                             <td>
-                                                                <a class="me-2" href="javascript:void(0)"><i
-                                                                        data-feather="link"></i></a><a
+                                                                <a
                                                                     href="javascript:void(0)"><i
                                                                         data-feather="edit"></i></a>
                                                             </td>
@@ -200,7 +169,7 @@
                                                         <tr>
                                                             <td>
                                                                 <h6 class="task_title_0">Titre de la tâche</h6>
-                                                                <p class="project_name_0">Mercredi</p>
+                                                                <p class="project_name_0"><strong>22-03-2022</strong></p>
                                                             </td>
                                                             <td>
                                                                 <p class="task_desc_0">Lorem Ipsum is simply dummy text
@@ -208,8 +177,26 @@
                                                                     Ipsum has been</p>
                                                             </td>
                                                             <td>
-                                                                <a class="me-2" href="javascript:void(0)"><i
-                                                                        data-feather="link"></i></a><a
+                                                                <a href="javascript:void(0)"><i
+                                                                        data-feather="edit"></i></a>
+                                                            </td>
+                                                            <td>
+                                                                <a href="javascript:void(0)"><i
+                                                                        data-feather="trash-2"></i></a>
+                                                            </td>
+                                                        </tr>
+                                                        <tr>
+                                                            <td>
+                                                                <h6 class="task_title_0">Titre de la tâche</h6>
+                                                                <p class="project_name_0"><strong>28-03-2022</strong></p>
+                                                            </td>
+                                                            <td>
+                                                                <p class="task_desc_0">Lorem Ipsum is simply dummy text
+                                                                    of the printing and typesetting industry. Lorem
+                                                                    Ipsum has been</p>
+                                                            </td>
+                                                            <td>
+                                                                <a
                                                                     href="javascript:void(0)"><i
                                                                         data-feather="edit"></i></a>
                                                             </td>
@@ -221,7 +208,7 @@
                                                         <tr>
                                                             <td>
                                                                 <h6 class="task_title_0">Titre de la tâche</h6>
-                                                                <p class="project_name_0">Jeudi</p>
+                                                                <p class="project_name_0"><strong>31-03-2022</strong></p>
                                                             </td>
                                                             <td>
                                                                 <p class="task_desc_0">Lorem Ipsum is simply dummy text
@@ -229,29 +216,7 @@
                                                                     Ipsum has been</p>
                                                             </td>
                                                             <td>
-                                                                <a class="me-2" href="javascript:void(0)"><i
-                                                                        data-feather="link"></i></a><a
-                                                                    href="javascript:void(0)"><i
-                                                                        data-feather="edit"></i></a>
-                                                            </td>
-                                                            <td>
-                                                                <a href="javascript:void(0)"><i
-                                                                        data-feather="trash-2"></i></a>
-                                                            </td>
-                                                        </tr>
-                                                        <tr>
-                                                            <td>
-                                                                <h6 class="task_title_0">Titre de la tâche</h6>
-                                                                <p class="project_name_0">Vendredi</p>
-                                                            </td>
-                                                            <td>
-                                                                <p class="task_desc_0">Lorem Ipsum is simply dummy text
-                                                                    of the printing and typesetting industry. Lorem
-                                                                    Ipsum has been</p>
-                                                            </td>
-                                                            <td>
-                                                                <a class="me-2" href="javascript:void(0)"><i
-                                                                        data-feather="link"></i></a><a
+                                                                <a
                                                                     href="javascript:void(0)"><i
                                                                         data-feather="edit"></i></a>
                                                             </td>
@@ -357,8 +322,7 @@
                                                                     Ipsum has been</p>
                                                             </td>
                                                             <td>
-                                                                <a class="me-2" href="javascript:void(0)"><i
-                                                                        data-feather="link"></i></a><a
+                                                                <a
                                                                     href="javascript:void(0)"><i
                                                                         data-feather="more-horizontal"></i></a>
                                                             </td>
@@ -378,8 +342,7 @@
                                                                     Ipsum has been</p>
                                                             </td>
                                                             <td>
-                                                                <a class="me-2" href="javascript:void(0)"><i
-                                                                        data-feather="link"></i></a><a
+                                                                <a
                                                                     href="javascript:void(0)"><i
                                                                         data-feather="more-horizontal"></i></a>
                                                             </td>
@@ -399,8 +362,7 @@
                                                                     Ipsum has been</p>
                                                             </td>
                                                             <td>
-                                                                <a class="me-2" href="javascript:void(0)"><i
-                                                                        data-feather="link"></i></a><a
+                                                                <a
                                                                     href="javascript:void(0)"><i
                                                                         data-feather="more-horizontal"></i></a>
                                                             </td>
@@ -420,8 +382,7 @@
                                                                     Ipsum has been</p>
                                                             </td>
                                                             <td>
-                                                                <a class="me-2" href="javascript:void(0)"><i
-                                                                        data-feather="link"></i></a><a
+                                                                <a
                                                                     href="javascript:void(0)"><i
                                                                         data-feather="more-horizontal"></i></a>
                                                             </td>
@@ -441,8 +402,7 @@
                                                                     Ipsum has been</p>
                                                             </td>
                                                             <td>
-                                                                <a class="me-2" href="javascript:void(0)"><i
-                                                                        data-feather="link"></i></a><a
+                                                                <a
                                                                     href="javascript:void(0)"><i
                                                                         data-feather="more-horizontal"></i></a>
                                                             </td>
@@ -480,8 +440,7 @@
                                                                     Ipsum has been</p>
                                                             </td>
                                                             <td>
-                                                                <a class="me-2" href="javascript:void(0)"><i
-                                                                        data-feather="link"></i></a><a
+                                                                <a
                                                                     href="javascript:void(0)"><i
                                                                         data-feather="more-horizontal"></i></a>
                                                             </td>
@@ -501,8 +460,7 @@
                                                                     Ipsum has been</p>
                                                             </td>
                                                             <td>
-                                                                <a class="me-2" href="javascript:void(0)"><i
-                                                                        data-feather="link"></i></a><a
+                                                                <a
                                                                     href="javascript:void(0)"><i
                                                                         data-feather="more-horizontal"></i></a>
                                                             </td>
@@ -522,8 +480,7 @@
                                                                     Ipsum has been</p>
                                                             </td>
                                                             <td>
-                                                                <a class="me-2" href="javascript:void(0)"><i
-                                                                        data-feather="link"></i></a><a
+                                                                <a
                                                                     href="javascript:void(0)"><i
                                                                         data-feather="more-horizontal"></i></a>
                                                             </td>
@@ -543,8 +500,7 @@
                                                                     Ipsum has been</p>
                                                             </td>
                                                             <td>
-                                                                <a class="me-2" href="javascript:void(0)"><i
-                                                                        data-feather="link"></i></a><a
+                                                                <a
                                                                     href="javascript:void(0)"><i
                                                                         data-feather="more-horizontal"></i></a>
                                                             </td>
@@ -564,8 +520,7 @@
                                                                     Ipsum has been</p>
                                                             </td>
                                                             <td>
-                                                                <a class="me-2" href="javascript:void(0)"><i
-                                                                        data-feather="link"></i></a><a
+                                                                <a
                                                                     href="javascript:void(0)"><i
                                                                         data-feather="more-horizontal"></i></a>
                                                             </td>
@@ -627,6 +582,9 @@
 <script src="{{asset('assets/js/scrollable/perfect-scrollbar.min.js')}}"></script>
 <script src="{{asset('assets/js/scrollable/scrollable-custom.js')}}"></script>
 <script src="{{asset('assets/js/tooltip-init.js')}}"></script>
+<script src="{{ asset('assets/js/time-picker/jquery-clockpicker.min.js') }}"></script>
+<script src="{{ asset('assets/js/time-picker/highlight.min.js') }}"></script>
+<script src="{{ asset('assets/js/time-picker/clockpicker.js') }}"></script>
 @endpush
 
 @endsection

@@ -34,7 +34,7 @@
                                     <th>Type</th>
                                     <th>Année universitaire</th>
                                     <th>Entreprise</th>
-                                    <th>Date de debut</th>
+                                    <th>Date de début</th>
                                     <th>Date de fin</th>
                                     <th>Etat</th>
                                 </tr>
@@ -46,8 +46,10 @@
                                     <td>Hyper-groupe</td>
                                     <td>01-07-2020</td>
                                     <td>30-07-2020</td>
-                                    <td><img style="width : 20px;
-                                        height : 20px;" src="{{asset('assets/images/drapeau-rouge.jpg') }}"></td>
+                                    <td><button class="btn btn-primary btn-sm" data-toggle="tooltip" title="demande confirmée">
+                                            <i class="icofont icofont-ui-check"></i>
+                                        </button>
+                                    </td>
                                 </tr>
                                 <tr>
                                     <td>Obligatoire LF2I</td>
@@ -55,8 +57,9 @@
                                     <td>Hyper-groupe</td>
                                     <td>01-07-2021</td>
                                     <td>31-08-2021</td>
-                                    <td><img style="width : 20px;
-                                        height : 20px;" src="{{asset('assets/images/drapeau-rouge.jpg') }}">
+                                    <td><button class="btn btn-warning btn-sm" data-toggle="tooltip" title="demande en attente">
+                                            <i class="fa fa-spinner fa-spin"></i>
+                                        </button>
                                     </td>
                                 </tr>
                                 <tr>
@@ -65,8 +68,9 @@
                                     <td>Hyper-groupe</td>
                                     <td>01-02-2022</td>
                                     <td>31-05-2022</td>
-                                    <td><img style="width : 20px;
-                                        height : 20px;" src="{{asset('assets/images/drapeau-vert.jpg') }}">
+                                    <td><button class="btn btn-danger btn-sm" data-toggle="tooltip" title="demande refusée">
+                                            <i class="icofont icofont-ui-close"></i>
+                                        </button>
                                     </td>
 
                                     <!-- <td style=" padding: 10px;
@@ -81,7 +85,7 @@
                                     <th>Type</th>
                                     <th>Année universitaire</th>
                                     <th>Entreprise</th>
-                                    <th>Date de debut</th>
+                                    <th>Date de début</th>
                                     <th>Date de fin</th>
                                     <th>Etat</th>
                                 </tr>

@@ -22,7 +22,7 @@
             <div class="col-sm-12">
                 <div class="card">
                     <div class="card-header pb-0">
-                        <h5>Listes des demandes de dépôt</h5>
+                        <h5>La Liste des demandes de dépôt</h5>
                     </div>
                     <div class="card-body">
                         <div class="table-responsive">
@@ -44,11 +44,10 @@
                                     <td>2011/04/25</td>
                                     <td>
                                         <a href="#" data-title="Consulter le mémoire" data-toggle="tooltip" data-original-title="Consulter le mémoire" title="Consulter le mémoire">
-                                            <i class="icofont icofont-papers"></i></a>
-                                        <a href="#" data-title="Valider le dépôt du mémoire" data-toggle="tooltip"  title="Valider le dépôt du mémoire">
-                                            <i class="icofont icofont-checked"></i></a>
-                                        <a href="#" data-title="Refuser le dépôt du mémoire" data-toggle="tooltip"  title="Refuser le dépôt du mémoire">
-                                            <i class="icofont icofont-close-squared"></i></a>
+                                            <i class="icofont icofont-papers icon-large" style="color:#bf9168 "></i></a>
+                                        <a data-title="Détails dépôt" data-toggle="tooltip"  title="Détails dépôt"
+                                           href={{ route('details_depot') }}>
+                                            <i class="icofont icofont-info-square icon-large"></i></a>
                                     </td>
 
                                 </tr>
@@ -58,13 +57,11 @@
                                     <td>2011/04/25</td>
                                     <td>2011/04/25</td>
                                     <td>
-                                        {{--                                    <td calss="jsgrid-cell jsgrid-control-field jsgrid-align-center">--}}
                                         <a href="#" data-title="Consulter le mémoire" data-toggle="tooltip" data-original-title="Consulter le mémoire" title="Consulter le mémoire">
-                                            <i class="icofont icofont-papers"></i></a>
-                                        <a href="#" data-title="Valider le dépôt du mémoire" data-toggle="tooltip"  title="Valider le dépôt du mémoire">
-                                            <i class="icofont icofont-checked"></i></a>
-                                        <a href="#" data-title="Refuser le dépôt du mémoire" data-toggle="tooltip"  title="Refuser le dépôt du mémoire">
-                                            <i class="icofont icofont-close-squared"></i></a>
+                                            <i class="icofont icofont-papers icon-large" style="color:#bf9168 "></i></a>
+                                        <a data-title="Détails dépôt" data-toggle="tooltip"  title="Détails dépôt"
+                                           href={{ route('details_depot') }}>
+                                            <i class="icofont icofont-info-square icon-large"></i></a>
                                     </td>
                                 </tr>
                                 <tr>
@@ -73,13 +70,11 @@
                                     <td>2011/04/25</td>
                                     <td>2011/04/25</td>
                                     <td>
-                                        {{--                                    <td calss="jsgrid-cell jsgrid-control-field jsgrid-align-center">--}}
                                         <a href="#" data-title="Consulter le mémoire" data-toggle="tooltip" data-original-title="Consulter le mémoire" title="Consulter le mémoire">
-                                            <i class="icofont icofont-papers"></i></a>
-                                        <a href="#" data-title="Valider le dépôt du mémoire" data-toggle="tooltip"  title="Valider le dépôt du mémoire">
-                                            <i class="icofont icofont-checked"></i></a>
-                                        <a href="#" data-title="Refuser le dépôt du mémoire" data-toggle="tooltip"  title="Refuser le dépôt du mémoire">
-                                            <i class="icofont icofont-close-squared"></i></a>
+                                           <i class="icofont icofont-papers icon-large" style="color:#bf9168 "></i></a>
+                                        <a  data-title="Détails dépôt" data-toggle="tooltip"  title="Détails dépôt"
+                                           href={{ route('details_depot') }}>
+                                            <i class="icofont icofont-info-square icon-large"></i></a>
                                     </td>
                                 </tr>
                                 </tbody>

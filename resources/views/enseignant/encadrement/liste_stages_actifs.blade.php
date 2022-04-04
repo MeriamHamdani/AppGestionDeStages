@@ -34,11 +34,9 @@
                                     <th>Etudiant</th>
                                     <th>Type de Stage</th>
                                     <th>Sujet</th>
-                                    <th>Type de sujet</th>
-                                    <th>Entreprise</th>
-                                    <th>Date de debut</th>
-                                    <th>Date de fin</th>
-
+                                    <th>Date début</th>
+                                    <th>Date fin</th>
+                                    <th>Actions</th>
                                 </tr>
                             </thead>
                             <tbody>
@@ -46,39 +44,56 @@
                                     <td>Zouhour Ben Ticha</td>
                                     <td>LF3I obligatoire</td>
                                     <td>Application de gestion des stages </td>
-                                    <td>PFE</td>
-                                    <td>Hyper group</td>
                                     <td>01-02-2022</td>
                                     <td>31-05-2022</td>
+                                    <td>
+                                        <a href="#" data-title="Télécharger la lettre d'affectation" data-toggle="tooltip" data-original-title="Télécharger la lettre d'affectation" title="Télécharger la lettre d'affectation">
+                                            <i class="icofont icofont-file-document icon-large" style="color:#bf9168 "></i></a>
+                                        <a data-title="Consulter les détails de stage" data-toggle="tooltip" data-original-title="Consulter les détails de stage" title="Consulter les détails de stage"
+                                           href={{ route('details_stage') }}>
+                                            <i class="icofont icofont-info-square icon-large"></i></a>
+                                        <a data-title="Consulter le cahier de stage" data-toggle="tooltip"  title="Consulter le cahier de stage"
+                                           href={{ route('cahier_stage_etud') }}>
+                                            <i class="icofont icofont-book-alt icon-large" style="color:#fd2e64"></i></a>
+
+                                    </td>
 
                                 </tr>
                                 <tr>
                                     <td>Meriam Hamdani</td>
                                     <td>LF3I obligatoire</td>
                                     <td>Application de gestion des stages </td>
-                                    <td>Projet tutoré</td>
-                                    <td>Hyper group</td>
                                     <td>01-02-2022</td>
                                     <td>31-05-2022</td>
+                                    <td>
+                                        <a href="#" data-title="Télécharger la lettre d'affectation" data-toggle="tooltip" data-original-title="Télécharger la lettre d'affectation" title="Télécharger la lettre d'affectation">
+                                            <i class="icofont icofont-file-document icon-large" style="color:#bf9168 "></i></a>
+                                        <a data-title="Consulter les détails de stage icon-large" data-toggle="tooltip" data-original-title="Consulter les détails de stage" title="Consulter les détails de stage"
+                                           href={{ route('details_stage') }}>
+                                            <i class="icofont icofont-info-square icon-large"></i></a>
+                                        <a class="{{ routeActive('liste_stages_actifs') }}" data-title="Consulter le cahier de stage" data-toggle="tooltip"  title="Consulter le cahier de stage"
+                                           href={{ route('cahier_stage_etud') }} >
+                                            <i class="icofont icofont-book-alt icon-large" style="color:#fd2e64"></i></a>
 
+                                    </td>
                                 </tr>
                                 <tr>
                                     <td>Ali Ben Ali</td>
                                     <td>LF3I obligatoire</td>
                                     <td>Application de gestion des stages </td>
-                                    <td>business plan</td>
-                                    <td>Hyper group</td>
                                     <td>01-02-2022</td>
                                     <td>31-05-2022</td>
-
+                                    <td>
+                                        <a href="#" data-title="Télécharger la lettre d'affectation" data-toggle="tooltip" data-original-title="Télécharger la lettre d'affectation" title="Télécharger la lettre d'affectation">
+                                            <i class="icofont icofont-file-document icon-large" style="color:#bf9168 "></i></a>
+                                        <a data-title="Consulter les détails de stage" data-toggle="tooltip" data-original-title="Consulter les détails de stage" title="Consulter les détails de stage"
+                                           href={{ route('details_stage') }}>
+                                            <i class="icofont icofont-info-square icon-large"></i></a>
+                                        <a class="{{ routeActive('liste_stages_actifs') }}" data-title="Consulter le cahier de stage" data-toggle="tooltip"  title="Consulter le cahier de stage"
+                                           href={{ route('cahier_stage_etud') }} >
+                                            <i class="icofont icofont-book-alt icon-large" style="color:#fd2e64"></i></a>
+                                    </td>
                                 </tr>
-
-                                <!-- <td style=" padding: 10px;
-                                    border: 2px solid #3CB371;
-                                    border-radius: 5px;
-                                    background-color: #e5e5e5;">En cours</td>-->
-                                </tr>
-
                             </tbody>
                             <tfoot>
                                 <tr>
@@ -86,11 +101,9 @@
                                     <th>Etudiant</th>
                                     <th>Type de Stage</th>
                                     <th>Sujet</th>
-                                    <th>Type de sujet</th>
-                                    <th>Entreprise</th>
-                                    <th>Date de debut</th>
-                                    <th>Date de fin</th>
-
+                                    <th>Date début</th>
+                                    <th>Date fin</th>
+                                    <th>Actions</th>
                                 </tr>
                             </tfoot>
                         </table>
@@ -123,6 +136,12 @@
 <script src="{{asset('assets/js/datatable/datatable-extension/dataTables.rowReorder.min.js')}}"></script>
 <script src="{{asset('assets/js/datatable/datatable-extension/dataTables.scroller.min.js')}}"></script>
 <script src="{{asset('assets/js/datatable/datatable-extension/custom.js')}}"></script>
+<script src="{{ asset('assets/js/notify/bootstrap-notify.min.js') }}"></script>
+<script src="{{ asset('assets/js/icons/icons-notify.js') }}"></script>
+<script src="{{ asset('assets/js/icons/flag-icon-clipart.js') }}"></script>
+<script src="{{ asset('assets/js/notify/bootstrap-notify.min.js') }}"></script>
+<script src="{{ asset('assets/js/icons/icons-notify.js') }}"></script>
+<script src="{{ asset('assets/js/icons/icon-clipart.js') }}"></script>
 @endpush
 
 @endsection

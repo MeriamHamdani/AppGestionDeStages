@@ -72,42 +72,7 @@
                                                 Cahier de stage
                                             </i></a></td>
                                 </tr>
-                                <tr>
-                                    <td>Yuri Berry</td>
-                                    <td>Chief Marketing Officer (CMO)</td>
-                                    <td><a class="btn btn-primary" {{ prefixActive('etudiant/stage')}}
-                                            href="{{ route('cahier_stage') }}" class="{{routeActive('cahier_stage')}}">
-                                            <i class="icofont icofont-book-alt">
-                                                Cahier de stage
-                                            </i></a></td>
-                                </tr>
-                                <tr>
-                                    <td>Caesar Vance</td>
-                                    <td>Pre-Sales Support</td>
-                                    <td><a class="btn btn-primary" {{ prefixActive('etudiant/stage')}}
-                                            href="{{ route('cahier_stage') }}" class="{{routeActive('cahier_stage')}}">
-                                            <i class="icofont icofont-book-alt">
-                                                Cahier de stage
-                                            </i></a></td>
-                                </tr>
-                                <tr>
-                                    <td>Doris Wilder</td>
-                                    <td>Sales Assistant</td>
-                                    <td><a class="btn btn-primary" {{ prefixActive('etudiant/stage')}}
-                                            href="{{ route('cahier_stage') }}" class="{{routeActive('cahier_stage')}}">
-                                            <i class="icofont icofont-book-alt">
-                                                Cahier de stage
-                                            </i></a></td>
-                                </tr>
-                                <tr>
-                                    <td>Angelica Ramos</td>
-                                    <td>Chief Executive Officer (CEO)</td>
-                                    <td><a class="btn btn-primary" {{ prefixActive('etudiant/stage')}}
-                                            href="{{ route('cahier_stage') }}" class="{{routeActive('cahier_stage')}}">
-                                            <i class="icofont icofont-book-alt">
-                                                Cahier de stage
-                                            </i></a></td>
-                                </tr>
+
                             </tbody>
                             <tfoot>
                                 <tr>

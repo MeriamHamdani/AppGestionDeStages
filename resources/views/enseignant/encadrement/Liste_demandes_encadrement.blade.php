@@ -36,8 +36,8 @@
                                     <th>Sujet</th>
                                     <th>Type de sujet</th>
                                     <th>Entreprise</th>
-                                    <th>Date de debut</th>
-                                    <th>Date de fin</th>
+                                    <th>Date début</th>
+                                    <th>Date fin</th>
                                     <th>Confirmation</th>
                                 </tr>
                             </thead>
@@ -52,8 +52,7 @@
                                     <td>31-05-2022</td>
                                     <td>
                                         <div style="align-content: center">
-
-                                            <a href="#" data-title="confirmer-demande" data-toggle="tooltip"
+                                            {{--<a href="#" data-title="confirmer-demande" data-toggle="tooltip"
                                                 title="confirmer la demande" onclick="this.disabled = true">
                                                 <i style="background-position: 0 -90px;
                                                         height: 30px;
@@ -61,7 +60,6 @@
                                                         display:block;
                                                         margin:0 auto;" class="icofont icofont-ui-check"></i>
                                             </a>
-
                                             <a href="#" data-title='refuser-demande' data-toggle='tooltip'
                                                 title="refuser la demande">
 
@@ -70,6 +68,15 @@
                                             width: 23px;
                                             display:block;
                                             margin:0 auto;" class="icofont icofont-ui-close"></i>
+                                            </a>
+--}}
+                                           <a href="#"> <button class="btn btn-primary btn-sm" data-toggle="tooltip" title="confirmer la demande">
+                                                <i class="icofont icofont-ui-check"></i>
+                                            </button>
+                                            </a>
+                                            <a href="#"> <button class="btn btn-danger btn-sm" data-toggle="tooltip" title="refuser la demande">
+                                                    <i class="icofont icofont-ui-close"></i>
+                                                </button>
                                             </a>
 
                                         </div>
@@ -84,32 +91,14 @@
                                     <td>01-02-2022</td>
                                     <td>31-05-2022</td>
                                     <td>
-                                        <!--<button class="btn btn-primary job-apply-btn" type="button"
-                                            onclick="this.disabled = 'disabled'">
-                                            <span><i class="fa fa-check text-white"></i></span> Confirmer
-                                        </button>-->
-                                        <div style="align-content: center">
-
-                                            <a href="#" data-title="confirmer-demande" data-toggle="tooltip"
-                                                title="confirmer la demande" onclick="this.disabled = true">
-                                                <i style="background-position: 0 -90px;
-                                                            height: 30px;
-                                                            width: 23px;
-                                                            display:block;
-                                                            margin:0 auto;" class="icofont icofont-ui-check"></i>
-                                            </a>
-
-                                            <a href="#" data-title='refuser-demande' data-toggle='tooltip'
-                                                title="refuser la demande">
-
-                                                <i style="background-position: 0 -90px;
-                                                height: 30px;
-                                                width: 23px;
-                                                display:block;
-                                                margin:0 auto;" class="icofont icofont-ui-close"></i>
-                                            </a>
-
-                                        </div>
+                                        <a href="#"> <button class="btn btn-primary btn-sm" data-toggle="tooltip" title="confirmer la demande">
+                                                <i class="icofont icofont-ui-check"></i>
+                                            </button>
+                                        </a>
+                                        <a href="#"> <button class="btn btn-danger btn-sm" data-toggle="tooltip" title="refuser la demande">
+                                                <i class="icofont icofont-ui-close"></i>
+                                            </button>
+                                        </a>
                                     </td>
                                 </tr>
                                 <tr>
@@ -121,39 +110,16 @@
                                     <td>01-02-2022</td>
                                     <td>31-05-2022</td>
                                     <td>
-                                        <!--<button class="btn btn-primary job-apply-btn" type="button"
-                                            onclick="this.disabled = 'disabled'">
-                                            <span><i class="fa fa-check text-white"></i></span> Confirmer
-                                        </button>-->
-                                        <div>
-
-                                            <a href="#" data-title="confirmer-demande" data-toggle="tooltip"
-                                                title="confirmer la demande" onclick="this.disabled = true">
-                                                <i style="background-position: 0 -90px;
-                                                            height: 30px;
-                                                            width: 23px;
-                                                            display:block;
-                                                            margin:0 auto;" class="icofont icofont-ui-check"></i>
-                                            </a>
-
-                                            <a href="#" data-title='refuser-demande' data-toggle='tooltip'
-                                                title="refuser la demande">
-
-                                                <i style="background-position: 0 -90px;
-                                                height: 30px;
-                                                width: 23px;
-                                                display:block;
-                                                margin:0 auto;" class="icofont icofont-ui-close"></i>
-                                            </a>
-
-                                        </div>
+                                        <a href="#"> <button class="btn btn-primary btn-sm" data-toggle="tooltip" title="confirmer la demande">
+                                                <i class="icofont icofont-ui-check"></i>
+                                            </button>
+                                        </a>
+                                        <a href="#"> <button class="btn btn-danger btn-sm" data-toggle="tooltip" title="refuser la demande">
+                                                <i class="icofont icofont-ui-close"></i>
+                                            </button>
+                                        </a>
                                     </td>
                                 </tr>
-
-                                <!-- <td style=" padding: 10px;
-                                    border: 2px solid #3CB371;
-                                    border-radius: 5px;
-                                    background-color: #e5e5e5;">En cours</td>-->
                                 </tr>
 
                             </tbody>
@@ -165,8 +131,8 @@
                                     <th>Sujet</th>
                                     <th>Type de sujet</th>
                                     <th>Entreprise</th>
-                                    <th>Date de debut</th>
-                                    <th>Date de fin</th>
+                                    <th>Date début</th>
+                                    <th>Date fin</th>
                                     <th>Confirmation</th>
                                 </tr>
                                 </tr>

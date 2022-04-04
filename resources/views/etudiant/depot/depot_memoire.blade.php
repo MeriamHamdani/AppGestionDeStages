@@ -35,6 +35,7 @@
                                     <th>Titre</th>
                                     <th>Type</th>
                                     <th>Gérer le dépôt</th>
+                                    <th>Etat</th>
                                 </tr>
                             </thead>
 
@@ -47,7 +48,12 @@
                                             class="{{ routeActive('deposer') }}">
                                             <i class="icofont icofont-papers">
                                                 Gérer le dépôt
-                                            </i></a></td>
+                                            </i></a>
+                                    </td>
+                                    <td><button class="btn btn-warning btn-sm" data-toggle="tooltip" title="demande dépôt en attente">
+                                            <i class="fa fa-spinner fa-spin"></i>
+                                        </button>
+                                    </td>
                                 </tr>
                                 <tr>
                                     <td>Jenette Caldwell</td>
@@ -56,7 +62,12 @@
                                             class="{{ routeActive('deposer') }}">
                                             <i class="icofont icofont-papers">
                                                 Gérer le dépôt
-                                            </i></a></td>
+                                            </i></a>
+                                    </td>
+                                    <td><button class="btn btn-primary btn-sm" data-toggle="tooltip" title="demande dépôt confirmée">
+                                            <i class="icofont icofont-ui-check"></i>
+                                        </button>
+                                    </td>
                                 </tr>
                                 <tr>
                                     <td>Yuri Berry</td>
@@ -65,7 +76,17 @@
                                             class="{{ routeActive('deposer') }}">
                                             <i class="icofont icofont-papers">
                                                 Gérer le dépôt
-                                            </i></a></td>
+                                            </i></a>
+                                    </td>
+                                    <td><button class="btn btn-danger btn-sm" data-toggle="tooltip" title="demande dépôt refusée">
+                                            <i class="icofont icofont-ui-close"></i>
+                                        </button>
+                                        <button class="btn btn-secondary btn-sm" data-toggle="tooltip" title="Les remarques de l'encadrant">
+                                               <a href={{ Route('remarques_encadrant') }}>
+                                            <i class="icofont icofont-comment" style="color: white"></i>
+                                               </a>
+                                        </button>
+                                    </td>
                                 </tr>
                                 <tr>
                                     <td>Caesar Vance</td>
@@ -74,113 +95,12 @@
                                             class="{{ routeActive('deposer') }}">
                                             <i class="icofont icofont-papers">
                                                 Gérer le dépôt
-                                            </i></a></td>
-                                </tr>
-                                <tr>
-                                    <td>Doris Wilder</td>
-                                    <td>Sales Assistant</td>
-                                    <td><a class="btn btn-primary" href={{ Route('deposer') }}
-                                            class="{{ routeActive('deposer') }}">
-                                            <i class="icofont icofont-papers">
-                                                Gérer le dépôt
-                                            </i></a></td>
-                                </tr>
-                                <tr>
-                                    <td>Angelica Ramos</td>
-                                    <td>Chief Executive Officer (CEO)</td>
-                                    <td><a class="btn btn-primary" href={{ Route('deposer') }}
-                                            class="{{ routeActive('deposer') }}">
-                                            <i class="icofont icofont-papers">
-                                                Gérer le dépôt
-                                            </i></a></td>
-                                </tr>
-                                <tr>
-                                    <td>Gavin Joyce</td>
-                                    <td>Developer</td>
-                                    <td><a class="btn btn-primary" href={{ Route('deposer') }}
-                                            class="{{ routeActive('deposer') }}">
-                                            <i class="icofont icofont-papers">
-                                                Gérer le dépôt
-                                            </i></a></td>
-                                </tr>
-                                <tr>
-                                    <td>Jennifer Chang</td>
-                                    <td>Regional Director</td>
-                                    <td><a class="btn btn-primary" href={{ Route('deposer') }}
-                                            class="{{ routeActive('deposer') }}">
-                                            <i class="icofont icofont-papers">
-                                                Gérer le dépôt
-                                            </i></a></td>
-                                </tr>
-                                <tr>
-                                    <td>Brenden Wagner</td>
-                                    <td>Software Engineer</td>
-                                    <td><a class="btn btn-primary" href={{ Route('deposer') }}
-                                            class="{{ routeActive('deposer') }}">
-                                            <i class="icofont icofont-papers">
-                                                Gérer le dépôt
-                                            </i></a></td>
-                                </tr>
-                                <tr>
-                                    <td>Fiona Green</td>
-                                    <td>Chief Operating Officer (COO)</td>
-                                    <td><a class="btn btn-primary" href={{ Route('deposer') }}
-                                            class="{{ routeActive('deposer') }}">
-                                            <i class="icofont icofont-papers">
-                                                Gérer le dépôt
-                                            </i></a></td>
-                                </tr>
-                                <tr>
-                                    <td>Shou Itou</td>
-                                    <td>Regional Marketing</td>
-                                    <td><a class="btn btn-primary" href={{ Route('deposer') }}
-                                            class="{{ routeActive('deposer') }}">
-                                            <i class="icofont icofont-papers">
-                                                Gérer le dépôt
-                                            </i></a></td>
-                                </tr>
-                                <tr>
-                                    <td>Michelle House</td>
-                                    <td>Integration Specialist</td>
-                                    <td><a class="btn btn-primary" href={{ Route('deposer') }}
-                                            class="{{ routeActive('deposer') }}">
-                                            <i class="icofont icofont-papers">
-                                                Gérer le dépôt
-                                            </i></a></td>
-                                </tr>
-                                <tr>
-                                    <td>Suki Burks</td>
-                                    <td>Developer</td>
-                                    <td><a class="btn btn-primary" href={{ Route('deposer') }}
-                                            class="{{ routeActive('deposer') }}">
-                                            <i class="icofont icofont-papers">
-                                                Gérer le dépôt
-                                            </i></a></td>
-                                </tr>
-                                <tr>
-                                    <td>Prescott Bartlett</td>
-                                    <td>Technical Author</td>
-                                    <td><a class="btn btn-primary" href={{ Route('deposer') }}
-                                            class="{{ routeActive('deposer') }}">
-                                            <i class="icofont icofont-papers">
-                                                Gérer le dépôt
-                                            </i></a></td>
-                                </tr>
-                                <tr>
-                                    <td>Gavin Cortez</td>
-                                    <td>Team Leader</td>
-                                    <td><a class="btn btn-primary" href="/depot/gerer_depot/{stage}">
-                                            <i class="icofont icofont-papers">
-                                                Gérer le dépôt
-                                            </i></a></td>
-                                </tr>
-                                <tr>
-                                    <td>Martena Mccray</td>
-                                    <td>Post-Sales support</td>
-                                    <td><a class="btn btn-primary" href="/depot/gerer_depot/{stage}">
-                                            <i class="icofont icofont-papers">
-                                                Gérer le dépôt
-                                            </i></a></td>
+                                            </i></a>
+                                    </td>
+                                    <td><button class="btn btn-primary btn-sm" data-toggle="tooltip" title="demande dépôt confirmée">
+                                            <i class="icofont icofont-ui-check"></i>
+                                        </button>
+                                    </td>
                                 </tr>
                             </tbody>
                             <tfoot>
@@ -188,6 +108,7 @@
                                     <th>Titre</th>
                                     <th>Type</th>
                                     <th>Gérer le dépôt</th>
+                                    <th>Etat</th>
                                 </tr>
                             </tfoot>
                         </table>
@@ -203,6 +124,9 @@
 @push('scripts')
 <script src="{{ asset('assets/js/datatable/datatables/jquery.dataTables.min.js') }}"></script>
 <script src="{{ asset('assets/js/datatable/datatables/datatable.custom.js') }}"></script>
+<script src="{{ asset('assets/js/notify/bootstrap-notify.min.js') }}"></script>
+<script src="{{ asset('assets/js/icons/icons-notify.js') }}"></script>
+<script src="{{ asset('assets/js/icons/icon-clipart.js') }}"></script>
 @endpush
 
 @endsection

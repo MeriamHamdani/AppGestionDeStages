@@ -21,6 +21,8 @@ Route::prefix('etudiant')->group(function () {
 
     Route::view('/depot/gerer-depot', 'etudiant.depot.depot_memoire')->name('depot');
     Route::view('/depot/deposer', 'etudiant.depot.deposer')->name('deposer');
+    Route::view('/depot/gerer-depot/remarques-encadrant', 'etudiant.depot.remarques_encadrant')->name('remarques_encadrant');
+
 
     Route::view('/soutenance/liste_soutenances', 'etudiant.soutenance.liste_soutenances')->name('liste_soutenances');
     Route::view('/soutenance/info', 'etudiant.soutenance.info_soutenance')->name('info_soutenance');

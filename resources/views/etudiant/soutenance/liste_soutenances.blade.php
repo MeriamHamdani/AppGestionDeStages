@@ -48,123 +48,6 @@
                                             </i></a></td>
                                 </tr>
                                 <tr>
-                                    <td>Jenette Caldwell</td>
-                                    <td>Development Lead</td>
-                                    <td><a class="btn btn-primary" href={{ Route('info_soutenance') }}
-                                            class="{{ routeActive('info_soutenance') }}">
-                                            <i class="icofont icofont-hat-alt">
-                                                Infos sur ma soutenance
-                                            </i></a></td>
-                                </tr>
-                                <tr>
-                                    <td>Yuri Berry</td>
-                                    <td>Chief Marketing Officer (CMO)</td>
-                                    <td><a class="btn btn-primary" href={{ Route('info_soutenance') }}
-                                            class="{{ routeActive('info_soutenance') }}">
-                                            <i class="icofont icofont-hat-alt">
-                                                Infos sur ma soutenance
-                                            </i></a></td>
-                                </tr>
-                                <tr>
-                                    <td>Caesar Vance</td>
-                                    <td>Pre-Sales Support</td>
-                                    <td><a class="btn btn-primary" href={{ Route('info_soutenance') }}
-                                            class="{{ routeActive('info_soutenance') }}">
-                                            <i class="icofont icofont-hat-alt">
-                                                Infos sur ma soutenance
-                                            </i></a></td>
-                                </tr>
-                                <tr>
-                                    <td>Doris Wilder</td>
-                                    <td>Sales Assistant</td>
-                                    <td><a class="btn btn-primary" href={{ Route('info_soutenance') }}
-                                            class="{{ routeActive('info_soutenance') }}">
-                                            <i class="icofont icofont-hat-alt">
-                                                Infos sur ma soutenance
-                                            </i></a></td>
-                                </tr>
-                                <tr>
-                                    <td>Angelica Ramos</td>
-                                    <td>Chief Executive Officer (CEO)</td>
-                                    <td><a class="btn btn-primary" href={{ Route('info_soutenance') }}
-                                            class="{{ routeActive('info_soutenance') }}">
-                                            <i class="icofont icofont-hat-alt">
-                                                Infos sur ma soutenance
-                                            </i></a></td>
-                                </tr>
-                                <tr>
-                                    <td>Gavin Joyce</td>
-                                    <td>Developer</td>
-                                    <td><a class="btn btn-primary" href={{ Route('info_soutenance') }}
-                                            class="{{ routeActive('info_soutenance') }}">
-                                            <i class="icofont icofont-hat-alt">
-                                                Infos sur ma soutenance
-                                            </i></a></td>
-                                </tr>
-                                <tr>
-                                    <td>Jennifer Chang</td>
-                                    <td>Regional Director</td>
-                                    <td><a class="btn btn-primary" href={{ Route('info_soutenance') }}
-                                            class="{{ routeActive('info_soutenance') }}">
-                                            <i class="icofont icofont-hat-alt">
-                                                Infos sur ma soutenance
-                                            </i></a></td>
-                                </tr>
-                                <tr>
-                                    <td>Brenden Wagner</td>
-                                    <td>Software Engineer</td>
-                                    <td><a class="btn btn-primary" href={{ Route('info_soutenance') }}
-                                            class="{{ routeActive('info_soutenance') }}">
-                                            <i class="icofont icofont-hat-alt">
-                                                Infos sur ma soutenance
-                                            </i></a></td>
-                                </tr>
-                                <tr>
-                                    <td>Fiona Green</td>
-                                    <td>Chief Operating Officer (COO)</td>
-                                    <td><a class="btn btn-primary" href={{ Route('info_soutenance') }}
-                                            class="{{ routeActive('info_soutenance') }}">
-                                            <i class="icofont icofont-hat-alt">
-                                                Infos sur ma soutenance
-                                            </i></a></td>
-                                </tr>
-                                <tr>
-                                    <td>Shou Itou</td>
-                                    <td>Regional Marketing</td>
-                                    <td><a class="btn btn-primary" href={{ Route('info_soutenance') }}
-                                            class="{{ routeActive('info_soutenance') }}">
-                                            <i class="icofont icofont-hat-alt">
-                                                Infos sur ma soutenance
-                                            </i></a></td>
-                                </tr>
-                                <tr>
-                                    <td>Michelle House</td>
-                                    <td>Integration Specialist</td>
-                                    <td><a class="btn btn-primary" href={{ Route('info_soutenance') }}
-                                            class="{{ routeActive('info_soutenance') }}">
-                                            <i class="icofont icofont-hat-alt">
-                                                Infos sur ma soutenance
-                                            </i></a></td>
-                                </tr>
-                                <tr>
-                                    <td>Suki Burks</td>
-                                    <td>Developer</td>
-                                    <td><a class="btn btn-primary" href={{ Route('info_soutenance') }}
-                                            class="{{ routeActive('info_soutenance') }}">
-                                            <i class="icofont icofont-hat-alt">
-                                                Infos sur ma soutenance
-                                            </i></a></td>
-                                </tr>
-                                <tr>
-                                    <td>Prescott Bartlett</td>
-                                    <td>Technical Author</td>
-                                    <td><a class="btn btn-primary" href={{ Route('info_soutenance') }}
-                                            class="{{ routeActive('info_soutenance') }}">
-                                            <i class="icofont icofont-hat-alt">
-                                                Infos sur ma soutenance
-                                            </i></a></td>
-                                </tr>
-                                <tr>
                                     <td>Gavin Cortez</td>
                                     <td>Team Leader</td>
                                     <td><a class="btn btn-primary" href="/depot/gerer_depot/{stage}">
@@ -201,6 +84,9 @@
     @push('scripts')
         <script src="{{ asset('assets/js/datatable/datatables/jquery.dataTables.min.js') }}"></script>
         <script src="{{ asset('assets/js/datatable/datatables/datatable.custom.js') }}"></script>
+        <script src="{{ asset('assets/js/notify/bootstrap-notify.min.js') }}"></script>
+        <script src="{{ asset('assets/js/icons/icons-notify.js') }}"></script>
+        <script src="{{ asset('assets/js/icons/icon-clipart.js') }}"></script>
     @endpush
 
 @endsection

@@ -33,7 +33,8 @@
                                 <tr>
                                     <th>Nom</th>
                                     <th>Adresse</th>
-
+                                    <th>Téléphone</th>
+                                    <th>Email</th>
                                 </tr>
 
                             </thead>
@@ -41,26 +42,29 @@
                                 <tr>
                                     <td>A2SOFT</td>
                                     <td>sfax rue 07 novembre , immeuble la courounne 3eme étage</td>
-
-
+                                    <td>2365511</td>
+                                    <td>email@gmail.com</td>
                                 </tr>
                                 <tr>
                                     <td>adenium</td>
                                     <td>Sakiet Ezzit Sfax</td>
-
+                                    <td>2365511</td>
+                                    <td>email@gmail.com</td>
 
                                 </tr>
                                 <tr>
                                     <td>Cabinet Anwer Abdallah-Comptable et commissaire aux comptes</td>
                                     <td>Darchaabene el fehri-nabeul</td>
-
+                                    <td>2365511</td>
+                                    <td>email@gmail.com</td>
 
                                 </tr>
                                 <tr>
                                     <td>Zouhaier Marrakchi Consulting</td>
                                     <td>Avenue Sidi Lakhmi, Résidence El Ferdows, Mezzanine, Bureau n° 3 Sfax el Jadida
                                         3027 BP 45 3027 Sfax, Tunisie</td>
-
+                                    <td>2365511</td>
+                                    <td>email@gmail.com</td>
 
                                 </tr>
 
@@ -69,7 +73,8 @@
                                 <tr>
                                     <th>Nom</th>
                                     <th>Adresse</th>
-
+                                    <th>Téléphone</th>
+                                    <th>Email</th>
                                 </tr>
                             </tfoot>
                         </table>

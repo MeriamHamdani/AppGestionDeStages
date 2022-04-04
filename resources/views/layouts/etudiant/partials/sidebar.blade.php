@@ -29,26 +29,25 @@
                         </div>
                     </li>
                     <li class="dropdown">
-                        <a class="nav-link menu-title link-nav" {{ prefixActive('etudiant/stage')}}
-                            href="{{ route('demandes_stages') }}" class="{{routeActive('demandes_stages')}}">
+                        <a class="nav-link menu-title link-nav {{routeActive('demandes_stages')}}"
+                            href="{{ route('demandes_stages') }}">
                             <i class="icofont icofont-tasks-alt"></i>&nbsp&nbsp&nbsp<span>Mes demandes de stage</span></a>
                     </li>
                     <li class="dropdown">
-                        <a class="nav-link menu-title link-nav" {{ prefixActive('etudiant/stage')}}
-                            href="{{ route('demander_stage') }}"  class="{{routeActive('demander_stage')}}"><i
+                        <a class="nav-link menu-title link-nav {{routeActive('demander_stage')}}"
+                            href="{{ route('demander_stage') }}"><i
                                 class="icofont icofont-paper"></i>&nbsp&nbsp&nbsp<span>Demander un stage</span></a>
                     </li>
 
                     <li class="dropdown">
-                        <a class="nav-link menu-title link-nav" {{ prefixActive('etudiant/stage')}}
-                            href="{{ route('liste_stages') }}" class="{{routeActive('liste_stages')}}"><i
+                        <a class="nav-link menu-title link-nav {{routeActive('liste_stages')}}"
+                            href="{{ route('liste_stages') }}" ><i
                                 class="icofont icofont-listine-dots"></i>&nbsp&nbsp&nbsp<span>La liste des
                                 stages confirmés</span></a>
                     </li>
                     <li class="dropdown">
-                        <a class="nav-link menu-title link-nav" {{ prefixActive('etudiant/stage')}}
-                            href="{{ route('gestion_cahier_stage') }}"
-                            class="{{routeActive('gestion_cahier_stage')}}"><i
+                        <a class="nav-link menu-title link-nav {{routeActive('gestion_cahier_stage')}}"
+                            href="{{ route('gestion_cahier_stage') }}" ><i
                                 class="icofont icofont-book-alt"></i>&nbsp&nbsp&nbsp<span>Cahiers de
                                 stage</span></a>
                     </li>
@@ -58,14 +57,12 @@
                         </div>
                     </li>
                     <li class="dropdown">
-                        <a class="nav-link menu-title link-nav" href="{{ route('liste_entreprises') }}"
-                            class="{{routeActive('liste_entreprises')}}"><i
+                        <a class="nav-link menu-title link-nav {{routeActive('liste_entreprises')}}" href="{{ route('liste_entreprises') }}"><i
                                 class="icofont icofont-list"></i>&nbsp&nbsp&nbsp<span>La liste des
                                 entreprises</span></a>
                     </li>
                     <li class="dropdown">
-                        <a class="nav-link menu-title link-nav" href="{{ route('ajouter-entreprise') }}"
-                            class="{{routeActive('ajouter-entreprise')}}"><i
+                        <a class="nav-link menu-title link-nav {{routeActive('ajouter-entreprise')}}" href="{{ route('ajouter-entreprise') }}"><i
                                 class="icofont icofont-building-alt"></i>&nbsp&nbsp&nbsp<span>Ajouter une
                                 entreprise</span></a>
                     </li>
@@ -75,9 +72,8 @@
                         </div>
                     </li>
                     <li class="dropdown">
-                        <a class="nav-link menu-title link-nav" href="{{ route('depot') }}"
-                            class="{{routeActive('depot')}}"><i
-                                class="icofont icofont-papers"></i>&nbsp&nbsp&nbsp<span>Gérer le dépôt </span></a>
+                        <a class="nav-link menu-title link-nav {{routeActive('depot')}}" href="{{ route('depot') }}">
+                        <i class="icofont icofont-papers"></i>&nbsp&nbsp&nbsp<span>Gérer le dépôt </span></a>
                     </li>
                     <li class="sidebar-main-title">
                         <div>
@@ -85,8 +81,8 @@
                         </div>
                     </li>
                     <li class="dropdown">
-                        <a class="nav-link menu-title link-nav" {{ prefixActive('etudiant/soutenance') }}
-                            href="{{ route('liste_soutenances') }}" class="{{routeActive('liste_soutenances')}}"><i
+                        <a class="nav-link menu-title link-nav {{ routeActive('liste_soutenances') }}"
+                            href="{{ route('liste_soutenances') }}" ><i
                                 class="icofont icofont-graduate-alt"></i>&nbsp&nbsp&nbsp<span>Mes
                                 soutenances </span></a>
                     </li>

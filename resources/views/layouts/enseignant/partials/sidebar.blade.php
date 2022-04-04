@@ -25,16 +25,16 @@
                         </div>
                     </li>
                     <li class="dropdown">
-                        <a class="nav-link menu-title" {{ prefixActive('enseignant/encadrement')}}
-                            href="{{ route('liste_demandes') }}" class="{{routeActive('liste_demandes')}}"><i
-                                class="icofont icofont-listine-dots"></i>&nbsp&nbsp&nbsp<span>La liste des demandes
+                        <a class="nav-link menu-title link-nav {{routeActive('liste_demandes')}}"
+                            href="{{ route('liste_demandes') }}" class="">
+                            <i class="icofont icofont-list"></i>&nbsp&nbsp&nbsp<span>La liste des demandes
                                 d'encadrement</span></a>
 
                     </li>
                     <li class="dropdown">
-                        <a class="nav-link menu-title" href="{{ route('liste_stages_actifs') }}"
-                            class="{{ routeActive('liste_stages_actifs') }}"><i
-                                class="icofont icofont-listine-dots"></i>&nbsp&nbsp&nbsp<span>La liste des stages
+                        <a class="nav-link menu-title link-nav  {{ routeActive('liste_stages_actifs') }}"
+                           href="{{ route('liste_stages_actifs') }}">
+                           <i class="icofont icofont-listine-dots"></i>&nbsp&nbsp&nbsp<span>La liste des stages
                                 actifs</span></a>
 
                     </li>
@@ -48,9 +48,9 @@
 
 
 
-                        <a class="nav-link menu-title" {{ prefixActive('enseignant/depot')}}
-                            href="{{ route('depots') }}" class="{{routeActive('depots')}}"><i
-                                class="icofont icofont-papers"></i>&nbsp&nbsp&nbsp<span>La liste des demandes de dépot
+                        <a class="nav-link menu-title link-nav  {{routeActive('depots')}}"
+                            href="{{ route('depots') }}">
+                        <i class="icofont icofont-papers"></i>&nbsp&nbsp&nbsp<span>La liste des demandes de dépôt
                                 de memoire </span></a>
 
 
@@ -67,15 +67,15 @@
                     </li>
                     <li class="dropdown">
 
-                        <a class="nav-link menu-title" {{ prefixActive('enseignant/soutenance')}}
-                            href="{{ route('role_encadrant') }}" class="{{routeActive('role_encadrant')}}"><i
-                                class="icofont icofont-teacher"></i>&nbsp&nbsp&nbsp<span>En tant qu'Encadrant</span></a>
+                        <a class="nav-link menu-title link-nav link-nav  {{routeActive('role_encadrant')}}"
+                            href="{{ route('role_encadrant') }}">
+                            <i class="icofont icofont-teacher"></i>&nbsp&nbsp&nbsp<span>En tant qu'Encadrant</span></a>
 
                     </li>
                     <li class="dropdown">
-                        <a class="nav-link menu-title" {{ prefixActive('enseignant/soutenance')}}
-                            href="{{ route('role_membre_jury') }}" class="{{routeActive('role_membre_jury')}}"><i
-                                class="icofont icofont-users-alt-2"></i>&nbsp&nbsp&nbsp<span>En tant que membre de jury
+                        <a class="nav-link menu-title link-nav {{routeActive('role_membre_jury')}}"
+                            href="{{ route('role_membre_jury') }}">
+                            <i class="icofont icofont-users-alt-2"></i>&nbsp&nbsp&nbsp<span>En tant que membre de jury
                             </span></a>
 
 
@@ -88,22 +88,18 @@
                         </div>
                     </li>
                     <li class="dropdown">
-                        <a class="nav-link menu-title" href="{{ route('liste_stages_paye') }}"
-                            class="{{ routeActive('liste_stages_paye') }}"><i
-                                class="icofont icofont-cur-dollar"></i>&nbsp&nbsp&nbsp<span>La liste des stages
+                        <a class="nav-link menu-title link-nav {{ routeActive('liste_stages_paye') }}" href="{{ route('liste_stages_paye') }}">
+                            <i class="icofont icofont-cur-dollar"></i>&nbsp&nbsp&nbsp<span>La liste des stages
                                 payés</span></a>
 
                     </li>
 
                     <li class="dropdown">
-                        <a class="nav-link menu-title" href="{{ route('liste_stages_non_paye') }}"
-                            class="{{ routeActive('liste_stages_non_paye') }}"><i
-                                class="icofont icofont-close-squared"></i>&nbsp&nbsp&nbsp<span>La liste des stages
+                        <a class="nav-link menu-title link-nav {{ routeActive('liste_stages_non_paye') }}" href="{{ route('liste_stages_non_paye') }}">
+                            <i class="icofont icofont-close-squared"></i>&nbsp&nbsp&nbsp<span>La liste des stages
                                 non-payés</span></a>
 
                     </li>
-
-
                 </ul>
             </div>
             <div class="right-arrow" id="right-arrow"><i data-feather="arrow-right"></i></div>

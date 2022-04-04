@@ -123,7 +123,6 @@
                                         <a class=" btn btn-icon-only default" href="#" data-placement="top"
                                             data-toggle="tooltip" title="Désactiver"><img
                                                 src="{{ asset('assets/images/usercancled.png') }}">
-
                                         </a>
                                     </td>
                                     <td class="text-center">
