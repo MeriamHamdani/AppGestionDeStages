@@ -60,6 +60,8 @@ Route::prefix('admin')->group(function () {
         Route::view('coordonnees', 'admin.configuration.generale.coordonnees')->name('coordonnees');
         Route::view('montant-selon-grade', 'admin.configuration.generale.montant_selon_grade')->name('montant_selon_grade');
         Route::view('dates-stages', 'admin.configuration.generale.dates_stages')->name('dates_stages');
+        Route::view('liste-grille', 'admin.configuration.generale.liste_grille')->name('liste_grille');
+        Route::view('config-grille', 'admin.configuration.generale.configuration_grille')->name('configurer_grille');
 
     });
     Route::view('configuration/annee-universitaire', 'admin.configuration.config_annee_universitaire')->name('config_annee_universitaire');
@@ -67,4 +69,5 @@ Route::prefix('admin')->group(function () {
 });
 Route::prefix('dashboard')->group(function () {
     Route::view('dashboard-02', 'admin.dashboard.dashboard-02')->name('dashboard-02');
+    Route::view('default-dashboard', 'admin.dashboard.default')->name('default_dash');
 });
