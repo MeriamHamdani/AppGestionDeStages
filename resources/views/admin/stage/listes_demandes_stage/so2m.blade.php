@@ -67,8 +67,8 @@
                                         <a href="#"><i data-toggle="tooltip" title="Refuser"
                                                 class="icofont icofont-ui-close icon-large"></i></a>
                                         <a href="{{ route('demandes_stage.modifier_demande') }}"
-                                            data-title="Modifer les coordonnées de cet admin" data-toggle="tooltip"
-                                            title="Modifer les coordonnées de cet admin"><i
+                                            data-title="Modifer" data-toggle="tooltip"
+                                            title="Modifer"><i
                                                 class="icofont icofont-ui-edit icon-large"></i></a>
                                     </td>
                                 </tr>
@@ -97,8 +97,8 @@
                                         <a href="#"><i data-toggle="tooltip" title="Refuser"
                                                 class="icofont icofont-ui-close icon-large"></i></a>
                                         <a href="{{ route('demandes_stage.modifier_demande') }}"
-                                            data-title="Modifer les coordonnées de cet admin" data-toggle="tooltip"
-                                            title="Modifer les coordonnées de cet admin"><i
+                                            data-title="Modifer" data-toggle="tooltip"
+                                            title="Modifer"><i
                                                 class="icofont icofont-ui-edit icon-large"></i></a>
                                     </td>
                                 </tr>
@@ -132,15 +132,11 @@
                                         <a href="#"><i data-toggle="tooltip" title="Refuser"
                                                 class="icofont icofont-ui-close icon-large"></i></a>
                                         <a href="{{ route('demandes_stage.modifier_demande') }}"
-                                            data-title="Modifer les coordonnées de cet admin" data-toggle="tooltip"
-                                            title="Modifer les coordonnées de cet admin icon-large"><i
-                                                class="icofont icofont-ui-edit icon-large"></i></a>
+                                            data-title="Modifer" data-toggle="tooltip"
+                                            title="Modifer"><i class="icofont icofont-ui-edit icon-large"></i></a>
 
                                     </td>
                                 </tr>
-
-
-
 
                             </tbody>
                             <tfoot>
@@ -194,3 +190,4 @@
 @endpush
 
 @endsection
+

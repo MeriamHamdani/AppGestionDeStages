@@ -54,12 +54,13 @@
                                                 <div class="col">
                                                     <div class="mb-3">
                                                         <label class="form-label" for="message-text">Barème</label>
-                                                        <fieldset>
+                                                        <input type="text">
+                                                        <!--<fieldset>
                                                             <div class="touchspin-vertical-tab">
                                                                 <input class="touchspin-vertical" type="text"
                                                                     value="0" />
                                                             </div>
-                                                        </fieldset>
+                                                        </fieldset>-->
                                                     </div>
                                                 </div>
                                             </div>
@@ -126,3 +127,4 @@
 @endpush
 
 @endsection
+
