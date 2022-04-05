@@ -66,9 +66,8 @@
                                                 class="icofont icofont-ui-check"></i></a>
                                         <a href="#"><i data-toggle="tooltip" title="Refuser"
                                                 class="icofont icofont-ui-close"></i></a>
-                                        <a href="{{ route('demandes_stage.modifier_demande') }}"
-                                            data-title="Modifer les coordonnées de cet admin" data-toggle="tooltip"
-                                            title="Modifer les coordonnées de cet admin"><i
+                                        <a href="{{ route('demandes_stage.modifier_demande') }}" data-title="Modifer"
+                                            data-toggle="tooltip" title="Modifer"><i
                                                 class="icofont icofont-ui-edit"></i></a>
                                     </td>
                                 </tr>
@@ -96,9 +95,8 @@
                                                 class="icofont icofont-ui-check"></i></a>
                                         <a href="#"><i data-toggle="tooltip" title="Refuser"
                                                 class="icofont icofont-ui-close"></i></a>
-                                        <a href="{{ route('demandes_stage.modifier_demande') }}"
-                                            data-title="Modifer les coordonnées de cet admin" data-toggle="tooltip"
-                                            title="Modifer les coordonnées de cet admin"><i
+                                        <a href="{{ route('demandes_stage.modifier_demande') }}" data-title="Modifer"
+                                            data-toggle="tooltip" title="Modifer"><i
                                                 class="icofont icofont-ui-edit"></i></a>
                                     </td>
                                 </tr>
@@ -131,9 +129,8 @@
                                                 class="icofont icofont-ui-check"></i></a>
                                         <a href="#"><i data-toggle="tooltip" title="Refuser"
                                                 class="icofont icofont-ui-close"></i></a>
-                                        <a href="{{ route('demandes_stage.modifier_demande') }}"
-                                            data-title="Modifer les coordonnées de cet admin" data-toggle="tooltip"
-                                            title="Modifer les coordonnées de cet admin"><i
+                                        <a href="{{ route('demandes_stage.modifier_demande') }}" data-title="Modifer"
+                                            data-toggle="tooltip" title="Modifer"><i
                                                 class="icofont icofont-ui-edit"></i></a>
 
                                     </td>
@@ -194,3 +191,4 @@
 @endpush
 
 @endsection
+
