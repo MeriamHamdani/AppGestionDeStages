@@ -32,27 +32,28 @@
                             </div>
                             <div class="collapse show" id="collapseicon2" aria-labelledby="collapseicon2" data-parent="#accordion">
                                 <div class="card-body filter-cards-view">
-                                    <h6 style="text-align: center">
-                                       Les commentaires de l'enseignant
-                                    </h6>
+
                                     <div class="filter-view-group">
                                         <span class="f-w-600" style="color: #2b786a">Nom de l'enseignant </span>
-                                <p style="color: #0c0c0c">
-                                    J'espere que vous corrigez la partie 1 de chapitre1
-                                </p>
+                                        <p style="color: #0c0c0c">
+                                            J'espere que vous corrigez la partie 1 de chapitre1
+                                        </p>
+                                        <span class="f-w-600"> 22-02-2022</span>
                             </div>
                             <div class="filter-view-group">
                                 <span class="f-w-600" style="color: #2b786a">Nom de l'enseignant </span>
                                 <p style="color: #0c0c0c">
                                     Bien recu c bien le mémoire est bien corrigé
                                 </p>
+                                <span class="f-w-600"> 31-02-2022</span>
+
                             </div>
                             <div class="form theme-form">
                                 <form action="">
                                     <div class="row">
                                         <div class="col">
                                             <div class="mb-3">
-                                                <label style="color: #8a6d3b">Ajoutez un commentaire en cas de refus de dépôt</label>
+                                                <label style="color: #d22d3d">Ajoutez un commentaire en cas de refus de dépôt</label>
                                                 <textarea class="form-control" id="exampleFormControlTextarea4" rows="3"></textarea>
                                             </div>
                                         </div>

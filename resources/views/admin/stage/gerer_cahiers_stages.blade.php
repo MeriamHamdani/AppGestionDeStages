@@ -51,7 +51,7 @@
                                         <div class="col-sm-6 col-md-6 col-lg-4"
                                             style="display: table-cell;text-align: center; vertical-align:middle;"><a
                                                 href="{{ route('cahier_de_stage') }}" data-toggle="tooltip"
-                                                title="consulter"><i class="icofont icofont-read-book"
+                                                title="consulter"><i class="icofont icofont-read-book icon-large"
                                                     style="font-size: 2em; aligne: center"></i></a>
                                         </div>
                                     </td>
@@ -67,7 +67,7 @@
                                         <div class="col-sm-6 col-md-6 col-lg-4"
                                             style="display: table-cell;text-align: center; vertical-align:middle;"><a
                                                 href="#" data-toggle="tooltip" title="consulter"><i
-                                                    class="icofont icofont-read-book" style="font-size: 2em;"></i></a>
+                                                    class="icofont icofont-read-book icon-large" style="font-size: 2em;"></i></a>
                                         </div>
                                     </td>
 
@@ -82,7 +82,7 @@
                                         <div class="col-sm-6 col-md-6 col-lg-4"
                                             style="display: table-cell;text-align: center; vertical-align:middle;"><a
                                                 href="#" data-toggle="tooltip" title="consulter"><i
-                                                    class="icofont icofont-read-book" style="font-size: 2em;"></i></a>
+                                                    class="icofont icofont-read-book icon-large" style="font-size: 2em;"></i></a>
                                         </div>
                                     </td>
 

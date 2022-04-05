@@ -38,7 +38,7 @@
                                     <th>Encadrant</th>
                                     <th>La fiche de demande</th>
                                     <th>Confirmation de l'encadrant</th>
-                                    <th>Action</th>
+                                    <th>Actions</th>
                                 </tr>
                             </thead>
                             <tbody>
@@ -48,7 +48,7 @@
                                     <td>LF1I</td>
                                     <td>Ali Ben Ali</td>
                                     <td class="text-center"><a href="demande_stage.pdf" download="demande_stage.pdf">
-                                            <i style="font-size: 2em;" class="icofont icofont-file-pdf"></i>
+                                            <i style="font-size: 2em;" class="icofont icofont-file-pdf icon-large"></i>
                                         </a>
                                     </td>
 
@@ -58,18 +58,18 @@
                                             height: 30px;
                                             width: 23px;
                                             display:block;
-                                            margin:0 auto; color: #4B8D5F" class="icofont icofont-ui-check"></i>
+                                            margin:0 auto; color: #4B8D5F" class="icofont icofont-ui-check icon-large"></i>
 
                                     </td>
                                     <td class="text-center">
                                         <a href="#"> <i data-toggle="tooltip" title="Confirmer"
-                                                class="icofont icofont-ui-check"></i></a>
+                                                class="icofont icofont-ui-check icon-large"></i></a>
                                         <a href="#"><i data-toggle="tooltip" title="Refuser"
-                                                class="icofont icofont-ui-close"></i></a>
+                                                class="icofont icofont-ui-close icon-large"></i></a>
                                         <a href="{{ route('demandes_stage.modifier_demande') }}"
                                             data-title="Modifer les coordonnées de cet admin" data-toggle="tooltip"
                                             title="Modifer les coordonnées de cet admin"><i
-                                                class="icofont icofont-ui-edit"></i></a>
+                                                class="icofont icofont-ui-edit icon-large"></i></a>
                                     </td>
                                 </tr>
                                 <tr>
@@ -78,7 +78,7 @@
                                     <td>LF1I</td>
                                     <td>Ali Ben Ali</td>
                                     <td class="text-center"><a href="demande_stage.pdf" download="demande_stage.pdf">
-                                            <i style="font-size: 2em; " class="icofont icofont-file-pdf"></i>
+                                            <i style="font-size: 2em; " class="icofont icofont-file-pdf icon-large"></i>
                                         </a>
                                     </td>
                                     <td style="text-center">
@@ -87,19 +87,19 @@
                                             height: 30px;
                                             width: 23px;
                                             display:block;
-                                            margin:0 auto; color: #B3363E;" class="icofont icofont-ui-close"></i>
+                                            margin:0 auto; color: #B3363E;" class="icofont icofont-ui-close icon-large"></i>
 
                                     </td>
 
                                     <td class="text-center">
                                         <a href="#"> <i data-toggle="tooltip" title="Confirmer"
-                                                class="icofont icofont-ui-check"></i></a>
+                                                class="icofont icofont-ui-check icon-large"></i></a>
                                         <a href="#"><i data-toggle="tooltip" title="Refuser"
-                                                class="icofont icofont-ui-close"></i></a>
+                                                class="icofont icofont-ui-close icon-large"></i></a>
                                         <a href="{{ route('demandes_stage.modifier_demande') }}"
                                             data-title="Modifer les coordonnées de cet admin" data-toggle="tooltip"
-                                            title="Modifer les coordonnées de cet admin"><i
-                                                class="icofont icofont-ui-edit"></i></a>
+                                            title="Modifer les coordonnées de cet admin icon-large"><i
+                                                class="icofont icofont-ui-edit icon-large"></i></a>
                                     </td>
                                 </tr>
                                 <tr>
@@ -108,7 +108,7 @@
                                     <td>LF1I</td>
                                     <td>Ali Ben Ali</td>
                                     <td class="text-center"><a href="demande_stage.pdf" download="demande_stage.pdf">
-                                            <i style="font-size: 2em;" class="icofont icofont-file-pdf"></i>
+                                            <i style="font-size: 2em;" class="icofont icofont-file-pdf icon-large"></i>
                                         </a>
                                     </td>
 
@@ -119,7 +119,7 @@
                                         height: 30px;
                                         width: 23px;
                                         display:block;
-                                        margin:0 auto; color: #4B8D5F" class="icofont icofont-ui-check"></i>
+                                        margin:0 auto; color: #4B8D5F" class="icofont icofont-ui-check icon-large"></i>
 
                                     </td>
 
@@ -128,13 +128,13 @@
 
 
                                         <a href="#"> <i data-toggle="tooltip" title="Confirmer"
-                                                class="icofont icofont-ui-check"></i></a>
+                                                class="icofont icofont-ui-check icon-large"></i></a>
                                         <a href="#"><i data-toggle="tooltip" title="Refuser"
-                                                class="icofont icofont-ui-close"></i></a>
+                                                class="icofont icofont-ui-close icon-large"></i></a>
                                         <a href="{{ route('demandes_stage.modifier_demande') }}"
                                             data-title="Modifer les coordonnées de cet admin" data-toggle="tooltip"
                                             title="Modifer les coordonnées de cet admin"><i
-                                                class="icofont icofont-ui-edit"></i></a>
+                                                class="icofont icofont-ui-edit icon-large"></i></a>
 
                                     </td>
                                 </tr>
@@ -152,7 +152,7 @@
                                     <th>Encadrant</th>
                                     <th>La fiche de demande</th>
                                     <th>Confirmation de l'encadrant</th>
-                                    <th>Action</th>
+                                    <th>Actions</th>
 
                                 </tr>
                             </tfoot>

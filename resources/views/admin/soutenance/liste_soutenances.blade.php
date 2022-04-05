@@ -56,7 +56,7 @@
                                     <th>Sujet</th>
                                     <th>Date</th>
                                     <th>Salle</th>
-                                    <th>Action</th>
+                                    <th>Actions</th>
                                 </tr>
                             </thead>
                             <tbody>
@@ -69,12 +69,12 @@
                                     <td class="text-center">
                                         <a href="pv-soutenance.txt" download="PV-soutenance.txt"
                                             data-title="télécharger le pv de soutenance" data-toggle="tooltip"> <i
-                                                class="icofont icofont-file-text"></i></a>
+                                                class="icofont icofont-file-text icon-large"></i></a>
                                         <a href="{{ route('evaluer_soutenance') }}" data-title="évaluer le soutenance"
-                                            data-toggle="tooltip"> <i class="icofont icofont-tick-mark"></i></a>
+                                            data-toggle="tooltip"> <i class="icofont icofont-tick-mark icon-large"></i></a>
                                         <a href="evaluation.pdf" download="evaluation-soutenance.pdf"
                                             data-title="télécharger le fichier d'évaluation de soutenance"
-                                            data-toggle="tooltip"> <i class="icofont icofont-file-pdf"></i></a>
+                                            data-toggle="tooltip"> <i class="icofont icofont-file-pdf icon-large"></i></a>
                                     </td>
                                 </tr>
                                 <tr>
@@ -86,12 +86,12 @@
                                     <td class="text-center">
                                         <a href="pv-soutenance.txt" download="PV-soutenance.txt"
                                             data-title="télécharger le pv de soutenance" data-toggle="tooltip"> <i
-                                                class="icofont icofont-file-text"></i></a>
+                                                class="icofont icofont-file-text icon-large"></i></a>
                                         <a href="{{ route('evaluer_soutenance') }}" data-title="évaluer le soutenance"
-                                            data-toggle="tooltip"> <i class="icofont icofont-tick-mark"></i></a>
+                                            data-toggle="tooltip"> <i class="icofont icofont-tick-mark icon-large"></i></a>
                                         <a href="evaluation.pdf" download="evaluation-soutenance.pdf"
                                             data-title="télécharger le fichier d'évaluation de soutenance"
-                                            data-toggle="tooltip"> <i class="icofont icofont-file-pdf"></i></a>
+                                            data-toggle="tooltip"> <i class="icofont icofont-file-pdf icon-large"></i></a>
                                     </td>
                                 </tr>
                                 <tr>
@@ -103,12 +103,12 @@
                                     <td class="text-center">
                                         <a href="pv-soutenance.txt" download="PV-soutenance.txt"
                                             data-title="télécharger le pv de soutenance" data-toggle="tooltip"> <i
-                                                class="icofont icofont-file-text"></i></a>
+                                                class="icofont icofont-file-text icon-large"></i></a>
                                         <a href="{{ route('evaluer_soutenance') }}" data-title="évaluer le soutenance"
-                                            data-toggle="tooltip"> <i class="icofont icofont-tick-mark"></i></a>
+                                            data-toggle="tooltip"> <i class="icofont icofont-tick-mark icon-large"></i></a>
                                         <a href="evaluation.pdf" download="evaluation-soutenance.pdf"
                                             data-title="télécharger le fichier d'évaluation de soutenance"
-                                            data-toggle="tooltip"> <i class="icofont icofont-file-pdf"></i></a>
+                                            data-toggle="tooltip"> <i class="icofont icofont-file-pdf icon-large"></i></a>
                                     </td>
                                 </tr>
                             </tbody>
@@ -120,7 +120,7 @@
                                     <th>Sujet</th>
                                     <th>Date</th>
                                     <th>Salle</th>
-                                    <th>Action</th>
+                                    <th>Actions</th>
                                 </tr>
                                 </tr>
                             </tfoot>

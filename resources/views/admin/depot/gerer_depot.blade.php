@@ -52,13 +52,13 @@
                                     <td class="text-center">
                                         <a href="#" data-title="Consulter la mémoire" data-toggle="tooltip"
                                             data-original-title="Consulter le mémoire" title="Consulter le mémoire">
-                                            <i class="icofont icofont-papers"></i></a>
+                                            <i class="icofont icofont-papers icon-large"></i></a>
                                         <a href="#" data-title="Valider le dépôt du mémoire" data-toggle="tooltip"
                                             title="Valider le dépôt du mémoire">
-                                            <i class="icofont icofont-checked"></i></a>
+                                            <i class="icofont icofont-checked icon-large"></i></a>
                                         <a href="#" data-title="Refuser le dépôt du mémoire" data-toggle="tooltip"
                                             title="Refuser le dépôt du mémoire">
-                                            <i class="icofont icofont-close-squared"></i></a>
+                                            <i class="icofont icofont-close-squared icon-large"></i></a>
                                     </td>
                                 </tr>
                                 <tr>
@@ -73,19 +73,19 @@
                                                 height: 30px;
                                                 width: 23px;
                                                 display:block;
-                                                margin:0 auto;" class="icofont icofont-ui-close"></i>
+                                                margin:0 auto;" class="icofont icofont-ui-close icon-large"></i>
                                         </a>
                                     </td>
                                     <td class="text-center">
                                         <a href="#" data-title="Consulter la mémoire" data-toggle="tooltip"
                                             data-original-title="Consulter le mémoire" title="Consulter le mémoire">
-                                            <i class="icofont icofont-papers"></i></a>
+                                            <i class="icofont icofont-papers icon-large"></i></a>
                                         <a href="#" data-title="Valider le dépôt du mémoire" data-toggle="tooltip"
                                             title="Valider le dépôt du mémoire">
-                                            <i class="icofont icofont-checked"></i></a>
+                                            <i class="icofont icofont-checked icon-large"></i></a>
                                         <a href="#" data-title="Refuser le dépôt du mémoire" data-toggle="tooltip"
                                             title="Refuser le dépôt du mémoire">
-                                            <i class="icofont icofont-close-squared"></i></a>
+                                            <i class="icofont icofont-close-squared icon-large"></i></a>
                                     </td>
                                 </tr>
                                 <tr>
@@ -101,19 +101,19 @@
                                                     height: 30px;
                                                     width: 23px;
                                                     display:block;
-                                                    margin:0 auto;" class="icofont icofont-ui-check"></i>
+                                                    margin:0 auto;" class="icofont icofont-ui-check icon-large"></i>
                                         </a>
                                     </td>
                                     <td class="text-center">
                                         <a href="#" data-title="Consulter la mémoire" data-toggle="tooltip"
                                             data-original-title="Consulter le mémoire" title="Consulter le mémoire">
-                                            <i class="icofont icofont-papers"></i></a>
+                                            <i class="icofont icofont-papers icon-large"></i></a>
                                         <a href="#" data-title="Valider le dépôt du mémoire" data-toggle="tooltip"
                                             title="Valider le dépôt du mémoire">
-                                            <i class="icofont icofont-checked"></i></a>
+                                            <i class="icofont icofont-checked icon-large"></i></a>
                                         <a href="#" data-title="Refuser le dépôt du mémoire" data-toggle="tooltip"
                                             title="Refuser le dépôt du mémoire">
-                                            <i class="icofont icofont-close-squared"></i></a>
+                                            <i class="icofont icofont-close-squared icon-large"></i></a>
                                     </td>
                                 </tr>
                             </tbody>
@@ -122,8 +122,8 @@
                                     <th>Titre de sujet</th>
                                     <th>Etudiant</th>
                                     <th>Date d'envoi de la demande</th>
-                                    <th>encadrant</th>
-                                    <th>confirmation de l'encadrant</th>
+                                    <th>Encadrant</th>
+                                    <th>Confirmation de l'encadrant</th>
                                     <th>Actions</th>
                                 </tr>
                             </tfoot>

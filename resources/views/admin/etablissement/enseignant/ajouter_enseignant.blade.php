@@ -61,17 +61,6 @@
                                     </div>
                                 </div>
                             </div>
-                            <div class="row align-items-center">
-                                <div class="col">
-                                    <div class="mb-3">
-                                        <label class="form-label" for="exampleFormControlInput1">Adresse</label>
-                                        <input class="form-control" id="exampleFormControlInput1" type="text"
-                                               placeholder="entrez l'adresse'" />
-                                    </div>
-
-                                </div>
-
-                            </div>
                             <div class="row">
                                 <div class="col">
                                     <div class="mb-3">

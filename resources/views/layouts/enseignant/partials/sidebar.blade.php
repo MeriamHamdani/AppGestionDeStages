@@ -45,9 +45,6 @@
                         </div>
                     </li>
                     <li class="dropdown">
-
-
-
                         <a class="nav-link menu-title link-nav  {{routeActive('depots')}}"
                             href="{{ route('depots') }}">
                         <i class="icofont icofont-papers"></i>&nbsp&nbsp&nbsp<span>La liste des demandes de dépôt

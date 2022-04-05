@@ -29,7 +29,7 @@
                     <div class="card-header pb-0">
                         <h5>La liste des etudiants</h5>
                         <div style="padding-left: 2px">
-                            <a href={{ route('ajouter_etudiant') }}>
+                            <a href={{ route('ajouter_etudiant') }} >
                                 <i class="text-right" aria-hidden="true">
                                     <button class="btn btn-pill btn-success btn-sm pull-right" type="button">
                                         Ajouter un étudiant

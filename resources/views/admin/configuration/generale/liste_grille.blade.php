@@ -33,7 +33,7 @@
                             <thead>
                                 <tr>
                                     <th>Année Universitaire</th>
-                                    <th>action</th>
+                                    <th>Action</th>
                                 </tr>
                             </thead>
                             <tbody>
@@ -45,7 +45,7 @@
 
                                     <td class="text-center">
                                         <a href="#" data-toggle="tooltip" data-title="consulter" title="consulter"><i
-                                                class="icofont icofont-eye-alt" style="font-size: 1.7em;"></i></a>
+                                                class="icofont icofont-eye-alt icon-large" style="font-size: 1.7em;"></i></a>
                                     </td>
                                 </tr>
                                 <tr>
@@ -54,7 +54,7 @@
 
                                     <td class="text-center">
                                         <a href="#" data-toggle="tooltip" data-title="consulter" title="consulter"><i
-                                                class="icofont icofont-eye-alt" style="font-size: 1.7em;"></i></a>
+                                                class="icofont icofont-eye-alt icon-large" style="font-size: 1.7em;"></i></a>
                                     </td>
                                 </tr>
                                 <tr>
@@ -62,7 +62,7 @@
                                     <td class="text-center">
                                         <a href="{{ route('configurer_grille') }}" data-toggle="tooltip"
                                             data-title="configurer" title="configurer"> <i
-                                                class="icofont icofont-settings-alt" style="font-size: 2em;"></i></a>
+                                                class="icofont icofont-settings-alt icon-large" style="font-size: 2em;"></i></a>
                                     </td>
                                 </tr>
                             </tbody>
@@ -70,7 +70,7 @@
 
                                 <tr>
                                     <th>Année Universitaire</th>
-                                    <th>action</th>
+                                    <th>Action</th>
 
                                 </tr>
                             </tfoot>

@@ -36,8 +36,8 @@
                                     <th>CIN</th>
                                     <th>Numéro de téléphone</th>
                                     <th>Adresse mail</th>
-                                    <th>statut</th>
-                                    <th>action</th>
+                                    <th>Statut</th>
+                                    <th>Actions</th>
 
                                 </tr>
                             </thead>
@@ -64,17 +64,17 @@
 
                                         <a href="#" data-title="activer cet admin" data-toggle="tooltip"
                                             title="activer cet admin">
-                                            <i class="icofont icofont-checked"></i></a>
+                                            <i class="icofont icofont-checked icon-large"></i></a>
                                         <a href="#" data-title="desactiver cet admin" data-toggle="tooltip"
                                             title="desactiver cet admin">
-                                            <i class="icofont icofont-ui-block"></i></a>
+                                            <i class="icofont icofont-ui-block icon-large"></i></a>
                                         <a href="{{ route('modifier_admin') }}"
                                             data-title="Modifer les coordonnées de cet admin" data-toggle="tooltip"
                                             title="Modifer les coordonnées de cet admin"><i
-                                                class="icofont icofont-ui-edit"></i></a>
+                                                class="icofont icofont-ui-edit icon-large"></i></a>
                                         <a href="#" data-title="supprimer" data-toggle="tooltip"
                                             data-original-title="supprimer cet admin" title="Supprimer cet admin">
-                                            <i class="icofont icofont-trash"></i></a>
+                                            <i class="icofont icofont-trash icon-large"></i></a>
 
 
                                     </td>
@@ -99,16 +99,16 @@
 
                                         <a href="#" data-title="activer cet admin" data-toggle="tooltip"
                                             title="activer cet admin">
-                                            <i class="icofont icofont-checked"></i></a>
+                                            <i class="icofont icofont-checked icon-large"></i></a>
                                         <a href="#" data-title="desactiver cet admin" data-toggle="tooltip"
                                             title="desactiver cet admin">
-                                            <i class="icofont icofont-ui-block"></i></a>
+                                            <i class="icofont icofont-ui-block icon-large"></i></a>
                                         <a href="#" data-title="Modifer les coordonnées de cet admin"
                                             data-toggle="tooltip" title="Modifer les coordonnées de cet admin"><i
-                                                class="icofont icofont-ui-edit"></i></a>
+                                                class="icofont icofont-ui-edit icon-large"></i></a>
                                         <a href="#" data-title="supprimer" data-toggle="tooltip"
                                             data-original-title="supprimer cet admin" title="Supprimer cet admin">
-                                            <i class="icofont icofont-trash"></i></a>
+                                            <i class="icofont icofont-trash icon-large"></i></a>
 
                                     </td>
                                 </tr>
@@ -129,16 +129,16 @@
 
                                         <a href="#" data-title="activer cet admin" data-toggle="tooltip"
                                             title="activer cet admin">
-                                            <i class="icofont icofont-checked"></i></a>
+                                            <i class="icofont icofont-checked icon-large"></i></a>
                                         <a href="#" data-title="desactiver cet admin" data-toggle="tooltip"
                                             title="desactiver cet admin">
-                                            <i class="icofont icofont-ui-block"></i></a>
+                                            <i class="icofont icofont-ui-block icon-large"></i></a>
                                         <a href="#" data-title="Modifer les coordonnées de cet admin"
                                             data-toggle="tooltip" title="Modifer les coordonnées de cet admin"><i
-                                                class="icofont icofont-ui-edit"></i></a>
+                                                class="icofont icofont-ui-edit icon-large"></i></a>
                                         <a href="#" data-title="supprimer" data-toggle="tooltip"
                                             data-original-title="supprimer cet admin" title="Supprimer cet admin">
-                                            <i class="icofont icofont-trash"></i></a>
+                                            <i class="icofont icofont-trash icon-large"></i></a>
 
                                     </td>
                                 </tr>
@@ -155,8 +155,8 @@
                                     <th>CIN</th>
                                     <th>Numéro de téléphone</th>
                                     <th>Adresse mail</th>
-                                    <th>statut</th>
-                                    <th>action</th>
+                                    <th>Statut</th>
+                                    <th>Actions</th>
                                 </tr>
                                 </tr>
                             </tfoot>
