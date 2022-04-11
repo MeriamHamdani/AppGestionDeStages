@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class CreateUsersTable extends Migration
+class CreateTypeStagesTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,16 +13,15 @@ class CreateUsersTable extends Migration
      */
     public function up()
     {
-        Schema::create('users', function (Blueprint $table) {
+        Schema::create('type_stages', function (Blueprint $table) {
             $table->id();
             $table->string('nom');
-            $table->string('prenom');
-            $table->string('numCIN')->unique();
-            $table->string('numTel');
-            $table->string('email')->unique();
-            $table->string('role');
-            //$table->timestamp('email_verified_at')->nullable();
-            $table->rememberToken();
+            $table->date('date_debut_periode');
+            $table->date('date_fin_periode');
+            $table->string('fiche_demande');
+            $table->date('date_debut_depo');
+            $table->date('deadline_depot');
+            $table->json('type_sujet');
             $table->timestamps();
         });
     }
@@ -34,6 +33,6 @@ class CreateUsersTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('users');
+        Schema::dropIfExists('type_stages');
     }
 }
