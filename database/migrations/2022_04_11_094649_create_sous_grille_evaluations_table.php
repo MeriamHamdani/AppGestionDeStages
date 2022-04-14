@@ -15,8 +15,7 @@ class CreateSousGrilleEvaluationsTable extends Migration
     {
         Schema::create('sous_grille_evaluations', function (Blueprint $table) {
             $table->id();
-            $table->string('titre');
-            $table->float('bareme');
+            $table->string('grand_titre');
             $table->timestamps();
         });
     }

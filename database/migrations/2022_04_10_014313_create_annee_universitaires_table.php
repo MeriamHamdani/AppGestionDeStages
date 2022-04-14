@@ -15,9 +15,7 @@ class CreateAnneeUniversitairesTable extends Migration
     {
         Schema::create('annee_universitaires', function (Blueprint $table) {
             $table->id();
-            $table->string('annee_univ');
-            /*$table->float('bareme_grille_eval');
-            $table->json('sous_grilles_eval');*/
+            $table->string('annee');
             $table->timestamps();
         });
     }

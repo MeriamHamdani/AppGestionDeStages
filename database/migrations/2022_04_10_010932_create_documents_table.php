@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class AddMdpToAdminsTable extends Migration
+class CreateDocumentsTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,8 +13,11 @@ class AddMdpToAdminsTable extends Migration
      */
     public function up()
     {
-        Schema::table('admins', function (Blueprint $table) {
-            $table->string('mot_de_passe');
+        Schema::create('documents', function (Blueprint $table) {
+            $table->id();
+            $table->string('nom');
+            $table->string('contenu');
+            $table->timestamps();
         });
     }
 
@@ -25,8 +28,6 @@ class AddMdpToAdminsTable extends Migration
      */
     public function down()
     {
-        Schema::table('admins', function (Blueprint $table) {
-            //
-        });
+        Schema::dropIfExists('documents');
     }
 }

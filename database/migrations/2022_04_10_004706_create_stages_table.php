@@ -18,9 +18,9 @@ class CreateStagesTable extends Migration
             $table->string('titre_sujet');
             $table->date('date_debut');
             $table->date('date_fin');
+            $table->date('date_demande');
             $table->integer('confirmation_encadrant');
             $table->integer('confirmation_admin');
-            $table->date('date_demande');
             $table->integer('validation_encadrant');
             $table->integer('validation_admin');
             $table->timestamps();

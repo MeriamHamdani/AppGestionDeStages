@@ -17,11 +17,11 @@ class CreateEnseignantsTable extends Migration
             $table->id();
             $table->string('nom');
             $table->string('prenom');
-            $table->string('numCIN')->unique();
-            $table->string('numTel');
+            $table->string('numero_telephone');
             $table->string('email')->unique();
-            $table->string('role');
-            $table->boolean('active');
+            $table->string('grade');
+            $table->string('rib');
+            $table->string('identifiant');
             $table->timestamps();
         });
     }

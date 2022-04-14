@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class AddMdpToEnseignantTable extends Migration
+class CreateDetailsGrilleEvaluationsTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,8 +13,11 @@ class AddMdpToEnseignantTable extends Migration
      */
     public function up()
     {
-        Schema::table('enseignants', function (Blueprint $table) {
-            $table->string('mot_de_passe');
+        Schema::create('details_grille_evaluations', function (Blueprint $table) {
+            $table->id();
+            $table->string('sous_titre');
+            $table->float('bareme');
+            $table->timestamps();
         });
     }
 
@@ -25,8 +28,6 @@ class AddMdpToEnseignantTable extends Migration
      */
     public function down()
     {
-        Schema::table('enseignants', function (Blueprint $table) {
-            //
-        });
+        Schema::dropIfExists('details_grille_evaluations');
     }
 }

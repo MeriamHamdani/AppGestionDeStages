@@ -17,10 +17,10 @@ class CreateTypeStagesTable extends Migration
             $table->id();
             $table->string('nom');
             $table->date('date_debut_periode');
-            $table->date('date_fin_periode');
+            $table->date('date_limite_periode');
             $table->string('fiche_demande');
-            $table->date('date_debut_depo');
-            $table->date('deadline_depot');
+            $table->date('date_debut_depot');
+            $table->date('date_limite_depot');
             $table->json('type_sujet');
             $table->timestamps();
         });

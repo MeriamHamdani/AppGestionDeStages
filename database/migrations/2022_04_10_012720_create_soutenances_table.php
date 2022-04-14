@@ -15,10 +15,10 @@ class CreateSoutenancesTable extends Migration
     {
         Schema::create('soutenances', function (Blueprint $table) {
             $table->id();
-            $table->date('date');
-            $table->timestamp('heure');
+            $table->dateTime('date');
             $table->string('salle');
             $table->float('note');
+            $table->string('mention');
             $table->timestamps();
         });
     }

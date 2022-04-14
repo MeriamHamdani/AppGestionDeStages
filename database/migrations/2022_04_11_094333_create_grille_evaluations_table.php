@@ -15,7 +15,6 @@ class CreateGrilleEvaluationsTable extends Migration
     {
         Schema::create('grille_evaluations', function (Blueprint $table) {
             $table->id();
-            $table->float('bareme');
             $table->timestamps();
         });
     }

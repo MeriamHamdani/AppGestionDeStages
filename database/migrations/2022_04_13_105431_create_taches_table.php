@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class CreateMemoiresTable extends Migration
+class CreateTachesTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,13 +13,13 @@ class CreateMemoiresTable extends Migration
      */
     public function up()
     {
-        Schema::create('memoires', function (Blueprint $table) {
+        Schema::create('taches', function (Blueprint $table) {
             $table->id();
             $table->string('titre');
-            $table->date('date_deposition');
-            $table->boolean('validation_encadrant');
-            $table->json('comments')->nullable();
-            $table->timestamps();
+            $table->string('contenu');
+            $table->date('date');
+            $table->timestamp('heure');
+
         });
     }
 
@@ -30,6 +30,6 @@ class CreateMemoiresTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('memoires');
+        Schema::dropIfExists('taches');
     }
 }

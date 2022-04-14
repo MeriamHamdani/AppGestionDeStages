@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class CreateDocumentDeposTable extends Migration
+class CreateDepotMemoiresTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,10 +13,11 @@ class CreateDocumentDeposTable extends Migration
      */
     public function up()
     {
-        Schema::create('document_depos', function (Blueprint $table) {
+        Schema::create('depot_memoires', function (Blueprint $table) {
             $table->id();
-
-            $table->json('docs');
+            $table->string('titre');
+            $table->date('date_depot');
+            $table->boolean('validation_encadrant');
             $table->timestamps();
         });
     }
@@ -28,6 +29,6 @@ class CreateDocumentDeposTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('document_depos');
+        Schema::dropIfExists('depot_memoires');
     }
 }

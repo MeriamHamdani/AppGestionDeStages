@@ -17,7 +17,7 @@ class CreateEntreprisesTable extends Migration
             $table->id();
             $table->string('nom');
             $table->string('adresse');
-            $table->string('num_tel');
+            $table->string('numero_telephone');
             $table->string('email');
             $table->string('fax');
 

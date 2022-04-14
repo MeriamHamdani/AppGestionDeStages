@@ -18,11 +18,8 @@ class CreateAdminsTable extends Migration
 
             $table->string('nom');
             $table->string('prenom');
-            $table->string('numCIN')->unique();
-            $table->string('numTel');
+            $table->string('numero_telephone');
             $table->string('email')->unique();
-            $table->boolean('isSuperAdmin');
-            $table->boolean('active');
             $table->timestamps();
         });
     }

@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class AddMdpToEtudiantsTable extends Migration
+class CreateCommentairesTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,8 +13,11 @@ class AddMdpToEtudiantsTable extends Migration
      */
     public function up()
     {
-        Schema::table('etudiants', function (Blueprint $table) {
-            $table->string('mot_de_passe');
+        Schema::create('commentaires', function (Blueprint $table) {
+            $table->id();
+            $table->string('contenu');
+            $table->timestamps();
+
         });
     }
 
@@ -25,8 +28,6 @@ class AddMdpToEtudiantsTable extends Migration
      */
     public function down()
     {
-        Schema::table('etudiants', function (Blueprint $table) {
-            //
-        });
+        Schema::dropIfExists('commentaires');
     }
 }

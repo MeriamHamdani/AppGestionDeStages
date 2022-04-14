@@ -15,8 +15,6 @@ class CreateCahierStagesTable extends Migration
     {
         Schema::create('cahier_stages', function (Blueprint $table) {
             $table->id();
-            $table->string('titre');
-            $table->json('taches');
             $table->timestamps();
         });
     }
