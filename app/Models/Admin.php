@@ -10,7 +10,7 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 class Admin extends Model
 {
     use HasFactory;
-
+    protected $fillable = ['nom','prenom','email','numero_telephone'];
     public function etudiants(){
         return $this->belongsToMany(Etudiant::class,'etudiant_admin');
     }

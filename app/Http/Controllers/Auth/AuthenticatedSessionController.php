@@ -18,7 +18,7 @@ class AuthenticatedSessionController extends Controller
      */
     public function create()
     {
-        return view('auth.login');
+        return view('login.login');
     }
 
     /**
@@ -27,19 +27,28 @@ class AuthenticatedSessionController extends Controller
      * @param  \App\Http\Requests\Auth\LoginRequest  $request
      * @return \Illuminate\Http\RedirectResponse
      */
-    public function store(LoginRequest $request)
+    public function store()
     {
+
         $attributes = request()->validate([
             'numero_CIN' => 'required',
             'password' => 'required'
         ]);
-        if (! auth()->attempt($attributes)) {
+        //dd( ! auth()->attempt($attributes) );
+//dd(Auth::user());
+        if ( auth()->attempt($attributes)) {
             throw ValidationException::withMessages([
                 'email' => 'Your provided credentials could not be verified.'
             ]);
+
         }
 
+
+
+        //$request->session()->regenerate();
         session()->regenerate();
+        dd(Auth::user());
+        //return redirect()->intended(RouteServiceProvider::HOME);
 
         return redirect()->intended($this->accueil());
     }
