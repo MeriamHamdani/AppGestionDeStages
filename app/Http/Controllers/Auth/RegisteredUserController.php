@@ -48,7 +48,7 @@ class RegisteredUserController extends Controller
 
             'numero_CIN'=>$request->numero_CIN,
             'password' => Hash::make($request->numero_CIN),
-'is_active'=>false
+            'is_active'=>false
         ]);
         //$user->is_active=false;
 
@@ -56,15 +56,14 @@ class RegisteredUserController extends Controller
 
 
         $admin=new Admin();
-$admin::create([[
-    'nom' => $request->nom,
-    'prenom' => $request->prenom,
-    'email' => $request->email,
-    'numero_telephone'=>$request->numero_telephone,
-    'user_id'=>$user
+        $admin::create([[
+            'nom' => $request->nom,
+            'prenom' => $request->prenom,
+            'email' => $request->email,
+            'numero_telephone'=>$request->numero_telephone,
+            'user_id'=>$user
+        ]]);
 
-]]);
-//admin->user()->save($user);
         $admin->save();
         event(new Registered($user));
 

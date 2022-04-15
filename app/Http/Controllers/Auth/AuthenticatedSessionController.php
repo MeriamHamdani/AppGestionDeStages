@@ -34,26 +34,15 @@ class AuthenticatedSessionController extends Controller
             'numero_CIN' => 'required',
             'password' => 'required'
         ]);
-        //dd( ! auth()->attempt($attributes) );
-//dd(Auth::user());
-        if ( auth()->attempt($attributes)) {
+
+        if (! auth()->attempt($attributes)) {
             throw ValidationException::withMessages([
                 'email' => 'Your provided credentials could not be verified.'
             ]);
-
         }
-
-
-
-        //$request->session()->regenerate();
         session()->regenerate();
-        dd(Auth::user());
-        //return redirect()->intended(RouteServiceProvider::HOME);
-
         return redirect()->intended($this->accueil());
     }
-
-
     public function accueil() :string{
         if (Auth::user()) {
             $roles=Auth::user()->getRoleNames();
@@ -75,6 +64,7 @@ class AuthenticatedSessionController extends Controller
                 }
             }
         }
+        return 'ok';
     }
     /**
      * Destroy an authenticated session.
