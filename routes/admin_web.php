@@ -5,6 +5,7 @@ use Illuminate\Support\Facades\Route;
 /*Route::prefix('admin')->group(function () {
 });*/
 //-------------------------------------------------------------------------------------------------
+Route::middleware(['auth','role:admin|superadmin'])->group(function(){
 Route::prefix('admin')->group(function () {
 // ADMINISTRATION
     Route::view('administration/liste-admin', 'admin.administration.liste_des_admin')->name('liste_admin');
@@ -70,4 +71,4 @@ Route::prefix('admin')->group(function () {
 Route::prefix('dashboard')->group(function () {
     Route::view('dashboard-02', 'admin.dashboard.dashboard-02')->name('dashboard-02');
     Route::view('default-dashboard', 'admin.dashboard.default')->name('default_dash');
-});
+});});

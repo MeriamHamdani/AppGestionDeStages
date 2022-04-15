@@ -2,11 +2,12 @@
 
 namespace App\Http\Controllers\Auth;
 
-use App\Http\Controllers\Controller;
-use App\Http\Requests\Auth\LoginRequest;
-use App\Providers\RouteServiceProvider;
 use Illuminate\Http\Request;
+use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Auth;
+use App\Providers\RouteServiceProvider;
+use App\Http\Requests\Auth\LoginRequest;
+use Illuminate\Validation\ValidationException;
 
 class AuthenticatedSessionController extends Controller
 {
@@ -28,13 +29,44 @@ class AuthenticatedSessionController extends Controller
      */
     public function store(LoginRequest $request)
     {
-        $request->authenticate();
+        $attributes = request()->validate([
+            'numero_CIN' => 'required',
+            'password' => 'required'
+        ]);
+        if (! auth()->attempt($attributes)) {
+            throw ValidationException::withMessages([
+                'email' => 'Your provided credentials could not be verified.'
+            ]);
+        }
 
-        $request->session()->regenerate();
+        session()->regenerate();
 
-        return redirect()->intended(RouteServiceProvider::HOME);
+        return redirect()->intended($this->accueil());
     }
 
+
+    public function accueil() :string{
+        if (Auth::user()) {
+            $roles=Auth::user()->getRoleNames();
+            foreach ($roles as $r) {
+                switch ($r) {
+                    case 'admin':
+                        //$role='admin';
+                        return ('admin/administration/liste-admin');
+                        break;
+                    case 'enseignant':
+                        //$role='enseignant';
+                        return ('enseignant/');
+                        break;
+                    case 'etudiant':
+                       // $role='etudiant';
+
+                        return ('etudiant/stage/demandes-stages');
+                        break;
+                }
+            }
+        }
+    }
     /**
      * Destroy an authenticated session.
      *
@@ -50,5 +82,7 @@ class AuthenticatedSessionController extends Controller
         $request->session()->regenerateToken();
 
         return redirect('/');
-    }
+
+
+  }
 }
