@@ -2,10 +2,10 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\DocumentDepo;
+use App\Models\Document;
 use Illuminate\Http\Request;
 
-class DocumentDepoController extends Controller
+class DocumentController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -41,10 +41,10 @@ class DocumentDepoController extends Controller
     /**
      * Display the specified resource.
      *
-     * @param  \App\Models\DocumentDepo  $documentDepo
+     * @param  \App\Models\Document  $document
      * @return \Illuminate\Http\Response
      */
-    public function show(DocumentDepo $documentDepo)
+    public function show(Document $document)
     {
         //
     }
@@ -52,10 +52,10 @@ class DocumentDepoController extends Controller
     /**
      * Show the form for editing the specified resource.
      *
-     * @param  \App\Models\DocumentDepo  $documentDepo
+     * @param  \App\Models\Document  $document
      * @return \Illuminate\Http\Response
      */
-    public function edit(DocumentDepo $documentDepo)
+    public function edit(Document $document)
     {
         //
     }
@@ -64,10 +64,10 @@ class DocumentDepoController extends Controller
      * Update the specified resource in storage.
      *
      * @param  \Illuminate\Http\Request  $request
-     * @param  \App\Models\DocumentDepo  $documentDepo
+     * @param  \App\Models\Document  $document
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, DocumentDepo $documentDepo)
+    public function update(Request $request, Document $document)
     {
         //
     }
@@ -75,10 +75,10 @@ class DocumentDepoController extends Controller
     /**
      * Remove the specified resource from storage.
      *
-     * @param  \App\Models\DocumentDepo  $documentDepo
+     * @param  \App\Models\Document  $document
      * @return \Illuminate\Http\Response
      */
-    public function destroy(DocumentDepo $documentDepo)
+    public function destroy(Document $document)
     {
         //
     }

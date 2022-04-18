@@ -2,10 +2,10 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Commentaires;
+use App\Models\Commentaire;
 use Illuminate\Http\Request;
 
-class CommentairesController extends Controller
+class CommentaireController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -41,10 +41,10 @@ class CommentairesController extends Controller
     /**
      * Display the specified resource.
      *
-     * @param  \App\Models\Commentaires  $commentaires
+     * @param  \App\Models\Commentaire  $commentaire
      * @return \Illuminate\Http\Response
      */
-    public function show(Commentaires $commentaires)
+    public function show(Commentaire $commentaire)
     {
         //
     }
@@ -52,10 +52,10 @@ class CommentairesController extends Controller
     /**
      * Show the form for editing the specified resource.
      *
-     * @param  \App\Models\Commentaires  $commentaires
+     * @param  \App\Models\Commentaire  $commentaire
      * @return \Illuminate\Http\Response
      */
-    public function edit(Commentaires $commentaires)
+    public function edit(Commentaire $commentaire)
     {
         //
     }
@@ -64,10 +64,10 @@ class CommentairesController extends Controller
      * Update the specified resource in storage.
      *
      * @param  \Illuminate\Http\Request  $request
-     * @param  \App\Models\Commentaires  $commentaires
+     * @param  \App\Models\Commentaire  $commentaire
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, Commentaires $commentaires)
+    public function update(Request $request, Commentaire $commentaire)
     {
         //
     }
@@ -75,10 +75,10 @@ class CommentairesController extends Controller
     /**
      * Remove the specified resource from storage.
      *
-     * @param  \App\Models\Commentaires  $commentaires
+     * @param  \App\Models\Commentaire  $commentaire
      * @return \Illuminate\Http\Response
      */
-    public function destroy(Commentaires $commentaires)
+    public function destroy(Commentaire $commentaire)
     {
         //
     }

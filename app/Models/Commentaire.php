@@ -5,17 +5,13 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class Specialite extends Model
+class Commentaire extends Model
 {
     use HasFactory;
 
-    public function classes()
+    public function depotMemoire()
     {
-        return $this->hasMany(Classe::class);
-    }
-    public function departement()
-    {
-        return $this->belongsTo(Departement::class);
+        return $this->belongsTo(DepotMemoire::class);
     }
     public function enseignant()
     {

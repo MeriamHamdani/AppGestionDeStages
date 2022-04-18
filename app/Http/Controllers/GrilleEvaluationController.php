@@ -2,7 +2,7 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Grille_evaluation;
+use App\Models\GrilleEvaluation;
 use Illuminate\Http\Request;
 
 class GrilleEvaluationController extends Controller
@@ -41,10 +41,10 @@ class GrilleEvaluationController extends Controller
     /**
      * Display the specified resource.
      *
-     * @param  \App\Models\Grille_evaluation  $grille_evaluation
+     * @param  \App\Models\GrilleEvaluation  $grilleEvaluation
      * @return \Illuminate\Http\Response
      */
-    public function show(Grille_evaluation $grille_evaluation)
+    public function show(GrilleEvaluation $grilleEvaluation)
     {
         //
     }
@@ -52,10 +52,10 @@ class GrilleEvaluationController extends Controller
     /**
      * Show the form for editing the specified resource.
      *
-     * @param  \App\Models\Grille_evaluation  $grille_evaluation
+     * @param  \App\Models\GrilleEvaluation  $grilleEvaluation
      * @return \Illuminate\Http\Response
      */
-    public function edit(Grille_evaluation $grille_evaluation)
+    public function edit(GrilleEvaluation $grilleEvaluation)
     {
         //
     }
@@ -64,10 +64,10 @@ class GrilleEvaluationController extends Controller
      * Update the specified resource in storage.
      *
      * @param  \Illuminate\Http\Request  $request
-     * @param  \App\Models\Grille_evaluation  $grille_evaluation
+     * @param  \App\Models\GrilleEvaluation  $grilleEvaluation
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, Grille_evaluation $grille_evaluation)
+    public function update(Request $request, GrilleEvaluation $grilleEvaluation)
     {
         //
     }
@@ -75,10 +75,10 @@ class GrilleEvaluationController extends Controller
     /**
      * Remove the specified resource from storage.
      *
-     * @param  \App\Models\Grille_evaluation  $grille_evaluation
+     * @param  \App\Models\GrilleEvaluation  $grilleEvaluation
      * @return \Illuminate\Http\Response
      */
-    public function destroy(Grille_evaluation $grille_evaluation)
+    public function destroy(GrilleEvaluation $grilleEvaluation)
     {
         //
     }
