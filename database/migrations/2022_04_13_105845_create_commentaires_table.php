@@ -15,6 +15,8 @@ class CreateCommentairesTable extends Migration
     {
         Schema::create('commentaires', function (Blueprint $table) {
             $table->id();
+            $table->foreignId('depot_memoire_id')->constrained();
+            $table->foreignId('enseignant_id')->constrained()->cascadeOnDelete();
             $table->string('contenu');
             $table->timestamps();
 

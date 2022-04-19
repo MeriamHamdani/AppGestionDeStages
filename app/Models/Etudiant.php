@@ -10,6 +10,13 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 class Etudiant extends Model
 {
     use HasFactory;
+    protected $fillable = [
+        'nom',
+        'prenom',
+        'numero_telephone',
+        'email',
+        'user_id'
+    ];
 
     public function classe()
     {

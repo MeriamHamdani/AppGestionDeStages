@@ -6,7 +6,7 @@ use App\Models\Etudiant;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 
-class Enseignant extends User
+class Enseignant extends Model
 {
     use HasFactory;
 

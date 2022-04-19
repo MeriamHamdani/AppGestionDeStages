@@ -15,6 +15,7 @@ class CreateGrilleEvaluationsTable extends Migration
     {
         Schema::create('grille_evaluations', function (Blueprint $table) {
             $table->id();
+            $table->foreignId('annee_universitaire_id')->constrained();
             $table->timestamps();
         });
     }

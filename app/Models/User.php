@@ -22,6 +22,7 @@ class User extends Authenticatable
     protected $fillable = [
         'numero_CIN',
         'password',
+        'is_active'
     ];
 
     /**
