@@ -4,6 +4,9 @@ namespace App\Http\Controllers;
 
 use App\Models\Departement;
 use Illuminate\Http\Request;
+use Illuminate\Support\Carbon;
+use App\Models\AnneeUniversitaire;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Redirect;
 use Illuminate\Support\Facades\Validator;
 
@@ -36,18 +39,31 @@ class DepartementController extends Controller
      * @return \Illuminate\Http\Response
      */
     public function store(Request $request)
-    {$message="";
+    {
+        $message="";
         $request->validate([
             'nom' => ['required', 'string', 'max:255'],
             'code' => ['required', 'string', 'max:255', 'unique:departements'],
         ]);
-
-
+        $mydate = Carbon::now();
+        //dd( $mytime->toDateString());
+        $moisCourant=(int)$mydate->format('m');
+        //dd($moisCourant);
+        if(( 6 < $moisCourant)&&($moisCourant < 12)){
+            $annee='20'.$mydate->format('y').'-20'.strval(((int)$mydate->format('y'))+1);
+        }else $annee='20'.strval(((int)$mydate->format('y'))-1).'-20'.$mydate->format('y');
+    $annees=AnneeUniversitaire::all();
+    //dd($annees);
     if (!(Departement::where('code', '=', $request->code)->exists())) {
-$departement=new Departement();
-$departement->code=$request->code;
-$departement->nom=$request->nom;
-$departement->save();
+            $departement=new Departement();
+        foreach($annees as $a){
+            if($a->annee==$annee){
+            $departement->annee_universitaire_id=$a->id;
+            break;}
+        }
+        $departement->code=$request->code;
+        $departement->nom=$request->nom;
+        $departement->save();
      }
 
         return redirect()->action([DepartementController::class, 'showAll']);

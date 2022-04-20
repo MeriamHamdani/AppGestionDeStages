@@ -36,11 +36,11 @@ Route::prefix('admin')->group(function () {
      // *********** DEPARTEMENT  **********
      Route::resource('departement', DepartementController::class);
 
-     Route::get('etablissement/liste', [DepartementController::class,'showAll'])->name('liste_departements');
-     Route::view('etablissement/liste-departements/modifier-departement', 'admin.etablissement.departement.modifier_departement')->name('modifier_departement');
+     Route::get('etablissement/liste_departements', [DepartementController::class,'showAll'])->name('liste_departements');
+     //Route::view('etablissement/modifier-departement', 'admin.etablissement.departement.modifier_departement')->name('modifier_departement');
      //Route::get('etablissement/ajouter-departement', [DepartementController::class,'create'])->name('create_departement');
      //Route::post('etablissement/liste-departements/ajouter-departement',[DepartementController::class,'store'])->name('store_departement');
-     Route::get('/etablissement/edit/{id}', [DepartementController::class, 'edit'])->whereNumber('id')->name('departement.edit');
+     Route::get('/etablissement/modifier-departement/{id}', [DepartementController::class, 'edit'])->whereNumber('id')->name('departement.edit');
      Route::post('/etablissement/update/{id}', [DepartementController::class, 'update'])->whereNumber('id')->name('departement.update');
     // *********** SPECIALITE  **********
     Route::view('etablissement/liste-specialites', 'admin.etablissement.specialite.liste_specialites')->name('liste_specialites');
