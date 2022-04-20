@@ -4,6 +4,8 @@ namespace App\Http\Controllers;
 
 use App\Models\Departement;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Redirect;
+use Illuminate\Support\Facades\Validator;
 
 class DepartementController extends Controller
 {
@@ -24,7 +26,7 @@ class DepartementController extends Controller
      */
     public function create()
     {
-        //
+        return view('admin.etablissement.departement.ajouter_departement');
     }
 
     /**
@@ -34,8 +36,22 @@ class DepartementController extends Controller
      * @return \Illuminate\Http\Response
      */
     public function store(Request $request)
-    {
-        //
+    {$message="";
+        $request->validate([
+            'nom' => ['required', 'string', 'max:255'],
+            'code' => ['required', 'string', 'max:255', 'unique:departements'],
+        ]);
+
+
+    if (!(Departement::where('code', '=', $request->code)->exists())) {
+$departement=new Departement();
+$departement->code=$request->code;
+$departement->nom=$request->nom;
+$departement->save();
+     }
+
+        return redirect()->action([DepartementController::class, 'showAll']);
+
     }
 
     /**
@@ -49,6 +65,18 @@ class DepartementController extends Controller
         //
     }
 
+    /**
+     *
+     * @param  \App\Models\Departement  $departement
+     * @return \Illuminate\Http\Response
+     */
+    public function showAll()
+    {
+
+        $departements=Departement::all();
+
+    return view('admin.etablissement.departement.liste_departements', compact(['departements']));
+    }
     /**
      * Show the form for editing the specified resource.
      *

@@ -1,6 +1,7 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\DepartementController;
 
 /*Route::prefix('admin')->group(function () {
 });*/
@@ -32,10 +33,13 @@ Route::prefix('admin')->group(function () {
     Route::view('etablissement/liste-etudiants/ajouter-etudiant', 'admin.etablissement.etudiant.ajouter_etudiant')->name('ajouter_etudiant');
     Route::view('etablissement/liste-etudiants/modifier-etudiant', 'admin.etablissement.etudiant.modifier_etudiant')->name('modifier_etudiant');
      // *********** DEPARTEMENT  **********
-    Route::view('etablissement/liste-departements', 'admin.etablissement.departement.liste_departements')->name('liste_departements');
-    Route::view('etablissement/liste-departements/ajouter-departement', 'admin.etablissement.departement.ajouter_departement')->name('ajouter_departement');
-    Route::view('etablissement/liste-departements/modifier-departement', 'admin.etablissement.departement.modifier_departement')->name('modifier_departement');
-       // *********** SPECIALITE  **********
+     Route::resource('departement', DepartementController::class);
+
+     Route::get('etablissement/liste', [DepartementController::class,'showAll'])->name('liste_departements');
+     Route::view('etablissement/liste-departements/modifier-departement', 'admin.etablissement.departement.modifier_departement')->name('modifier_departement');
+     //Route::get('etablissement/ajouter-departement', [DepartementController::class,'create'])->name('create_departement');
+     //Route::post('etablissement/liste-departements/ajouter-departement',[DepartementController::class,'store'])->name('store_departement');
+    // *********** SPECIALITE  **********
     Route::view('etablissement/liste-specialites', 'admin.etablissement.specialite.liste_specialites')->name('liste_specialites');
     Route::view('etablissement/liste-specialites/ajouter-specialite', 'admin.etablissement.specialite.ajouter_specialite')->name('ajouter_specialite');
     Route::view('etablissement/liste-specialites/modifier-specialite', 'admin.etablissement.specialite.modifier_specialite')->name('modifier_specialite');

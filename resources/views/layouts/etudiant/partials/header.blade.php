@@ -61,7 +61,8 @@
                 </li>
 
                 <li class="onhover-dropdown p-0">
-                    <button class="btn btn-primary-light" type="button"><i data-feather="log-out"></i>Log out</button>
+                    <button class="btn btn-primary-light" type="button"><a href={{ route('deconnexion') }}><i
+                                data-feather="log-out"></i></a>Déconnecter</button>
                 </li>
             </ul>
         </div>

@@ -2,9 +2,9 @@
     <div class="main-header-right row m-0">
         <div class="main-header-left">
             <div class="logo-wrapper"><a href="{{ route('index') }}"><img class="img-fluid"
-                                                                          src="{{asset('assets/images/logo/logo.png')}}" alt=""></a></div>
+                        src="{{asset('assets/images/logo/logo.png')}}" alt=""></a></div>
             <div class="dark-logo-wrapper"><a href="{{ route('index') }}"><img class="img-fluid"
-                                                                               src="{{asset('assets/images/logo/dark-logo.png')}}" alt=""></a></div>
+                        src="{{asset('assets/images/logo/dark-logo.png')}}" alt=""></a></div>
             <div class="toggle-sidebar"><i class="status_toggle middle" data-feather="align-center" id="sidebar-toggle">
                 </i></div>
         </div>
@@ -61,7 +61,8 @@
                 </li>
 
                 <li class="onhover-dropdown p-0">
-                    <button class="btn btn-primary-light" type="button"><i data-feather="log-out"></i>Log out</button>
+                    <button class="btn btn-primary-light" type="button"><a href={{ route('deconnexion') }}><i
+                                data-feather="log-out"></i></a>Déconnecter</button>
                 </li>
             </ul>
         </div>

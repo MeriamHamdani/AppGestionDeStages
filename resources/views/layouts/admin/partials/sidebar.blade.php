@@ -4,7 +4,7 @@
             class="img-90 rounded-circle" src="{{asset('assets/images/dashboard/1.png')}}" alt="" />
         <div class="badge-bottom"><span class="badge badge-primary">New</span></div>
         <a href="user-profile">
-            <h6 class="mt-3 f-14 f-w-600">Admin Nom prenom</h6>
+            <h6 class="mt-3 f-14 f-w-600">{Admin Nom prenom}</h6>
         </a>
         <p class="mb-0 font-roboto">université</p>
         {{-- <ul>
@@ -40,14 +40,14 @@
                     </li>
                     <li class="dropdown">
                         <a class="nav-link menu-title link-nav {{ routeActive('liste_admin') }}"
-                        href="{{ route('liste_admin') }}">
-                        <i class="icofont icofont-users-alt-2"></i>&nbsp&nbsp&nbsp<span>La liste des
+                            href="{{ route('liste_admin') }}">
+                            <i class="icofont icofont-users-alt-2"></i>&nbsp&nbsp&nbsp<span>La liste des
                                 administrateurs</span></a>
                     </li>
 
                     <li class="dropdown">
                         <a class="nav-link menu-title link-nav {{ routeActive('ajouter_admin') }} "
-                           href="{{ route('ajouter_admin') }}">
+                            href="{{ route('ajouter_admin') }}">
                             <i class="icofont icofont-user-suited"></i>&nbsp&nbsp&nbsp<span>Ajouter un
                                 administrateur</span></a>
                     </li>
@@ -61,7 +61,8 @@
                         <a class="nav-link menu-title link-nav {{ prefixActive('/admin/stage/demandes-stage') }}">
                             <i class="icofont icofont-listing-box"></i>&nbsp&nbsp&nbsp<span>Les demandes de
                                 stages</span></a>
-                        <ul class="nav-submenu menu-content" style="display: {{ prefixBlock('/admin/stage/demandes-stage') }};">
+                        <ul class="nav-submenu menu-content"
+                            style="display: {{ prefixBlock('/admin/stage/demandes-stage') }};">
                             <li><a href="{{ route('demandes_stage.sv12lm') }}"
                                     class="{{ routeActive('demandes_stage.sv12lm') }}"><strong><i
                                             class="icofont icofont-pen-nib"></i>Stage volontaire 1ère et 2ème
@@ -87,7 +88,7 @@
                     </li>
                     <li class="dropdown">
                         <a class="nav-link menu-title link-nav {{ routeActive('gerer_cahiers_stages') }}"
-                           href="{{ route('gerer_cahiers_stages') }}">
+                            href="{{ route('gerer_cahiers_stages') }}">
                             <i class="icofont icofont-book-alt"></i>&nbsp&nbsp&nbsp<span>Gérer les cahiers des
                                 stages</span></a>
                     </li>
@@ -98,30 +99,30 @@
                     </li>
                     <li>
                         <a class="nav-link menu-title link-nav {{ routeActive('liste_enseignants') }}"
-                           href="{{ route('liste_enseignants') }}">
+                            href="{{ route('liste_enseignants') }}">
                             <i class="icofont icofont-teacher"></i>&nbsp&nbsp&nbsp<span>Gestion des
                                 enseignants</span></a>
                     </li>
                     <li>
                         <a class="nav-link menu-title link-nav {{ routeActive('liste_etudiants') }}"
-                           href="{{ route('liste_etudiants') }}">
+                            href="{{ route('liste_etudiants') }}">
                             <i class="icofont icofont-group-students"></i>&nbsp&nbsp&nbsp<span>Gestion des
                                 étudiants</span></a>
                     </li>
                     <li>
                         <a class="nav-link menu-title link-nav {{ routeActive('liste_departements') }}"
-                           href="{{ route('liste_departements') }}">
+                            href="{{ route('liste_departements') }}">
                             <i class="icofont icofont-building"></i>&nbsp<span>Gestion des départements</span></a>
                     </li>
                     <li class="dropdown">
                         <a class="nav-link menu-title link-nav {{ routeActive('liste_specialites') }}"
-                           href="{{ route('liste_specialites') }}">
+                            href="{{ route('liste_specialites') }}">
                             <i class="icofont icofont-list"></i>&nbsp&nbsp&nbsp<span>Gestion des spécialités
                             </span></a>
                     </li>
                     <li class="dropdown">
                         <a class="nav-link menu-title link-nav {{ routeActive('liste_classes') }}"
-                           href="{{ route('liste_classes') }}">
+                            href="{{ route('liste_classes') }}">
                             <i class="icofont icofont-users-social"></i>&nbsp&nbsp&nbsp<span>Gestion des
                                 classes</span></a>
                     </li>
@@ -132,13 +133,13 @@
                     </li>
                     <li class="dropdown">
                         <a class="nav-link menu-title link-nav {{ routeActive('list_entreprises') }}"
-                           href="{{ route('list_entreprises') }}">
+                            href="{{ route('list_entreprises') }}">
                             <i class="icofont icofont-list"></i>&nbsp&nbsp&nbsp<span>La liste des
                                 entreprises</span></a>
                     </li>
                     <li class="dropdown">
                         <a class="nav-link menu-title link-nav {{ routeActive('ajouter_entreprise') }}"
-                           href="{{ route('ajouter_entreprise') }}">
+                            href="{{ route('ajouter_entreprise') }}">
                             <i class="icofont icofont-building-alt"></i>&nbsp&nbsp&nbsp<span>Ajouter une
                                 entreprise</span></a>
                     </li>
@@ -149,7 +150,7 @@
                     </li>
                     <li class="dropdown">
                         <a class="nav-link menu-title link-nav {{ routeActive('gerer_depot') }}"
-                           href="{{ route('gerer_depot') }}">
+                            href="{{ route('gerer_depot') }}">
                             <i class="icofont icofont-papers"></i>&nbsp&nbsp&nbsp<span>Gérer les dépôts</span></a>
                     </li>
                     <li class="sidebar-main-title">
@@ -159,13 +160,13 @@
                     </li>
                     <li class="dropdown">
                         <a class="nav-link menu-title link-nav {{ routeActive('planifier_soutenance') }}"
-                           href="{{ route('planifier_soutenance') }}">
+                            href="{{ route('planifier_soutenance') }}">
                             <i class="icofont icofont-calendar"></i>&nbsp&nbsp&nbsp<span>Planifier une
                                 soutenance</span></a>
                     </li>
                     <li class="dropdown">
                         <a class="nav-link menu-title link-nav {{ routeActive('list_soutenances') }}"
-                           href="{{ route('list_soutenances') }}">
+                            href="{{ route('list_soutenances') }}">
                             <i class="icofont icofont-graduate"></i>&nbsp&nbsp&nbsp<span>La liste des
                                 soutenances</span></a>
                     </li>
@@ -176,7 +177,7 @@
                     </li>
                     <li class="dropdown">
                         <a class="nav-link menu-title link-nav {{ routeActive('details_paiement_ens') }}"
-                           href="{{ route('details_paiement_ens') }}">
+                            href="{{ route('details_paiement_ens') }}">
                             <i class="icofont icofont-cur-dollar-plus"></i>&nbsp&nbsp&nbsp<span>Détails de paiement
                                 d'un enseignant</span></a>
                     </li>
@@ -189,7 +190,8 @@
                         <a class="nav-link menu-title {{ prefixActive('/admin/configuration/generale') }}">
                             <i class="icofont icofont-university"></i>&nbsp&nbsp&nbsp<span>Configuration
                                 générale</span></a>
-                        <ul class="nav-submenu menu-content" style="display: {{ prefixBlock('/admin/configuration/generale') }};">
+                        <ul class="nav-submenu menu-content"
+                            style="display: {{ prefixBlock('/admin/configuration/generale') }};">
                             <li><a href="{{ route('coordonnees') }}" class="{{ routeActive('coordonnees') }}">
                                     <strong><i class="icofont icofont-pen-nib"></i>Cordonnées de
                                         l'établissement</strong></a> </li>
@@ -207,7 +209,7 @@
                     </li>
                     <li class="dropdown">
                         <a class="nav-link menu-title link-nav {{ routeActive('config_annee_universitaire') }}"
-                           href="{{ route('config_annee_universitaire') }}">
+                            href="{{ route('config_annee_universitaire') }}">
                             <i class="icofont icofont-settings"></i>&nbsp&nbsp&nbsp<span>Configuration
                                 des années universitaires</span></a>
                     </li>
