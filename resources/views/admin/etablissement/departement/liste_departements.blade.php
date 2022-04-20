@@ -57,8 +57,8 @@
                                     <td>{{ $d->code }}</td>
                                     <td>{{ $d->nom }}</td>
                                     <td class="text-center">
-                                        <a href="{{ route('modifier_departement') }}"> <i style="font-size: 1.3em;"
-                                                class='fa fa-edit'></i></a>
+                                        <a href="{{ route('departement.edit',['id' => $d->id]) }}"> <i
+                                                style="font-size: 1.3em;" class='fa fa-edit'></i></a>
                                         <a href="#"> <i style="font-size: 1.3em;" class='fa fa-trash'></i></a>
 
                                     </td>

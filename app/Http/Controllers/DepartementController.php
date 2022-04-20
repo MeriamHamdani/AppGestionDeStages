@@ -83,9 +83,14 @@ $departement->save();
      * @param  \App\Models\Departement  $departement
      * @return \Illuminate\Http\Response
      */
-    public function edit(Departement $departement)
+    public function edit(Departement $departement,$id)
     {
-        //
+
+        $departement=Departement::findOrFail($id);
+        //dd($departement);
+
+        return view('admin.etablissement.departement.modifier_departement', compact(['departement']));
+
     }
 
     /**
@@ -95,9 +100,19 @@ $departement->save();
      * @param  \App\Models\Departement  $departement
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, Departement $departement)
+    public function update(Request $request, Departement $departement,$id)
     {
-        //
+        $departement=Departement::findOrFail($id);
+        $request->validate([
+            'nom' => ['required', 'string', 'max:255'],
+            'code' => ['required', 'string', 'max:255', 'unique:departements'],
+        ]);
+        $departement->code=$request->code;
+        $departement->nom=$request->nom;
+//dd($departement);
+        $departement->update();
+        return redirect()->action([DepartementController::class, 'showAll']);
+
     }
 
     /**

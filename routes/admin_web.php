@@ -39,6 +39,8 @@ Route::prefix('admin')->group(function () {
      Route::view('etablissement/liste-departements/modifier-departement', 'admin.etablissement.departement.modifier_departement')->name('modifier_departement');
      //Route::get('etablissement/ajouter-departement', [DepartementController::class,'create'])->name('create_departement');
      //Route::post('etablissement/liste-departements/ajouter-departement',[DepartementController::class,'store'])->name('store_departement');
+     Route::get('/etablissement/edit/{id}', [DepartementController::class, 'edit'])->whereNumber('id')->name('departement.edit');
+     Route::post('/etablissement/update/{id}', [DepartementController::class, 'update'])->whereNumber('id')->name('departement.update');
     // *********** SPECIALITE  **********
     Route::view('etablissement/liste-specialites', 'admin.etablissement.specialite.liste_specialites')->name('liste_specialites');
     Route::view('etablissement/liste-specialites/ajouter-specialite', 'admin.etablissement.specialite.ajouter_specialite')->name('ajouter_specialite');
