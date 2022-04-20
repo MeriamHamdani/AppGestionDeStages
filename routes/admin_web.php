@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\AnneeUniversitaireController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\DepartementController;
 
@@ -71,7 +72,8 @@ Route::prefix('admin')->group(function () {
         Route::view('config-grille', 'admin.configuration.generale.configuration_grille')->name('configurer_grille');
 
     });
-    Route::view('configuration/annee-universitaire', 'admin.configuration.config_annee_universitaire')->name('config_annee_universitaire');
+    Route::get('configuration/annee-universitaire',  [AnneeUniversitaireController::class, 'create'])->name('config_annee_universitaire');
+    Route::post('configuration/ajouter-annee-universitaire',  [AnneeUniversitaireController::class, 'store'])->name('ajouter_annee_universitaire');
 
 });
 Route::prefix('dashboard')->group(function () {
