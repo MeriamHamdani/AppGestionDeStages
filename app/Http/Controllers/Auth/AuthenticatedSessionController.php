@@ -29,12 +29,11 @@ class AuthenticatedSessionController extends Controller
      */
     public function store()
     {
-
         $attributes = request()->validate([
             'numero_CIN' => 'required',
             'password' => 'required'
-        ]);
 
+        ]);
         if (! auth()->attempt($attributes)) {
             throw ValidationException::withMessages([
                 'email' => 'Your provided credentials could not be verified.'
@@ -42,7 +41,9 @@ class AuthenticatedSessionController extends Controller
         }
         session()->regenerate();
         return redirect()->intended($this->accueil());
+
     }
+
     public function accueil() :string{
         if (Auth::user()) {
             $roles=Auth::user()->getRoleNames();

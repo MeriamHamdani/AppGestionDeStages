@@ -61,12 +61,13 @@
                 </li>
 
                 <li class="onhover-dropdown p-0">
+
                     <form method="GET" action="{{ route('deconnexion') }}">
                         @csrf
-                        <button class="btn btn-primary-light" type="button" href=route('deconnexion')"
-                                onclick="event.preventDefault();
+                        <button class="btn btn-primary-light" type="button" href=route('deconnexion')" onclick="event.preventDefault();
                         this.closest('form').submit();"><i data-feather="log-out"></i>Log out</button>
                     </form>
+
                 </li>
             </ul>
         </div>
