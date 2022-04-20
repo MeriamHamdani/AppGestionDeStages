@@ -23,20 +23,21 @@
                     <div class="card-header pb-0">
                         <h5>Ajouter une année universitaire</h5>
                     </div>
-                    <form class="form theme-form">
+                    <form class="form theme-form" method="POST" action="{{ route('ajouter_annee_universitaire') }}">
+                        @csrf
                         <div class="card-body">
                             <div class="row">
                                 <div class="col">
                                     <div class="mb-3">
                                         <label class="form-label" for="exampleFormControlInput1">Année Universitaire  </label>
-                                        <input class="form-control" id="exampleFormControlInput1" type="text"
-                                               placeholder="2021-2022" />
+                                        <input class="form-control" id="annee" name="annee" type="text"
+                                               placeholder="2021-2022"  />
                                     </div>
                                 </div>
                             </div>
                         </div>
                         <div class="card-footer text-end">
-                            <input class="btn btn-light" type="reset" value="Annuler" />
+{{--                            <input class="btn btn-light" type="reset" value="Annuler" />--}}
                             <button class="btn btn-primary" type="submit">Ajouter</button>
                         </div>
                     </form>
@@ -44,8 +45,6 @@
             </div>
         </div>
     </div>
-
-
     @push('scripts')
     @endpush
 

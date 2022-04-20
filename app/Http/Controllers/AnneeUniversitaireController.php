@@ -4,6 +4,8 @@ namespace App\Http\Controllers;
 
 use App\Models\AnneeUniversitaire;
 use Illuminate\Http\Request;
+use Illuminate\Validation\ValidationException;
+
 
 class AnneeUniversitaireController extends Controller
 {
@@ -24,7 +26,8 @@ class AnneeUniversitaireController extends Controller
      */
     public function create()
     {
-        //
+        return view ('admin.configuration.config_annee_universitaire');
+
     }
 
     /**
@@ -35,7 +38,15 @@ class AnneeUniversitaireController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $attribut = $request->validate(
+            [ 'annee' => 'required']
+        );
+        $an_exist = AnneeUniversitaire::where('annee', $request->annee)->first();
+        if($an_exist) {
+            return back()->with('error',  'cette année est déjà créee');
+        }
+        $annee = AnneeUniversitaire::create($attribut);
+        return back();
     }
 
     /**
