@@ -2,19 +2,17 @@
 
 namespace App\Models;
 
-use App\Models\Admin;
-use App\Models\Etudiant;
-use App\Models\Enseignant;
-use Laravel\Sanctum\HasApiTokens;
-use Spatie\Permission\Traits\HasRoles;
-use Illuminate\Notifications\Notifiable;
 use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
+use Illuminate\Notifications\Notifiable;
+use Laravel\Sanctum\HasApiTokens;
+use Spatie\Permission\Traits\HasRoles;
 
 class User extends Authenticatable
 {
-    use HasApiTokens, HasFactory, Notifiable, HasRoles;
+    use HasApiTokens, HasFactory, Notifiable;
+    use HasRoles;
 
     /**
      * The attributes that are mass assignable.
@@ -22,10 +20,8 @@ class User extends Authenticatable
      * @var string[]
      */
     protected $fillable = [
-        'name',
-        'email',
-        'password',
         'numero_CIN',
+        'password',
         'is_active'
     ];
 
@@ -37,7 +33,6 @@ class User extends Authenticatable
     protected $hidden = [
         'password',
         'remember_token',
-
     ];
 
     /**
@@ -48,17 +43,4 @@ class User extends Authenticatable
     protected $casts = [
         'email_verified_at' => 'datetime',
     ];
-
-    public function etudiants()
-    {
-        return $this->hasMany(Etudiant::class);
-    }
-    public function enseignants()
-    {
-        return $this->hasMany(Enseignant::class);
-    }
-    public function admins()
-    {
-        return $this->hasMany(Admin::class);
-    }
 }

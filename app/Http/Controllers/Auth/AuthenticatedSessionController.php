@@ -32,20 +32,17 @@ class AuthenticatedSessionController extends Controller
         $attributes = request()->validate([
             'numero_CIN' => 'required',
             'password' => 'required'
+
         ]);
         if (! auth()->attempt($attributes)) {
             throw ValidationException::withMessages([
                 'email' => 'Your provided credentials could not be verified.'
             ]);
         }
-
         session()->regenerate();
         return redirect()->intended($this->accueil());
 
     }
-
-
-
 
     public function accueil() :string{
         if (Auth::user()) {
@@ -68,6 +65,7 @@ class AuthenticatedSessionController extends Controller
                 }
             }
         }
+        return 'ok';
     }
     /**
      * Destroy an authenticated session.

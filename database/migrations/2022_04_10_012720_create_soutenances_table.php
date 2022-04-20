@@ -15,6 +15,8 @@ class CreateSoutenancesTable extends Migration
     {
         Schema::create('soutenances', function (Blueprint $table) {
             $table->id();
+            $table->foreignId('stage_id')->constrained();
+            $table->foreignId('annee_universitaire_id')->constrained();
             $table->dateTime('date');
             $table->string('salle');
             $table->float('note');

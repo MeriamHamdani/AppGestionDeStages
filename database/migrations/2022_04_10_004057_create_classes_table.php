@@ -15,6 +15,8 @@ class CreateClassesTable extends Migration
     {
         Schema::create('classes', function (Blueprint $table) {
             $table->id();
+            $table->foreignId('specialite_id')->constrained();
+            $table->foreignId('annee_universitaire_id')->constrained();
             $table->string('code')->unique();
             $table->string('nom');
             $table->integer('niveau');

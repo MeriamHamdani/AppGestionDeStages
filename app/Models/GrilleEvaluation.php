@@ -5,12 +5,13 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class Soutenance extends Model
+class GrilleEvaluation extends Model
 {
     use HasFactory;
 
-    public function stage()
+    public function sousGrilleEvaluations()
     {
-        return $this->belongsTo(Stage::class);
+        return $this->hasMany(SousGrilleEvaluation::class);
     }
+
 }

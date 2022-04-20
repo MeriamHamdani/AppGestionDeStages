@@ -2,10 +2,10 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\SousGrilleEvaluation;
+use App\Models\DepotMemoire;
 use Illuminate\Http\Request;
 
-class SousGrilleEvaluationController extends Controller
+class DepotMemoireController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -41,10 +41,10 @@ class SousGrilleEvaluationController extends Controller
     /**
      * Display the specified resource.
      *
-     * @param  \App\Models\SousGrilleEvaluation  $sousGrilleEvaluation
+     * @param  \App\Models\DepotMemoire  $depotMemoire
      * @return \Illuminate\Http\Response
      */
-    public function show(SousGrilleEvaluation $sousGrilleEvaluation)
+    public function show(DepotMemoire $depotMemoire)
     {
         //
     }
@@ -52,10 +52,10 @@ class SousGrilleEvaluationController extends Controller
     /**
      * Show the form for editing the specified resource.
      *
-     * @param  \App\Models\SousGrilleEvaluation  $sousGrilleEvaluation
+     * @param  \App\Models\DepotMemoire  $depotMemoire
      * @return \Illuminate\Http\Response
      */
-    public function edit(SousGrilleEvaluation $sousGrilleEvaluation)
+    public function edit(DepotMemoire $depotMemoire)
     {
         //
     }
@@ -64,10 +64,10 @@ class SousGrilleEvaluationController extends Controller
      * Update the specified resource in storage.
      *
      * @param  \Illuminate\Http\Request  $request
-     * @param  \App\Models\SousGrilleEvaluation  $sousGrilleEvaluation
+     * @param  \App\Models\DepotMemoire  $depotMemoire
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, SousGrilleEvaluation $sousGrilleEvaluation)
+    public function update(Request $request, DepotMemoire $depotMemoire)
     {
         //
     }
@@ -75,10 +75,10 @@ class SousGrilleEvaluationController extends Controller
     /**
      * Remove the specified resource from storage.
      *
-     * @param  \App\Models\SousGrilleEvaluation  $sousGrilleEvaluation
+     * @param  \App\Models\DepotMemoire  $depotMemoire
      * @return \Illuminate\Http\Response
      */
-    public function destroy(SousGrilleEvaluation $sousGrilleEvaluation)
+    public function destroy(DepotMemoire $depotMemoire)
     {
         //
     }
