@@ -25,28 +25,40 @@
                 <!-- <div class="card-header pb-0">
                     <h5>Modifier les informations de la classe</h5>
                 </div>-->
-                <form class="form theme-form">
+                <form class="form theme-form" method="post"
+                    action="{{ route('admin.update',['id_admin'=>$admin->id]) }}">
+                    @csrf
                     <div class="card-body">
+                        @if($errors->any())
+                        @foreach ($errors->all() as $err )
+                        <div class="alert alert-danger" role="alert">
+                            {{ $err }}
+                        </div>
+
+                        @endforeach
+
+                        @endif
                         <div class="row">
                             <div class="col">
                                 <div class="mb-3">
                                     <label class="form-label" for="exampleFormControlInput1">Nom </label>
-                                    <input class="form-control" id="exampleFormControlInput1" type="text"
-                                        value="Ben Flene" />
+                                    <input class="form-control" type="text" name="nom" id="nom" value={{ $admin->nom }}
+                                    />
                                 </div>
                             </div>
                             <div class="col">
                                 <div class="mb-3">
                                     <label class="form-label" for="exampleFormControlInput1">Prénom </label>
-                                    <input class="form-control" id="exampleFormControlInput1" type="text"
-                                        value="Flene" />
+                                    <input class="form-control" name="prenom" id="prenom" value={{ $admin->prenom }}
+                                    type="text"
+                                    value="Flene" />
                                 </div>
                             </div>
                             <div class="col">
                                 <div class="mb-3">
                                     <label class="form-label" for="exampleFormControlInput1">CIN </label>
-                                    <input class="form-control" id="exampleFormControlInput1" type="text"
-                                        value="88888888" />
+                                    <input class="form-control" type="text" name="numero_CIN" id="numero_CIN" value={{
+                                        $user->numero_CIN }} />
                                 </div>
                             </div>
                         </div>
@@ -55,16 +67,17 @@
                                 <div class="mb-3">
                                     <label class="form-label" for="exampleFormControlInput1">Numéro de telephone
                                     </label>
-                                    <input class="form-control" id="exampleFormControlInput1" type="text"
-                                        value="55555555" />
+                                    <input class="form-control" type="text" name="numero_telephone"
+                                        id="numero_telephone" value={{ $admin->numero_telephone }}
+                                    />
                                 </div>
                             </div>
 
                             <div class="col">
                                 <div class="mb-3">
                                     <label class="form-label" for="exampleFormControlInput1">E-mail </label>
-                                    <input class="form-control" id="exampleFormControlInput1" type="text"
-                                        value="fene@flen.com" />
+                                    <input class="form-control" type="email" name="email" id="email" value={{
+                                        $admin->email }} />
                                 </div>
                             </div>
                         </div>

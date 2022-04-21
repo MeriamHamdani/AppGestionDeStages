@@ -16,7 +16,11 @@ class CreateEtudiantsTable extends Migration
         Schema::create('etudiants', function (Blueprint $table) {
             $table->id();
             $table->foreignId('user_id')->constrained()->cascadeOnDelete();
-            $table->foreignId('annee_universitaire_id')->constrained();
+            //$table->foreignIdF('annee_universitaire_id')->constrained();
+            $table->foreign('annee_universitaire_id')
+          ->references('annee_universitaires')
+          ->on('id')
+          ->onDelete('cascade');
             $table->foreignId('classe_id')->constrained();
             $table->string('nom');
             $table->string('prenom');

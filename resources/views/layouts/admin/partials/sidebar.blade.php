@@ -44,13 +44,17 @@
                             <i class="icofont icofont-users-alt-2"></i>&nbsp&nbsp&nbsp<span>La liste des
                                 administrateurs</span></a>
                     </li>
-
+                    @foreach (auth()->user()->getRoleNames() as $role )
+                    @if ($role=="super_admin")
                     <li class="dropdown">
                         <a class="nav-link menu-title link-nav {{ routeActive('ajouter_admin') }} "
                             href="{{ route('ajouter_admin') }}">
                             <i class="icofont icofont-user-suited"></i>&nbsp&nbsp&nbsp<span>Ajouter un
                                 administrateur</span></a>
                     </li>
+                    @endif
+                    @endforeach
+
 
                     <li class="sidebar-main-title">
                         <div>
@@ -220,4 +224,3 @@
         </div>
     </nav>
 </header>
-

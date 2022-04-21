@@ -40,7 +40,6 @@ class DepartementController extends Controller
      */
     public function store(Request $request)
     {
-        $message="";
         $request->validate([
             'nom' => ['required', 'string', 'max:255'],
             'code' => ['required', 'string', 'max:255', 'unique:departements'],
@@ -103,6 +102,7 @@ class DepartementController extends Controller
     {
 
         $departement=Departement::findOrFail($id);
+        
         //dd($departement);
 
         return view('admin.etablissement.departement.modifier_departement', compact(['departement']));
@@ -137,8 +137,11 @@ class DepartementController extends Controller
      * @param  \App\Models\Departement  $departement
      * @return \Illuminate\Http\Response
      */
-    public function destroy(Departement $departement)
+    public function destroy($id)
     {
-        //
+        $departement=Departement::findOrFail($id);
+        $departement->delete();
+        return redirect()->action([DepartementController::class, 'showAll']);
+
     }
 }

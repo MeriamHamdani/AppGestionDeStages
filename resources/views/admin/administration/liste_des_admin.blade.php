@@ -42,109 +42,65 @@
                                 </tr>
                             </thead>
                             <tbody>
-                                <tr>
-                                    <td>Ben Foulen</td>
-                                    <td>Foulen</td>
-                                    <td>88888888</td>
-                                    <td>66666666</td>
-                                    <td>Foulen@foulen.com</td>
-                                    <td class="text-center">
-                                        <!--<img style="width : 20px;
-                                            height : 20px;" src="{{asset('assets/images/drapeau-vert.jpg') }}">-->
+                                @foreach ($adminIsActive as $aia)
 
+
+                                <tr>
+                                    <td>{{ $aia["admin"]->nom }}</td>
+                                    <td>{{ $aia["admin"]->prenom }}</td>
+                                    <td>{{ $aia["user"]->numero_CIN }}</td>
+                                    <td>{{ $aia["admin"]->numero_telephone }}</td>
+                                    <td>{{ $aia["admin"]->email }}</td>
+
+                                    <td class="text-center">
+                                        @if ( $aia["user"]->is_active)
                                         <a class=" btn btn-icon-only default" href="#" data-placement="top"
-                                            data-toggle="tooltip" title="Désactiver"><img
+                                            data-toggle="tooltip" title="admin active"><img
                                                 src="{{ asset('assets/images/userActive.png') }}">
 
                                         </a>
-
-                                    </td>
-                                    <td class="text-center">
-
-
-                                        <a href="#" data-title="activer cet admin" data-toggle="tooltip"
-                                            title="activer cet admin">
-                                            <i class="icofont icofont-checked icon-large"></i></a>
-                                        <a href="#" data-title="desactiver cet admin" data-toggle="tooltip"
-                                            title="desactiver cet admin">
-                                            <i class="icofont icofont-ui-block icon-large"></i></a>
-                                        <a href="{{ route('modifier_admin') }}"
-                                            data-title="Modifer les coordonnées de cet admin" data-toggle="tooltip"
-                                            title="Modifer les coordonnées de cet admin"><i
-                                                class="icofont icofont-ui-edit icon-large"></i></a>
-                                        <a href="#" data-title="supprimer" data-toggle="tooltip"
-                                            data-original-title="supprimer cet admin" title="Supprimer cet admin">
-                                            <i class="icofont icofont-trash icon-large"></i></a>
-
-
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <td>Ben Foulen</td>
-                                    <td>Foulen</td>
-                                    <td>88888888</td>
-                                    <td>66666666</td>
-                                    <td>Foulen@foulen.com</td>
-                                    <td class="text-center">
+                                        @else
                                         <a class=" btn btn-icon-only default" href="#" data-placement="top"
-                                            data-toggle="tooltip" title="Désactiver"><img
-                                                src="{{ asset('assets/images/userActive.png') }}">
-
-                                        </a>
-
-
-                                    </td>
-
-                                    <td class="text-center">
-
-                                        <a href="#" data-title="activer cet admin" data-toggle="tooltip"
-                                            title="activer cet admin">
-                                            <i class="icofont icofont-checked icon-large"></i></a>
-                                        <a href="#" data-title="desactiver cet admin" data-toggle="tooltip"
-                                            title="desactiver cet admin">
-                                            <i class="icofont icofont-ui-block icon-large"></i></a>
-                                        <a href="#" data-title="Modifer les coordonnées de cet admin"
-                                            data-toggle="tooltip" title="Modifer les coordonnées de cet admin"><i
-                                                class="icofont icofont-ui-edit icon-large"></i></a>
-                                        <a href="#" data-title="supprimer" data-toggle="tooltip"
-                                            data-original-title="supprimer cet admin" title="Supprimer cet admin">
-                                            <i class="icofont icofont-trash icon-large"></i></a>
-
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <td>Ben Foulen</td>
-                                    <td>Foulen</td>
-                                    <td>88888888</td>
-                                    <td>66666666</td>
-                                    <td>Foulen@foulen.com</td>
-                                    <td class="text-center">
-
-                                        <a class=" btn btn-icon-only default" href="#" data-placement="top"
-                                            data-toggle="tooltip" title="Désactiver"><img
+                                            data-toggle="tooltip" title="admin inactive"><img
                                                 src="{{ asset('assets/images/usercancled.png') }}">
                                         </a>
+                                        @endif
+
+
                                     </td>
                                     <td class="text-center">
 
-                                        <a href="#" data-title="activer cet admin" data-toggle="tooltip"
+                                        @if (!$aia["user"]->is_active)
+                                        <a href={{ route('activer_desactiver_admin',['id'=>$aia["user"]->id])
+                                            }} data-title="activer cet
+                                            admin"
+                                            data-toggle="tooltip"
                                             title="activer cet admin">
-                                            <i class="icofont icofont-checked icon-large"></i></a>
+                                            <i class="icofont icofont-checked icon-large"></i>
+                                        </a>
+                                        @else
                                         <a href="#" data-title="desactiver cet admin" data-toggle="tooltip"
                                             title="desactiver cet admin">
-                                            <i class="icofont icofont-ui-block icon-large"></i></a>
-                                        <a href="#" data-title="Modifer les coordonnées de cet admin"
-                                            data-toggle="tooltip" title="Modifer les coordonnées de cet admin"><i
-                                                class="icofont icofont-ui-edit icon-large"></i></a>
-                                        <a href="#" data-title="supprimer" data-toggle="tooltip"
+                                            <i class="icofont icofont-ui-block icon-large"></i>
+                                        </a>
+                                        @endif
+
+
+                                        <a href="{{ route('admin.edit',['id_admin'=>$aia["admin"]->id]) }}"
+                                            data-title="Modifer les coordonnées de cet admin" data-toggle="tooltip"
+                                            title="Modifer les coordonnées de cet admin"><i
+                                                class="icofont icofont-ui-edit icon-large"></i>
+                                        </a>
+                                        <a href="{{ route('admin.destroy',['id_admin'=>$aia["admin"]->id]) }}"
+                                            data-title="supprimer" data-toggle="tooltip"
                                             data-original-title="supprimer cet admin" title="Supprimer cet admin">
-                                            <i class="icofont icofont-trash icon-large"></i></a>
+                                            <i class="icofont icofont-trash icon-large"></i>
+                                        </a>
+
 
                                     </td>
                                 </tr>
-
-
-
+                                @endforeach
 
                             </tbody>
                             <tfoot>

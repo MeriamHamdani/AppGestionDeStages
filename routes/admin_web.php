@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\AdminController;
 use App\Http\Controllers\AnneeUniversitaireController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\DepartementController;
@@ -10,9 +11,15 @@ use App\Http\Controllers\DepartementController;
 Route::middleware(['auth','role:admin|superadmin'])->group(function(){
 Route::prefix('admin')->group(function () {
 // ADMINISTRATION
-    Route::view('administration/liste-admin', 'admin.administration.liste_des_admin')->name('liste_admin');
+    Route::get('administration/liste-admin', [AdminController::class,'index'])->name('liste_admin');
     Route::view('administration/ajouter-admin', 'admin.administration.ajouter_admin')->name('ajouter_admin');
+    Route::post('administration/ajouter-admin',[AdminController::class,'store'])->name('ajout_admin');
     Route::view('administration/modifier-admin', 'admin.administration.modifier_infos_admin')->name('modifier_admin');
+    Route::get('administration/modifier-admin/{id_admin}',[AdminController::class,'edit'])->whereNumber('id_admin')->name('admin.edit');
+    Route::post('administration/modifier/{id_admin}',[AdminController::class,'update'])->whereNumber('id_admin')->name('admin.update');
+    Route::get('administration/activer-desactiver-admin/{id}',[AdminController::class,'activer_desactiver'])->whereNumber('id')->name('activer_desactiver_admin');
+    
+    Route::get('administration/supprimer-admin/{id_admin}',[AdminController::class,'destroy'])->whereNumber('id_admin')->name('admin.destroy');
     // STAGE
     Route::prefix('stage/demandes-stage')->group(function () {
         Route::view('1ere-2eme-licence-master', 'admin.stage.listes_demandes_stage.sv12lm')->name('demandes_stage.sv12lm');
@@ -36,12 +43,13 @@ Route::prefix('admin')->group(function () {
      // *********** DEPARTEMENT  **********
      Route::resource('departement', DepartementController::class);
 
-     Route::get('etablissement/liste_departements', [DepartementController::class,'showAll'])->name('liste_departements');
+     Route::get('etablissement/liste-departements', [DepartementController::class,'showAll'])->name('liste_departements');
      //Route::view('etablissement/modifier-departement', 'admin.etablissement.departement.modifier_departement')->name('modifier_departement');
      //Route::get('etablissement/ajouter-departement', [DepartementController::class,'create'])->name('create_departement');
      //Route::post('etablissement/liste-departements/ajouter-departement',[DepartementController::class,'store'])->name('store_departement');
      Route::get('/etablissement/modifier-departement/{id}', [DepartementController::class, 'edit'])->whereNumber('id')->name('departement.edit');
      Route::post('/etablissement/update/{id}', [DepartementController::class, 'update'])->whereNumber('id')->name('departement.update');
+     Route::get('/etablissement/supprimer-departement/{id}', [DepartementController::class, 'destroy'])->whereNumber('id')->name('departement.destroy');
     // *********** SPECIALITE  **********
     Route::view('etablissement/liste-specialites', 'admin.etablissement.specialite.liste_specialites')->name('liste_specialites');
     Route::view('etablissement/liste-specialites/ajouter-specialite', 'admin.etablissement.specialite.ajouter_specialite')->name('ajouter_specialite');

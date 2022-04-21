@@ -30,9 +30,12 @@
                     @csrf
 
                     <div class="card-body">
-                        @if($errors->any())
+                        @ @if($errors->any())
                         @foreach ($errors->all() as $err )
-                        <div class="text-red-600">{{ $err }}</div>
+                        <div class="alert alert-danger" role="alert">
+                            {{ $err }}
+                        </div>
+
                         @endforeach
 
                         @endif
@@ -70,4 +73,3 @@
 @endpush
 
 @endsection
-

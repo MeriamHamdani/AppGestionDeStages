@@ -2,8 +2,9 @@
 
 namespace App\Models;
 
-use Illuminate\Database\Eloquent\Factories\HasFactory;
+use App\Models\Etudiant;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 
 class AnneeUniversitaire extends Model
 {
@@ -16,4 +17,8 @@ class AnneeUniversitaire extends Model
     protected $fillable = [
         'annee'
     ];
+    public function etudiants()
+    {
+        return $this->hasMany(Etudiant::class);
+    }
 }
