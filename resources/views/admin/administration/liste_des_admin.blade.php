@@ -79,19 +79,20 @@
                                             <i class="icofont icofont-checked icon-large"></i>
                                         </a>
                                         @else
-                                        <a href="#" data-title="desactiver cet admin" data-toggle="tooltip"
+                                        <a href={{ route('activer_desactiver_admin',['id'=>$aia["user"]->id])
+                                            }} data-title="desactiver cet admin" data-toggle="tooltip"
                                             title="desactiver cet admin">
                                             <i class="icofont icofont-ui-block icon-large"></i>
                                         </a>
                                         @endif
 
 
-                                        <a href="{{ route('admin.edit',['id_admin'=>$aia["admin"]->id]) }}"
+                                        <a href="{{ route('admin.edit',['id_admin'=>$aia['admin']->id]) }}"
                                             data-title="Modifer les coordonnées de cet admin" data-toggle="tooltip"
                                             title="Modifer les coordonnées de cet admin"><i
                                                 class="icofont icofont-ui-edit icon-large"></i>
                                         </a>
-                                        <a href="{{ route('admin.destroy',['id_admin'=>$aia["admin"]->id]) }}"
+                                        <a href="{{ route('admin.destroy',['id_admin'=>$aia['admin']->id]) }}"
                                             data-title="supprimer" data-toggle="tooltip"
                                             data-original-title="supprimer cet admin" title="Supprimer cet admin">
                                             <i class="icofont icofont-trash icon-large"></i>

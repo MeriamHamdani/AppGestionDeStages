@@ -8,6 +8,7 @@ use PHPUnit\Util\Json;
 use Illuminate\Http\Request;
 use Illuminate\Validation\Rules;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Auth\Events\Registered;
 
 
 class AdminController extends Controller
@@ -90,7 +91,8 @@ class AdminController extends Controller
         $user->password = Hash::make($request->numero_CIN);
         $user->is_active=false;
         $user->assignRole('admin');
-$user->save();
+        event(new Registered($user));
+        $user->save();
 
         $admin=new Admin();
         $admin->nom=$request->nom;

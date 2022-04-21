@@ -17,8 +17,7 @@ class CreateUsersTable extends Migration
             $table->id();
             $table->string('numero_CIN')->unique();
             $table->string('password');
-            $table->string('nom');
-            $table->string('prenom');
+           
             $table->boolean('is_active')->nullable();
             $table->rememberToken();
             $table->timestamps();
