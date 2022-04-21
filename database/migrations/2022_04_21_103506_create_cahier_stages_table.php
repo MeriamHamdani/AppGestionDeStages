@@ -15,7 +15,7 @@ class CreateCahierStagesTable extends Migration
     {
         Schema::create('cahier_stages', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('stage_id')->constrained();
+            //$table->foreignId('stage_id')->constrained(); ajoutée dans une autre migration
             $table->foreignId('annee_universitaire_id')->constrained();
             $table->timestamps();
         });
