@@ -16,9 +16,9 @@ class CreateStagesTable extends Migration
         Schema::create('stages', function (Blueprint $table) {
             $table->id();
             $table->foreignId('etudiant_id')->constrained();
-            $table->foreignId('cahier_stage_id')->nullable()->constrained();
+            /*$table->foreignId('cahier_stage_id')->nullable()->constrained();
             $table->foreignId('depot_memoire_id')->nullable()->constrained();
-            $table->foreignId('soutenance_id')->nullable()->constrained();
+            $table->foreignId('soutenance_id')->nullable()->constrained();*/
             $table->foreignId('annee_universitaire_id')->constrained();
             $table->string('titre_sujet');
             $table->date('date_debut');

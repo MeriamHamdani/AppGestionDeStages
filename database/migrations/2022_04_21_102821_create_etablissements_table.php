@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class CreateEntreprisesTable extends Migration
+class CreateEtablissementsTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,14 +13,14 @@ class CreateEntreprisesTable extends Migration
      */
     public function up()
     {
-        Schema::create('entreprises', function (Blueprint $table) {
+        Schema::create('etablissements', function (Blueprint $table) {
             $table->id();
             $table->string('nom');
-            $table->string('adresse');
-            $table->string('numero_telephone');
             $table->string('email');
+            $table->string('telephone');
+            $table->string('adresse');
             $table->string('fax');
-
+            $table->string('universite');
             $table->timestamps();
         });
     }
@@ -32,7 +32,6 @@ class CreateEntreprisesTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('entreprises');
-
-   }
+        Schema::dropIfExists('etablissements');
+    }
 }

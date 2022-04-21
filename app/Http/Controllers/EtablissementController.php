@@ -24,7 +24,7 @@ class EtablissementController extends Controller
      */
     public function create()
     {
-        //
+        return  view('admin.configuration.generale.coordonnees');
     }
 
     /**
@@ -35,7 +35,16 @@ class EtablissementController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $attributs = $request->validate([
+                'nom' => 'required',
+                'email' => 'required|email|max:255',
+                'universite' => 'required',
+                'telephone' => 'requied|max:8',
+                'fax' => 'requied|max:8',
+                'adresse' => 'required'
+            ]
+        );
+
     }
 
     /**
