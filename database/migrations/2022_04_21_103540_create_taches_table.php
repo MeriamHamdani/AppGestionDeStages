@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class CreateCahierStagesTable extends Migration
+class CreateTachesTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,11 +13,13 @@ class CreateCahierStagesTable extends Migration
      */
     public function up()
     {
-        Schema::create('cahier_stages', function (Blueprint $table) {
+        Schema::create('taches', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('stage_id')->constrained();
-            $table->foreignId('annee_universitaire_id')->constrained();
-            $table->timestamps();
+            $table->foreignId('cahier_stage_id')->constrained();
+            $table->string('titre');
+            $table->string('contenu');
+            $table->date('date');
+            $table->timestamp('heure');
         });
     }
 
@@ -28,6 +30,6 @@ class CreateCahierStagesTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('cahier_stages');
+        Schema::dropIfExists('taches');
     }
 }
