@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\AnneeUniversitaireController;
+use App\Http\Controllers\EtablissementController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\DepartementController;
 
@@ -65,7 +66,8 @@ Route::prefix('admin')->group(function () {
     Route::view('paiement/details-paiement-ens', 'admin.paiement.details_paiement_ens')->name('details_paiement_ens');
 // CONFIGURATION
     Route::prefix('configuration/generale')->group(function () {
-        Route::view('coordonnees', 'admin.configuration.generale.coordonnees')->name('coordonnees');
+        Route::get('coordonnees', [EtablissementController::class,'create'])->name('coordonnees');
+        Route::post('coordonnees/valider', [EtablissementController::class,'create'])->name('valider_coordonnees');
         Route::view('montant-selon-grade', 'admin.configuration.generale.montant_selon_grade')->name('montant_selon_grade');
         Route::view('dates-stages', 'admin.configuration.generale.dates_stages')->name('dates_stages');
         Route::view('liste-grille', 'admin.configuration.generale.liste_grille')->name('liste_grille');

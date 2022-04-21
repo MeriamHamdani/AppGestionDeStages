@@ -20,7 +20,6 @@ class CreateTachesTable extends Migration
             $table->string('contenu');
             $table->date('date');
             $table->timestamp('heure');
-
         });
     }
 
