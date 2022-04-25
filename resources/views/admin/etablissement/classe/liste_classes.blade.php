@@ -41,49 +41,24 @@
                             <table class="display" id="auto-fill">
                                 <thead>
                                 <tr>
-                                    <th>Code</th>
-                                    <th>Nom classe</th>
+                                    <th>Code classe</th>
+                                    <th>Classe</th>
                                     <th>Spécialité</th>
                                     <th>Actions</th>
                                 </tr>
                                 </thead>
                                 <tbody>
+                                @foreach($classes as $classe)
                                 <tr>
-                                    <td>LIG</td>
-                                    <td>Informatique de gestion</td>
-                                    <th>Informatique</th>
+                                    <td>{{ucwords($classe->code)}}</td>
+                                    <td>{{ucwords($classe->nom)}}</td>
+                                    <td>{{ucwords($classe->specialite->nom)}}</td>
                                     <td class="text-center">
-                                        <a href="{{ route('modifier_classe') }}"> <i style="font-size: 1.3em;"
-                                                                                         class='fa fa-edit'></i></a>
-                                        <a href="#"> <i style="font-size: 1.3em;" class='fa fa-trash'></i></a>
-
+                                        <a href="{{ route('modifier_classe',$classe) }}"> <i style="font-size: 1.3em;"  class='fa fa-edit'></i></a>
+                                        <a href="{{ route('supprimer_classe',$classe) }}"> <i style="font-size: 1.3em;" class='fa fa-trash'></i></a>
                                     </td>
-
                                 </tr>
-                                <tr>
-                                    <td>LC</td>
-                                    <td>Licence Comptabilité</td>
-                                    <td>Comptabilité</td>
-                                    <td class="text-center">
-                                        <a href="{{ route('modifier_classe') }}"> <i style="font-size: 1.3em;"
-                                                                                         class='fa fa-edit'></i></a>
-                                        <a href="#"> <i style="font-size: 1.3em;" class='fa fa-trash'></i></a>
-
-                                    </td>
-
-                                </tr>
-                                <tr>
-                                    <td>LF</td>
-                                    <td>Licence Finance</td>
-                                    <td>Finance</td>
-                                    <td class="text-center">
-                                        <a href="{{ route('modifier_classe') }}"> <i style="font-size: 1.3em;"
-                                                                                         class='fa fa-edit'></i></a>
-                                        <a href="#"> <i style="font-size: 1.3em;" class='fa fa-trash'></i></a>
-
-                                    </td>
-
-                                </tr>
+                                @endforeach
                                 </tbody>
                                 <tfoot>
                                 <tr>

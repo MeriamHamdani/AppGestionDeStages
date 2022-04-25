@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Auth;
 
+use App\Models\User;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Auth;
@@ -40,6 +41,9 @@ class AuthenticatedSessionController extends Controller
             ]);
         }
         session()->regenerate();
+        $user = Auth::user();
+        $user['is_active'] = 1;
+        $user->update(['is_active']);
         return redirect()->intended($this->accueil());
 
     }
@@ -55,7 +59,7 @@ class AuthenticatedSessionController extends Controller
                         break;
                     case 'enseignant':
                         //$role='enseignant';
-                        return ('enseignant/');
+                        return ('enseignant/encadrement/liste-demandes');
                         break;
                     case 'etudiant':
                        // $role='etudiant';

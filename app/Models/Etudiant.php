@@ -11,13 +11,7 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 class Etudiant extends Model
 {
     use HasFactory;
-    protected $fillable = [
-        'nom',
-        'prenom',
-        'numero_telephone',
-        'email',
-        'user_id'
-    ];
+    protected $guarded = [];
 
     public function classe()
     {
@@ -30,6 +24,10 @@ class Etudiant extends Model
     public function annee_universitaire()
     {
         return $this->belongsTo(AnneeUniversitaire::class);
+    }
+    public function user()
+    {
+        return $this->belongsTo(User::class);
     }
 
 }

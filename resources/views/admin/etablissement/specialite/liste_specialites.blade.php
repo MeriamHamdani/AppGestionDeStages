@@ -27,12 +27,12 @@
             <div class="col-sm-12">
                 <div class="card">
                     <div class="card-header pb-0">
-                        <h5>La liste des spécialités</h5>
+                        <h5>La liste des Spécialités</h5>
                         <div style="padding-left: 2px">
                             <a href={{ route('ajouter_specialite') }}>
                                 <i class="text-right" aria-hidden="true">
                                     <button class="btn btn-pill btn-success btn-sm pull-right" type="button">
-                                        Ajouter une spécialité
+                                        Ajouter une Spécialité
                                     </button>
                                 </i>
                             </a>
@@ -44,61 +44,36 @@
                                 <thead>
                                 <tr>
                                     <th>Code</th>
-                                    <th>Nom spécialité</th>
+                                    <th>Spécialité</th>
                                     <th>Déparetement</th>
                                     <th>Responsable</th>
                                     <th>Actions</th>
                                 </tr>
                                 </thead>
                                 <tbody>
+                                @foreach($specialites as $specialite)
                                 <tr>
-                                    <td>LIG</td>
-                                    <td>Informatique de gestion</td>
-                                    <th>Informatique</th>
-                                    <th>Foulen ben </th>
+                                    <td>{{ucwords($specialite->code)}}</td>
+                                    <td>{{ucwords($specialite->nom)}}</td>
+                                    <td>{{ucwords($specialite->departement->nom)}}</td>
+                                    <td>{{ucwords($specialite->enseignant->nom)}} {{ucwords($specialite->enseignant->prenom)}}</td>
                                     <td class="text-center">
-                                        <a href="{{ route('modifier_specialite') }}"> <i style="font-size: 1.3em;"
-                                                                                          class='fa fa-edit'></i></a>
-                                        <a href="#"> <i style="font-size: 1.3em;" class='fa fa-trash'></i></a>
-
+                                        <a href="{{ route('modifier_specialite', $specialite) }}"> <i style="font-size: 1.3em;" class='fa fa-edit'></i></a>
+                                        <a href="{{ route('supprimer_specialite', $specialite) }}"> <i style="font-size: 1.3em;" class='fa fa-trash'></i></a>
                                     </td>
-
                                 </tr>
-                                <tr>
-                                    <td>LC</td>
-                                    <td>Licence Comptabilité</td>
-                                    <td>Comptabilité</td>
-                                    <th>Alex bt </th>
-                                    <td class="text-center">
-                                        <a href="{{ route('modifier_specialite') }}"> <i style="font-size: 1.3em;"
-                                                                                          class='fa fa-edit'></i></a>
-                                        <a href="#"> <i style="font-size: 1.3em;" class='fa fa-trash'></i></a>
-
-                                    </td>
-
-                                </tr>
-                                <tr>
-                                    <td>LF</td>
-                                    <td>Licence Finance</td>
-                                    <td>Finance</td>
-                                    <th>Zera v </th>
-                                    <td class="text-center">
-                                        <a href="{{ route('modifier_specialite') }}"> <i style="font-size: 1.3em;"
-                                                                                          class='fa fa-edit'></i></a>
-                                        <a href="#"> <i style="font-size: 1.3em;" class='fa fa-trash'></i></a>
-
-                                    </td>
-
-                                </tr>
+                                @endforeach
                                 </tbody>
                                 <tfoot>
                                 <tr>
+                                <tr>
                                     <th>Code</th>
-                                    <th>Nom spécialité</th>
+                                    <th>Spécialité</th>
                                     <th>Déparetement</th>
                                     <th>Responsable</th>
                                     <th>Actions</th>
                                 </tr>
+
                                 </tfoot>
                             </table>
                         </div>

@@ -24,7 +24,7 @@ class EtablissementController extends Controller
      */
     public function create()
     {
-        return  view('admin.configuration.generale.coordonnees');
+
     }
 
     /**
@@ -35,15 +35,6 @@ class EtablissementController extends Controller
      */
     public function store(Request $request)
     {
-        $attributs = $request->validate([
-                'nom' => 'required',
-                'email' => 'required|email|max:255',
-                'universite' => 'required',
-                'telephone' => 'requied|max:8',
-                'fax' => 'requied|max:8',
-                'adresse' => 'required'
-            ]
-        );
 
     }
 
@@ -66,7 +57,7 @@ class EtablissementController extends Controller
      */
     public function edit(Etablissement $etablissement)
     {
-        //
+        return  view('admin.configuration.generale.coordonnees');
     }
 
     /**
@@ -78,7 +69,27 @@ class EtablissementController extends Controller
      */
     public function update(Request $request, Etablissement $etablissement)
     {
-        //
+
+        $attributs = $request->validate([
+                'nom' => 'required',
+                'email' => 'required|email',
+                'universite' => 'required',
+                'telephone' => 'required',
+                'fax' => 'required',
+                'adresse' => 'required'
+            ]
+        );
+        //dd($request);
+        $etablissement->nom = $request->nom;
+        $etablissement->email = $request->email;
+        $etablissement->universite = $request->universite;
+        $etablissement->fax = $request->fax;
+        $etablissement->telephone = $request->telephone;
+        $etablissement->adresse = $request->adresse;
+        //dd($request->email);
+       $etablissement->update($attributs);
+       dd($etablissement);
+        return back()->with('success', 'Post Updated!');
     }
 
     /**

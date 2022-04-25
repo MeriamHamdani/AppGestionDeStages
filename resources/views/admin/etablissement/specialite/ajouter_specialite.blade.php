@@ -25,20 +25,28 @@
                     <div class="card-header pb-0">
                         <h5>Ajouter une spécialité</h5>
                     </div>
-                    <form class="form theme-form">
+                    <form class="form theme-form" method="POST" action="{{ route('sauvegarder_specialite') }}">
+                       @csrf
                         <div class="card-body">
+                            @if($errors->any())
+                                @foreach ($errors->all() as $err )
+                                    <div class="alert alert-danger" role="alert">
+                                        {{ $err }}
+                                    </div>
+                                @endforeach
+                            @endif
                             <div class="row">
                                 <div class="col">
                                     <div class="mb-3">
                                         <label class="form-label" for="exampleFormControlInput1">Code spécialité  </label>
-                                        <input class="form-control" id="exampleFormControlInput1" type="text"
+                                        <input class="form-control" id="code" name="code" type="text"
                                                placeholder="entrez le code de spécialité..." />
                                     </div>
                                 </div>
                                 <div class="col">
                                     <div class="mb-3">
                                         <label class="form-label" for="exampleFormControlInput1">Nom spécialité </label>
-                                        <input class="form-control" id="exampleFormControlInput1" type="text"
+                                        <input class="form-control" id="nom" name="nom" type="text"
                                                placeholder="entrez le nom du spécialité..." />
                                     </div>
                                 </div>
@@ -47,25 +55,27 @@
                                 <div class="col">
                                     <div class="mb-3">
                                         <label class="form-label" for="exampleFormControlInput1">Formation</label>
-                                        <select class="js-example-basic-single col-sm-12">
-                                            <option value="0">Sélectionnez le type de formation</option>
-                                            <option value="1">Licence</option>
-                                            <option value="2">Master</option>
-                                            <option value="3">Ingénieurie</option>
-                                            <option value="4">Doctorat</option>
+                                        <select class="js-example-basic-single col-sm-12" name="cycle" id="cycle">
+                                            <option disabled="disabled" selected="selected">Sélectionnez le type de formation</option>
+                                            <option value="licence">Licence</option>
+                                            <option value="mastère">Mastère</option>
+                                            <option value="ingenieurie">Ingénieurie</option>
+                                            <option value="doctorat">Doctorat</option>
+                                            <option value="stage">Stage</option>
                                         </select>
                                     </div>
                                 </div>
                                 <div class="col">
                                     <div class="mb-3">
-
                                         <label class="form-label" for="exampleFormControlInput1">Département</label>
-                                        <select class="js-example-basic-single col-sm-12">
-                                            <option value="0">Sélectionnez le département</option>
-                                            <option value="1">Comptabilité</option>
-                                            <option value="2">GRH</option>
-                                            <option value="3">Finance</option>
-                                            <option value="4">Info</option>
+                                        <select class="js-example-basic-single col-sm-12" id="departement_id" name="departement_id" required>
+                                            <option disabled="disabled" selected="selected">Sélectionnez le département</option>
+                                            @foreach (\App\Models\Departement::all() as $departement)
+                                                <option
+                                                    value="{{ $departement->id }}"
+                                                    {{ old('departement_id') == $departement->id ? 'selected' : '' }}
+                                                >{{ ucwords($departement->nom) }}</option>
+                                            @endforeach
                                         </select>
                                     </div>
                                 </div>
@@ -74,12 +84,14 @@
                                 <div class="col">
                                     <div class="mb-3">
                                         <label class="form-label" for="exampleFormControlInput1">Responsable</label>
-                                        <select class="js-example-basic-single col-sm-12">
-                                            <option value="0">Sélectionnez le responsable</option>
-                                            <option value="1">Msr flen</option>
-                                            <option value="2">Mdm flena</option>
-                                            <option value="3">Mrs roza</option>
-                                            <option value="4">Mr fley</option>
+                                        <select class="js-example-basic-single col-sm-12" id="enseignant_id" name="enseignant_id" required>
+                                            <option disabled="disabled" selected="selected">Sélectionnez le responsable</option>
+                                            @foreach (\App\Models\Enseignant::all() as $enseignant)
+                                                <option
+                                                    value="{{ $enseignant->id }}"
+                                                    {{ old('enseignant_id') == $enseignant->id ? 'selected' : '' }}
+                                                >{{ ucwords($enseignant->nom) }} {{ ucwords($enseignant->prenom) }}</option>
+                                            @endforeach
                                         </select>
                                     </div>
                                 </div>

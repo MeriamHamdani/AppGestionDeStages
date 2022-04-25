@@ -20,7 +20,7 @@ class CreateClassesTable extends Migration
             $table->string('code')->unique();
             $table->string('nom');
             $table->integer('niveau');
-            $table->integer('cycle');
+            $table->string('cycle');
             $table->timestamps();
         });
     }
