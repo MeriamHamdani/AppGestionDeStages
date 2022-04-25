@@ -28,7 +28,7 @@
                 <form class="form theme-form" method="post"
                     action="{{ route('departement.update',['id'=>$departement->id]) }}">
                     @csrf
-
+                    @method('PATCH')
                     <div class="card-body">
                         @ @if($errors->any())
                         @foreach ($errors->all() as $err )
@@ -73,3 +73,4 @@
 @endpush
 
 @endsection
+

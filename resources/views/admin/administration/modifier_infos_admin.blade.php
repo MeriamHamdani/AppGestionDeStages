@@ -28,6 +28,7 @@
                 <form class="form theme-form" method="post"
                     action="{{ route('admin.update',['id_admin'=>$admin->id]) }}">
                     @csrf
+                    @method('PATCH')
                     <div class="card-body">
                         @if($errors->any())
                         @foreach ($errors->all() as $err )
@@ -84,7 +85,7 @@
                     </div>
                     <div class="card-footer text-end">
                         <a class="btn btn-light" href="{{ route('liste_admin') }}">Annuler</a>
-                      
+
                         <button class="btn btn-primary" type="submit">Modifier</button>
                     </div>
                 </form>

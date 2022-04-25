@@ -20,7 +20,7 @@ class AdminController extends Controller
      */
     public function index()
     {
-        
+
         $adminIsActive=array();
         //dd($adminIsActive);
         $admins=Admin::all();
@@ -28,19 +28,15 @@ class AdminController extends Controller
         $i=0;
         foreach($admins as $admin){
             $user=User::find($admin->user_id);
-            
-            $adminIsActive[$i]=array( 
+
+            $adminIsActive[$i]=array(
                 "admin" => $admin,
                 "user"=>$user,
-                
-              );
 
+              );
             $i++;
-         
         }
         //dd($adminIsActive);
-
-
 
         return view('admin.administration.liste_des_admin', compact(['adminIsActive']));
     }
@@ -83,12 +79,11 @@ class AdminController extends Controller
             'email' => ['required', 'string', 'email', 'max:255'],
             'numero_telephone'=>['required', 'string', 'max:8','min:8'],
             'numero_CIN'=>['required', 'string', 'max:8','min:8', 'unique:users'],
-            'password' => ['required', Rules\Password::defaults()],
         ]);
         //dd($request);
         $user=new User();
         $user->numero_CIN=$request->numero_CIN;
-        $user->password = Hash::make($request->numero_CIN);
+        $user->password = bcrypt($request->numero_CIN);
         $user->is_active=false;
         $user->assignRole('admin');
         event(new Registered($user));
@@ -139,12 +134,12 @@ $admin->save();
      */
     public function update(Request $request, $id_admin)
     {
-        
+
         $admin=Admin::findOrFail($id_admin);
          $user=User::findOrFail($admin->user_id);
          $cin=$user->numero_CIN;
          //dd($request->all());
-        
+
         $request->validate([
             'nom' => ['required', 'string', 'max:255'],
             'prenom' => ['required', 'string', 'max:255'],
@@ -152,22 +147,22 @@ $admin->save();
             'numero_telephone'=>['required', 'string', 'max:8','min:8'],
             //'numero_CIN'=>['required', 'string', 'max:8','min:8', 'unique:users'],
         ]);
-        
+
         if($cin !==$request->numero_CIN){
             $request->validate(['numero_CIN'=>['required', 'string', 'max:8','min:8', 'unique:users'],]);
             $user->numero_CIN=$request->numero_CIN;
             $user->update();
         }
-        
+
         $admin->nom=$request->nom;
         $admin->prenom=$request->prenom;
         $admin->email=$request->email;
         $admin->numero_telephone=$request->numero_telephone;
         $admin->update();
         return redirect()->action([AdminController::class,'index']);
-           
-        
-    
+
+
+
     }
 
     /**
@@ -176,21 +171,26 @@ $admin->save();
      * @param  \App\Models\Admin  $admin
      * @return \Illuminate\Http\Response
      */
-    public function destroy( $id_admin)
+    public function destroy( $id_user)
     {
-        $admin=Admin::findOrFail($id_admin);
+
+        /*$admin=Admin::findOrFail($id_admin);
         $user=User::findOrFail($admin->user_id);
-       
+
         $admin->delete();
+        $user->delete();*/
+        $user=User::findOrFail($id_user);
+        //dd($user->admin());
         $user->delete();
-        return redirect()->action([DepartementController::class, 'showAll']);
+
+        return redirect()->action([AdminController::class, 'index']);
 
 
    }
-   public function activer_desactiver($id){
+   /*public function activer_desactiver($id){
        $user=User::findOrFail($id);
        $user->is_active=!($user->is_active);
        $user->update();
        return redirect()->action([AdminController::class,'index']);
-   }
+   }*/
 }

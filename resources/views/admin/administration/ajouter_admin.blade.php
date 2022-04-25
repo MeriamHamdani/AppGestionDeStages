@@ -84,14 +84,14 @@
                                         id="numero_CIN" />
                                 </div>
                             </div>
-                            <div class="col">
+                            <!--<div class="col">
                                 <div class="mb-3">
 
                                     <label class="form-label" for="exampleFormControlInput1">Mot de passe </label>
                                     <input class="form-control" id="exampleFormControlInput1" type="password"
                                         placeholder="entrez le mot de passe" name="password" id="password" />
                                 </div>
-                            </div>
+                            </div>-->
 
 
 

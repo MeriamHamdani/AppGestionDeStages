@@ -24,10 +24,10 @@ Route::middleware(['auth','role:admin|superadmin'])->group(function(){
         Route::post('administration/ajouter-admin', [AdminController::class,'store'])->name('ajout_admin');
         Route::view('administration/modifier-admin', 'admin.administration.modifier_infos_admin')->name('modifier_admin');
         Route::get('administration/modifier-admin/{id_admin}', [AdminController::class,'edit'])->whereNumber('id_admin')->name('admin.edit');
-        Route::post('administration/modifier/{id_admin}', [AdminController::class,'update'])->whereNumber('id_admin')->name('admin.update');
+        Route::patch('administration/modifier/{id_admin}', [AdminController::class,'update'])->whereNumber('id_admin')->name('admin.update');
         Route::get('administration/activer-desactiver-admin/{id}', [AdminController::class,'activer_desactiver'])->whereNumber('id')->name('activer_desactiver_admin');
 
-        Route::get('administration/supprimer-admin/{id_admin}', [AdminController::class,'destroy'])->whereNumber('id_admin')->name('admin.destroy');
+        Route::get('administration/supprimer-admin/{id_user}', [AdminController::class,'destroy'])->whereNumber('id_admin')->name('admin.destroy');
 
         // ----------------------------------STAGE-----------------------------------
 
@@ -70,7 +70,7 @@ Route::middleware(['auth','role:admin|superadmin'])->group(function(){
         //Route::get('etablissement/ajouter-departement', [DepartementController::class,'create'])->name('create_departement');
         //Route::post('etablissement/liste-departements/ajouter-departement',[DepartementController::class,'store'])->name('store_departement');
         Route::get('/etablissement/modifier-departement/{id}', [DepartementController::class, 'edit'])->whereNumber('id')->name('departement.edit');
-        Route::post('/etablissement/update/{id}', [DepartementController::class, 'update'])->whereNumber('id')->name('departement.update');
+        Route::patch('/etablissement/update/{id}', [DepartementController::class, 'update'])->whereNumber('id')->name('departement.update');
         Route::get('/etablissement/supprimer-departement/{id}', [DepartementController::class, 'destroy'])->whereNumber('id')->name('departement.destroy');
 
 
