@@ -83,7 +83,8 @@
                         </div>
                     </div>
                     <div class="card-footer text-end">
-                        <input class="btn btn-light" type="reset" value="Annuler" />
+                        <a class="btn btn-light" href="{{ route('liste_admin') }}">Annuler</a>
+                      
                         <button class="btn btn-primary" type="submit">Modifier</button>
                     </div>
                 </form>
@@ -99,3 +100,4 @@
 @endpush
 
 @endsection
+

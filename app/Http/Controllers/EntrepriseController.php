@@ -14,7 +14,9 @@ class EntrepriseController extends Controller
      */
     public function index()
     {
-        //
+        $entreprises=Entreprise::all();
+
+        return view('admin.entreprise.liste_entreprises',compact(['entreprises']));
     }
 
     /**
@@ -35,7 +37,23 @@ class EntrepriseController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        //dd($request->all());
+        $request->validate([
+            'nom' => ['required', 'string', 'max:255','unique:entreprises'],
+            'adresse' => ['required', 'string', 'max:255', ],
+            'email' => ['required', 'string', 'email', 'max:255'],
+            'numero_telephone'=>['required', 'string', 'max:8','min:8'],
+            'fax'=>['required', 'string', 'max:8','min:8'],
+        ]);
+        $entreprise=new Entreprise();
+        $entreprise->nom=$request->nom;
+        $entreprise->email=$request->email;
+        $entreprise->adresse=$request->adresse;
+        $entreprise->numero_telephone=$request->numero_telephone;
+        $entreprise->fax=$request->fax;
+        $entreprise->save();
+
+        return redirect()->action([EntrepriseController::class,'index']);
     }
 
     /**
@@ -55,9 +73,11 @@ class EntrepriseController extends Controller
      * @param  \App\Models\Entreprise  $entreprise
      * @return \Illuminate\Http\Response
      */
-    public function edit(Entreprise $entreprise)
+    public function edit(Entreprise $entreprise,$id)
     {
-        //
+        $entreprise=Entreprise::findOrFail($id);
+
+        return view('admin.entreprise.modifier_entreprise',compact(['entreprise']));
     }
 
     /**
@@ -67,9 +87,26 @@ class EntrepriseController extends Controller
      * @param  \App\Models\Entreprise  $entreprise
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, Entreprise $entreprise)
+    public function update(Request $request, $id)
     {
-        //
+        $request->validate([
+            'nom' => ['required', 'string', 'max:255'],
+            'adresse' => ['required', 'string', 'max:255'],
+            'email' => ['required', 'string', 'email', 'max:255'],
+            'numero_telephone'=>['required', 'string', 'max:8','min:8'],
+
+        ]);
+        $entreprise=Entreprise::findOrFail($id);
+
+        $entreprise->nom=$request->nom;
+        $entreprise->email=$request->email;
+        $entreprise->adresse=$request->adresse;
+        $entreprise->numero_telephone=$request->numero_telephone;
+
+
+        $entreprise->update();
+
+        return redirect()->action([EntrepriseController::class,'index']);
     }
 
     /**
@@ -78,8 +115,10 @@ class EntrepriseController extends Controller
      * @param  \App\Models\Entreprise  $entreprise
      * @return \Illuminate\Http\Response
      */
-    public function destroy(Entreprise $entreprise)
+    public function destroy(Entreprise $entreprise,$id)
     {
-        //
+        $entreprise=Entreprise::findOrFail($id);
+        $entreprise->delete();
+        return redirect()->action([EntrepriseController::class, 'index']);
     }
 }

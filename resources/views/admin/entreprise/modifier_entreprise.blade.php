@@ -19,15 +19,28 @@
     <div class="row">
         <div class="col-sm-12">
             <div class="card">
-
-                <form class="form theme-form">
+                <form class="form theme-form" method="POST" action={{ route('entreprise.update',['id'=>$entreprise->id])
+                    }}>
+                    @csrf
                     <div class="card-body">
+
+                        <!----------------------------------------------------------------------------->
+                        @if($errors->any())
+                        <div class="alert alert-danger" role="alert">
+                            @foreach ($errors->all() as $err )
+                            {{ $err }}
+                            @endforeach
+                        </div>
+                        @endif
+                        <!------------------------------------------------------------------------------>
+
                         <div class="row">
                             <div class="col">
                                 <div class="mb-3">
                                     <label class="form-label">Le nom de l'entreprise</label>
                                     <div class="mb-3">
-                                        <input class="form-control" type="text" value="Hyper-group" />
+                                        <input class="form-control" type="text" name="nom" id="nom"
+                                            value="{{ $entreprise->nom }}" />
                                     </div>
                                 </div>
                             </div>
@@ -38,7 +51,8 @@
                                     <label class="form-label" for="exampleFormControlSelect9">L'adresse de
                                         l'entreprise</label>
                                     <div class="mb-3">
-                                        <input class="form-control" type="text" value=" Sfax " />
+                                        <input class="form-control" type="text" name="adresse" id="adresse"
+                                            value="{{  $entreprise->adresse }} " />
                                     </div>
                                 </div>
                             </div>
@@ -49,7 +63,8 @@
                                     <label class="form-label" for="exampleFormControlSelect9">l'adresse e-mail de
                                         l'entreprise</label>
                                     <div class="mb-3">
-                                        <input class="form-control" type="text" value="hyper@groupe.com" />
+                                        <input class="form-control" type="text" name="email" id="emal"
+                                            value="{{ $entreprise->email }}" />
                                     </div>
                                 </div>
                             </div>
@@ -60,7 +75,8 @@
                                     <label class="form-label" for="exampleFormControlSelect9">Le numéro de
                                         téléphone</label>
                                     <div class="mb-3">
-                                        <input class="form-control" type="text" value="88888888" />
+                                        <input class="form-control" type="text" name="numero_telephone"
+                                            id="numero_telephone" value="{{ $entreprise->numero_telephone }}" />
                                     </div>
                                 </div>
                             </div>
@@ -69,7 +85,7 @@
                     </div>
                     <div class="card-footer text-end">
                         <button class="btn btn-primary" type="submit">Modifier</button>
-                        <input class="btn btn-light" type="reset" value="Annuler" />
+                        <a class="btn btn-light" href="{{ route('list_entreprises') }}">Annuler</a>
                     </div>
                 </form>
             </div>

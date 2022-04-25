@@ -52,47 +52,24 @@
                                 </tr>
                             </thead>
                             <tbody>
+                                @foreach ($entreprises as $entreprise )
+
+
                                 <tr>
-                                    <td>Hyper-group</td>
-                                    <td>sfax</td>
-                                    <td>hyper@hyper.com</td>
-                                    <td>888888</td>
+                                    <td>{{ $entreprise->nom }}</td>
+                                    <td>{{ $entreprise->adresse }}</td>
+                                    <td>{{ $entreprise->email }}</td>
+                                    <td>{{ $entreprise->numero_telephone }}</td>
+
 
                                     <td class="text-center">
-                                        <a href="{{ route('modifier_entreprise') }}"> <i style="font-size: 1.3em;"
-                                                class='fa fa-edit'></i></a>
-                                        <a href="#"> <i style="font-size: 1.3em;" class='fa fa-trash'></i></a>
+                                        <a href="{{ route('modifier_entreprise',['id'=>$entreprise->id]) }}"> <i
+                                                style="font-size: 1.3em;" class='fa fa-edit'></i></a>
+                                        <a href="{{ route('entreprise.destroy',['id'=>$entreprise->id]) }}"> <i
+                                                style="font-size: 1.3em;" class='fa fa-trash'></i></a>
                                     </td>
                                 </tr>
-                                <tr>
-                                    <td>Hyper-group</td>
-                                    <td>sfax</td>
-                                    <td>hyper@hyper.com</td>
-                                    <td>888888</td>
-
-                                    <td class="text-center">
-                                        <a href="{{ route('modifier_entreprise') }}"> <i style="font-size: 1.3em;"
-                                                class='fa fa-edit'></i></a>
-                                        <a href="#"> <i style="font-size: 1.3em;" class='fa fa-trash'></i></a>
-                                    </td>
-
-                                </tr>
-                                <tr>
-                                    <td>Hyper-group</td>
-                                    <td>sfax</td>
-                                    <td>hyper@hyper.com</td>
-                                    <td>88888888</td>
-
-                                    <td class="text-center">
-                                        <a href="{{ route('modifier_entreprise') }}"> <i style="font-size: 1.3em;"
-                                                class='fa fa-edit'></i></a>
-                                        <a href="#"> <i style="font-size: 1.3em;" class='fa fa-trash'></i></a>
-                                    </td>
-                                </tr>
-
-
-
-
+                                @endforeach
                             </tbody>
                             <tfoot>
                                 <tr>

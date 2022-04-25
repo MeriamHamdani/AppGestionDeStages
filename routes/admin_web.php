@@ -1,10 +1,11 @@
 <?php
 
-use App\Http\Controllers\AdminController;
-use App\Http\Controllers\AnneeUniversitaireController;
-use App\Http\Controllers\EtablissementController;
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\AdminController;
+use App\Http\Controllers\EntrepriseController;
 use App\Http\Controllers\DepartementController;
+use App\Http\Controllers\EtablissementController;
+use App\Http\Controllers\AnneeUniversitaireController;
 
 /*Route::prefix('admin')->group(function () {
 });*/
@@ -19,7 +20,7 @@ Route::prefix('admin')->group(function () {
     Route::get('administration/modifier-admin/{id_admin}',[AdminController::class,'edit'])->whereNumber('id_admin')->name('admin.edit');
     Route::post('administration/modifier/{id_admin}',[AdminController::class,'update'])->whereNumber('id_admin')->name('admin.update');
     Route::get('administration/activer-desactiver-admin/{id}',[AdminController::class,'activer_desactiver'])->whereNumber('id')->name('activer_desactiver_admin');
-    
+
     Route::get('administration/supprimer-admin/{id_admin}',[AdminController::class,'destroy'])->whereNumber('id_admin')->name('admin.destroy');
     // STAGE
     Route::prefix('stage/demandes-stage')->group(function () {
@@ -61,9 +62,12 @@ Route::prefix('admin')->group(function () {
     Route::view('etablissement/liste-classes/modifier-classe', 'admin.etablissement.classe.modifier_classe')->name('modifier_classe');
 
 // ENTRPRISE
-    Route::view('entreprise/liste-entreprises', 'admin.entreprise.liste_entreprises')->name('list_entreprises');
+    Route::get('entreprise/liste-entreprises', [EntrepriseController::class,'index'])->name('list_entreprises');
     Route::view('entreprise/ajouter-entreprise', 'admin.entreprise.ajouter_entreprise')->name('ajouter_entreprise');
-    Route::view('entreprise/modifier-entreprise', 'admin.entreprise.modifier_entreprise')->name('modifier_entreprise');
+    Route::post('entreprise/ajouter',[EntrepriseController::class,'store'])->name('entreprise.store');
+    Route::get('entreprise/modifier-entreprise/{id}', [EntrepriseController::class,'edit'])->whereNumber('id')->name('modifier_entreprise');
+    Route::post('entreprise/modifier/{id}', [EntrepriseController::class,'update'])->whereNumber('id')->name('entreprise.update');
+    Route::get('entreprise/supprimer-entreprise/{id}', [EntrepriseController::class, 'destroy'])->whereNumber('id')->name('entreprise.destroy');
     // DEPOT
     Route::view('depot/gerer-depot', 'admin.depot.gerer_depot')->name('gerer_depot');
 // SOUTENANCE
