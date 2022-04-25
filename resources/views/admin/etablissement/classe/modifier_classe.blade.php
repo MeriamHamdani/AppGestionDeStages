@@ -1,6 +1,6 @@
 @extends('layouts.admin.master')
 
-@section('title')Modifier Classe
+@section('title')Modifier les informations du classe
 {{ $title }}
 @endsection
 
@@ -14,7 +14,7 @@
 @section('content')
     @component('components.breadcrumb')
         @slot('breadcrumb_title')
-            <h3>Modifier les informations d'une classe</h3>
+            <h3>Modifier les informations</h3>
         @endslot
         <li class="breadcrumb-item">Administration</li>
         <li class="breadcrumb-item">Modifier  les informations de la classe</li>
@@ -25,22 +25,32 @@
             <div class="col-sm-12">
                 <div class="card">
                     <div class="card-header pb-0">
-                        <h5>Modifier les informations de la classe</h5>
+                        <h5>Modifier les informations de la classe <strong>{{$classe->nom}}</strong></h5>
                     </div>
-                    <form class="form theme-form">
+                    <form class="form theme-form" method="POST" action="{{ route('update_classe', $classe) }}">
+                        @csrf
+                        @method('PATCH')
+                        <div class="card-body">
+                            @if($errors->any())
+                                @foreach ($errors->all() as $err )
+                                    <div class="alert alert-danger" role="alert">
+                                        {{ $err }}
+                                    </div>
+                                @endforeach
+                            @endif
                         <div class="card-body">
                             <div class="row">
                                 <div class="col">
                                     <div class="mb-3">
-                                        <label class="form-label" for="exampleFormControlInput1">Code classe  </label>
-                                        <input class="form-control" id="exampleFormControlInput1" type="text"
+                                        <label class="form-label" for="exampleFormControlInput1">Code classe</label>
+                                        <input class="form-control" id="code" name="code" type="text" value="{{$classe->code}}" required
                                                placeholder="entrez le code de classe..." />
                                     </div>
                                 </div>
                                 <div class="col">
                                     <div class="mb-3">
-                                        <label class="form-label" for="exampleFormControlInput1">Nom classe </label>
-                                        <input class="form-control" id="exampleFormControlInput1" type="text"
+                                        <label class="form-label" for="exampleFormControlInput1">Classe</label>
+                                        <input class="form-control" id="nom" name="nom" type="text" value="{{$classe->nom}}" required
                                                placeholder="entrez le nom du classe..." />
                                     </div>
                                 </div>
@@ -48,13 +58,40 @@
                             <div class="row align-items-center">
                                 <div class="col">
                                     <div class="mb-3">
+                                        <label class="form-label" for="message-text">Niveau</label>
+                                        <select class="js-example-basic-single col-sm-12" id="niveau" name="niveau" required>
+                                            <option disabled="disabled" selected="selected">Séléctionnez le niveau</option>
+                                            <option value="1" {{ $classe->niveau == "1" ? 'selected' : '' }}>1 ère année</option>
+                                            <option value="2" {{ $classe->niveau == "2" ? 'selected' : '' }}>2 ème année</option>
+                                            <option value="3" {{ $classe->niveau == "3" ? 'selected' : '' }}>3 ème année</option>
+                                        </select>
+                                    </div>
+                                </div>
+                                <div class="col">
+                                    <div class="mb-3">
+                                        <label class="form-label" for="message-text">Cycle/Type de formation</label>
+                                        <select class="js-example-basic-single col-sm-12" id="cycle" name="cycle">
+                                            <option disabled="disabled" selected="selected">Séléctionnez le cycle/type de formation</option>
+                                            <option value="license" {{ $classe->cycle == "1" ? 'selected' : '' }}>Licence</option>
+                                            <option value="master" {{ $classe->cycle == "2" ? 'selected' : '' }}>Mastère</option>
+                                            <option value="doctorat" {{ $classe->cycle == "3" ? 'selected' : '' }}>Doctorat</option>
+                                            <option value="ingeniorat" {{ $classe->cycle == "4" ? 'selected' : '' }}>Ingéniorat</option>
+                                        </select>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row align-items-center">
+                                <div class="col">
+                                    <div class="mb-3">
                                         <label class="form-label" for="exampleFormControlInput1">Spécialité</label>
-                                        <select class="js-example-basic-single col-sm-12">
-                                            <option value="0">Sélectionnez la spécialité</option>
-                                            <option value="1">Info</option>
-                                            <option value="2">Comptabilité</option>
-                                            <option value="3">Finance</option>
-                                            <option value="4">Eco</option>
+                                        <select class="js-example-basic-single col-sm-12" id="specialite_id" name="specialite_id"  required>
+                                            <option disabled="disabled" selected="selected">Sélectionnez la spécialité</option>
+                                            @foreach(\App\Models\Specialite::all() as $specialite)
+                                                <option value="{{ $specialite->id }}"
+                                                    {{ old('specialite_id', $classe->specialite_id) == $specialite->id ? 'selected' : '' }}>
+                                                    {{ ucwords($specialite->nom) }}
+                                                </option>
+                                            @endforeach
                                         </select>
                                     </div>
                                 </div>
@@ -64,6 +101,7 @@
                         <div class="card-footer text-end">
                             <input class="btn btn-light" type="reset" value="Annuler" />
                             <button class="btn btn-primary" type="submit">Valider</button>
+                        </div>
                         </div>
                     </form>
                 </div>

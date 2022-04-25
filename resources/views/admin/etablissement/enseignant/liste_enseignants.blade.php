@@ -54,13 +54,14 @@
                                                 <form>
                                                     <div class="mb-3">
                                                         <div class="mb-2">
-                                                            <select class="js-example-basic-single col-sm-12">
-                                                                <option value="0">Sélectionnez le département</option>
-                                                                <option value="5">Exportez tous</option>
-                                                                <option value="1">Comptabilité</option>
-                                                                <option value="2">GRH</option>
-                                                                <option value="3">Finance</option>
-                                                                <option value="4">Info</option>
+                                                            <select class="js-example-basic-single col-sm-12" id="departement_id" name="departement_id" required>
+                                                                <option disabled="disabled" selected="selected">Sélectionnez le département</option>
+                                                                @foreach (\App\Models\Departement::all() as $departement)
+                                                                    <option
+                                                                        value="{{ $departement->id }}"
+                                                                        {{ old('departement_id') == $departement->id ? 'selected' : '' }}
+                                                                    >{{ ucwords($departement->nom) }}</option>
+                                                                @endforeach
                                                             </select>
                                                         </div>
                                                     </div>
@@ -94,12 +95,14 @@
                                                     <div class="mb-3">
                                                         <label class="col-form-label" for="recipient-name">Département</label>
                                                         <div class="mb-2">
-                                                            <select class="js-example-basic-single col-sm-12">
-                                                                    <option value="0">Sélectionnez le département</option>
-                                                                    <option value="1">Comptabilité</option>
-                                                                    <option value="2">GRH</option>
-                                                                    <option value="3">Finance</option>
-                                                                    <option value="4">Info</option>
+                                                            <select class="js-example-basic-single col-sm-12" id="departement_id" name="departement_id" required>
+                                                                <option disabled="disabled" selected="selected">Sélectionnez le département</option>
+                                                                @foreach (\App\Models\Departement::all() as $departement)
+                                                                    <option
+                                                                        value="{{ $departement->id }}"
+                                                                        {{ old('departement_id') == $departement->id ? 'selected' : '' }}
+                                                                    >{{ ucwords($departement->nom) }}</option>
+                                                                @endforeach
                                                             </select>
                                                         </div>
                                                     </div>
@@ -137,73 +140,32 @@
                                 </tr>
                             </thead>
                             <tbody>
+                            @foreach($enseignants as $enseignant)
                                 <tr>
-                                    <td>Ben Foulen Foulen</td>
-                                    <td>Info</td>
-                                    <td>maitre assistant</td>
-                                    <td>foulene@benfoulen.com</td>
-                                    <td>888888</td>
-                                    <td><a class=" btn btn-icon-only default" href="#" data-placement="top"
-                                           data-toggle="tooltip" title="Désactiver"><img
-                                                src="{{ asset('assets/images/userActive.png') }}">
-
-                                        </a>
-                                    </td>
+                                    <td>{{ucwords($enseignant->nom)}} {{ucwords($enseignant->prenom)}} </td>
+                                    <td>{{ucwords($enseignant->departement->nom)}}</td>
+                                    <td>{{ucwords($enseignant->grade)}}</td>
+                                    <td>{{ucwords($enseignant->email)}}</td>
+                                    <td>{{($enseignant->numero_telephone)}}</td>
+                                    @if(App\Models\User::find($enseignant->user_id)->is_active == 1)
+                                        <td><a class=" btn btn-icon-only default" href="#" data-placement="top"
+                                               data-toggle="tooltip" title="Active"><img
+                                                    src="{{ asset('assets/images/userActive.png') }}">
+                                            </a>
+                                        </td>
+                                    @else
+                                        <td><a class=" btn btn-icon-only default" href="#" data-placement="top"
+                                               data-toggle="tooltip" title="Active"><img
+                                                    src="{{ asset('assets/images/usercancled.png') }}">
+                                            </a>
+                                        </td>
+                                    @endif
                                     <td class="text-center">
-
-                                        <a href="{{ route('modifier_enseignant') }}"> <i style="font-size: 1.3em;"
-                                                class='fa fa-edit'></i></a>
-                                        <a href="#"> <i style="font-size: 1.3em;" class='fa fa-trash'></i></a>
-
+                                        <a href="{{ route('modifier_enseignant', $enseignant) }}"> <i style="font-size: 1.3em;" class='fa fa-edit'></i></a>
+                                        <a href="{{ route('supprimer_enseignant', $enseignant) }}"> <i style="font-size: 1.3em;" class='fa fa-trash'></i></a>
                                     </td>
-
                                 </tr>
-                                <tr>
-                                    <td>Ben Foulen Foulen</td>
-                                    <td>Info</td>
-                                    <td>maitre assistant</td>
-                                    <td>foulene@benfoulen.com</td>
-                                    <td>888888</td>
-                                    <td><a class=" btn btn-icon-only default" href="#" data-placement="top"
-                                           data-toggle="tooltip" title="Désactiver"><img
-                                                src="{{ asset('assets/images/usercancled.png') }}">
-
-                                        </a>
-                                    </td>
-                                    <td class="text-center">
-
-                                        <a href="{{ route('modifier_enseignant') }}"> <i style="font-size: 1.3em;"
-                                                class='fa fa-edit'></i></a>
-                                        <a href="#"> <i style="font-size: 1.3em;" class='fa fa-trash'></i></a>
-
-                                    </td>
-
-                                </tr>
-                                <tr>
-                                    <td>Ben Foulen Foulen</td>
-                                    <td>Info</td>
-                                    <td>maitre assistant</td>
-                                    <td>foulene@benfoulen.com</td>
-                                    <td>888888</td>
-                                    <td><a class=" btn btn-icon-only default" href="#" data-placement="top"
-                                           data-toggle="tooltip" title="Désactiver"><img
-                                                src="{{ asset('assets/images/userActive.png') }}">
-
-                                        </a>
-                                    </td>
-                                    <td class="text-center">
-
-                                        <a href="{{ route('modifier_enseignant') }}"> <i style="font-size: 1.3em;"
-                                                class='fa fa-edit'></i></a>
-                                        <a href="#"> <i style="font-size: 1.3em;" class='fa fa-trash'></i></a>
-
-                                    </td>
-
-                                </tr>
-
-
-
-
+                            @endforeach
                             </tbody>
                             <tfoot>
                                 <tr>

@@ -1,6 +1,6 @@
 @extends('layouts.admin.master')
 
-@section('title')Modifier Etudiant
+@section('title')Modifier les informations d'étudiant
 {{ $title }}
 @endsection
 
@@ -11,10 +11,10 @@
 @section('content')
     @component('components.breadcrumb')
         @slot('breadcrumb_title')
-            <h3>Modifier les informations d'un etudiant</h3>
+            <h3>Modifier les informations</h3>
         @endslot
         <li class="breadcrumb-item">Administration</li>
-        <li class="breadcrumb-item">Modifier les informations d'un etudiant</li>
+        <li class="breadcrumb-item">Modifier les informations de l'etudiant</li>
     @endcomponent
 
     <div class="container-fluid">
@@ -22,33 +22,34 @@
             <div class="col-sm-12">
                 <div class="card">
                     <div class="card-header pb-0">
-                        <h5>Modifier les informations d'un etudiant</h5>
+                        <h5>Modifier les informations de l'etudiant <strong>{{$etudiant->prenom}} {{$etudiant->nom}}</strong></h5>
                     </div>
-                    <form class="form theme-form">
+                    <form class="form theme-form" method="POST" action="{{ route('update_etudiant', $etudiant) }}">
+                        @csrf
+                        @method('PATCH')
                         <div class="card-body">
-                            <div class="row align-items-center">
-                                <div class="col">
-                                    <div class="mb-3">
-                                        <label class="form-label" for="exampleFormControlInput1">Numero CIN/Passeport</label>
-                                        <input class="form-control" id="exampleFormControlInput1" type="number"
-                                               placeholder="entrez le num cin" />
+                            @if($errors->any())
+                                @foreach ($errors->all() as $err )
+                                    <div class="alert alert-danger" role="alert">
+                                        {{ $err }}
                                     </div>
-                                </div>
-                            </div>
+                                @endforeach
+                            @endif
                             <div class="row">
                                 <div class="col">
                                     <div class="mb-3">
-
-                                        <label class="form-label" for="exampleFormControlInput1">Nom </label>
-                                        <input class="form-control" id="exampleFormControlInput1" type="text"
+                                        <label class="form-label" for="exampleFormControlInput1">Nom</label>
+                                        <input class="form-control" id="nom" name="nom" type="text"
+                                               value="{{$etudiant->nom}}" required
                                                placeholder="entrez le nom de l'etudiant..." />
                                     </div>
                                 </div>
                                 <div class="col">
                                     <div class="mb-3">
 
-                                        <label class="form-label" for="exampleFormControlInput1">Prénom </label>
-                                        <input class="form-control" id="exampleFormControlInput1" type="text"
+                                        <label class="form-label" for="exampleFormControlInput1">Prénom</label>
+                                        <input class="form-control" id="prenom" name="prenom" type="text"
+                                               value="{{$etudiant->prenom}}" required
                                                placeholder="entrez le prénom de l'etudiant..." />
                                     </div>
                                 </div>
@@ -56,9 +57,9 @@
                             <div class="row">
                                 <div class="col">
                                     <div class="mb-3">
-
                                         <label class="form-label" for="exampleFormControlInput1">Numéro de téléphone</label>
-                                        <input class="form-control" id="exampleFormControlInput1" type="number"
+                                        <input class="form-control" id="numero_telephone" name="numero_telephone" type="number"
+                                               value="{{$etudiant->numero_telephone}}" required
                                                placeholder="entrez le numéro de téléphone de l'etudiant..." />
                                     </div>
                                 </div>
@@ -66,17 +67,9 @@
                                     <div class="mb-3">
 
                                         <label class="form-label" for="exampleFormControlInput1">E-mail </label>
-                                        <input class="form-control" id="exampleFormControlInput1" type="email"
+                                        <input class="form-control" id="email" name="email" type="email"
+                                               value="{{$etudiant->email}}" required
                                                placeholder="entrez l'adresse mail de l'etudiant..." />
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="row align-items-center">
-                                <div class="col">
-                                    <div class="mb-3">
-                                        <label class="form-label" for="exampleFormControlInput1">Adresse</label>
-                                        <input class="form-control" id="exampleFormControlInput1" type="text"
-                                               placeholder="entrez l'adresse'" />
                                     </div>
                                 </div>
                             </div>
@@ -84,19 +77,15 @@
                                 <div class="col">
                                     <div class="mb-3">
                                         <label class="form-label" for="exampleFormControlInput1">Classe</label>
-                                        <select class="js-example-basic-single col-sm-12">
-                                            <option value="0">Sélectionnez la classe</option>
-                                            <option value="1">2 Comp</option>
-                                            <option value="2">1 Gest</option>
-                                            <option value="3">2 info</option>
+                                        <select class="js-example-basic-single col-sm-12" id="classe_id" name="classe_id">
+                                            <option disabled="disabled" selected="selected">Sélectionnez le grade</option>
+                                            @foreach (\App\Models\Classe::all() as $classe)
+                                                <option value="{{ $classe->id }}"
+                                                    {{ old('classe_id', $etudiant->classe_id) == $classe->id ? 'selected' : '' }}>
+                                                    {{ ucwords($classe->nom) }}
+                                                </option>
+                                            @endforeach
                                         </select>
-                                    </div>
-                                </div>
-                                <div class="col">
-                                    <div class="mb-3">
-                                        <label class="form-label" for="exampleFormControlInput1">Numéro d'inscription</label>
-                                        <input class="form-control" id="exampleFormControlInput1" type="number"
-                                               placeholder="entrez le Numéro d'inscription de l'etudiant..." />
                                     </div>
                                 </div>
                             </div>

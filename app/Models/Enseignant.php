@@ -9,6 +9,8 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 class Enseignant extends Model
 {
     use HasFactory;
+    protected $guarded = [];
+
 
     public function departement()
     {
@@ -30,6 +32,10 @@ class Enseignant extends Model
     public function commentaires()
     {
         return $this->hasMany(Commentaire::class);
+    }
+    public function user()
+    {
+        return $this->belongsTo(User::class);
     }
 
 

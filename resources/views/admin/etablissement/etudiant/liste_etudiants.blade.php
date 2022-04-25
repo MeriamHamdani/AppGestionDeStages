@@ -55,12 +55,14 @@
                                                         <div class="mb-3">
                                                             <label class="col-form-label" for="recipient-name">Exporter selon la Classe</label>
                                                             <div class="mb-2">
-                                                                <select class="js-example-basic-single col-sm-12">
-                                                                    <option value="0">Sélectionnez la classe</option>
-                                                                    <option value="1">1 master Info</option>
-                                                                    <option value="2">2 LCS</option>
-                                                                    <option value="3">3 LM</option>
-                                                                    <option value="4">2 MF</option>
+                                                                <select class="js-example-basic-single col-sm-12" id="classe_id" name="classe_id" required>
+                                                                    <option disabled="disabled" selected="selected">Sélectionnez la classe</option>
+                                                                    @foreach(\App\Models\Classe::all() as $classe)
+                                                                        <option
+                                                                            value="{{ $classe->id }}"
+                                                                            {{ old('classe_id') == $classe->id ? 'selected' : '' }}>
+                                                                            {{ ucwords($classe->nom) }}</option>
+                                                                    @endforeach
                                                                 </select>
                                                             </div>
                                                             <button class="btn btn-primary" type="button">Exporter</button>
@@ -68,12 +70,14 @@
                                                         <div class="mb-3">
                                                             <label class="col-form-label" for="recipient-name">Exporter selon la Spécialité</label>
                                                             <div class="mb-2">
-                                                                <select class="js-example-basic-single col-sm-12">
-                                                                    <option value="0">Sélectionnez la spécialité</option>
-                                                                    <option value="1">Info</option>
-                                                                    <option value="2">Comptabilité</option>
-                                                                    <option value="3">Finance</option>
-                                                                    <option value="4">Eco</option>
+                                                                <select class="js-example-basic-single col-sm-12" id="specialite_id" name="specialite_id" required>
+                                                                    <option disabled="disabled" selected="selected">Sélectionnez la spécialité</option>
+                                                                    @foreach (\App\Models\Specialite::all() as $specialite)
+                                                                        <option
+                                                                            value="{{ $specialite->id }}"
+                                                                            {{ old('specialite_id') == $specialite->id ? 'selected' : '' }}
+                                                                        >{{ ucwords($specialite->nom) }}</option>
+                                                                    @endforeach
                                                                 </select>
                                                             </div>
                                                             <button class="btn btn-primary" type="button">Exporter</button>
@@ -108,12 +112,14 @@
                                                         <div class="mb-3">
                                                             <label class="col-form-label" for="recipient-name">Classe</label>
                                                             <div class="mb-2">
-                                                                <select class="js-example-basic-single col-sm-12">
-                                                                    <option value="0">Sélectionnez la classe</option>
-                                                                    <option value="1">1 master Info</option>
-                                                                    <option value="2">2 LCS</option>
-                                                                    <option value="3">3 LM</option>
-                                                                    <option value="4">2 MF</option>
+                                                                <select class="js-example-basic-single col-sm-12" id="classe_id" name="classe_id" required>
+                                                                    <option disabled="disabled" selected="selected">Sélectionnez la classe</option>
+                                                                    @foreach(\App\Models\Classe::all() as $classe)
+                                                                        <option
+                                                                            value="{{ $classe->id }}"
+                                                                            {{ old('classe_id') == $classe->id ? 'selected' : '' }}>
+                                                                            {{ ucwords($classe->nom) }}</option>
+                                                                    @endforeach
                                                                 </select>
                                                             </div>
                                                         </div>
@@ -144,90 +150,47 @@
                             <table class="display" id="auto-fill">
                                 <thead>
                                 <tr>
-                                    <th>CIN</th>
-                                    <th>Nom</th>
-                                    <th>Prénom</th>
+                                    <th>Nom Complet</th>
                                     <th>Classe</th>
-                                    <th>Adresse e-mail</th>
+                                    <th>E-mail</th>
                                     <th>Téléphone</th>
                                     <th>Statut</th>
                                     <th>Actions</th>
                                 </tr>
                                 </thead>
                                 <tbody>
+                                @foreach($etudiants as $etudiant)
                                 <tr>
-                                    <td>123456</td>
-                                    <td>Ben Foulen</td>
-                                    <td>Foulen</td>
-                                    <td>2 LSC</td>
-                                    <td>foulene@benfoulen.com</td>
-                                    <td>888888</td>
-                                    <td><a class=" btn btn-icon-only default" href="#" data-placement="top"
-                                           data-toggle="tooltip" title="Désactiver"><img
-                                                src="{{ asset('assets/images/userActive.png') }}">
-
-                                        </a>
-                                    </td>
+                                    <td>{{ucwords($etudiant->nom)}} {{ucwords($etudiant->prenom)}}</td>
+                                    <td>{{ucwords($etudiant->classe->nom)}}</td>
+                                    <td>{{ucwords($etudiant->email)}}</td>
+                                    <td>{{($etudiant->numero_telephone)}}</td>
+                                    @if(App\Models\User::find($etudiant->user_id)->is_active == 1)
+                                        <td><a class=" btn btn-icon-only default" href="#" data-placement="top"
+                                               data-toggle="tooltip" title="Active"><img
+                                                    src="{{ asset('assets/images/userActive.png') }}">
+                                            </a>
+                                        </td>
+                                    @else
+                                        <td><a class=" btn btn-icon-only default" href="#" data-placement="top"
+                                               data-toggle="tooltip" title="Active"><img
+                                                    src="{{ asset('assets/images/usercancled.png') }}">
+                                            </a>
+                                        </td>
+                                    @endif
                                     <td class="text-center">
-
-                                        <a href="{{ route('modifier_etudiant') }}"> <i style="font-size: 1.3em;"
-                                                                                         class='fa fa-edit'></i></a>
-                                        <a href="#"> <i style="font-size: 1.3em;" class='fa fa-trash'></i></a>
-
+                                        <a href="{{ route('modifier_etudiant',$etudiant) }}"> <i style="font-size: 1.3em;" class='fa fa-edit'></i></a>
+                                        <a href="{{ route('supprimer_etudiant',$etudiant) }}"> <i style="font-size: 1.3em;" class='fa fa-trash'></i></a>
                                     </td>
 
                                 </tr>
-                                <tr>
-                                    <td>987456</td>
-                                    <td>Ben Foulen</td>
-                                    <td>Foulena</td>
-                                    <td>3 MP CI</td>
-                                    <td>foulena@benfoulen.com</td>
-                                    <td>666666</td>
-                                    <td><a class=" btn btn-icon-only default" href="#" data-placement="top"
-                                           data-toggle="tooltip" title="Désactiver"><img
-                                                src="{{ asset('assets/images/userActive.png') }}">
-
-                                        </a>
-                                    </td>
-                                    <td class="text-center">
-
-                                        <a href="{{ route('modifier_etudiant') }}"> <i style="font-size: 1.3em;"
-                                                                                         class='fa fa-edit'></i></a>
-                                        <a href="#"> <i style="font-size: 1.3em;" class='fa fa-trash'></i></a>
-
-                                    </td>
-
-                                </tr>
-                                <tr>
-                                    <td>5656985</td>
-                                    <td>Foulen</td>
-                                    <td>Foulen</td>
-                                    <td>3 IAA</td>
-                                    <td>foulene@foulen.com</td>
-                                    <td>55555</td>
-                                    <td> <a class=" btn btn-icon-only default" href="#" data-placement="top"
-                                            data-toggle="tooltip" title="Désactiver"><img
-                                                src="{{ asset('assets/images/usercancled.png') }}">
-
-                                        </a></td>
-                                    <td class="text-center">
-
-                                        <a href="{{ route('modifier_etudiant') }}"> <i style="font-size: 1.3em;"
-                                                                                         class='fa fa-edit'></i></a>
-                                        <a href="#"> <i style="font-size: 1.3em;" class='fa fa-trash'></i></a>
-
-                                    </td>
-
-                                </tr>
+                                @endforeach
                                 </tbody>
                                 <tfoot>
                                 <tr>
-                                    <th>CIN</th>
-                                    <th>Nom</th>
-                                    <th>Prénom</th>
+                                    <th>Nom Complet</th>
                                     <th>Classe</th>
-                                    <th>Adresse e-mail</th>
+                                    <th>E-mail</th>
                                     <th>Téléphone</th>
                                     <th>Statut</th>
                                     <th>Actions</th>

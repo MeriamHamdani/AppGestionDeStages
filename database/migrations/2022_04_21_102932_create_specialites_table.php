@@ -20,6 +20,7 @@ class CreateSpecialitesTable extends Migration
             $table->foreignId('annee_universitaire_id')->constrained();
             $table->string('code')->unique();
             $table->string('nom');
+            $table->string('cycle'); //cycle remplace formation
             $table->timestamps();
         });
     }

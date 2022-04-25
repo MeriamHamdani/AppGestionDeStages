@@ -25,13 +25,14 @@
                     <div class="card-header pb-0">
                         <h5>Coordonnées générales</h5>
                     </div>
-                    <form class="form theme-form">
+                    <form class="form theme-form" method="POST" action="{{route('valider_coordonnees')}}">
+                        @csrf
                         <div class="card-body">
                             <div class="row align-items-center">
                                 <div class="col">
                                     <div class="mb-3">
                                         <label class="form-label" for="message-text">Email</label>
-                                        <input class="form-control" id="message-text" type="email"/>
+                                        <input class="form-control" id="email" name="email" value="{{App\Models\Etablissement::first()->email}}" type="email"/>
                                     </div>
                                 </div>
                             </div>
@@ -39,13 +40,13 @@
                                 <div class="col">
                                     <div class="mb-3">
                                         <label class="col-form-label" for="message-text">Université </label>
-                                        <input class="form-control" id="message-text" type="text"/>
+                                        <input class="form-control" id="universite" name="universite"  value="{{App\Models\Etablissement::first()->universite}}" type="text"/>
                                     </div>
                                 </div>
                                 <div class="col">
                                     <div class="mb-3">
                                         <label class="form-label" for="message-text">Université en arabe </label>
-                                        <input class="form-control" id="message-text" type="text"/>
+                                        <input class="form-control" id="universite-ar" type="text"/>
                                     </div>
                                 </div>
                             </div>
@@ -54,13 +55,13 @@
                                     <div class="mb-3">
 
                                         <label class="form-label" for="message-text">Etablissement</label>
-                                        <input class="form-control" id="message-text" type="number"/>
+                                        <input class="form-control" id="nom" name="nom" value="{{App\Models\Etablissement::first()->nom}}" type="text"/>
                                     </div>
                                 </div>
                                 <div class="col">
                                     <div class="mb-3">
                                         <label class="form-label" for="message-text">Etablissement en arabe</label>
-                                        <input class="form-control" id="message-text" type="email"/>
+                                        <input class="form-control" id="nom-ar" type="text"/>
                                     </div>
                                 </div>
                             </div>
@@ -68,27 +69,26 @@
                                 <div class="col">
                                     <div class="mb-3">
                                         <label class="form-label" for="message-text">Adresse</label>
-                                        <input class="form-control" id="message-text" type="number"/>
+                                        <input class="form-control" id="adresse" name="adresse" value="{{App\Models\Etablissement::first()->adresse}}" type="text"/>
                                     </div>
                                 </div>
                                 <div class="col">
                                     <div class="mb-3">
                                         <label class="form-label" for="message-text">Adresse en arabe </label>
-                                        <input class="form-control" id="message-text" type="password"/>
+                                        <input class="form-control" id="adresse-ar" type="text"/>
                                     </div>
                                 </div>
                                 <div class="row">
                                     <div class="col">
                                         <div class="mb-3">
-
                                             <label class="form-label" for="message-text">Téléphone</label>
-                                            <input class="form-control" id="message-text" type="number"/>
+                                            <input class="form-control" id="telephone" name="telephone" value="{{App\Models\Etablissement::first()->telephone}}" type="text"/>
                                         </div>
                                     </div>
                                     <div class="col">
                                         <div class="mb-3">
                                             <label class="form-label" for="message-text">Fax </label>
-                                            <input class="form-control" id="message-text" type="number"/>
+                                            <input class="form-control" id="fax" name="fax" value="{{App\Models\Etablissement::first()->fax}}" type="text"/>
                                         </div>
                                     </div>
 
@@ -96,7 +96,7 @@
 
                             </div>
                         </div>
-                            <div class="row">
+                         {{--   <div class="row">
                                 <div class="col">
                                     <div class="mb-3">
                                         <label class="form-label" for="message-text">Date début de l'année universitaire</label>
@@ -123,7 +123,7 @@
                                         </div>
                                     </div>
                                 </div>
-                            </div>
+                            </div>--}}
 
                         <div class="card-footer text-end">
                             <input class="btn btn-light" type="reset" value="Annuler" />

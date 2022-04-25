@@ -25,7 +25,7 @@ class CreateEnseignantsTable extends Migration
             $table->string('email')->unique();
             $table->string('grade');
             $table->string('rib');
-            $table->string('identifiant');
+            $table->string('identifiant')->unique();
             $table->timestamps();
         });
     }

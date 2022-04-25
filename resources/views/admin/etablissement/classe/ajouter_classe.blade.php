@@ -28,20 +28,28 @@
                     <div class="card-header pb-0">
                         <h5>Ajouter une classe</h5>
                     </div>
-                    <form class="form theme-form">
+                    <form class="form theme-form" method="POST" action="{{ route('sauvegarder_classe') }}">
+                        @csrf
                         <div class="card-body">
+                            @if($errors->any())
+                                @foreach ($errors->all() as $err )
+                                    <div class="alert alert-danger" role="alert">
+                                        {{ $err }}
+                                    </div>
+                                @endforeach
+                            @endif
                             <div class="row">
                                 <div class="col">
                                     <div class="mb-3">
                                         <label class="form-label" for="message-text">Code classe  </label>
-                                        <input class="form-control" id="message-text" type="text"
+                                        <input class="form-control" id="code" name="code" type="text"
                                                placeholder="entrez le code de la classe..." />
                                     </div>
                                 </div>
                                 <div class="col">
                                     <div class="mb-3">
                                         <label class="form-label" for="message-text">Nom classe </label>
-                                        <input class="form-control" id="message-text" type="text"
+                                        <input class="form-control" id="nom" name="nom" type="text"
                                                placeholder="entrez le nom de la classe..." />
                                     </div>
                                 </div>
@@ -50,19 +58,19 @@
                                 <div class="col">
                                     <div class="mb-3">
                                         <label class="form-label" for="message-text">Niveau</label>
-                                        <select class="js-example-basic-single col-sm-12">
-                                            <option value="0'">Séléctionnez le niveau</option>
+                                        <select class="js-example-basic-single col-sm-12" id="niveau" name="niveau" required>
+                                            <option disabled="disabled" selected="selected">Séléctionnez le niveau</option>
                                             <option value="1">1 ère année</option>
                                             <option value="2">2 ème année</option>
                                             <option value="3">3 ème année</option>
                                         </select>
                                     </div>
                                 </div>
-                                <div class="col">
+                               <div class="col">
                                     <div class="mb-3">
                                         <label class="form-label" for="message-text">Cycle/Type de formation</label>
-                                        <select class="js-example-basic-single col-sm-12">
-                                            <option value="0'">Séléctionnez le cycle</option>
+                                        <select class="js-example-basic-single col-sm-12" id="cycle" name="cycle">
+                                            <option disabled="disabled" selected="selected">Séléctionnez le cycle/type de formation</option>
                                             <option value="1">Licence</option>
                                             <option value="2">Mastère</option>
                                             <option value="3">Doctorat</option>
@@ -75,12 +83,14 @@
                                 <div class="col">
                                     <div class="mb-3">
                                         <label class="form-label" for="message-text">Spécialité</label>
-                                        <select class="js-example-basic-single col-sm-12">
-                                            <option value="0'">Séléctionnez la spécialité</option>
-                                            <option value="1">Info</option>
-                                            <option value="2">Comptabilité</option>
-                                            <option value="3">Finance</option>
-                                            <option value="4">Eco</option>
+                                        <select class="js-example-basic-single col-sm-12" id="specialite_id" name="specialite_id" required>
+                                        <option disabled="disabled" selected="selected">Sélectionnez la spécialité</option>
+                                        @foreach (\App\Models\Specialite::all() as $specialite)
+                                            <option
+                                                value="{{ $specialite->id }}"
+                                                {{ old('specialite_id') == $specialite->id ? 'selected' : '' }}
+                                            >{{ ucwords($specialite->nom) }}</option>
+                                            @endforeach
                                         </select>
                                     </div>
                                 </div>

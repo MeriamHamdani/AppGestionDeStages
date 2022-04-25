@@ -24,21 +24,36 @@
                     <div class="card-header pb-0">
                         <h5>Ajouter un enseignant</h5>
                     </div>
-                    <form class="form theme-form">
+                    <form class="form theme-form" method="POST" action="{{ route('sauvegarder_enseignant') }}">
+                        @csrf
                         <div class="card-body">
+                            @if($errors->any())
+                                @foreach ($errors->all() as $err )
+                                    <div class="alert alert-danger" role="alert">
+                                        {{ $err }}
+                                    </div>
+                                @endforeach
+                            @endif
+                            <div class="row">
+                                <div class="col">
+                                    <div class="mb-3">
+                                        <label class="form-label" for="exampleFormControlInput1">Numero CIN</label>
+                                        <input class="form-control" id="numero_CIN" name="numero_CIN" type="number" required />
+                                    </div>
+                                </div>
+                            </div>
                             <div class="row">
                                 <div class="col">
                                     <div class="mb-3">
                                         <label class="form-label" for="exampleFormControlInput1">Nom </label>
-                                        <input class="form-control" id="exampleFormControlInput1" type="text"
-                                               placeholder="entrez le nom de l'enseignant..." />
+                                        <input class="form-control" id="nom" name="nom" type="text" required
+                                               placeholder="entrez le nom de l'enseignant..."/>
                                     </div>
                                 </div>
                                 <div class="col">
                                     <div class="mb-3">
-
                                         <label class="form-label" for="exampleFormControlInput1">Prénom </label>
-                                        <input class="form-control" id="exampleFormControlInput1" type="text"
+                                        <input class="form-control" id="prenom" name="prenom" type="text" required
                                                placeholder="entrez le prénom de l'enseignant..." />
                                     </div>
                                 </div>
@@ -46,9 +61,8 @@
                             <div class="row">
                                 <div class="col">
                                     <div class="mb-3">
-
                                         <label class="form-label" for="exampleFormControlInput1">Numéro de téléphone</label>
-                                        <input class="form-control" id="exampleFormControlInput1" type="number"
+                                        <input class="form-control" id="numero_telephone" name="numero_telephone" type="number" required
                                                placeholder="entrez le numéro de téléphone de l'enseignant..." />
                                     </div>
                                 </div>
@@ -56,7 +70,7 @@
                                     <div class="mb-3">
 
                                         <label class="form-label" for="exampleFormControlInput1">E-mail </label>
-                                        <input class="form-control" id="exampleFormControlInput1" type="email"
+                                        <input class="form-control" id="email" name="email" type="email" required
                                                placeholder="entrez l'adresse mail de l'enseignant..." />
                                     </div>
                                 </div>
@@ -65,25 +79,40 @@
                                 <div class="col">
                                     <div class="mb-3">
                                         <label class="form-label" for="exampleFormControlInput1">Grade</label>
-                                        <select class="js-example-basic-single col-sm-12">
-                                            <option value="0">Sélectionnez le grade</option>
-                                            <option value="1">maitre assistant</option>
-                                            <option value="2">maitre de conférence</option>
-                                            <option value="3">professeur</option>
+                                        <select class="js-example-basic-single col-sm-12" id="grade" name="grade" required>
+                                            <option disabled="disabled" selected="selected">Sélectionnez le grade</option>
+                                            <option value="maitre assistant">Maitre assistant</option>
+                                            <option value="maitre de conference">Maitre de conférence</option>
+                                            <option value="professeur">Professeur</option>
                                         </select>
                                     </div>
                                 </div>
                                 <div class="col">
                                     <div class="mb-3">
-
                                         <label class="form-label" for="exampleFormControlInput1">Département</label>
-                                        <select class="js-example-basic-single col-sm-12">
-                                            <option value="0">Sélectionnez le département</option>
-                                            <option value="1">Comptabilité</option>
-                                            <option value="2">GRH</option>
-                                            <option value="3">Finance</option>
-                                            <option value="4">Info</option>
+                                        <select class="js-example-basic-single col-sm-12" id="departement_id" name="departement_id" required>
+                                            <option disabled="disabled" selected="selected">Sélectionnez le département</option>
+                                            @foreach (\App\Models\Departement::all() as $departement)
+                                                <option
+                                                    value="{{ $departement->id }}"
+                                                    {{ old('departement_id') == $departement->id ? 'selected' : '' }}
+                                                >{{ ucwords($departement->nom) }}</option>
+                                            @endforeach
                                         </select>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col">
+                                    <div class="mb-3">
+                                        <label class="form-label" for="exampleFormControlInput1">RIB </label>
+                                        <input class="form-control" id="rib" name="rib" type="number" required/>
+                                    </div>
+                                </div>
+                                <div class="col">
+                                    <div class="mb-3">
+                                        <label class="form-label" for="exampleFormControlInput1">Identifiant </label>
+                                        <input class="form-control" id="identifiant" name="identifiant" type="number" required/>
                                     </div>
                                 </div>
                             </div>
