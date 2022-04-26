@@ -38,7 +38,8 @@
                                 <div class="col">
                                     <div class="mb-3">
                                         <label class="form-label" for="message-text">Numero CIN/Passeport</label>
-                                        <input class="form-control" id="numero_CIN" name="numero_CIN" type="number" required
+                                        <input class="form-control" id="numero_CIN" name="numero_CIN" type="number"
+                                               required value="{{old('numero_CIN')}}"
                                                placeholder="entrez le num cin" />
                                     </div>
                                 </div>
@@ -48,7 +49,8 @@
                                     <div class="mb-3">
 
                                         <label class="form-label" for="message-text">Nom </label>
-                                        <input class="form-control" id="nom" name="nom" type="text" required
+                                        <input class="form-control" id="nom" name="nom" type="text"
+                                               required value="{{old('nom')}}"
                                                placeholder="entrez le nom de l'etudiant..." />
                                     </div>
                                 </div>
@@ -56,7 +58,8 @@
                                     <div class="mb-3">
 
                                         <label class="form-label" for="message-text">Prénom </label>
-                                        <input class="form-control" id="prenom" name="prenom" type="text" required
+                                        <input class="form-control" id="prenom" name="prenom" type="text"
+                                               required value="{{old('prenom')}}"
                                                placeholder="entrez le prénom de l'etudiant..." />
                                     </div>
                                 </div>
@@ -65,14 +68,16 @@
                                 <div class="col">
                                     <div class="mb-3">
                                         <label class="form-label" for="message-text">E-mail </label>
-                                        <input class="form-control" id="email" name="email" type="email" required
+                                        <input class="form-control" id="email" name="email" type="email"
+                                               required value="{{old('email')}}"
                                                placeholder="entrez l'adresse mail de l'etudiant..." />
                                     </div>
                                 </div>
                                 <div class="col">
                                     <div class="mb-3">
                                         <label class="form-label" for="message-text">Numéro de téléphone</label>
-                                        <input class="form-control" id="numero_telephone" name="numero_telephone" type="number" required
+                                        <input class="form-control" id="numero_telephone" name="numero_telephone" type="number"
+                                               required value="{{old('numero_telephone')}}"
                                                placeholder="entrez le numéro de téléphone de l'etudiant..." />
                                     </div>
                                 </div>
@@ -95,7 +100,7 @@
                             </div>
                         </div>
                         <div class="card-footer text-end">
-                            <input class="btn btn-light" type="reset" value="Annuler" />
+                            <a class="btn btn-light" href="{{ route('liste_etudiants') }}">Annuler</a>
                             <button class="btn btn-primary" type="submit">Ajouter</button>
                         </div>
                     </form>

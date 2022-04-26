@@ -35,6 +35,15 @@
                                     </div>
                                 @endforeach
                             @endif
+                                <div class="row">
+                                    <div class="col">
+                                        <div class="mb-3">
+                                            <label class="form-label" for="exampleFormControlInput1">Numero CIN</label>
+                                            <input class="form-control" id="numero_CIN" name="numero_CIN" type="number"
+                                                   value="{{$enseignant->user->numero_CIN}}" required />
+                                        </div>
+                                    </div>
+                                </div>
                             <div class="row">
                                 <div class="col">
                                     <div class="mb-3">
@@ -74,9 +83,9 @@
                                         <label class="form-label" for="exampleFormControlInput1">Grade</label>
                                         <select class="js-example-basic-single col-sm-12" id="grade" name="grade"  value="{{$enseignant->grade}}" required>
                                             <option disabled="disabled" selected="selected">Sélectionnez le grade</option>
-                                            <option value="maitre assistant" {{ $enseignant->grade == "maitre assistant" ? 'selected' : '' }}>Maitre assistant</option>
-                                            <option value="maitre de conference"  {{ $enseignant->grade == "maitre de conference" ? 'selected' : '' }}>Maitre de conférence</option>
-                                            <option value="professeur" {{ $enseignant->grade == "professeur" ? 'selected' : '' }} >Professeur</option>
+                                            <option value="maitre assistant" {{$enseignant->grade == "maitre assistant" ? 'selected' : '' }}>Maitre assistant</option>
+                                            <option value="maitre de conference"  {{$enseignant->grade == "maitre de conference" ? 'selected' : '' }}>Maitre de conférence</option>
+                                            <option value="professeur" {{$enseignant->grade == "professeur" ? 'selected' : '' }} >Professeur</option>
                                         </select>
                                     </div>
                                 </div>
@@ -110,7 +119,7 @@
                             </div>
                         </div>
                         <div class="card-footer text-end">
-                            <input class="btn btn-light" href="{{route('liste_enseignants')}}" type="reset" value="Annuler" />
+                            <a class="btn btn-light" href="{{ route('liste_enseignants') }}">Annuler</a>
                             <button class="btn btn-primary" type="submit">Ajouter</button>
                         </div>
                         </div>

@@ -151,6 +151,7 @@
                                 <thead>
                                 <tr>
                                     <th>Nom Complet</th>
+                                    <th>N°CIN</th>
                                     <th>Classe</th>
                                     <th>E-mail</th>
                                     <th>Téléphone</th>
@@ -162,6 +163,7 @@
                                 @foreach($etudiants as $etudiant)
                                 <tr>
                                     <td>{{ucwords($etudiant->nom)}} {{ucwords($etudiant->prenom)}}</td>
+                                    <td>{{($etudiant->user->numero_CIN)}}</td>
                                     <td>{{ucwords($etudiant->classe->nom)}}</td>
                                     <td>{{ucwords($etudiant->email)}}</td>
                                     <td>{{($etudiant->numero_telephone)}}</td>
@@ -189,6 +191,7 @@
                                 <tfoot>
                                 <tr>
                                     <th>Nom Complet</th>
+                                    <th>N°CIN</th>
                                     <th>Classe</th>
                                     <th>E-mail</th>
                                     <th>Téléphone</th>

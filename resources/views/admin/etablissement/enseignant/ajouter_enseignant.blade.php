@@ -38,7 +38,9 @@
                                 <div class="col">
                                     <div class="mb-3">
                                         <label class="form-label" for="exampleFormControlInput1">Numero CIN</label>
-                                        <input class="form-control" id="numero_CIN" name="numero_CIN" type="number" required />
+                                        <input class="form-control" id="numero_CIN" name="numero_CIN" type="number"
+                                              value="{{old('numero_CIN')}}" required
+                                               placeholder="entrez le num cin"/>
                                     </div>
                                 </div>
                             </div>
@@ -46,14 +48,16 @@
                                 <div class="col">
                                     <div class="mb-3">
                                         <label class="form-label" for="exampleFormControlInput1">Nom </label>
-                                        <input class="form-control" id="nom" name="nom" type="text" required
+                                        <input class="form-control" id="nom" name="nom" type="text"
+                                               required  value="{{old('nom')}}"
                                                placeholder="entrez le nom de l'enseignant..."/>
                                     </div>
                                 </div>
                                 <div class="col">
                                     <div class="mb-3">
                                         <label class="form-label" for="exampleFormControlInput1">Prénom </label>
-                                        <input class="form-control" id="prenom" name="prenom" type="text" required
+                                        <input class="form-control" id="prenom" name="prenom" type="text"
+                                               required  value="{{old('prenom')}}"
                                                placeholder="entrez le prénom de l'enseignant..." />
                                     </div>
                                 </div>
@@ -62,7 +66,8 @@
                                 <div class="col">
                                     <div class="mb-3">
                                         <label class="form-label" for="exampleFormControlInput1">Numéro de téléphone</label>
-                                        <input class="form-control" id="numero_telephone" name="numero_telephone" type="number" required
+                                        <input class="form-control" id="numero_telephone" name="numero_telephone" type="number"
+                                               required  value="{{old('numero_telephone')}}"
                                                placeholder="entrez le numéro de téléphone de l'enseignant..." />
                                     </div>
                                 </div>
@@ -70,7 +75,8 @@
                                     <div class="mb-3">
 
                                         <label class="form-label" for="exampleFormControlInput1">E-mail </label>
-                                        <input class="form-control" id="email" name="email" type="email" required
+                                        <input class="form-control" id="email" name="email" type="email"
+                                               required value="{{old('email')}}"
                                                placeholder="entrez l'adresse mail de l'enseignant..." />
                                     </div>
                                 </div>
@@ -79,11 +85,11 @@
                                 <div class="col">
                                     <div class="mb-3">
                                         <label class="form-label" for="exampleFormControlInput1">Grade</label>
-                                        <select class="js-example-basic-single col-sm-12" id="grade" name="grade" required>
+                                        <select class="js-example-basic-single col-sm-12" id="grade" name="grade" value="{{old('grade')}}"required>
                                             <option disabled="disabled" selected="selected">Sélectionnez le grade</option>
-                                            <option value="maitre assistant">Maitre assistant</option>
-                                            <option value="maitre de conference">Maitre de conférence</option>
-                                            <option value="professeur">Professeur</option>
+                                            <option value="maitre assistant"  {{ old('grade') == "maitre assistant" ? 'selected' : '' }}>Maitre assistant</option>
+                                            <option value="maitre de conference" {{ old('grade') == "maitre assistant" ? 'selected' : '' }}>Maitre de conférence</option>
+                                            <option value="professeur" {{ old('grade') == "professeur" ? 'selected' : '' }}>Professeur</option>
                                         </select>
                                     </div>
                                 </div>
@@ -106,19 +112,21 @@
                                 <div class="col">
                                     <div class="mb-3">
                                         <label class="form-label" for="exampleFormControlInput1">RIB </label>
-                                        <input class="form-control" id="rib" name="rib" type="number" required/>
+                                        <input class="form-control" id="rib" name="rib" type="number"
+                                               value="{{old('rib')}}" required/>
                                     </div>
                                 </div>
                                 <div class="col">
                                     <div class="mb-3">
                                         <label class="form-label" for="exampleFormControlInput1">Identifiant </label>
-                                        <input class="form-control" id="identifiant" name="identifiant" type="number" required/>
+                                        <input class="form-control" id="identifiant" name="identifiant" type="number"
+                                               value="{{old('identifiant')}}" required/>
                                     </div>
                                 </div>
                             </div>
                         </div>
                         <div class="card-footer text-end">
-                            <input class="btn btn-light" type="reset" value="Annuler" />
+                            <a class="btn btn-light" href="{{ route('liste_enseignants') }}">Annuler</a>
                             <button class="btn btn-primary" type="submit">Ajouter</button>
                         </div>
                     </form>

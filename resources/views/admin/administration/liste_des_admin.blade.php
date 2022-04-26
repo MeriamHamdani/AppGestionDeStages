@@ -31,9 +31,8 @@
                         <table class="display" id="auto-fill">
                             <thead>
                                 <tr>
-                                    <th>Nom</th>
-                                    <th>Prénom</th>
-                                    <th>CIN</th>
+                                    <th>Nom Complet</th>
+                                    <th>N°CIN</th>
                                     <th>Numéro de téléphone</th>
                                     <th>Adresse mail</th>
                                     <th>Statut</th>
@@ -44,8 +43,7 @@
                             <tbody>
                                 @foreach ($adminIsActive as $aia)
                                 <tr>
-                                    <td>{{ucwords( $aia["admin"]->nom )}}</td>
-                                    <td>{{ucwords( $aia["admin"]->prenom) }}</td>
+                                    <td>{{ucwords( $aia["admin"]->nom )}} {{ucwords( $aia["admin"]->prenom) }}</td>
                                     <td>{{ $aia["user"]->numero_CIN }}</td>
                                     <td>{{ $aia["admin"]->numero_telephone }}</td>
                                     <td>{{ $aia["admin"]->email }}</td>
@@ -80,9 +78,8 @@
                             <tfoot>
                                 <tr>
                                 <tr>
-                                    <th>Nom</th>
-                                    <th>Prénom</th>
-                                    <th>CIN</th>
+                                    <th>Nom Complet</th>
+                                    <th>N°CIN</th>
                                     <th>Numéro de téléphone</th>
                                     <th>Adresse mail</th>
                                     <th>Statut</th>

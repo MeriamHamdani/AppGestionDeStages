@@ -1,6 +1,6 @@
 @extends('layouts.admin.master')
 
-@section('title')Modifier Classe
+@section('title')Modifier les informations d'admin
 {{ $title }}
 @endsection
 
@@ -14,17 +14,17 @@
 @slot('breadcrumb_title')
 <h3>Modifier les coordonnées d'un administrateur</h3>
 @endslot
-<!--<li class="breadcrumb-item">Administration</li>
-        <li class="breadcrumb-item">Modifier  les informations de la classe</li>-->
+<li class="breadcrumb-item">Administration</li>
+<li class="breadcrumb-item">Modifier  les informations de l'admin</li>
 @endcomponent
 
 <div class="container-fluid">
     <div class="row">
         <div class="col-sm-12">
             <div class="card">
-                <!-- <div class="card-header pb-0">
-                    <h5>Modifier les informations de la classe</h5>
-                </div>-->
+              <div class="card-header pb-0">
+                    <h5>Modifier les informations de l'admin <strong>{{$admin->prenom}} {{$admin->nom}} </strong></h5>
+                </div>
                 <form class="form theme-form" method="post"
                     action="{{ route('admin.update',['id_admin'=>$admin->id]) }}">
                     @csrf
@@ -73,7 +73,6 @@
                                     />
                                 </div>
                             </div>
-
                             <div class="col">
                                 <div class="mb-3">
                                     <label class="form-label" for="exampleFormControlInput1">E-mail </label>

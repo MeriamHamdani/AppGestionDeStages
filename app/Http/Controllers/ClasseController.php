@@ -127,4 +127,6 @@ class ClasseController extends Controller
         $classe->delete();
         return redirect()->action([ClasseController::class,'index']);
     }
+
+
 }

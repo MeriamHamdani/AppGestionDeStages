@@ -19,7 +19,8 @@ class EtudiantController extends Controller
      */
     public function index()
     {
-        return view('admin.etablissement.etudiant.liste_etudiants',  ['etudiants' => Etudiant::with('classe')->get()]);
+        return view('admin.etablissement.etudiant.liste_etudiants',
+            ['etudiants' => Etudiant::with('user','classe')->get()]);//with('classe')->get()
     }
 
     /**
@@ -40,9 +41,9 @@ class EtudiantController extends Controller
      */
     public function store(Request $request)
     {
-        $attributs = $request->validate([
-            'numero_CIN' => 'required|max:8',
-        ]);
+        $attributs = $request->validate(
+            ['numero_CIN'=>['required', 'string', 'max:8','min:8', 'unique:users']
+            ]);
 
         $attributs['password'] = bcrypt($attributs['numero_CIN']);
         $attributs['is_active'] = 0;
@@ -121,6 +122,12 @@ class EtudiantController extends Controller
             'email' => ['required','email','max:255',Rule::unique('etudiants','email')->ignore($etudiant->id)],
             'classe_id' => ['required', Rule::exists('classes', 'id')]
         ]);
+        if($etudiant->user->numero_CIN !==$request->numero_CIN){
+            $request->validate(['numero_CIN'=>['required', 'string', 'max:8','min:8', 'unique:users'],]);
+            $etudiant->user->numero_CIN=$request->numero_CIN;
+            $etudiant->user->password= bcrypt($request->numero_CIN);
+            $etudiant->user->update();
+        }
         $etudiant->update($attributs);
         return redirect()->action([EtudiantController::class,'index']);
 
@@ -137,7 +144,6 @@ class EtudiantController extends Controller
         $user_id = $etudiant->user_id;
         $user = User::findOrFail($user_id);
         $user->delete();
-        $etudiant->delete();
         return redirect()->action([EtudiantController::class,'index']);
 
     }

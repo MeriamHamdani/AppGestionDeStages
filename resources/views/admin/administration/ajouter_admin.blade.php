@@ -31,17 +31,26 @@
                         <div class="alert alert-danger" role="alert">
                             {{ $err }}
                         </div>
-
                         @endforeach
-
                         @endif
+                            <div class="row">
+                                <div class="col">
+                                    <div class="mb-3">
+                                        <label class="form-label" for="exampleFormControlInput1">Numéro de CIN</label>
+                                        <input class="form-control" id="exampleFormControlInput1" type="number"
+                                               placeholder="entrez le numéro de CIN de l'administrateur..." name="numero_CIN"
+                                               id="numero_CIN"  value="{{old('numero_CIN')}}" />
+                                    </div>
+                                </div>
+                            </div>
                         <div class="row">
                             <div class="col">
                                 <div class="mb-3">
 
                                     <label class="form-label" for="exampleFormControlInput1">Nom </label>
                                     <input class="form-control" id="exampleFormControlInput1" type="text"
-                                        placeholder="entrez le nom de l'administrateur..." name="nom" id="nom" />
+                                        placeholder="entrez le nom de l'administrateur..." name="nom" id="nom"
+                                    value="{{old('nom')}}"/>
                                 </div>
                             </div>
                             <div class="col">
@@ -50,18 +59,17 @@
                                     <label class="form-label" for="exampleFormControlInput1">Prénom </label>
                                     <input class="form-control" id="exampleFormControlInput1" type="text"
                                         placeholder="entrez le prénom de l'administrateur..." name="prenom"
-                                        id="prenom" />
+                                        id="prenom"  value="{{old('prenom')}}"/>
                                 </div>
                             </div>
                         </div>
                         <div class="row">
                             <div class="col">
                                 <div class="mb-3">
-
                                     <label class="form-label" for="exampleFormControlInput1">Numéro de téléphone</label>
                                     <input class="form-control" id="exampleFormControlInput1" type="number"
                                         placeholder="entrez le numéro de téléphone de l'administrateur..."
-                                        name="numero_telephone" id="numero_telephone" />
+                                        name="numero_telephone" id="numero_telephone" value="{{old('numero_telephone')}}"/>
                                 </div>
                             </div>
                             <div class="col">
@@ -70,37 +78,15 @@
                                     <label class="form-label" for="exampleFormControlInput1">E-mail </label>
                                     <input class="form-control" id="exampleFormControlInput1" type="email"
                                         placeholder="entrez l'adresse mail de l'administrateur..." name="email"
-                                        id="email" />
+                                        id="email" value="{{old('email')}}" />
                                 </div>
                             </div>
                         </div>
-                        <div class="row">
-                            <div class="col">
-                                <div class="mb-3">
-
-                                    <label class="form-label" for="exampleFormControlInput1">Numéro de CIN</label>
-                                    <input class="form-control" id="exampleFormControlInput1" type="number"
-                                        placeholder="entrez le numéro de CIN de l'administrateur..." name="numero_CIN"
-                                        id="numero_CIN" />
-                                </div>
-                            </div>
-                            <!--<div class="col">
-                                <div class="mb-3">
-
-                                    <label class="form-label" for="exampleFormControlInput1">Mot de passe </label>
-                                    <input class="form-control" id="exampleFormControlInput1" type="password"
-                                        placeholder="entrez le mot de passe" name="password" id="password" />
-                                </div>
-                            </div>-->
-
-
-
                         </div>
-                    </div>
-                    <div class="card-footer text-end">
-                        <a class="btn btn-light" href="{{ route('liste_admin') }}">Annuler</a>
-                        <button class="btn btn-primary" type="submit">Ajouter</button>
-                    </div>
+                        <div class="card-footer text-end">
+                            <a class="btn btn-light" href="{{ route('liste_admin') }}">Annuler</a>
+                            <button class="btn btn-primary" type="submit">Ajouter</button>
+                        </div>
                 </form>
             </div>
         </div>

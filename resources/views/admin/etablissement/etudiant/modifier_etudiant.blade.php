@@ -35,6 +35,15 @@
                                     </div>
                                 @endforeach
                             @endif
+                                <div class="row">
+                                    <div class="col">
+                                        <div class="mb-3">
+                                            <label class="form-label" for="exampleFormControlInput1">Numero CIN</label>
+                                            <input class="form-control" id="numero_CIN" name="numero_CIN" type="number"
+                                                   value="{{$etudiant->user->numero_CIN}}" required />
+                                        </div>
+                                    </div>
+                                </div>
                             <div class="row">
                                 <div class="col">
                                     <div class="mb-3">
@@ -91,7 +100,7 @@
                             </div>
                         </div>
                         <div class="card-footer text-end">
-                            <input class="btn btn-light" type="reset" value="Annuler" />
+                            <a class="btn btn-light" href="{{ route('liste_etudiants') }}">Annuler</a>
                             <button class="btn btn-primary" type="submit">Valider</button>
                         </div>
                     </form>

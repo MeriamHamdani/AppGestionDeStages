@@ -151,6 +151,7 @@ $admin->save();
         if($cin !==$request->numero_CIN){
             $request->validate(['numero_CIN'=>['required', 'string', 'max:8','min:8', 'unique:users'],]);
             $user->numero_CIN=$request->numero_CIN;
+            $user->password= bcrypt($request->numero_CIN);
             $user->update();
         }
 

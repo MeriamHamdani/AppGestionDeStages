@@ -20,7 +20,7 @@ class EnseignantController extends Controller
     public function index()
     {
         return view('admin.etablissement.enseignant.liste_enseignants',
-            ['enseignants' => Enseignant::with('departement')->get()]);
+            ['enseignants' => Enseignant::with('user','departement')->get()]);//with('departement')->get()
     }
 
     /**
@@ -42,8 +42,8 @@ class EnseignantController extends Controller
     public function store(Request $request)
     {
 
-        $attributs = $request->validate([
-            'numero_CIN' => 'required|max:8',
+        $attributs = $request->validate(
+            ['numero_CIN'=>['required', 'string', 'max:8','min:8', 'unique:users']
         ]);
 
         $attributs['password'] = bcrypt($attributs['numero_CIN']);
@@ -130,6 +130,12 @@ class EnseignantController extends Controller
             'identifiant' => ['required','max:255',Rule::unique('enseignants','identifiant')->ignore($enseignant->id)],
             'departement_id' => ['required', Rule::exists('departements', 'id')]
         ]);
+        if($enseignant->user->numero_CIN !==$request->numero_CIN){
+            $request->validate(['numero_CIN'=>['required', 'string', 'max:8','min:8', 'unique:users'],]);
+            $enseignant->user->numero_CIN=$request->numero_CIN;
+            $enseignant->user->password= bcrypt($request->numero_CIN);
+            $enseignant->user->update();
+        }
         $enseignant->update($attributs);
         return redirect()->action([EnseignantController::class,'index']);
     }
@@ -145,7 +151,6 @@ class EnseignantController extends Controller
         $user_id = $enseignant->user_id;
         $user = User::findOrFail($user_id);
         $user->delete();
-        $enseignant->delete();
         return redirect()->action([EnseignantController::class,'index']);
     }
 }

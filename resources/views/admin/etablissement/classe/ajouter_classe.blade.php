@@ -98,7 +98,7 @@
 
                         </div>
                         <div class="card-footer text-end">
-                            <input class="btn btn-light" type="reset" value="Annuler"/>
+                            <a class="btn btn-light" href="{{ route('liste_classes') }}">Annuler</a>
                             <button class="btn btn-primary" type="submit">Ajouter</button>
                         </div>
                     </form>
