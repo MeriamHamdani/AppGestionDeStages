@@ -43,14 +43,15 @@
                                     </div>
                                 </div>
                             </div>
-                        <div class="row">
-                            <div class="col">
-                                <div class="mb-3">
+                            <div class="row">
+                                <div class="col">
+                                     <div class="mb-3">
 
-                                    <label class="form-label" for="exampleFormControlInput1">Nom </label>
-                                    <input class="form-control" id="exampleFormControlInput1" type="text"
-                                        placeholder="entrez le nom de l'administrateur..." name="nom" id="nom"
-                                    value="{{old('nom')}}"/>
+                                        <label class="form-label" for="exampleFormControlInput1">Nom </label>
+                                        <input class="form-control" id="exampleFormControlInput1" type="text"
+                                            placeholder="entrez le nom de l'administrateur..." name="nom" id="nom"
+                                        value="{{old('nom')}}"/>
+                                    </div>
                                 </div>
                             </div>
                             <div class="col">
@@ -81,7 +82,6 @@
                                         id="email" value="{{old('email')}}" />
                                 </div>
                             </div>
-                        </div>
                         </div>
                         <div class="card-footer text-end">
                             <a class="btn btn-light" href="{{ route('liste_admin') }}">Annuler</a>

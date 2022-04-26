@@ -1,16 +1,17 @@
 <?php
 
 
-use App\Http\Controllers\AdminController;
-use App\Http\Controllers\AnneeUniversitaireController;
-use App\Http\Controllers\ClasseController;
-use App\Http\Controllers\EnseignantController;
-use App\Http\Controllers\EtablissementController;
-use App\Http\Controllers\EtudiantController;
-use App\Http\Controllers\SpecialiteController;
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\AdminController;
+use App\Http\Controllers\ClasseController;
+use App\Http\Controllers\EtudiantController;
+use App\Http\Controllers\EnseignantController;
 use App\Http\Controllers\EntrepriseController;
-
+use App\Http\Controllers\SpecialiteController;
+use App\Http\Controllers\DepartementController;
+use App\Http\Controllers\EtablissementController;
+use App\Http\Controllers\AnneeUniversitaireController;
+use App\Http\Controllers\TypeStageController;
 
 /*Route::prefix('admin')->group(function () {
 });*/
@@ -120,7 +121,7 @@ Route::middleware(['auth','role:admin|superadmin'])->group(function(){
 
         Route::view('paiement/details-paiement-ens', 'admin.paiement.details_paiement_ens')->name('details_paiement_ens');
 
-        //-------------------------------------CONFIGURATION------------------------------
+        //-----------------------------------------CONFIGURATION---------------------------------
 
         Route::prefix('configuration/generale')->group(function () {
             Route::get('coordonnees', [EtablissementController::class,'edit'])->name('coordonnees');
@@ -129,9 +130,13 @@ Route::middleware(['auth','role:admin|superadmin'])->group(function(){
             Route::view('dates-stages', 'admin.configuration.generale.dates_stages')->name('dates_stages');
             Route::view('liste-grille', 'admin.configuration.generale.liste_grille')->name('liste_grille');
             Route::view('config-grille', 'admin.configuration.generale.configuration_grille')->name('configurer_grille');
+
+            Route::get('typeStage-classe/ajouter',[TypeStageController::class,'index'])->name('typeStage.index');
+            Route::get('typeStage-classe/store',[TypeStageController::class,'store'])->name('typeStage.store');
         });
         Route::get('configuration/annee-universitaire', [AnneeUniversitaireController::class, 'create'])->name('config_annee_universitaire');
         Route::post('configuration/ajouter-annee-universitaire', [AnneeUniversitaireController::class, 'store'])->name('ajouter_annee_universitaire');
+
     });
     //--------------------------------------------------------------------------------------------
 

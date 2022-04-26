@@ -102,7 +102,7 @@ class DepartementController extends Controller
     {
 
         $departement=Departement::findOrFail($id);
-        
+
         //dd($departement);
 
         return view('admin.etablissement.departement.modifier_departement', compact(['departement']));

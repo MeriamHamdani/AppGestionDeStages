@@ -207,6 +207,9 @@
                             <li><a href="{{ route('liste_grille') }}" class="{{ routeActive('liste_grille') }}">
                                     <strong><i class="icofont icofont-pen-nib"></i>Configurer la grille
                                         d'évaluation</strong></a> </li>
+                            <li><a href="{{ route('typeStage.index') }}">
+                                    <strong><i class="icofont icofont-pen-nib"></i>Configurer le type de stage par
+                                        classe</strong></a> </li>
                         </ul>
                     </li>
                     <li class="dropdown">
