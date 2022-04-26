@@ -17,7 +17,7 @@
                 <ul class="nav-menu custom-scrollbar">
                     <li class="back-btn">
                         <div class="mobile-back text-end"><span>Back</span><i class="fa fa-angle-right ps-2"
-                                aria-hidden="true"></i></div>
+                                                                              aria-hidden="true"></i></div>
                     </li>
                     <li class="sidebar-main-title">
                         <div>
@@ -26,7 +26,7 @@
                     </li>
                     <li class="dropdown">
                         <a class="nav-link menu-title link-nav {{routeActive('liste_demandes')}}"
-                            href="{{ route('liste_demandes') }}" class="">
+                           href="{{ route('liste_demandes') }}" class="">
                             <i class="icofont icofont-list"></i>&nbsp&nbsp&nbsp<span>La liste des demandes
                                 d'encadrement</span></a>
 
@@ -34,7 +34,7 @@
                     <li class="dropdown">
                         <a class="nav-link menu-title link-nav  {{ routeActive('liste_stages_actifs') }}"
                            href="{{ route('liste_stages_actifs') }}">
-                           <i class="icofont icofont-listine-dots"></i>&nbsp&nbsp&nbsp<span>La liste des stages
+                            <i class="icofont icofont-listine-dots"></i>&nbsp&nbsp&nbsp<span>La liste des stages
                                 actifs</span></a>
 
                     </li>
@@ -46,8 +46,8 @@
                     </li>
                     <li class="dropdown">
                         <a class="nav-link menu-title link-nav  {{routeActive('depots')}}"
-                            href="{{ route('depots') }}">
-                        <i class="icofont icofont-papers"></i>&nbsp&nbsp&nbsp<span>La liste des demandes de dépôt
+                           href="{{ route('depots') }}">
+                            <i class="icofont icofont-papers"></i>&nbsp&nbsp&nbsp<span>La liste des demandes de dépôt
                                 de memoire </span></a>
 
 
@@ -65,13 +65,13 @@
                     <li class="dropdown">
 
                         <a class="nav-link menu-title link-nav link-nav  {{routeActive('role_encadrant')}}"
-                            href="{{ route('role_encadrant') }}">
+                           href="{{ route('role_encadrant') }}">
                             <i class="icofont icofont-teacher"></i>&nbsp&nbsp&nbsp<span>En tant qu'Encadrant</span></a>
 
                     </li>
                     <li class="dropdown">
                         <a class="nav-link menu-title link-nav {{routeActive('role_membre_jury')}}"
-                            href="{{ route('role_membre_jury') }}">
+                           href="{{ route('role_membre_jury') }}">
                             <i class="icofont icofont-users-alt-2"></i>&nbsp&nbsp&nbsp<span>En tant que membre de jury
                             </span></a>
 
