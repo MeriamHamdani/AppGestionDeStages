@@ -8,4 +8,7 @@ use Illuminate\Database\Eloquent\Model;
 class TypeStage extends Model
 {
     use HasFactory;
+    protected $casts = [
+        'type_sujet' => 'json',
+    ];
 }

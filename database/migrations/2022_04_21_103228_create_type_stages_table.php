@@ -19,9 +19,9 @@ class CreateTypeStagesTable extends Migration
             $table->date('date_debut_periode');
             $table->date('date_limite_periode');
             $table->string('fiche_demande');
-            $table->date('date_debut_depot');
-            $table->date('date_limite_depot');
-            $table->json('type_sujet');
+            $table->date('date_debut_depot')->nullable();
+            $table->date('date_limite_depot')->nullable();
+            $table->json('type_sujet')->nullable();
             $table->timestamps();
         });
     }
