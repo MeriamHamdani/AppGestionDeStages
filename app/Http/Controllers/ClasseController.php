@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\AnneeUniversitaire;
 use App\Models\Classe;
+use App\Models\Specialite;
 use Illuminate\Http\Request;
 use Illuminate\Support\Carbon;
 use Illuminate\Validation\Rule;
@@ -40,7 +41,7 @@ class ClasseController extends Controller
     public function store(Request $request)
     {
         $attributs = $request->validate([
-            'nom' => ['required', 'string', 'max:255'],
+           // 'nom' => ['required', 'string', 'max:255'],
             'code' => ['required', 'string', 'max:255', 'unique:classes'],
             'niveau' => ['required', 'string', 'max:255'],
             'cycle' => ['required', 'string', 'max:255'],
@@ -50,6 +51,7 @@ class ClasseController extends Controller
         if ($cls_exist) {
             return back();
         }
+
         $mydate = Carbon::now();
         $moisCourant = (int)$mydate->format('m');
         if ((6 < $moisCourant) && ($moisCourant < 12))
@@ -66,7 +68,39 @@ class ClasseController extends Controller
                 break;
             }
         }
+        switch($request->niveau){
+            case 1:
+                $niveau="1ère année";
+                break;
+            case 2:
+                $niveau="2ème année";
+                break;
+            case 3:
+                $niveau="3ème année";
+                break;
+
+        }
+        switch($request->cycle){
+            case '1':
+                $cycle="Licence";
+                break;
+            case '2':
+                $cycle="Mastère";
+                break;
+            case '3':
+                $cycle="Doctorat";
+                break;
+            case '4':
+                $cycle="Ingénieurie";
+                break;
+
+        }
+        //dd($cycle);
+        $specialite=Specialite::find($request->specialite_id);
+        $nom=$niveau.' '.$cycle.' '.$specialite->nom;
+        $attributs=array_merge($attributs,["nom"=>$nom]);
         //dd($attributs);
+
         $classe=Classe::create($attributs);
         return redirect()->action([ClasseController::class,'index']);
 

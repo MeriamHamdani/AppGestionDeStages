@@ -94,6 +94,7 @@
                             <i class="icofont icofont-book-alt"></i>&nbsp&nbsp&nbsp<span>Gérer les cahiers des
                                 stages</span></a>
                     </li>
+
                     <li class="sidebar-main-title">
                         <div>
                             <h6>Etablissement</h6>
@@ -123,10 +124,19 @@
                             </span></a>
                     </li>
                     <li class="dropdown">
-                        <a class="nav-link menu-title link-nav {{ routeActive('liste_classes') }}"
-                            href="{{ route('liste_classes') }}">
+                        <a class="nav-link menu-title link-nav ">
                             <i class="icofont icofont-users-social"></i>&nbsp&nbsp&nbsp<span>Gestion des
                                 classes</span></a>
+                        <ul class="nav-submenu menu-content"
+                            style="display: {{ prefixBlock('/admin/configuration/generale') }};">
+                            <li><a href="{{ route('liste_classes') }}" class="{{ routeActive('liste_classes') }}">
+                                    <strong><i class="icofont icofont-users-social"></i>Gérer les classes</strong></a>
+                            </li>
+                            <li><a href="{{ route('typeStage.index') }}">
+                                    <strong><i class="icofont icofont-pen-nib"></i>Configurer le type de stage d'une
+                                        classe</strong></a> </li>
+                        </ul>
+
                     </li>
                     <li class="sidebar-main-title">
                         <div>
@@ -207,9 +217,7 @@
                             <li><a href="{{ route('liste_grille') }}" class="{{ routeActive('liste_grille') }}">
                                     <strong><i class="icofont icofont-pen-nib"></i>Configurer la grille
                                         d'évaluation</strong></a> </li>
-                            <li><a href="{{ route('typeStage.index') }}">
-                                    <strong><i class="icofont icofont-pen-nib"></i>Configurer le type de stage par
-                                        classe</strong></a> </li>
+
                         </ul>
                     </li>
                     <li class="dropdown">
@@ -225,3 +233,4 @@
         </div>
     </nav>
 </header>
+

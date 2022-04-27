@@ -132,7 +132,7 @@ Route::middleware(['auth','role:admin|superadmin'])->group(function(){
             Route::view('config-grille', 'admin.configuration.generale.configuration_grille')->name('configurer_grille');
 
             Route::get('typeStage-classe/ajouter',[TypeStageController::class,'index'])->name('typeStage.index');
-            Route::get('typeStage-classe/store',[TypeStageController::class,'store'])->name('typeStage.store');
+            Route::put('typeStage-classe/store',[TypeStageController::class,'store'])->name('typeStage.store');
         });
         Route::get('configuration/annee-universitaire', [AnneeUniversitaireController::class, 'create'])->name('config_annee_universitaire');
         Route::post('configuration/ajouter-annee-universitaire', [AnneeUniversitaireController::class, 'store'])->name('ajouter_annee_universitaire');

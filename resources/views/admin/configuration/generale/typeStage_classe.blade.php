@@ -54,9 +54,9 @@
                     @endforeach
                     @endif
 
-                    <form action="{{ route('typeStage.store') }}" method="GET" enctype="multipart/form-data">
+                    <form action="{{ route('typeStage.store') }}" method="POST" enctype="multipart/form-data">
                         @csrf
-
+                        @method('PUT')
                         <div class="setup-content" id="step-1">
                             @if ($error_message['nom']!="")
                             <div class="alert alert-danger" role="alert">
@@ -67,10 +67,10 @@
                                 <div class="col-md-12">
                                     <div class="form-group">
                                         <label class="control-label">Classe</label>
-                                        <select class="form-control" name="code_classe" id="code_classe">
+                                        <select class="form-control" name="nom_classe" id="nom_classe">
                                             @foreach ($classes as $classe )
-                                            <option value="{{ $classe->code }}">
-                                                {{ $classe->code }}
+                                            <option value="{{ $classe->nom }}">
+                                                {{ $classe->nom }}
                                             </option>
                                             @endforeach
                                         </select>
@@ -112,11 +112,8 @@
                                         <label class="control-label">Date de fin</label>
                                         <input class="datepicker-here form-control digits" type="text"
                                             data-language="en" required="required" name="date_fin" id="date_fin" />
-
-
-                                        <button class="btn btn-primary nextBtn pull-right"
-                                            type="button">Suivant</button>
                                     </div>
+                                    <button class="btn btn-primary nextBtn pull-right" type="button">Suivant</button>
                                 </div>
                             </div>
                         </div>
@@ -164,57 +161,59 @@
                                         <label class="control-label">Date de fin</label>
                                         <input class="datepicker-here form-control digits" type="text"
                                             data-language="en" name="date_fin_depo" id="date_fin_depo" />
-
-
-
-                                        <button class="btn btn-primary nextBtn pull-right"
-                                            type="button">Suivant</button>
                                     </div>
+                                    <button class="btn btn-primary nextBtn pull-right" type="button">Suivant</button>
                                 </div>
                             </div>
                         </div>
-                </div>
-                <div class="setup-content" id="step-5">
-                    <div class="col-xs-12 card-body animate-chk">
-                        <div class="col-md-12">
-                            <div class="alert alert-primary dark" role="alert">
-                                <p><i class="icofont icofont-exclamation-tringle"></i>
-                                    Ces champs ne sont requis que pour les stages <u>Obligatoires</u>
-                                    .<br>
-                                    Cliquer Suivant si le type de stage encours de configuration est
-                                    <u>Volontaire</u>
-                                </p>
-                            </div>
-                            <div class="form-group">
 
-                                <label class="d-block" for="chk-ani"><input class="checkbox_animated" id="chk-ani"
-                                        type="checkbox" checked="" name="type_sujet[]" value="PFE">
-                                    PFE</label>
-                            </div>
-                            <div class="form-group">
-                                <label class="d-block" for="chk-ani"><input class="checkbox_animated" id="chk-ani"
-                                        type="checkbox" checked="" name="type_sujet[]" value="Projet Tutoré">
-                                    Projet Tutoré</label>
-                            </div>
-                            <div class="form-group">
-                                <label class="d-block" for="chk-ani"><input class="checkbox_animated" id="chk-ani"
-                                        type="checkbox" checked="" name="type_sujet[]" value="Business Plan">
-                                    Business Plan</label>
-                            </div>
+                        <div class="setup-content" id="step-5">
+                            <div class="col-xs-12 card-body animate-chk">
+                                <div class="col-md-12">
+                                    <div class="alert alert-primary dark" role="alert">
+                                        <p><i class="icofont icofont-exclamation-tringle"></i>
+                                            Ces champs ne sont requis que pour les stages <u>Obligatoires</u>
+                                            .<br>
+                                            Cliquer Terminer si le type de stage encours de configuration est
+                                            <u>Volontaire</u>
+                                        </p>
+                                    </div>
+                                    <div class="form-group">
+
+                                        <label class="d-block" for="chk-ani"><input class="checkbox_animated"
+                                                id="chk-ani" type="checkbox" checked="" name="type_sujet[]" value="PFE"
+                                                checked="false">
+                                            PFE</label>
+                                    </div>
+                                    <div class="form-group">
+                                        <label class="d-block" for="chk-ani"><input class="checkbox_animated"
+                                                id="chk-ani" type="checkbox" name="type_sujet[]" value="Projet Tutoré">
+                                            Projet Tutoré</label>
+                                    </div>
+                                    <div class="form-group">
+                                        <label class="d-block" for="chk-ani"><input class="checkbox_animated"
+                                                id="chk-ani" type="checkbox" checked="" name="type_sujet[]"
+                                                value="Business Plan">
+                                            Business Plan</label>
+                                        <button class="btn btn-primary nextBtn pull-right"
+                                            type="submit">Términer</button>
+                                    </div>
 
 
-                            <button class="btn btn-primary nextBtn pull-right" type="submit">Términer</button>
+
+                                </div>
+                            </div>
+
                         </div>
-                    </div>
-
                 </div>
-
                 </form>
             </div>
+
         </div>
     </div>
 </div>
 </div>
+
 
 
 @push('scripts')
@@ -225,3 +224,4 @@
 @endpush
 
 @endsection
+
