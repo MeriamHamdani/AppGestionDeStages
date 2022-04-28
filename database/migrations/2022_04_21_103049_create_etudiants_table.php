@@ -21,8 +21,8 @@ class CreateEtudiantsTable extends Migration
             $table->foreignId('classe_id')->constrained();
             $table->string('nom');
             $table->string('prenom');
-            $table->string('numero_telephone');
-            $table->string('email')->unique();
+            $table->string('numero_telephone')->nullable();
+            $table->string('email')->nullable()->unique();
             $table->timestamps();
         });
     }

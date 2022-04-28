@@ -62,7 +62,7 @@ Route::middleware(['auth','role:admin|superadmin'])->group(function(){
         Route::get('etablissement/modifier-etudiant/{etudiant}', [EtudiantController::class,'edit'])->name('modifier_etudiant');
         Route::patch('etablissement/update-etd/{etudiant}', [EtudiantController::class,'update'])->name('update_etudiant');
         Route::get('etablissement/supprimer-etudiant/{etudiant}', [EtudiantController::class,'destroy'])->name('supprimer_etudiant');
-
+        Route::post('etablissement/ajouter-etudiants', [EtudiantController::class,'store_via_csv'])->name('sauvegarder_etudiants_csv');
         // ***************************** D E P A R T E M E N T  ***********************
 
         Route::resource('departement', DepartementController::class);
