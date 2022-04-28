@@ -2,6 +2,7 @@
 
 namespace App\Exports;
 
+use App\Models\Classe;
 use App\Models\Etudiant;
 use Maatwebsite\Excel\Concerns\WithHeadings;
 use Maatwebsite\Excel\Concerns\FromCollection;
@@ -18,14 +19,20 @@ class EtudiantsExport implements FromCollection, WithCustomCsvSettings, WithHead
 
     public function headings(): array
     {
-        return ["nom", "prenom","numero_CIN","email","numero_telephone"];
+        return [
+            ["Liste des etudiants de classe ". Classe::find(request()->classe_id)->nom],
+            ["Nom", "Prénom" ,"Email","Téléphone"]
+            ];
     }
     /**
     * @return \Illuminate\Support\Collection
     */
     public function collection()
     {
-        return Etudiant::select("nom", "prenom","numero_CIN","email","numero_telephone")->get();
-        //return Etudiant::all();
+        
+        return Etudiant::where('classe_id', request()->classe_id)
+        ->select('nom','prenom','email','numero_telephone')
+        ->get();
+       
     }
 }

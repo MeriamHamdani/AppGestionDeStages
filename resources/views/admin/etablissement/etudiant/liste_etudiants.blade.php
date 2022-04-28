@@ -52,7 +52,8 @@
                                                     aria-label="Fermez"></button>
                                             </div>
                                             <div class="modal-body">
-                                                <form>
+                                                <form method="POST" action="{{ route('Etudiants-parClasse-export') }}">
+                                                    @csrf
                                                     <div class="mb-3">
                                                         <label class="col-form-label" for="recipient-name">Exporter
                                                             selon la Classe</label>
@@ -68,7 +69,7 @@
                                                                 @endforeach
                                                             </select>
                                                         </div>
-                                                        <button class="btn btn-primary" type="button">Exporter</button>
+                                                        <button type="submit" class="btn btn-primary">Exporter</button>
                                                     </div>
                                                     <div class="mb-3">
                                                         <label class="col-form-label" for="recipient-name">Exporter
@@ -86,7 +87,9 @@
                                                                 @endforeach
                                                             </select>
                                                         </div>
-                                                        <button class="btn btn-primary" type="button">Exporter</button>
+                                                        <button type="submit"
+                                                            formaction="{{ route('Etudiants-parSpecialite-export') }}"
+                                                            class="btn btn-primary" type="button">Exporter</button>
                                                     </div>
                                                 </form>
                                             </div>
@@ -256,4 +259,3 @@
 @endpush
 
 @endsection
-
