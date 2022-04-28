@@ -1,6 +1,8 @@
 <?php
 
 
+use App\Imports\EnseignantsImport;
+use App\Imports\UsersImport;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\AdminController;
 use App\Http\Controllers\ClasseController;
@@ -12,6 +14,7 @@ use App\Http\Controllers\DepartementController;
 use App\Http\Controllers\EtablissementController;
 use App\Http\Controllers\AnneeUniversitaireController;
 use App\Http\Controllers\TypeStageController;
+use Maatwebsite\Excel\Facades\Excel;
 
 /*Route::prefix('admin')->group(function () {
 });*/
@@ -53,6 +56,8 @@ Route::middleware(['auth','role:admin|superadmin'])->group(function(){
         Route::get('etablissement/modifier-enseignant/{enseignant}', [EnseignantController::class,'edit'])->name('modifier_enseignant');
         Route::patch('etablissement/update-ens/{enseignant}', [EnseignantController::class,'update'])->name('update_enseignant');
         Route::get('etablissement/supprimer-enseignant/{enseignant}', [EnseignantController::class,'destroy'])->name('supprimer_enseignant');
+        Route::post('import/liste-enseignants',[EnseignantController::class,'importData'])->name('file-import');
+        Route::post('export/liste-enseignants', [EnseignantController::class, 'exportData'])->name('file-export');
 
         // ***************************** E T U D I A N T ********************
 
@@ -136,6 +141,8 @@ Route::middleware(['auth','role:admin|superadmin'])->group(function(){
         });
         Route::get('configuration/annee-universitaire', [AnneeUniversitaireController::class, 'create'])->name('config_annee_universitaire');
         Route::post('configuration/ajouter-annee-universitaire', [AnneeUniversitaireController::class, 'store'])->name('ajouter_annee_universitaire');
+
+
 
     });
     //--------------------------------------------------------------------------------------------
