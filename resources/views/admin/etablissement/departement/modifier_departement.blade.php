@@ -22,41 +22,37 @@
             <div class="card">
                 <div class="card-header pb-0">
                     <h5>Modifier les informations du département</h5>
-
                 </div>
-
-                <form class="form theme-form" method="post"
+                <form class="form theme-form needs-validation" novalidate="" method="post"
                     action="{{ route('departement.update',['id'=>$departement->id]) }}">
                     @csrf
                     @method('PATCH')
                     <div class="card-body">
-                        @ @if($errors->any())
+                        @if($errors->any())
                         @foreach ($errors->all() as $err )
                         <div class="alert alert-danger" role="alert">
                             {{ $err }}
                         </div>
-
                         @endforeach
-
                         @endif
-                        <div class="row">
-                            <div class="col">
-                                <div class="mb-3">
-                                    <label class="form-label" for="exampleFormControlInput1">Code département </label>
-                                    <input class="form-control" id="code" name="code" type="text" value="{{
-                                        $departement->code }}" />
+                            <div class="form-group">
+                                <label class="form-label" for="exampleFormControlInput1">Code département </label>
+                                <div class="input-group">
+                                    <input class="form-control" id="exampleFormControlInput1" type="text"
+                                           name="code" id="code" placeholder="entrez le code de département..."
+                                           value="{{ $departement->code }}" required=""/>
+                                    <div class="invalid-tooltip">Entrez le code svp!</div>
                                 </div>
                             </div>
-                        </div>
-                        <div class="col">
-                            <div class="mb-3">
-
+                            <div class="form-group">
                                 <label class="form-label" for="exampleFormControlInput1">Nom département </label>
-                                <input class="form-control" id="nom" name="nom" type="text" value="{{
-                                    $departement->nom }}" />
+                                <div class="input-group">
+                                    <input class="form-control" id="exampleFormControlInput1" type="text"
+                                           name="nom" id="nom" placeholder="entrez le nom du département..."
+                                           value="{{$departement->nom }}" required=""/>
+                                    <div class="invalid-tooltip">Entrez le nom svp!</div>
+                                </div>
                             </div>
-                        </div>
-
                     </div>
                     <div class="card-footer text-end">
                         <a class="btn btn-light" href="{{ route('liste_departements') }}">Annuler</a>
@@ -70,6 +66,8 @@
 
 
 @push('scripts')
+    <script src="{{ asset('assets/js/form-validation-custom.js') }}"></script>
+
 @endpush
 
 @endsection

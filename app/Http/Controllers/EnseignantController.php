@@ -2,6 +2,8 @@
 
 namespace App\Http\Controllers;
 
+use App\Exports\EnseignantExport;
+use App\Imports\EnseignantsImport;
 use App\Models\AnneeUniversitaire;
 use App\Models\Enseignant;
 use App\Models\Etablissement;
@@ -9,6 +11,7 @@ use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Carbon;
 use Illuminate\Validation\Rule;
+use Maatwebsite\Excel\Facades\Excel;
 
 class EnseignantController extends Controller
 {
@@ -153,4 +156,17 @@ class EnseignantController extends Controller
         $user->delete();
         return redirect()->action([EnseignantController::class,'index']);
     }
+
+    public function importData ()
+    {
+        Excel::import(new EnseignantsImport, request()->file('file')->store('temp'));
+        //dd(request());
+        return redirect()->back();
+    }
+
+    public function exportData()
+    {
+        return Excel::download(new EnseignantExport, 'liste-enseignants.xlsx');
+    }
+
 }
