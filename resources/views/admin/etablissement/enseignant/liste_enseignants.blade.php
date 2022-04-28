@@ -37,7 +37,7 @@
                             </i>
                         </a>
                         <a href=#>
-                            <i class="text-right" aria-hidden="true">
+                            <div class="text-right" aria-hidden="true">
                                 <button class="btn btn-pill btn-success btn-sm pull-right" type="button"
                                         data-bs-toggle="modal" data-bs-target="#export"
                                         data-whatever="@getbootstrap">
@@ -50,31 +50,33 @@
                                                 <h5 class="modal-title">Exporter la liste des enseignants</h5>
                                                 <button class="btn-close" type="button" data-bs-dismiss="modal" aria-label="Fermez"></button>
                                             </div>
-                                            <div class="modal-body">
-                                                <form>
-                                                    <div class="mb-3">
-                                                        <div class="mb-2">
-                                                            <select class="js-example-basic-single col-sm-12" id="departement_id" name="departement_id" required>
-                                                                <option disabled="disabled" selected="selected">Sélectionnez le département</option>
-                                                                @foreach (\App\Models\Departement::all() as $departement)
-                                                                    <option
-                                                                        value="{{ $departement->id }}"
-                                                                        {{ old('departement_id') == $departement->id ? 'selected' : '' }}
-                                                                    >{{ ucwords($departement->nom) }}</option>
-                                                                @endforeach
-                                                            </select>
+                                            <form method="POST" action="{{route('file-export')}}"  >
+                                                @csrf
+                                                <div class="modal-body">
+                                                        <div class="mb-3">
+                                                                <div class="mb-2">
+                                                                    <select class="js-example-basic-single col-sm-12" id="departement_id" name="departement_id" required>
+                                                                        <option disabled="disabled" selected="selected">Sélectionnez le département</option>
+                                                                        @foreach (\App\Models\Departement::all() as $departement)
+                                                                            <option
+                                                                                value="{{ $departement->id }}"
+                                                                                {{ old('departement_id') == $departement->id ? 'selected' : '' }}
+                                                                            >{{ ucwords($departement->nom) }}</option>
+                                                                        @endforeach
+                                                                    </select>
+                                                                </div>
                                                         </div>
-                                                    </div>
-                                                </form>
-                                            </div>
-                                            <div class="modal-footer">
-                                                <button class="btn btn-secondary" type="button" data-bs-dismiss="modal">Annuler</button>
-                                                <button class="btn btn-primary" type="button">Exporter</button>
-                                            </div>
+                                                </div>
+                                                <div class="modal-footer">
+                                                    <button class="btn btn-secondary" type="button" data-bs-dismiss="modal">Annuler</button>
+                                                    {{--<a href="{{ route('file-export') }}"  class="btn btn-primary"s>Exporter</a>--}}
+                                                    <button class="btn btn-primary" type="submit">Exporter</button>
+                                                </div>
+                                           </form>
                                         </div>
                                     </div>
                                 </div>
-                            </i>
+                            </div>
                         </a>
                         <a href=#>
                             <i class="text-right" aria-hidden="true">
@@ -90,34 +92,42 @@
                                                 <h5 class="modal-title">Importer la liste des enseignants</h5>
                                                 <button class="btn-close" type="button" data-bs-dismiss="modal" aria-label="Close"></button>
                                             </div>
-                                            <div class="modal-body">
-                                                <form>
-                                                    <div class="mb-3">
-                                                        <label class="col-form-label" for="recipient-name">Département</label>
-                                                        <div class="mb-2">
-                                                            <select class="js-example-basic-single col-sm-12" id="departement_id" name="departement_id" required>
-                                                                <option disabled="disabled" selected="selected">Sélectionnez le département</option>
-                                                                @foreach (\App\Models\Departement::all() as $departement)
-                                                                    <option
-                                                                        value="{{ $departement->id }}"
-                                                                        {{ old('departement_id') == $departement->id ? 'selected' : '' }}
-                                                                    >{{ ucwords($departement->nom) }}</option>
-                                                                @endforeach
-                                                            </select>
+                                            <form action="{{route('file-import')}}" method="POST" enctype="multipart/form-data">
+                                                @csrf
+                                                @if($errors->any())
+                                                    @foreach ($errors->all() as $err )
+                                                        <div class="alert alert-danger" role="alert">
+                                                            {{ $err }}
                                                         </div>
-                                                    </div>
-                                                    <div class="mb-3">
-                                                        <label class="col-form-label" for="message-text">Fichier CSV</label>
-                                                        <div class="col-sm-9">
-                                                            <input class="form-control" type="file" />
+                                                    @endforeach
+                                                @endif
+                                                <div class="modal-body">
+                                                        <div class="mb-3">
+                                                            <label class="col-form-label" for="recipient-name">Département</label>
+                                                            <div class="mb-2">
+                                                                <select class="js-example-basic-single col-sm-12" id="departement_id" name="departement_id" required>
+                                                                    <option disabled="disabled" selected="selected">Sélectionnez le département</option>
+                                                                    @foreach (\App\Models\Departement::all() as $departement)
+                                                                        <option
+                                                                            value="{{ $departement->id }}"
+                                                                            {{ old('departement_id') == $departement->id ? 'selected' : '' }}
+                                                                        >{{ ucwords($departement->nom) }}</option>
+                                                                    @endforeach
+                                                                </select>
+                                                            </div>
                                                         </div>
-                                                    </div>
-                                                </form>
-                                            </div>
-                                            <div class="modal-footer">
-                                                <button class="btn btn-secondary" type="button" data-bs-dismiss="modal">Annuler</button>
-                                                <button class="btn btn-primary" type="button">Importer</button>
-                                            </div>
+                                                        <div class="mb-3">
+                                                            <label class="col-form-label" for="message-text">Fichier CSV</label>
+                                                            <div class="col-sm-9">
+                                                                <input type="file" name="file" class="form-control">
+                                                            </div>
+                                                        </div>
+                                                </div>
+                                                <div class="modal-footer">
+                                                    <button class="btn btn-secondary" type="button" data-bs-dismiss="modal">Annuler</button>
+                                                    <button class="btn btn-primary" type="submit">Importer</button>
+                                                </div>
+                                            </form>
                                         </div>
                                     </div>
                                 </div>
