@@ -20,6 +20,7 @@ class EtudiantsImport implements ToModel
         dd($row["prenom"]);
        
         $user=User::create($user_attr);
+        
         return new Etudiant([
             'nom'     => $row[0],
             'prenom'    => $row[1],

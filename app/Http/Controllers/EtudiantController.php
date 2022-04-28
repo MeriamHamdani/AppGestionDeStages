@@ -9,6 +9,7 @@ use Illuminate\Http\Request;
 use App\Models\Etablissement;
 use Illuminate\Support\Carbon;
 use Illuminate\Validation\Rule;
+use App\Exports\EtudiantsExport;
 use App\Imports\EtudiantsImport;
 use App\Models\AnneeUniversitaire;
 use Maatwebsite\Excel\Facades\Excel;
@@ -63,14 +64,15 @@ class EtudiantController extends Controller
         if ($etd_exist) {
             return back();
         }
-        
+
         $annee=$this->current_annee_univ();
+        
         $annees = AnneeUniversitaire::all();
         foreach ($annees as $a)
-        {
-            if ($a->annee == $annee)
+        {//dd($a->annee);
+            if ($a->annee == $annee->annee)
             {
-                $attributs2['annee_universitaire_id'] = $a->id;
+                $attributs2['annee_universitaire_id'] = $annee->id;
                 break;
             }
         }
@@ -154,34 +156,35 @@ class EtudiantController extends Controller
      * @return \Illuminate\Http\Response
      */
     public function store_via_csv(Request $request){
-        
+
         $request->validate([
             "classe_id"=>['required'],
-            "liste_etudiants"=>['required'],  
+            "liste_etudiants"=>['required'],
             "liste_etudiants.*"=>['required','mimes:csv']
         ]);
         $classe=Classe::findOrFail($request->classe_id);
         $liste_name='etudiants_'.$classe->code.'_'.($this->current_annee_univ())->annee.'.csv';
-                
+
         $path = Storage::disk('public')
                         ->putFileAs('listes_etudiants', $request->file('liste_etudiants'),$liste_name);
-        
-        
-        
+
+
+
         $chemin_abs='C:/laragon/www/AppGestionDeStages/public/storage/'.$path;
         //dd( $chemin_abs);
         //$openfile = fopen($chemin_abs, "r");
-        
+
         //$cont = fread($openfile, filesize($chemin_abs));
         $handle = fopen($chemin_abs, "r");
-        
+
 $lineNumber = 1;$i=0;
 while (($raw_string = fgets($handle)) !== false) {
     if($i>0)
     {$row = str_getcsv($raw_string);
         $attr_user=array("numero_CIN"=>$row[2],"password"=>bcrypt($row[1]));
         $user=User::create($attr_user);
-        $attr_etd=array("nom"=>$row[0],"prenom"=>$row[1],"classe_id"=>$request->classe_id,"user_id"=>$user->id,"annee_universitaire_id"=>$this->current_annee_univ()->id);   
+        $user->assignRole('etudiant');
+        $attr_etd=array("nom"=>$row[0],"prenom"=>$row[1],"classe_id"=>$request->classe_id,"user_id"=>$user->id,"annee_universitaire_id"=>$this->current_annee_univ()->id);
         Etudiant::create($attr_etd);
         //dd($row);
         $lineNumber++;
@@ -192,9 +195,9 @@ while (($raw_string = fgets($handle)) !== false) {
         return redirect()->action([EtudiantController::class,'index']);
     }
 
-    
+
     public function current_annee_univ(){
-        
+
         $mydate = Carbon::now();
         $moisCourant = (int)$mydate->format('m');
         if ((6 < $moisCourant) && ($moisCourant < 12)) {
@@ -208,9 +211,13 @@ while (($raw_string = fgets($handle)) !== false) {
             if ($a->annee == $annee)
             {
                 return  $a;
-                
+
             }
         }
-           
+
+    }
+
+    public function export(){
+        return Excel::download(new EtudiantsExport, 'etudiants.csv');
     }
 }
