@@ -9,6 +9,7 @@ use App\Models\AnneeUniversitaire;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Redirect;
 use Illuminate\Support\Facades\Validator;
+use Illuminate\Validation\Rule;
 
 class DepartementController extends Controller
 {
@@ -121,7 +122,7 @@ class DepartementController extends Controller
         $departement=Departement::findOrFail($id);
         $request->validate([
             'nom' => ['required', 'string', 'max:255'],
-            'code' => ['required', 'string', 'max:255', 'unique:departements'],
+            'code' => ['required', 'string', 'max:255', Rule::unique('departements','code')->ignore($departement->id)],
         ]);
         $departement->code=$request->code;
         $departement->nom=$request->nom;

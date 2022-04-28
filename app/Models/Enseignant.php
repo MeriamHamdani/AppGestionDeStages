@@ -9,8 +9,7 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 class Enseignant extends Model
 {
     use HasFactory;
-    protected $guarded = [];
-
+   protected $guarded = [];
 
     public function departement()
     {
