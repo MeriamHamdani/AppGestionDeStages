@@ -131,11 +131,11 @@
                                         Doctorat
                                     </option>
                                     <option
-                                        value="ingeniorat" {{ old('cycle') == "ingeniorat" ? 'selected' : '' }}>
-                                        Ingéniorat
+                                        value="ingénierie" {{ old('cycle') == "ingeniorat" ? 'selected' : '' }}>
+                                        Ingénierie
                                     </option>
                                 </select>
-                                <div class="invalid-tooltip">Séléctionnez le grade svp!</div>
+                                <div class="invalid-tooltip">Séléctionnez le cycle svp!</div>
                             </div>
                             <div class="col-md-6 position-relative">
                                 <label class="form-label" for="validationTooltip01">Département</label>

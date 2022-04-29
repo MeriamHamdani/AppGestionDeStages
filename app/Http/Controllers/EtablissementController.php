@@ -57,7 +57,15 @@ class EtablissementController extends Controller
      */
     public function edit(Etablissement $etablissement)
     {
-        return  view('admin.configuration.generale.coordonnees');
+        //dd(!Etablissement::first());
+        if((Etablissement::first())) {
+            return  view('admin.configuration.generale.coordonnees');
+        }
+        else {
+            //abort(404);
+            return view('admin.configuration.generale.pas_de_coordonnees');
+        }
+
     }
 
     /**
@@ -69,7 +77,7 @@ class EtablissementController extends Controller
      */
     public function update(Request $request, Etablissement $etablissement)
     {
-
+        $etablissement= Etablissement::first();
         $attributs = $request->validate([
                 'nom' => 'required',
                 'email' => 'required|email',
@@ -79,16 +87,7 @@ class EtablissementController extends Controller
                 'adresse' => 'required'
             ]
         );
-        //dd($request);
-        $etablissement->nom = $request->nom;
-        $etablissement->email = $request->email;
-        $etablissement->universite = $request->universite;
-        $etablissement->fax = $request->fax;
-        $etablissement->telephone = $request->telephone;
-        $etablissement->adresse = $request->adresse;
-        //dd($request->email);
        $etablissement->update($attributs);
-       dd($etablissement);
         return back()->with('success', 'Post Updated!');
     }
 

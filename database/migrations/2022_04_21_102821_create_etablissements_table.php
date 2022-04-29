@@ -16,11 +16,14 @@ class CreateEtablissementsTable extends Migration
         Schema::create('etablissements', function (Blueprint $table) {
             $table->id();
             $table->string('nom');
+            $table->string('nomAr');
             $table->string('email');
             $table->string('telephone');
             $table->string('adresse');
+            $table->string('adresseAr');
             $table->string('fax');
             $table->string('universite');
+            $table->string('universiteAr');
             $table->timestamps();
         });
     }

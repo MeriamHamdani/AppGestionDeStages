@@ -81,17 +81,17 @@ class ClasseController extends Controller
 
         }
         switch($request->cycle){
-            case '1':
+            case 'licence':
                 $cycle="Licence";
                 break;
-            case '2':
+            case 'master':
                 $cycle="Mastère";
                 break;
-            case '3':
+            case 'doctorat':
                 $cycle="Doctorat";
                 break;
-            case '4':
-                $cycle="Ingénieurie";
+            case 'ingenierie':
+                $cycle="Ingénierie";
                 break;
 
         }

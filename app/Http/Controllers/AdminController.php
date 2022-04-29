@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\User;
 use App\Models\Admin;
+use Illuminate\Validation\Rule;
 use PHPUnit\Util\Json;
 use Illuminate\Http\Request;
 use Illuminate\Validation\Rules;
@@ -165,6 +166,36 @@ $admin->save();
 
 
     }
+    /**
+     * Show the form for editing the specified resource.
+     *
+     * @param  \App\Models\Admin  $admin
+     * @return \Illuminate\Http\Response
+     */
+
+    public function editProfil (Admin $admin)
+    {
+        $user_id = auth()->id();
+        $admin = Admin::where('user_id',$user_id)->first();
+        //dd($admin->user->numero_CIN);
+        return view('admin.profil.editProfil',['admin'=>$admin]);
+    }
+    public function updateProfil (Request $request, Admin $admin)
+    {
+        $user_id = auth()->id();
+        $admin = Admin::where('user_id',$user_id)->first();
+        $attributs = $request->validate([
+            'nom' => 'required|max:255',
+            'prenom' => 'required|max:255',
+            'numero_telephone' => 'required|max:11|min:8',
+            'email' => ['required','email','max:255',Rule::unique('admins','email')->ignore($admin->id)]
+            ]);
+        //dd($attributs);
+        //dd($admin);
+        $admin->update($attributs);
+        return redirect()->action([AdminController::class,'editProfil']);
+    }
+
 
     /**
      * Remove the specified resource from storage.

@@ -141,7 +141,6 @@
                             <thead>
                                 <tr>
                                     <th>Nom Complet</th>
-                                    <th>N°CIN</th>
                                     <th>Département</th>
                                     <th>Grade</th>
                                     <th>E-mail</th>
@@ -154,7 +153,6 @@
                             @foreach($enseignants as $enseignant)
                                 <tr>
                                     <td>{{ucwords($enseignant->nom)}} {{ucwords($enseignant->prenom)}} </td>
-                                    <td>{{($enseignant->user->numero_CIN)}}</td>
                                     <td>{{ucwords($enseignant->departement->nom)}}</td>
                                     <td>{{ucwords($enseignant->grade)}}</td>
                                     <td>{{ucwords($enseignant->email)}}</td>
@@ -183,7 +181,6 @@
                                 <tr>
                                 <tr>
                                     <th>Nom Complet</th>
-                                    <th>N°CIN</th>
                                     <th>Département</th>
                                     <th>Grade</th>
                                     <th>E-mail</th>

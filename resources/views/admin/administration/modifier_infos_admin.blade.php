@@ -25,7 +25,7 @@
               <div class="card-header pb-0">
                     <h5>Modifier les informations de l'admin <strong>{{$admin->prenom}} {{$admin->nom}} </strong></h5>
                 </div>
-                <form class="form theme-form" method="post"
+                <form class="form theme-form needs-validation" novalidate="" method="post"
                     action="{{ route('admin.update',['id_admin'=>$admin->id]) }}">
                     @csrf
                     @method('PATCH')
@@ -42,42 +42,42 @@
                         <div class="row">
                             <div class="col">
                                 <div class="mb-3">
+                                    <label class="form-label" for="exampleFormControlInput1">CIN </label>
+                                    <input class="form-control" type="text" name="numero_CIN" id="numero_CIN" required value={{$user->numero_CIN }} required />
+                                    <div class="invalid-tooltip">Entrez le N°CIN svp!</div>
+                                </div>
+
+                            </div>
+                            <div class="col">
+                                <div class="mb-3">
                                     <label class="form-label" for="exampleFormControlInput1">Nom </label>
-                                    <input class="form-control" type="text" name="nom" id="nom" value={{ $admin->nom }}
-                                    />
+                                    <input class="form-control" type="text" name="nom" id="nom" required value={{ $admin->nom }} />
+                                    <div class="invalid-tooltip">Entrez le nom d'admin svp!</div>
                                 </div>
                             </div>
                             <div class="col">
                                 <div class="mb-3">
                                     <label class="form-label" for="exampleFormControlInput1">Prénom </label>
-                                    <input class="form-control" name="prenom" id="prenom" value={{ $admin->prenom }}
-                                    type="text"
-                                    value="Flene" />
-                                </div>
-                            </div>
-                            <div class="col">
-                                <div class="mb-3">
-                                    <label class="form-label" for="exampleFormControlInput1">CIN </label>
-                                    <input class="form-control" type="text" name="numero_CIN" id="numero_CIN" value={{
-                                        $user->numero_CIN }} />
+                                    <input class="form-control" name="prenom" id="prenom" type="text" required value={{ $admin->prenom }} />
+                                    <div class="invalid-tooltip">Entrez le prenom d'admin svp!</div>
                                 </div>
                             </div>
                         </div>
                         <div class="row">
                             <div class="col">
                                 <div class="mb-3">
-                                    <label class="form-label" for="exampleFormControlInput1">Numéro de telephone
+                                    <label class="form-label" for="exampleFormControlInput1">Numéro de téléphone
                                     </label>
                                     <input class="form-control" type="text" name="numero_telephone"
-                                        id="numero_telephone" value={{ $admin->numero_telephone }}
-                                    />
+                                        id="numero_telephone" required value={{ $admin->numero_telephone }} />
+                                    <div class="invalid-tooltip">Entrez le numéro de téléphone d'admin svp!</div>
                                 </div>
                             </div>
                             <div class="col">
                                 <div class="mb-3">
                                     <label class="form-label" for="exampleFormControlInput1">E-mail </label>
-                                    <input class="form-control" type="email" name="email" id="email" value={{
-                                        $admin->email }} />
+                                    <input class="form-control" type="email" name="email" id="email" required value={{$admin->email }} />
+                                    <div class="invalid-tooltip">Entrez l'email d'admin svp!</div>
                                 </div>
                             </div>
                         </div>
@@ -95,7 +95,8 @@
 
 
 @push('scripts')
-<script src="{{ asset('assets/js/select2/select2.full.min.js') }}"></script>
+    <script src="{{ asset('assets/js/form-validation-custom.js') }}"></script>
+    <script src="{{ asset('assets/js/select2/select2.full.min.js') }}"></script>
 <script src="{{ asset('assets/js/select2/select2-custom.js') }}"></script>
 @endpush
 

@@ -1,6 +1,6 @@
 @extends('layouts.etudiant.master')
 
-@section('title')Base inputs
+@section('title')Ajouter une entreprise
 {{ $title }}
 @endsection
 

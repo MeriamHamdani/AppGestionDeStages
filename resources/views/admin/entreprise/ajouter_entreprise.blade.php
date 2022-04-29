@@ -1,4 +1,4 @@
-use App\Models\Entreprise;
+
 @extends('layouts.admin.master')
 
 @section('title')Ajouter une entreprise
@@ -26,6 +26,13 @@ use App\Models\Entreprise;
                         <div class="row">
                             <div class="col">
                                 <div class="mb-3">
+                                    <div class="alert alert-primary dark" role="alert">
+                                        <p><i class="icofont icofont-exclamation-tringle"></i>
+                                            Vérifiez tout d'abord l'existance du nom d'entreprise dans la liste!!</p>
+                                        <p>Pour consulter la liste des entreprises <a
+                                                href="{{ route('list_entreprises')}}"
+                                                style="color:white"><strong>cliquez ici </strong></a></p>
+                                    </div>
                                     <label class="form-label">Nom</label>
                                     <div class="mb-3">
                                         <input class="form-control" placeholder="Tapez le nom de l'entreprise ici..."

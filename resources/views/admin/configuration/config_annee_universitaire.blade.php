@@ -30,14 +30,14 @@
                                 <div class="col">
                                     <div class="mb-3">
                                         <label class="form-label" for="exampleFormControlInput1">Année Universitaire  </label>
-                                        <input class="form-control" id="annee" name="annee" type="text"
+                                        <input class="form-control" id="annee" name="annee" type="text" required
                                                placeholder="2021-2022"  />
                                     </div>
                                 </div>
                             </div>
                         </div>
                         <div class="card-footer text-end">
-{{--                            <input class="btn btn-light" type="reset" value="Annuler" />--}}
+{{--                            <a href class="btn btn-light" type="reset" value="Annuler" />--}}
                             <button class="btn btn-primary" type="submit">Ajouter</button>
                         </div>
                     </form>

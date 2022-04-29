@@ -1,12 +1,13 @@
 <header class="main-nav">
     <div class="sidebar-user text-center">
-        <a class="setting-primary" href="javascript:void(0)"><i data-feather="settings"></i></a><img
+        <a class="setting-primary" href="{{route('profil')}}"><i data-feather="settings"></i></a><img
             class="img-90 rounded-circle" src="{{asset('assets/images/dashboard/1.png')}}" alt="" />
         <div class="badge-bottom"><span class="badge badge-primary">New</span></div>
         <a href="user-profile">
-            <h6 class="mt-3 f-14 f-w-600">{Admin Nom prenom}</h6>
+            <h6 class="mt-3 f-14 f-w-600">{{ucwords(App\Models\Admin::where('user_id',auth()->id())->first()->prenom)}}
+                {{ucwords(App\Models\Admin::where('user_id',auth()->id())->first()->nom)}}</h6>
         </a>
-        <p class="mb-0 font-roboto">université</p>
+        <p class="mb-0 font-roboto">{{App\Models\Etablissement::first()->nom}}</p>
         {{-- <ul>
             <li>
                 <span><span class="counter">2</span>
@@ -60,7 +61,9 @@
                         </div>
                     </li>
                     <li class="dropdown">
-                        <a class="nav-link menu-title link-nav {{ prefixActive('/admin/stage/demandes-stage') }}">
+                        <a class="nav-link menu-title   {{ in_array(Route::currentRouteName(),
+                            ['demandes_stage.sv12lm','demandes_stage.so2l','demandes_stage.so3l',
+                            'demandes_stage.so3Info','demandes_stage.so2m']) ? 'active' : '' }}" href="javascript:void(0)">
                             <i class="icofont icofont-listing-box"></i>&nbsp&nbsp&nbsp<span>Les demandes de
                                 stages</span></a>
                         <ul class="nav-submenu menu-content"
@@ -101,7 +104,7 @@
                         </div>
                     </li>
                     <li>
-                        <a class="nav-link menu-title link-nav {{ routeActive('liste_enseignants') }}"
+                        <a class="nav-link menu-title link-nav {{ routeActive('liste_enseignants') }} "
                             href="{{ route('liste_enseignants') }}">
                             <i class="icofont icofont-teacher"></i>&nbsp&nbsp&nbsp<span>Gestion des
                                 enseignants</span></a>
@@ -124,7 +127,9 @@
                             </span></a>
                     </li>
                     <li class="dropdown">
-                        <a class="nav-link menu-title link-nav ">
+                        <a class="nav-link menu-title {{ in_array(Route::currentRouteName(),
+                            ['liste_classes','typeStage.index','ajouter_classe','modifier_classe']) ? 'active' : '' }}" href="javascript:void(0)">
+
                             <i class="icofont icofont-users-social"></i>&nbsp&nbsp&nbsp<span>Gestion des
                                 classes</span></a>
                         <ul class="nav-submenu menu-content"
@@ -199,7 +204,8 @@
                         </div>
                     </li>
                     <li class="dropdown">
-                        <a class="nav-link menu-title {{ prefixActive('/admin/configuration/generale') }}">
+                        <a class="nav-link menu-title {{ in_array(Route::currentRouteName(),
+                            ['coordonnees','montant_selon_grade','dates_stages','liste_grille','configurer_grille']) ? 'active' : '' }}">
                             <i class="icofont icofont-university"></i>&nbsp&nbsp&nbsp<span>Configuration
                                 générale</span></a>
                         <ul class="nav-submenu menu-content"

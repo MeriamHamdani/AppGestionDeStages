@@ -23,7 +23,7 @@
                 <div class="card-header pb-0">
                     <h5>Ajouter un admin</h5>
                 </div>
-                <form class="form theme-form" action="{{ route('ajout_admin') }}" method="POST">
+               {{-- <form class="form theme-form" action="{{ route('ajout_admin') }}" method="POST">
                     @csrf
                     <div class="card-body">
                         @if($errors->any())
@@ -87,7 +87,59 @@
                             <a class="btn btn-light" href="{{ route('liste_admin') }}">Annuler</a>
                             <button class="btn btn-primary" type="submit">Ajouter</button>
                         </div>
-                </form>
+                </form>--}}
+                <div class="card-body">
+                    <form class="row g-3 needs-validation" novalidate="" method="POST" action="{{ route('ajout_admin') }}">
+                        @csrf
+                        @if($errors->any())
+                            @foreach ($errors->all() as $err )
+                                <div class="alert alert-danger" role="alert">
+                                    {{ $err }}
+                                </div>
+                            @endforeach
+                        @endif
+                        <div class="col-md-4 position-relative">
+                            <label class="form-label" for="validationTooltip01">Numero CIN</label>
+                            <input class="form-control" id="numero_CIN" name="numero_CIN" type="number"
+                                   value="{{old('numero_CIN')}}" required="" placeholder="entrez le num cin..."/>
+                            <div class="invalid-tooltip">Entrez le N°CIN svp!</div>
+                        </div>
+                        <div class="col-md-4 position-relative">
+                            <label class="form-label" for="validationTooltip01">Nom</label>
+                            <input class="form-control" id="nom" name="nom" type="text"
+                                   value="{{old('nom')}}" required=""
+                                   placeholder="entrez le nom de l'admin..."/>
+                            <div class="invalid-tooltip">Entrez le nom svp!</div>
+                        </div>
+                        <div class="col-md-4 position-relative">
+                            <label class="form-label" for="validationTooltip01">Prénom</label>
+                            <input class="form-control" id="prenom" name="prenom" type="text"
+                                   value="{{old('prenom')}}" required=""
+                                   placeholder="entrez le prénom de l'admin'..."/>
+                            <div class="invalid-tooltip">Entrez le prénom svp!</div>
+                        </div>
+
+                        <div class="col-md-6 position-relative">
+                            <label class="form-label" for="validationTooltip01">Email</label>
+                            <input class="form-control" id="email" name="email" type="email"
+                                   value="{{old('email')}}" required=""
+                                   placeholder="entrez l'email de l'admin..."/>
+                            <div class="invalid-tooltip">Entrez l'email svp!</div>
+                        </div>
+                        <div class="col-md-6 position-relative">
+                            <label class="form-label" for="validationTooltip01">Numero de téléphone</label>
+                            <input class="form-control" id="numero_telephone" name="numero_telephone" type="number"
+                                   value="{{old('numero_telephone')}}" required=""
+                                   placeholder="entrez le numéro de téléphone de l'admin..."/>
+                            <div class="invalid-tooltip">Entrez le N° de téléphone svp!</div>
+                        </div>
+
+                        <div class="card-footer text-end">
+                            <a class="btn btn-light" href="{{ route('liste_admin') }}">Annuler</a>
+                            <button class="btn btn-primary" type="submit">Ajouter</button>
+                        </div>
+                    </form>
+                </div>
             </div>
         </div>
     </div>
@@ -95,6 +147,7 @@
 
 
 @push('scripts')
+    <script src="{{ asset('assets/js/form-validation-custom.js') }}"></script>
 @endpush
 
 @endsection

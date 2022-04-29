@@ -27,6 +27,7 @@
                     </div>
                     <form class="form theme-form" method="POST" action="{{route('valider_coordonnees')}}">
                         @csrf
+                        @method('PATCH')
                         <div class="card-body">
                             <div class="row align-items-center">
                                 <div class="col">
@@ -46,7 +47,7 @@
                                 <div class="col">
                                     <div class="mb-3">
                                         <label class="form-label" for="message-text">Université en arabe </label>
-                                        <input class="form-control" id="universite-ar" type="text"/>
+                                        <input class="form-control" id="universiteAr" name="universiteAr" value="{{App\Models\Etablissement::first()->universiteAr}}" type="text"/>
                                     </div>
                                 </div>
                             </div>
@@ -61,7 +62,7 @@
                                 <div class="col">
                                     <div class="mb-3">
                                         <label class="form-label" for="message-text">Etablissement en arabe</label>
-                                        <input class="form-control" id="nom-ar" type="text"/>
+                                        <input class="form-control" id="nomAr" name="nomAr" value="{{App\Models\Etablissement::first()->nomAr}}" type="text"/>
                                     </div>
                                 </div>
                             </div>
@@ -75,7 +76,7 @@
                                 <div class="col">
                                     <div class="mb-3">
                                         <label class="form-label" for="message-text">Adresse en arabe </label>
-                                        <input class="form-control" id="adresse-ar" type="text"/>
+                                        <input class="form-control" id="adresseAr" name="adresseAr"  value="{{App\Models\Etablissement::first()->adresseAr}}" type="text"/>
                                     </div>
                                 </div>
                                 <div class="row">

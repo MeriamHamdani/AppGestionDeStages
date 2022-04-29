@@ -21,6 +21,9 @@ use Maatwebsite\Excel\Facades\Excel;
 //-------------------------------------------------------------------------------------------------
 Route::middleware(['auth','role:admin|superadmin'])->group(function(){
     Route::prefix('admin')->group(function () {
+
+        Route::get('profil', [AdminController::class,'editProfil'])->name('profil');
+        Route::patch('coordonnees', [AdminController::class,'updateProfil'])->name('update_profil');
         // -----------------------------------ADMINISTRATION-------------------------------------
 
         Route::get('administration/liste-admin', [AdminController::class,'index'])->name('liste_admin');
@@ -130,7 +133,7 @@ Route::middleware(['auth','role:admin|superadmin'])->group(function(){
 
         Route::prefix('configuration/generale')->group(function () {
             Route::get('coordonnees', [EtablissementController::class,'edit'])->name('coordonnees');
-            Route::post('coordonnees', [EtablissementController::class,'update'])->name('valider_coordonnees');
+            Route::patch('coordonnees', [EtablissementController::class,'update'])->name('valider_coordonnees');
             Route::view('montant-selon-grade', 'admin.configuration.generale.montant_selon_grade')->name('montant_selon_grade');
             Route::view('dates-stages', 'admin.configuration.generale.dates_stages')->name('dates_stages');
             Route::view('liste-grille', 'admin.configuration.generale.liste_grille')->name('liste_grille');
