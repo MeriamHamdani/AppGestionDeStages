@@ -13,7 +13,7 @@
 @slot('breadcrumb_title')
 <h3>Configurer le types de stages selon la classe</h3>
 @endslot
-<li class="breadcrumb-item">Générale</li>
+<li class="breadcrumb-item">Gestion des classes</li>
 <li class="breadcrumb-item active">configuration type de stage selon la classe</li>
 @endcomponent
 
@@ -141,15 +141,23 @@
                                 </div>
                             </div>
                         </div>
-                        <div class="setup-content" id="step-4">
-                            @if ($error_message['depot_stage']!="")
-                            <div class="alert alert-danger" role="alert">
-                                {{ $error_message['depot_stage'] }}
-                            </div>
-                            @endif
 
+                        <div class="setup-content" id="step-4">
                             <div class="col-xs-12">
+                                @if ($error_message['depot_stage']!="")
+                                <div class="alert alert-danger" role="alert">
+                                    {{ $error_message['depot_stage'] }}
+                                </div>
+                                @endif
                                 <div class="col-md-12">
+                                    <div class="alert alert-primary dark" role="alert">
+                                        <p><i class="icofont icofont-exclamation-tringle"></i>
+                                            Ces champs ne sont requis que pour les stages <u>Obligatoires</u>
+                                            .<br>
+                                            Cliquer Suivant si le type de stage encours de configuration est
+                                            <u>Volontaire</u>
+                                        </p>
+                                    </div>
                                     <div class="form-group">
                                         <label class="control-label">Date de debut</label>
                                         <input class="datepicker-here form-control digits date-picker" type="text"
@@ -188,7 +196,7 @@
                                     <div class="form-group">
                                         <label class="d-block" for="chk-ani"><input class="checkbox_animated"
                                                 id="chk-ani" type="checkbox" name="type_sujet[]" value="Projet Tutoré">
-                                            Projet Tutoré</label>
+                                            Projet Tutore</label>
                                     </div>
                                     <div class="form-group">
                                         <label class="d-block" for="chk-ani"><input class="checkbox_animated"
@@ -224,4 +232,3 @@
 @endpush
 
 @endsection
-

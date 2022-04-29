@@ -68,7 +68,8 @@
                             <li><a href="{{ route('demandes_stage.sv12lm') }}"
                                     class="{{ routeActive('demandes_stage.sv12lm') }}"><strong><i
                                             class="icofont icofont-pen-nib"></i>Stage volontaire 1ère et 2ème
-                                        licence informatique et 1ére master</strong></a> </li>
+                                        licence informatique
+                                        et 1ére master</strong></a> </li>
                             <li><a href="{{ route('demandes_stage.so2l') }}"
                                     class="{{ routeActive('demandes_stage.so2l') }}"><strong><i
                                             class="icofont icofont-pen-nib"></i>Stage obligatoire 2ème
@@ -233,4 +234,3 @@
         </div>
     </nav>
 </header>
-

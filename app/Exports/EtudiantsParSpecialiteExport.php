@@ -34,18 +34,13 @@ class EtudiantsParSpecialiteExport implements FromCollection
         //dd($classes);
         $etudiants=new Collection();
         foreach ($classes as $classe){
-            /*dd(Etudiant::where('classe_id', $classe->id)
-            ->select('nom','prenom','email','numero_telephone')
-            ->get());*/
+            
             $etudiants->push(Etudiant::where('classe_id', $classe->id)
             ->select('nom','prenom','email','numero_telephone')
             ->get());
             
-            /*return Etudiant::where('classe_id', $classe->id)
-                ->select('nom','prenom','email','numero_telephone')
-                ->get();*/
         }
-        //dd($etudiants);
+       
         return $etudiants;
        
        
