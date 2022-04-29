@@ -23,7 +23,7 @@ class EnseignantExport implements FromCollection,WithCustomCsvSettings, WithHead
     */
     public function collection()
     {
-        dd(request());
+       // dd(request());
         return Enseignant::where('departement_id', request()->departement_id)
             ->select('nom','prenom','email','grade','numero_telephone')
             ->get();

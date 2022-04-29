@@ -11,9 +11,11 @@ use Illuminate\Support\Carbon;
 use Illuminate\Validation\Rule;
 use App\Exports\EtudiantsExport;
 use App\Imports\EtudiantsImport;
+
 use App\Models\AnneeUniversitaire;
 use Maatwebsite\Excel\Facades\Excel;
 use Illuminate\Support\Facades\Storage;
+use App\Exports\EtudiantsParSpecialiteExport;
 
 class EtudiantController extends Controller
 {
@@ -155,7 +157,7 @@ class EtudiantController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store_via_csv(Request $request){
+   /* public function store_via_csv(Request $request){
 
         $request->validate([
             "classe_id"=>['required'],
@@ -193,8 +195,22 @@ while (($raw_string = fgets($handle)) !== false) {
     fclose($handle);
         //dd(readfile($chemin_abs));
         return redirect()->action([EtudiantController::class,'index']);
+    }*/
+    
+    public function importData ()
+    {
+        Excel::import(new EtudiantsImport, request()->file('liste_etudiants')->store('temp'));
+        //dd(request());
+        return redirect()->action([EtudiantController::class,'index']);
     }
-
+    public function exportData()
+    {
+        return Excel::download(new EtudiantsExport, 'liste-etudiants.xlsx');
+    }
+    public function exportDataBySpec(Request $request)
+    {
+        return Excel::download(new EtudiantsParSpecialiteExport, 'liste-etudiants_par_spec.xlsx'); 
+    }
 
     public function current_annee_univ(){
 
