@@ -35,6 +35,8 @@ class EnseignantsImport implements ToModel, WithStartRow, WithCustomCsvSettings
     {
         //dd(request()->departement_id);
         $dep_id = request()->departement_id;
+        //dd($row[0]);
+
         $attributs = [
             'numero_CIN'     => $row[0],
             'password' => bcrypt($row[0]),

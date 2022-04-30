@@ -50,7 +50,7 @@
                                                 <h5 class="modal-title">Exporter la liste des enseignants</h5>
                                                 <button class="btn-close" type="button" data-bs-dismiss="modal" aria-label="Fermez"></button>
                                             </div>
-                                            <form method="POST" action="{{route('file-export')}}"  >
+                                            <form method="POST" action="{{route('file-export')}}">
                                                 @csrf
                                                 <div class="modal-body">
                                                         <div class="mb-3">

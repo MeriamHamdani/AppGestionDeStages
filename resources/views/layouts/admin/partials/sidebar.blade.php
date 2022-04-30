@@ -2,7 +2,7 @@
     <div class="sidebar-user text-center">
         <a class="setting-primary" href="{{route('profil')}}"><i data-feather="settings"></i></a><img
             class="img-90 rounded-circle" src="{{asset('assets/images/dashboard/1.png')}}" alt="" />
-        <div class="badge-bottom"><span class="badge badge-primary">New</span></div>
+        <div class="badge-bottom"><span class="badge badge-primary">Admin</span></div>
         <a href="user-profile">
             <h6 class="mt-3 f-14 f-w-600">{{ucwords(App\Models\Admin::where('user_id',auth()->id())->first()->prenom)}}
                 {{ucwords(App\Models\Admin::where('user_id',auth()->id())->first()->nom)}}</h6>

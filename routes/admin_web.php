@@ -71,8 +71,8 @@ Route::middleware(['auth','role:admin|superadmin'])->group(function(){
         Route::patch('etablissement/update-etd/{etudiant}', [EtudiantController::class,'update'])->name('update_etudiant');
         Route::get('etablissement/supprimer-etudiant/{etudiant}', [EtudiantController::class,'destroy'])->name('supprimer_etudiant');
         Route::post('etablissement/ajouter-etudiants', [EtudiantController::class,'importData'])->name('sauvegarder_etudiants_csv');
-        Route::post('export/liste-enseignants', [EtudiantController::class, 'exportData'])->name('Etudiants-parClasse-export');
-        Route::post('export/liste-enseignants_specialite', [EtudiantController::class, 'exportDataBySpec'])->name('Etudiants-parSpecialite-export');
+        Route::post('export/liste-etudiants', [EtudiantController::class, 'exportData'])->name('Etudiants-parClasse-export');
+        Route::post('export/liste-etudiants_specialite', [EtudiantController::class, 'exportDataBySpec'])->name('Etudiants-parSpecialite-export');
         // ***************************** D E P A R T E M E N T  ***********************
 
         Route::resource('departement', DepartementController::class);
