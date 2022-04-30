@@ -1,9 +1,14 @@
 <?php
 
+use App\Http\Controllers\EtudiantController;
 use Illuminate\Support\Facades\Route;
 
 Route::middleware(['auth','role:etudiant'])->group(function(){
     Route::prefix('etudiant')->group(function () {
+
+        Route::get('profil', [EtudiantController::class,'editProfil'])->name('profil_etd');
+        Route::patch('coordonnees', [EtudiantController::class,'updateProfil'])->name('update_profil_etd');
+
         Route::view('/', 'etudiant.dashboard')->name('dash_etudiant');
         Route::view('/stage/demandes-stages', 'etudiant.stage.demandes_stages')->name('demandes_stages');
         Route::view('/stage/demande-refuse', 'etudiant.stage.demande_refuse')->name('demande_refuse');

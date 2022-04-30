@@ -8,6 +8,7 @@ use App\Models\Enseignant;
 use App\Models\Etablissement;
 use App\Models\User;
 use Illuminate\Support\Carbon;
+use Illuminate\Support\Str;
 use Maatwebsite\Excel\Concerns\ToModel;
 use Maatwebsite\Excel\Concerns\WithStartRow;
 use Maatwebsite\Excel\Concerns\WithCustomCsvSettings;
@@ -35,8 +36,20 @@ class EnseignantsImport implements ToModel, WithStartRow, WithCustomCsvSettings
     {
         //dd(request()->departement_id);
         $dep_id = request()->departement_id;
-        //dd($row[0]);
-
+        $numCinExcel = $row[0];
+        $length = Str::length($numCinExcel);
+        if ( $length == 6)
+        {
+            $row[0] = '00'.$numCinExcel;
+        }
+        elseif ($length == 7)
+        {
+            $row[0] = '0'.$numCinExcel;
+        }
+        elseif ($length == 8)
+        {
+            $row[0]=$numCinExcel;
+        }
         $attributs = [
             'numero_CIN'     => $row[0],
             'password' => bcrypt($row[0]),

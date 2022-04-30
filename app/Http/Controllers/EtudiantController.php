@@ -68,7 +68,7 @@ class EtudiantController extends Controller
         }
 
         $annee=$this->current_annee_univ();
-        
+
         $annees = AnneeUniversitaire::all();
         foreach ($annees as $a)
         {//dd($a->annee);
@@ -150,6 +150,28 @@ class EtudiantController extends Controller
         return redirect()->action([EtudiantController::class,'index']);
 
     }
+    public function editProfil (Etudiant $etudiant)
+    {
+        $user_id = auth()->id();
+        $etudiant = Etudiant::where('user_id',$user_id)->first();
+        //dd($etudiant->user->numero_CIN);
+        return view('etudiant.profil.editProfil',['etudiant'=>$etudiant]);
+    }
+    public function updateProfil (Request $request, Etudiant $etudiant)
+    {
+        $user_id = auth()->id();
+        $etudiant = Etudiant::where('user_id',$user_id)->first();
+        $attributs = $request->validate([
+            'nom' => 'required|max:255',
+            'prenom' => 'required|max:255',
+            'numero_telephone' => 'required|max:11|min:8',
+            'email' => ['required','email','max:255',Rule::unique('etudiants','email')->ignore($etudiant->id)]
+        ]);
+        $etudiant->update($attributs);
+        return redirect()->action([EtudiantController::class,'editProfil']);
+    }
+
+
 
     /**
      * Store a newly created resource in storage.
@@ -196,7 +218,7 @@ while (($raw_string = fgets($handle)) !== false) {
         //dd(readfile($chemin_abs));
         return redirect()->action([EtudiantController::class,'index']);
     }*/
-    
+
     public function importData ()
     {
         Excel::import(new EtudiantsImport, request()->file('liste_etudiants')->store('temp'));
@@ -209,7 +231,7 @@ while (($raw_string = fgets($handle)) !== false) {
     }
     public function exportDataBySpec(Request $request)
     {
-        return Excel::download(new EtudiantsParSpecialiteExport, 'liste-etudiants_par_spec.xlsx'); 
+        return Excel::download(new EtudiantsParSpecialiteExport, 'liste-etudiants_par_spec.xlsx');
     }
 
     public function current_annee_univ(){
