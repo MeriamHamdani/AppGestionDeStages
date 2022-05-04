@@ -121,4 +121,15 @@ class EntrepriseController extends Controller
         $entreprise->delete();
         return redirect()->action([EntrepriseController::class, 'index']);
     }
+
+    public function indexEtd()
+    {
+        return view('etudiant.entreprise.liste_entreprises',
+            ['entreprise' => Entreprise::all()]);
+    }
+    public function createEtd()
+    {
+        return view('etudiant.entreprise.ajouter_entreprise');
+    }
+
 }

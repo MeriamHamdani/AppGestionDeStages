@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\EntrepriseController;
 use App\Http\Controllers\EtudiantController;
 use Illuminate\Support\Facades\Route;
 
@@ -21,7 +22,15 @@ Route::middleware(['auth','role:etudiant'])->group(function(){
         Route::view('/stage/gerer-cahier-stage', 'etudiant.stage.gestion_cahier_stage')->name('gestion_cahier_stage');
         Route::view('/stage/cahier-stage', 'etudiant.stage.cahier_stage')->name('cahier_stage');
 
-        Route::view('/entreprise/liste-entreprises', 'etudiant.entreprise.liste_entreprises')->name('liste_entreprises');
+
+        Route::get('entreprise/liste-entreprises', [EntrepriseController::class,'indexEtd'])->name('liste_entreprises');
+       // Route::view('entreprise/ajouter-entreprise', 'admin.entreprise.ajouter_entreprise')->name('ajouter_entreprise');
+       // Route::post('entreprise/ajouter', /**/[EntrepriseController::class,'store'])->name('entreprise.store');
+        //Route::get('entreprise/modifier-entreprise/{id}', [EntrepriseController::class,'edit'])->whereNumber('id')->name('modifier_entreprise');
+        //Route::post('entreprise/modifier/{id}', [EntrepriseController::class,'update'])->whereNumber('id')->name('entreprise.update');
+        //Route::get('entreprise/supprimer-entreprise/{id}', [EntrepriseController::class, 'destroy'])->whereNumber('id')->name('entreprise.destroy');
+
+       // Route::view('/entreprise/liste-entreprises', 'etudiant.entreprise.liste_entreprises')->name('liste_entreprises');
         Route::view('/entreprise/ajouter-entreprise', 'etudiant.entreprise.ajouter_entreprise')->name('ajouter-entreprise');
 
         Route::view('/depot/gerer-depot', 'etudiant.depot.depot_memoire')->name('depot');

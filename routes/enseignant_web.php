@@ -1,8 +1,14 @@
 <?php
+
+use App\Http\Controllers\EnseignantController;
 use Illuminate\Support\Facades\Route;
 
 Route::middleware(['auth','role:enseignant'])->group(function(){
     Route::prefix('enseignant')->group(function () {
+
+        Route::get('profil', [EnseignantController::class,'editProfil'])->name('profil_ens');
+        Route::patch('coordonnees', [EnseignantController::class,'updateProfil'])->name('update_profil_ens');
+
         Route::view('/encadrement/liste-demandes', 'enseignant.encadrement.Liste_demandes_encadrement')->name('liste_demandes');
         Route::view('/encadrement/liste-stages-actifs','enseignant.encadrement.Liste_stages_actifs' )->name('liste_stages_actifs');
         Route::view('/encadrement/liste-stages-actifs/cahier-stage-etud','enseignant.encadrement.cahier_stage_etud' )->name('cahier_stage_etud');

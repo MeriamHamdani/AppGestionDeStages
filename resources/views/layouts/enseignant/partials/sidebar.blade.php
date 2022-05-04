@@ -1,12 +1,14 @@
 <header class="main-nav">
     <div class="sidebar-user text-center">
-        <a class="setting-primary" href="javascript:void(0)"><i data-feather="settings"></i></a><img
+        <a class="setting-primary" href="{{route('profil_ens')}}"><i data-feather="settings"></i></a><img
             class="img-90 rounded-circle" src="{{asset('assets/images/dashboard/1.png')}}" alt="" />
-        <div class="badge-bottom"><span class="badge badge-primary">New</span></div>
+        <div class="badge-bottom"><span class="badge badge-primary">Enseignant(e)</span></div>
         <a href="user-profile">
-            <h6 class="mt-3 f-14 f-w-600">Enseignant Nom et prénom</h6>
+            <h6 class="mt-3 f-14 f-w-600">{{ucwords(App\Models\Enseignant::where('user_id',auth()->id())->first()->prenom)}}
+                {{ucwords(App\Models\Enseignant::where('user_id',auth()->id())->first()->nom)}}</h6>
         </a>
-        <p class="mb-0 font-roboto">Grade</p>
+        <p class="mb-0 font-roboto" style="color: #ba895d"><strong>{{ucwords(App\Models\Enseignant::where('user_id',auth()->id())->first()->grade)}}</strong> </p>
+        <p class="mb-0 font-roboto" style="color: #ba895d"><strong>{{ucwords(App\Models\Enseignant::where('user_id',auth()->id())->first()->departement->nom)}}</strong> </p>
 
 
     </div>

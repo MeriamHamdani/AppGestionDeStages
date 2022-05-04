@@ -157,6 +157,30 @@ class EnseignantController extends Controller
         return redirect()->action([EnseignantController::class,'index']);
     }
 
+    public function editProfil (Enseignant $enseignant)
+    {
+        $user_id = auth()->id();
+        $enseignant = Enseignant::where('user_id',$user_id)->first();
+        //dd($enseignant->user->numero_CIN);
+        return view('enseignant.profil.editProfil',['enseignant'=>$enseignant]);
+    }
+    public function updateProfil (Request $request, Enseignant $enseignant)
+    {
+        $user_id = auth()->id();
+        $enseignant = Enseignant::where('user_id',$user_id)->first();
+        $attributs = $request->validate([
+            'nom' => 'required|max:255',
+            'prenom' => 'required|max:255',
+            'numero_telephone' => 'required|max:11|min:8',
+            'email' => ['required','email','max:255',Rule::unique('enseignants','email')->ignore($enseignant->id)],
+            'grade' => 'required',
+            'rib' => 'required',
+            'identifiant' => ['required','max:255',Rule::unique('enseignants','identifiant')->ignore($enseignant->id)],
+        ]);
+        $enseignant->update($attributs);
+        return redirect()->action([EnseignantController::class,'editProfil']);
+    }
+
     public function importData ()
     {
         Excel::import(new EnseignantsImport, request()->file('file')->store('temp'));
