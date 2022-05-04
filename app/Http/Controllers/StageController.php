@@ -3,7 +3,17 @@
 namespace App\Http\Controllers;
 
 use App\Models\Stage;
+use App\Models\Classe;
+use App\Models\Etudiant;
+use App\Models\TypeStage;
+use App\Models\Enseignant;
+use App\Models\Entreprise;
 use Illuminate\Http\Request;
+use Illuminate\Support\Carbon;
+use App\Models\AnneeUniversitaire;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Redirect;
+use Illuminate\Support\Facades\Response;
 
 class StageController extends Controller
 {
@@ -17,6 +27,7 @@ class StageController extends Controller
         //
     }
 
+
     /**
      * Show the form for creating a new resource.
      *
@@ -24,7 +35,19 @@ class StageController extends Controller
      */
     public function create()
     {
-        //
+        $enseignants=Enseignant::all();
+        $entreprises=Entreprise::all();
+
+        $etudiant=(Etudiant::where('user_id',Auth::user()->id)->select('*')->get())[0];
+        $classe=Classe::findOrFail($etudiant->classe_id);
+
+        $type_stage=TypeStage::findOrFail($classe->type_stage);
+        $fiche_demande=substr($type_stage->fiche_demande, 15);
+
+
+        //dd($fiche_demande);
+        return view('etudiant.stage.demander_stage',compact(['enseignants','entreprises','etudiant','fiche_demande']));
+
     }
 
     /**
@@ -35,7 +58,73 @@ class StageController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        //dd($request->entreprise);
+        //dd(Auth::user());
+
+        $request->validate([
+            'titre_sujet'=>['required','string','max:255'],
+            //'type_sujet'=>['required','string','max:255'],
+            'encadrant'=>['required'],
+            'entreprise'=>['required'],
+            'date_debut'=>['required','date'],
+            'date_fin'=>['required','date'],
+            'demande_file'=>['required'],
+            'demande_file.*'=>['required','mimes:pdf,jpg,png,jpeg']
+
+        ]);
+        $stage=new Stage();
+        $stage->titre_sujet=$request->titre_sujet;
+        $stage->type_sujet=$request->type_sujet;
+
+        $enseignant=Enseignant::findOrFail($request->encadrant);
+        $enseignant->isEncadrant=true;
+        $stage->enseignant_id=$enseignant;
+        $entreprise=Entreprise::findOrFail($request->entreprise);
+        $stage->entreprise_id=$entreprise;
+
+        $etudiant=Etudiant::where('user_id',Auth::user()->id)->get()[0];
+        //dd($etudiant_id);
+        $stage->etudiant_id=$etudiant->id;
+
+        $current_date = Carbon::now();
+        $stage->date_demande=$current_date;
+
+        $moisCourant = (int)$current_date->format('m');
+        if ((6 < $moisCourant) && ($moisCourant < 12))
+        {
+            $annee = '20' . $current_date->format('y') . '-20' . strval(((int)$current_date->format('y')) + 1);
+        } else
+            $annee = '20' . strval(((int)$current_date->format('y')) - 1) . '-20' . $current_date->format('y');
+        $annees = AnneeUniversitaire::all();
+        foreach ($annees as $a)
+        {
+            if ($a->annee == $annee)
+            {
+                $stage->annee_universitaire_id = $a->id;
+                break;
+            }
+        }
+
+        $classe=Classe::findOrFail($etudiant->classe_id);
+        $type_stage=TypeStage::findOrFail($classe->type_stage);
+
+        $date_debut=Carbon::createFromFormat('m/d/Y', $request->date_debut)->format('Y-m-d');
+        $date_fin=Carbon::createFromFormat('m/d/Y', $request->date_fin)->format('Y-m-d');
+        //dd($date_debut<$type_stage->date_debut_periode);
+        if($request->date_debut < $request->date_fin){
+
+            if($date_debut < $type_stage->date_debut_periode || $date_fin > $type_stage->date_limite_periode){
+                return Redirect::back()->withErrors(['La période de votre stage est hors limite !']);
+            }else{
+                $stage->date_debut=$date_debut;
+                $stage->date_fin=$date_fin;
+            }
+
+        }else{
+            return Redirect::back()->withErrors(['msg', 'La date de fin de votre periode de stage doit etre ultérieure à la date de debut !      !']);
+        }
+
+$stage->save();
     }
 
     /**

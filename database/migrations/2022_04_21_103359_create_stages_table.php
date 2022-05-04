@@ -21,6 +21,7 @@ class CreateStagesTable extends Migration
             $table->foreignId('soutenance_id')->nullable()->constrained();*/
             $table->foreignId('annee_universitaire_id')->constrained();
             $table->string('titre_sujet');
+            $table->string('type_sujet');
             $table->date('date_debut');
             $table->date('date_fin');
             $table->date('date_demande');
@@ -28,6 +29,7 @@ class CreateStagesTable extends Migration
             $table->integer('confirmation_admin');
             $table->integer('validation_encadrant');
             $table->integer('validation_admin');
+            $table->foreignId('entreprise_id')->constrained();
             $table->timestamps();
         });
     }
