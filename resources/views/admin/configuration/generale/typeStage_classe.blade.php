@@ -6,6 +6,7 @@
 
 @push('css')
 <link rel="stylesheet" type="text/css" href="{{ asset('assets/css/date-picker.css') }}">
+<link rel="stylesheet" type="text/css" href="{{ asset('assets/css/select2.css') }}">
 @endpush
 
 @section('content')
@@ -67,7 +68,10 @@
                                 <div class="col-md-12">
                                     <div class="form-group">
                                         <label class="control-label">Classe</label>
-                                        <select class="form-control" name="nom_classe" id="nom_classe">
+                                        <select class="js-example-basic-single col-sm-12" name="nom_classe"
+                                            id="nom_classe">
+                                            <option disabled="disabled" selected="selected">Sélectionnez la classe
+                                            </option>
                                             @foreach ($classes as $classe )
                                             <option value="{{ $classe->nom }}">
                                                 {{ $classe->nom }}
@@ -79,7 +83,9 @@
                                     </div>
                                     <div class="form-group">
                                         <label class="control-label">Type</label>
-                                        <select name="type" id="type" class="form-control">
+                                        <select name="type" id="type" class="js-example-basic-single col-sm-12">
+                                            <option disabled="disabled" selected="selected">Sélectionnez le type
+                                            </option>
                                             <option value="Obligatoire">
                                                 Obligatoire
                                             </option>
@@ -229,6 +235,8 @@
 <script src="{{ asset('assets/js/datepicker/date-picker/datepicker.js') }}"></script>
 <script src="{{ asset('assets/js/datepicker/date-picker/datepicker.en.js') }}"></script>
 <script src="{{ asset('assets/js/datepicker/date-picker/datepicker.custom.js') }}"></script>
+<script src="{{ asset('assets/js/select2/select2.full.min.js') }}"></script>
+<script src="{{ asset('assets/js/select2/select2-custom.js') }}"></script>
 @endpush
 
 @endsection

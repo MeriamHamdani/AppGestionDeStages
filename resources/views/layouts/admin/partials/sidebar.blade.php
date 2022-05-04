@@ -7,7 +7,8 @@
             <h6 class="mt-3 f-14 f-w-600">{{ucwords(App\Models\Admin::where('user_id',auth()->id())->first()->prenom)}}
                 {{ucwords(App\Models\Admin::where('user_id',auth()->id())->first()->nom)}}</h6>
         </a>
-        <p class="mb-0 font-roboto" style="color: #ba895d"><strong>{{App\Models\Etablissement::first()->nom}}</strong></p>
+        <p class="mb-0 font-roboto" style="color: #ba895d"><strong>{{App\Models\Etablissement::first()->nom}}</strong>
+        </p>
         {{-- <ul>
             <li>
                 <span><span class="counter">2</span>
@@ -63,7 +64,8 @@
                     <li class="dropdown">
                         <a class="nav-link menu-title   {{ in_array(Route::currentRouteName(),
                             ['demandes_stage.sv12lm','demandes_stage.so2l','demandes_stage.so3l',
-                            'demandes_stage.so3Info','demandes_stage.so2m']) ? 'active' : '' }}" href="javascript:void(0)">
+                            'demandes_stage.so3Info','demandes_stage.so2m']) ? 'active' : '' }}"
+                            href="javascript:void(0)">
                             <i class="icofont icofont-listing-box"></i>&nbsp&nbsp&nbsp<span>Les demandes de
                                 stages</span></a>
                         <ul class="nav-submenu menu-content"
@@ -129,7 +131,8 @@
                     </li>
                     <li class="dropdown">
                         <a class="nav-link menu-title {{ in_array(Route::currentRouteName(),
-                            ['liste_classes','typeStage.index','ajouter_classe','modifier_classe']) ? 'active' : '' }}" href="javascript:void(0)">
+                            ['liste_classes','typeStage.index','ajouter_classe','modifier_classe']) ? 'active' : '' }}"
+                            href="javascript:void(0)">
 
                             <i class="icofont icofont-users-social"></i>&nbsp&nbsp&nbsp<span>Gestion des
                                 classes</span></a>
@@ -205,7 +208,8 @@
                         </div>
                     </li>
                     <li class="dropdown">
-                        <a class="nav-link menu-title {{ in_array(Route::currentRouteName(),
+                        <a
+                            class="nav-link menu-title {{ in_array(Route::currentRouteName(),
                             ['coordonnees','montant_selon_grade','dates_stages','liste_grille','configurer_grille']) ? 'active' : '' }}">
                             <i class="icofont icofont-university"></i>&nbsp&nbsp&nbsp<span>Configuration
                                 générale</span></a>
@@ -240,3 +244,4 @@
         </div>
     </nav>
 </header>
+
