@@ -55,10 +55,9 @@ class TypeStageController extends Controller
             'fiche_demande'=>['required','max:2048'],
             'fiche_demande.*'=>['required','mimes:pdf,doc,docx',]
         ]);
-
-        $code_classe=Classe::select("*")
-                    ->where("nom", $request->nom_classe)
-                    ->get()[0]->code;
+        $classe=Classe::where("nom", $request->nom_classe)
+            ->get()[0];
+        $code_classe=$classe->code;
 
 		$type_stage_nom=Str::upper($code_classe).' '.$request->type;
 		$types_stage=TypeStage::all();
@@ -84,7 +83,7 @@ class TypeStageController extends Controller
 				return view('admin.configuration.generale.typeStage_classe',compact(["classes","error_message"]));
         }
 
-        $fiche_demande_name='FicheDemande_'.Str::upper($code_classe).'_'.$request->type;
+        $fiche_demande_name='FicheDemande_'.Str::upper($code_classe).'_'.$request->type.'.'.$request->file('fiche_demande')->extension();
 
        //dd($fiche_demande_name)
 ;
@@ -122,12 +121,15 @@ class TypeStageController extends Controller
         }
 
 
-    //dd($fiche_demande_name);
+//dd($fiche_demande_name);
         $path = Storage::disk('public')
                         ->putFileAs('fiches_demande', $request->file('fiche_demande'),$fiche_demande_name);
+
     //dd($path);
     $type_stage->fiche_demande=$path;
         $type_stage->save();
+        $classe->type_stage=$type_stage->id;
+        $classe->update();
         return redirect()->action([TypeStageController::class,'index']);
 
     }
