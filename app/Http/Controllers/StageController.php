@@ -70,8 +70,8 @@ class StageController extends Controller
             //'type_sujet'=>['required','string','max:255'],
             'date_debut' => ['required', 'date'],
             'date_fin' => ['required', 'date'],
-            'demande_file' => ['required'],
-            'demande_file.*' => ['required', 'mimes:pdf,jpg,png,jpeg']
+            'fiche_demande' => ['required'],
+            'fiche_demande.*' => ['required', 'mimes:pdf,jpg,png,jpeg']
 
         ]);
 
@@ -84,12 +84,14 @@ class StageController extends Controller
         {
             $request->validate(['type_sujet'=>['required']]);
             $stage->type_sujet = $request->type_sujet;
+            
         }
 
         if($etudiant->classe->niveau == 3 && $etudiant->classe->cycle=="licence" || $etudiant->classe->niveau == 2 && $etudiant->classe->cycle=="master"  )
         {
             $request->validate(['enseignant_id'=>['required']]);
             $stage->enseignant_id =$request->enseignant_id;
+            $enseignant= Enseignant::findOrFail($request->enseignant_id);
             //dd($stage);
         }
         //dd($stage);
@@ -137,21 +139,24 @@ class StageController extends Controller
             return Redirect::back()->withErrors([ 'La date de fin de votre periode de stage doit etre ultérieure à la date de debut !      !']);
         }
         
-        $enseignant= Enseignant::findOrFail($request->enseignant_id);  
+          
         $stage->confirmation_admin=0;
+        //dd($stage);
         $stage->save();
        // dd($current_date);
         //dd($current_date->hour.':'.$current_date->minute);
+        if($etudiant->classe->niveau == 3 && $etudiant->classe->cycle=="licence")
+        {
         $data=['nom_etud'=>ucwords($etudiant->nom.' '.$etudiant->prenom),
                'classe_etud'=>$classe->nom,
                'nom_ens'=>$enseignant->nom.' '.$enseignant->prenom,
                'etablissement'=>Etablissement::findOrFail($enseignant->etablissement_id)->nom,
                'date'=>'Le '.$current_date->day.'-'.$current_date->month.'-'.$current_date->year.' à '.$current_date->hour.':'.$current_date->minute];
         
-        $enseignant->notify(new DemandeEncadrementNotification($data));
-      
+        $enseignant->notify(new DemandeEncadrementNotification($data));}
+      //dd('hhh');
         
-        return back();
+        return redirect()->action([StageController::class,'create']);
 
     }
 
