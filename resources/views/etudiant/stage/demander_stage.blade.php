@@ -58,10 +58,11 @@
                                     <label class="form-label">Le sujet</label>
                                     <div class="mb-3">
                                         <input class="form-control" name="titre_sujet" id="titre_sujet"
-                                            placeholder="Taper votre sujet..." type="text" />
+                                            placeholder="Taper votre sujet..." type="text"/>
                                     </div>
                                 </div>
                             </div>
+                            @if($etudiant->classe->niveau == 3 && $etudiant->classe->cycle=="licence")
                             <div class="mb-3">
                                 <label class="form-label" for="message-text">Type de sujet</label>
                                 <select class="js-example-basic-single col-sm-12" name="type_sujet" id="type_sujet">
@@ -71,8 +72,10 @@
                                     <option value="Projet Tutoré">Projet Tutoré</option>
                                 </select>
                             </div>
+                            @endif
                         </div>
-
+                        @if($etudiant->classe->niveau == 3 && $etudiant->classe->cycle=="licence" ||
+                           $etudiant->classe->niveau == 2 && $etudiant->classe->cycle=="master"  )
                         <div class="row">
                             <div class="col">
                                 <div class="mb-3">
@@ -90,6 +93,7 @@
                                 </div>
                             </div>
                         </div>
+                         @endif
                         <div class="row">
                             <div class="col">
                                 <div class="mb-3">
