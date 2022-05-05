@@ -9,7 +9,8 @@ use Illuminate\Notifications\Notifiable;
 use Laravel\Sanctum\HasApiTokens;
 use Spatie\Permission\Traits\HasRoles;
 
-class User extends Authenticatable
+class User extends Authenticatable implements MustVerifyEmail
+
 {
     use HasApiTokens, HasFactory, Notifiable;
     use HasRoles;
@@ -54,5 +55,7 @@ class User extends Authenticatable
     public function admin()
     {
         return $this->hasMany(Admin::class);
-    }
+
+
+   }
 }

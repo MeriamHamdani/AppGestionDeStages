@@ -16,6 +16,14 @@ use Maatwebsite\Excel\Facades\Excel;
 class EnseignantController extends Controller
 {
     /**
+     * create a new controller instance.
+     * @return void
+     */
+    /*public function __construct(){
+        $this->middlewar(['auth','verified']);
+    }*/
+    
+    /**
      * Display a listing of the resource.
      *
      * @return \Illuminate\Http\Response

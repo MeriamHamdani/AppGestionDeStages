@@ -21,7 +21,7 @@ use App\Http\Controllers\Auth\AuthenticatedSessionController;
 /*Route::get('/', function () {
     return view('welcome');
 });*/
-
+Auth::routes(['verify'=>true]);
 Route::get('/',function(){
     return view('login.login');
 });
