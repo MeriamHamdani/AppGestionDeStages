@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\AnneeUniversitaire;
 use App\Models\Classe;
 use App\Models\Specialite;
+use App\Models\TypeStage;
 use Illuminate\Http\Request;
 use Illuminate\Support\Carbon;
 use Illuminate\Validation\Rule;
@@ -102,8 +103,12 @@ class ClasseController extends Controller
         //dd($attributs);
 
         $classe=Classe::create($attributs);
-        return redirect()->action([ClasseController::class,'index']);
-
+        $classe_id=$classe->id;
+        //dd($classe_id);
+        //return redirect()->action([ClasseController::class,'index']);
+        return redirect()->action([TypeStageController::class,'index']);
+        //return view('admin.configuration.generale.typeStage_classe',["error_message"]);
+        //return view('admin.configuration.generale.typeStage_classe',['error_message']);
 
     }
 

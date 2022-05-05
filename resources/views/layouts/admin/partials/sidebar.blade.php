@@ -141,7 +141,7 @@
                             <li><a href="{{ route('liste_classes') }}" class="{{ routeActive('liste_classes') }}">
                                     <strong><i class="icofont icofont-users-social"></i>Gérer les classes</strong></a>
                             </li>
-                            <li><a href="{{ route('typeStage.index') }}">
+                            <li><a href="{{ route('typeStage.index')}}">
                                     <strong><i class="icofont icofont-pen-nib"></i>Configurer le type de stage d'une
                                         classe</strong></a> </li>
                         </ul>
