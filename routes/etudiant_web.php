@@ -48,7 +48,8 @@ Route::middleware(['auth','role:etudiant'])->group(function(){
 
 
         Route::get('entreprise/liste-entreprises', [EntrepriseController::class,'indexEtd'])->name('liste_entreprises');
-       // Route::view('entreprise/ajouter-entreprise', 'admin.entreprise.ajouter_entreprise')->name('ajouter_entreprise');
+       Route::get('entreprise/ajouter-entreprise', [EntrepriseController::class,'createEtd'])->name('ajout_entreprise');
+       Route::post('entreprise/ajouter-entreprise', [EntrepriseController::class,'storeEtd'])->name('sauvegarder_entreprise');
        // Route::post('entreprise/ajouter', /**/[EntrepriseController::class,'store'])->name('entreprise.store');
         //Route::get('entreprise/modifier-entreprise/{id}', [EntrepriseController::class,'edit'])->whereNumber('id')->name('modifier_entreprise');
         //Route::post('entreprise/modifier/{id}', [EntrepriseController::class,'update'])->whereNumber('id')->name('entreprise.update');
@@ -56,8 +57,8 @@ Route::middleware(['auth','role:etudiant'])->group(function(){
 
        // Route::view('/entreprise/liste-entreprises', 'etudiant.entreprise.liste_entreprises')->name('liste_entreprises');
 
-        Route::view('/entreprise/liste-entreprises', 'etudiant.entreprise.liste_entreprises')->name('liste_entreprises');
-        Route::view('/entreprise/ajouter-entreprise', 'etudiant.entreprise.ajouter_entreprise')->name('ajouter-entreprise');
+      //  Route::view('/entreprise/liste-entreprises', 'etudiant.entreprise.liste_entreprises')->name('liste_entreprises');
+       // Route::view('/entreprise/ajouter-entreprise', 'etudiant.entreprise.ajouter_entreprise')->name('ajouter-entreprise');
 
         Route::view('/depot/gerer-depot', 'etudiant.depot.depot_memoire')->name('depot');
         Route::view('/depot/deposer', 'etudiant.depot.deposer')->name('deposer');

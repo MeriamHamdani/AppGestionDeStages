@@ -19,7 +19,7 @@ class CreateEntreprisesTable extends Migration
             $table->string('adresse');
             $table->string('numero_telephone');
             $table->string('email');
-            $table->string('fax');
+            $table->string('fax')->nullable();
             $table->timestamps();
         });
     }

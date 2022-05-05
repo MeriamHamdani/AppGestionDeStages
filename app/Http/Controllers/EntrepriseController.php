@@ -125,11 +125,25 @@ class EntrepriseController extends Controller
     public function indexEtd()
     {
         return view('etudiant.entreprise.liste_entreprises',
-            ['entreprise' => Entreprise::all()]);
+            ['entreprises' => Entreprise::all()]);
     }
     public function createEtd()
     {
         return view('etudiant.entreprise.ajouter_entreprise');
+    }
+
+    public function storeEtd(Request $request)
+    {
+        $attributs = $request->validate([
+            'nom' => ['required', 'string', 'max:255','unique:entreprises'],
+            'adresse' => ['required', 'string', 'max:255', ],
+            'email' => ['required', 'string', 'email', 'max:255'],
+            'numero_telephone'=>['required', 'string', 'max:8','min:8'],
+            'fax'=>['nullable','string', 'max:8','min:8'],
+        ]);
+        $entreprise = Entreprise::create($attributs);
+
+        return redirect()->action([EntrepriseController::class,'indexEtd']);
     }
 
 }

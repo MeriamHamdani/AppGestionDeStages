@@ -64,8 +64,8 @@
                                 entreprises</span></a>
                     </li>
                     <li class="dropdown">
-                        <a class="nav-link menu-title link-nav {{routeActive('ajouter-entreprise')}}"
-                            href="{{ route('ajouter-entreprise') }}"><i
+                        <a class="nav-link menu-title link-nav {{routeActive('ajout_entreprise')}}"
+                            href="{{ route('ajout_entreprise') }}"><i
                                 class="icofont icofont-building-alt"></i>&nbsp&nbsp&nbsp<span>Ajouter une
                                 entreprise</span></a>
                     </li>
