@@ -58,46 +58,48 @@
                                     <label class="form-label">Le sujet</label>
                                     <div class="mb-3">
                                         <input class="form-control" name="titre_sujet" id="titre_sujet"
-                                            placeholder="Taper votre sujet..." type="text" />
+                                            placeholder="Taper votre sujet..." type="text"/>
                                     </div>
                                 </div>
                             </div>
+                            @if($etudiant->classe->niveau == 3 && $etudiant->classe->cycle=="licence")
                             <div class="mb-3">
                                 <label class="form-label" for="message-text">Type de sujet</label>
-                                <select class="js-example-basic-single col-sm-12" name="type_sujet" id="type_sujet">
-                                    <option>Séléctionner le type de sujet</option>
+                                <select class="js-example-basic-single col-sm-12" name="type_sujet" id="type_sujet" required="">
+                                    <option disabled="disabled" selected="selected">Choisissez le type de sujet</option>
                                     <option value="PFE">PFE</option>
                                     <option value="Business Plan">Business Plan</option>
                                     <option value="Projet Tutoré">Projet Tutoré</option>
                                 </select>
                             </div>
+                            @endif
                         </div>
-
+                        @if($etudiant->classe->niveau == 3 && $etudiant->classe->cycle=="licence" ||
+                           $etudiant->classe->niveau == 2 && $etudiant->classe->cycle=="master"  )
                         <div class="row">
                             <div class="col">
                                 <div class="mb-3">
                                     <label class="form-label" for="exampleFormControlSelect9">Le nom de
                                         l'Encadrant</label>
-                                    <select class="js-example-basic-single col-sm-12" id="encadrant" name="encadrant">
-                                        <option><a value="+" onclick="ajouterZoneTexte()">
-                                                Choisir l'encadrant académique </a></option>
+                                    <select class="js-example-basic-single col-sm-12" id="enseignant_id" name="enseignant_id" required>
+                                        <option disabled="disabled" selected="selected">Choisissez l'encadrant académique</option>
                                         @foreach ($enseignants as $enseignant )
-                                        <option value="{{ $enseignant->id }}">{{ $enseignant->nom }}.{{
-                                            $enseignant->prenom
-                                            }}</option>
+                                        <option value="{{ $enseignant->id }}">
+                                            {{ $enseignant->nom }} {{$enseignant->prenom}}
+                                        </option>
                                         @endforeach
                                     </select>
                                 </div>
                             </div>
                         </div>
+                         @endif
                         <div class="row">
                             <div class="col">
                                 <div class="mb-3">
                                     <label class="form-label" for="exampleFormControlSelect9">Le nom de
                                         l'entreprise</label>
                                     <select class="js-example-basic-single col-sm-12" name="entreprise" id="entreprise">
-                                        <option><a value="+" onclick="ajouterZoneTexte()">
-                                                Ajouter une entreprise </a></option>
+                                        <option disabled="disabled" selected="selected">Choisissez l'entreprise</option>
                                         @foreach ($entreprises as $entreprise )
                                         <option value="{{ $entreprise->id }}">{{ $entreprise->nom }}</option>
                                         @endforeach
@@ -129,7 +131,7 @@
                                 <div class="mb-3">
                                     <label class="form-label">La fiche de demande de stage scannée</label>
                                     <div class="mb-3">
-                                        <input class="form-control" type="file" name="demande_file" id="demande_file"
+                                        <input class="form-control" type="file" name="fiche_demande" id="fiche_demande"
                                             required="required" />
                                     </div>
                                 </div>

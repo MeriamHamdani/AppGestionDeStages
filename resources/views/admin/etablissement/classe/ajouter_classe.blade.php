@@ -144,30 +144,6 @@
                                        placeholder="entrez le code du classe....."/>
                                 <div class="invalid-tooltip">Entrez le code du classe svp!</div>
                             </div>
-                            {{--<div class="row align-items-center">
-                                <div class="col">
-                                    <div class="mb-3">
-                                        <label class="form-label" for="message-text">Spécialité</label>
-                                        <select class="js-example-basic-single col-sm-12" id="specialite_id"
-                                                name="specialite_id" required>
-                                            <option disabled="disabled" selected="selected">Sélectionnez la spécialité
-                                            </option>
-                                            @foreach (\App\Models\Specialite::all() as $specialite)
-                                                <option value="{{ $specialite->id }}" {{ old('specialite_id')==$specialite->id ?
-                                            'selected' : '' }}
-                                                >{{ ucwords($specialite->nom) }}</option>
-                                            @endforeach
-                                        </select>
-                                    </div>
-                                </div>
-                                <div class="col">
-                                    <div class="mb-3">
-                                        <label class="form-label" for="message-text">Code classe </label>
-                                        <input class="form-control" id="code" name="code" type="text"
-                                               placeholder="entrez le code de la classe..."/>
-                                    </div>
-                                </div>
-                            </div>--}}
                             <div class="card-footer text-end">
                                 <a class="btn btn-light" href="{{ route('liste_classes') }}">Annuler</a>
                                 <button class="btn btn-primary" type="submit">Ajouter</button>
