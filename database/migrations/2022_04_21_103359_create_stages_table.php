@@ -25,9 +25,9 @@ class CreateStagesTable extends Migration
             $table->date('date_debut');
             $table->date('date_fin');
             $table->date('date_demande');
-            $table->integer('confirmation_encadrant');
+            $table->integer('confirmation_encadrant')->nullable();
             $table->integer('confirmation_admin');
-            $table->integer('validation_encadrant');
+            $table->integer('validation_encadrant')->nullable();
             $table->integer('validation_admin');
             $table->foreignId('entreprise_id')->constrained();
             $table->timestamps();

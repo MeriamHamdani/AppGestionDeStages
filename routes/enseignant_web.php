@@ -17,7 +17,7 @@ Route::middleware(['auth','role:enseignant'])->group(function(){
         Route::view('/paiement/liste-stages-paye','enseignant.paiement.liste_stages_paye' )->name('liste_stages_paye');
         Route::view('/paiement/liste-stages-non-paye','enseignant.paiement.liste_stages_non_paye' )->name('liste_stages_non_paye');
 
-
+        
         Route::view('/encadrement/demandes', 'enseignant.encadrement.demandes')->name('demandes');
 
         Route::view('/depot/traiter-depot', 'enseignant.depot.liste-depots')->name('depots');

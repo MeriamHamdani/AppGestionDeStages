@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Mail\ConfirmerEncadrement;
 use App\Models\Stage;
 use App\Models\Classe;
 use App\Models\Etudiant;
@@ -11,7 +12,10 @@ use App\Models\Entreprise;
 use Illuminate\Http\Request;
 use Illuminate\Support\Carbon;
 use App\Models\AnneeUniversitaire;
+use App\Models\Etablissement;
+use App\Notifications\DemandeEncadrementNotification;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Facades\Redirect;
 use Illuminate\Support\Facades\Response;
 
@@ -72,15 +76,16 @@ class StageController extends Controller
             'demande_file.*'=>['required','mimes:pdf,jpg,png,jpeg']
 
         ]);
+        
         $stage=new Stage();
         $stage->titre_sujet=$request->titre_sujet;
         $stage->type_sujet=$request->type_sujet;
 
         $enseignant=Enseignant::findOrFail($request->encadrant);
         $enseignant->isEncadrant=true;
-        $stage->enseignant_id=$enseignant;
+        $stage->enseignant_id=$enseignant->id;
         $entreprise=Entreprise::findOrFail($request->entreprise);
-        $stage->entreprise_id=$entreprise;
+        $stage->entreprise_id=$entreprise->id;
 
         $etudiant=Etudiant::where('user_id',Auth::user()->id)->get()[0];
         //dd($etudiant_id);
@@ -123,8 +128,21 @@ class StageController extends Controller
         }else{
             return Redirect::back()->withErrors(['msg', 'La date de fin de votre periode de stage doit etre ultérieure à la date de debut !      !']);
         }
-
-$stage->save();
+        $stage->confirmation_admin=-1;
+        $stage->validation_admin=-1;
+        
+        $stage->save();
+       // dd($current_date);
+        //dd($current_date->hour.':'.$current_date->minute);
+        $data=['nom_etud'=>ucwords($etudiant->nom.' '.$etudiant->prenom),
+               'classe_etud'=>$classe->nom,
+               'nom_ens'=>$enseignant->nom.' '.$enseignant->prenom,
+               'etablissement'=>Etablissement::findOrFail($enseignant->etablissement_id)->nom,
+               'date'=>'Le '.$current_date->day.'-'.$current_date->month.'-'.$current_date->year.' à '.$current_date->hour.':'.$current_date->minute];
+        
+        $enseignant->notify(new DemandeEncadrementNotification($data));
+               
+        return redirect()->action([StageController::class, 'create']);
     }
 
     /**
