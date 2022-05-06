@@ -35,15 +35,24 @@ class AuthenticatedSessionController extends Controller
             'password' => 'required'
 
         ]);
+        
         if (! auth()->attempt($attributes)) {
             throw ValidationException::withMessages([
                 'email' => 'Your provided credentials could not be verified.'
             ]);
         }
+        
         session()->regenerate();
         $user = Auth::user();
-        $user['is_active'] = 1;
-        $user->update(['is_active']);
+        
+        if($user['is_active']==0){
+            
+            //return view('user/modifier_coordonnes');
+            return redirect()->intended('connexion/modifier_coordonnes');
+        }
+        
+        //$user['is_active'] = 1;
+        //$user->update(['is_active']);
         return redirect()->intended($this->accueil());
 
     }
