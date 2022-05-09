@@ -14,6 +14,8 @@ use App\Exports\EtudiantsExport;
 
 use App\Imports\EtudiantsImport;
 use App\Models\AnneeUniversitaire;
+use Illuminate\Support\Collection;
+use Illuminate\Support\Facades\Auth;
 use Maatwebsite\Excel\Facades\Excel;
 use Illuminate\Support\Facades\Storage;
 use App\Exports\EtudiantsParSpecialiteExport;
@@ -150,7 +152,7 @@ class EtudiantController extends Controller
         $stages=Stage::where('etudiant_id',$etudiant->id)->get();
         foreach($stages as $stage)
         {
-            $stage->delete(); 
+            $stage->delete();
         }
         $user->delete();
         return redirect()->action([EtudiantController::class,'index']);
@@ -176,54 +178,6 @@ class EtudiantController extends Controller
         $etudiant->update($attributs);
         return redirect()->action([EtudiantController::class,'editProfil']);
     }
-
-
-
-    /**
-     * Store a newly created resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
-     */
-   /* public function store_via_csv(Request $request){
-
-        $request->validate([
-            "classe_id"=>['required'],
-            "liste_etudiants"=>['required'],
-            "liste_etudiants.*"=>['required','mimes:csv']
-        ]);
-        $classe=Classe::findOrFail($request->classe_id);
-        $liste_name='etudiants_'.$classe->code.'_'.($this->current_annee_univ())->annee.'.csv';
-
-        $path = Storage::disk('public')
-                        ->putFileAs('listes_etudiants', $request->file('liste_etudiants'),$liste_name);
-
-
-
-        $chemin_abs='C:/laragon/www/AppGestionDeStages/public/storage/'.$path;
-        //dd( $chemin_abs);
-        //$openfile = fopen($chemin_abs, "r");
-
-        //$cont = fread($openfile, filesize($chemin_abs));
-        $handle = fopen($chemin_abs, "r");
-
-$lineNumber = 1;$i=0;
-while (($raw_string = fgets($handle)) !== false) {
-    if($i>0)
-    {$row = str_getcsv($raw_string);
-        $attr_user=array("numero_CIN"=>$row[2],"password"=>bcrypt($row[1]));
-        $user=User::create($attr_user);
-        $user->assignRole('etudiant');
-        $attr_etd=array("nom"=>$row[0],"prenom"=>$row[1],"classe_id"=>$request->classe_id,"user_id"=>$user->id,"annee_universitaire_id"=>$this->current_annee_univ()->id);
-        Etudiant::create($attr_etd);
-        //dd($row);
-        $lineNumber++;
-        }else $i++;
-    }
-    fclose($handle);
-        //dd(readfile($chemin_abs));
-        return redirect()->action([EtudiantController::class,'index']);
-    }*/
 
     public function importData ()
     {
@@ -264,4 +218,34 @@ while (($raw_string = fgets($handle)) !== false) {
     public function export(){
         return Excel::download(new EtudiantsExport, 'etudiants.csv');
     }
+
+    public function mes_demandes_stages(){
+        $etudiant=Etudiant::where('user_id',Auth::user()->id)->get()[0];
+        $mes_demandes=Stage::where('etudiant_id',$etudiant->id)->get();
+		$demandes_classes=new Collection();
+		foreach($mes_demandes as $demande){
+			$classe=Classe::where('id',$etudiant->classe_id)
+						  ->where('annee_universitaire_id',$demande->annee_universitaire_id)->get()[0];
+			$demande->classe=$classe->code;
+            
+			$demandes_classes->push($demande);
+		}
+//dd($demandes_classe);
+        return view('etudiant.stage.demandes_stages',compact('demandes_classes'));
+    }
+	
+	public function mes_demandes_confirmer(){
+		$etudiant=Etudiant::where('user_id',Auth::user()->id)->get()[0];
+		$demandes_confirmer=Stage::where('etudiant_id',$etudiant->id)
+									->where('confirmation_admin',1)->get();
+		$demandes_classes=new Collection();
+		foreach($demandes_confirmer as $demande){
+			$classe=Classe::where('id',$etudiant->classe_id)
+						  ->where('annee_universitaire_id',$demande->annee_universitaire_id)->get()[0];
+			$demande->classe=$classe->code;
+            
+		}
+		
+		return view('etudiant.stage.liste_stages',compact('demandes_confirmer'));
+	}
 }

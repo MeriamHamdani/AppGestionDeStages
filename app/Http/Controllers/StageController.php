@@ -2,22 +2,28 @@
 
 namespace App\Http\Controllers;
 
-use App\Mail\ConfirmerEncadrement;
 use App\Models\Stage;
 use App\Models\Classe;
 use App\Models\Etudiant;
 use App\Models\TypeStage;
 use App\Models\Enseignant;
 use App\Models\Entreprise;
+use App\Models\Specialite;
+use App\Models\Departement;
+use Illuminate\Support\Str;
 use Illuminate\Http\Request;
-use Illuminate\Support\Carbon;
-use App\Models\AnneeUniversitaire;
 use App\Models\Etablissement;
-use App\Notifications\DemandeEncadrementNotification;
+use Illuminate\Support\Carbon;
+use PhpParser\Node\Stmt\ElseIf_;
+use App\Mail\ConfirmerEncadrement;
+use App\Models\AnneeUniversitaire;
+use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Mail;
+use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Facades\Redirect;
 use Illuminate\Support\Facades\Response;
+use App\Notifications\DemandeEncadrementNotification;
 
 class StageController extends Controller
 {
@@ -29,6 +35,195 @@ class StageController extends Controller
     public function index()
     {
         //
+    }
+
+     /**
+     * Display a listing of the resource.
+     *
+     * @return \Illuminate\Http\Response
+     */
+    public function list_vol_1ere_2eme_licence_info_1ere_master() {
+
+        $all_stages=Stage::All();
+        $stages=new Collection();
+
+        foreach($all_stages as $stage){
+
+            $etudiant=Etudiant::findOrFail($stage->etudiant_id);
+            $classe=Classe::findOrFail($etudiant->classe_id);
+            $niveau=$classe->niveau;
+            $cycle=$classe->cycle;
+
+            $specialite=Specialite::findOrFail($classe->specialite_id);
+            $departement_nom=Departement::findOrFail($specialite->departement_id)->nom;
+
+
+			$is_licence=(strtoupper($cycle)===strtoupper('licence'));
+            $is_master=(strtoupper($cycle)===strtoupper('master'));
+			$is_1_or_2=($niveau==1 || $niveau==2);
+			$dep_is_info=strpos('departement '.strtoupper($departement_nom),strtoupper('informatique'))>0;
+
+			if(($dep_is_info && $is_licence && $is_1_or_2 )||($niveau==1 &&  $is_master)){
+
+                $fiche=substr($stage->fiche_demande,strpos($stage->fiche_demande,'/')+1,strlen($stage->fiche_demande));
+
+                $stage->file=$fiche;
+				$stage->code_classe=$classe->code;
+				$stages->push($stage);
+
+			}
+
+        }
+
+        return view('admin.stage.listes_demandes_stage.sv12lm',compact(['stages']));
+    }
+
+     /**
+     * Display a listing of the resource.
+     *
+     * @return \Illuminate\Http\Response
+     */
+    public function list_oblig_2eme_licence_non_info() {
+        $all_stages=Stage::All();
+        $stages=new Collection();
+
+        foreach($all_stages as $stage){
+
+            $etudiant=Etudiant::findOrFail($stage->etudiant_id);
+            $classe=Classe::findOrFail($etudiant->classe_id);
+            $niveau=$classe->niveau;
+            $cycle=$classe->cycle;
+
+            $specialite=Specialite::findOrFail($classe->specialite_id);
+            $departement_nom=Departement::findOrFail($specialite->departement_id)->nom;
+
+
+			$is_licence=(strtoupper($cycle)===strtoupper('licence'));
+            $is_master=(strtoupper($cycle)===strtoupper('master'));
+			$is_1_or_2=($niveau==1 || $niveau==2);
+			$dep_is_info=strpos('departement '.strtoupper($departement_nom),strtoupper('informatique'))>0;
+
+			if((!$dep_is_info && $is_licence && $niveau==2 )){
+
+                $fiche=substr($stage->fiche_demande,strpos($stage->fiche_demande,'/')+1,strlen($stage->fiche_demande));
+
+                $stage->file=$fiche;
+				$stage->code_classe=$classe->code;
+				$stages->push($stage);
+
+			}
+
+        }
+
+        return view('admin.stage.listes_demandes_stage.so2l',compact(['stages']));
+    }
+ /**
+     * Display a listing of the resource.
+     *
+     * @return \Illuminate\Http\Response
+     */
+    public function list_oblig_3eme_licence_non_info() {
+        $all_stages=Stage::All();
+        $stages=new Collection();
+
+        foreach($all_stages as $stage){
+
+            $etudiant=Etudiant::findOrFail($stage->etudiant_id);
+            $classe=Classe::findOrFail($etudiant->classe_id);
+            $niveau=$classe->niveau;
+            $cycle=$classe->cycle;
+
+            $specialite=Specialite::findOrFail($classe->specialite_id);
+            $departement_nom=Departement::findOrFail($specialite->departement_id)->nom;
+
+
+			$is_licence=(strtoupper($cycle)===strtoupper('licence'));
+            $is_master=(strtoupper($cycle)===strtoupper('master'));
+			$is_1_or_2=($niveau==1 || $niveau==2);
+			$dep_is_info=strpos('departement '.strtoupper($departement_nom),strtoupper('informatique'))>0;
+
+			if((!$dep_is_info && $is_licence && $niveau==3 )){
+
+                $fiche=substr($stage->fiche_demande,strpos($stage->fiche_demande,'/')+1,strlen($stage->fiche_demande));
+
+                $stage->file=$fiche;
+				$stage->code_classe=$classe->code;
+				$stages->push($stage);
+
+			}
+
+        }
+
+        return view('admin.stage.listes_demandes_stage.so3l',compact(['stages']));
+    }
+
+    public function list_oblig_3eme_licence_info() {
+        $all_stages=Stage::All();
+        $stages=new Collection();
+
+        foreach($all_stages as $stage){
+
+            $etudiant=Etudiant::findOrFail($stage->etudiant_id);
+            $classe=Classe::findOrFail($etudiant->classe_id);
+            $niveau=$classe->niveau;
+            $cycle=$classe->cycle;
+
+            $specialite=Specialite::findOrFail($classe->specialite_id);
+            $departement_nom=Departement::findOrFail($specialite->departement_id)->nom;
+
+
+			$is_licence=(strtoupper($cycle)===strtoupper('licence'));
+            $is_master=(strtoupper($cycle)===strtoupper('master'));
+			$is_1_or_2=($niveau==1 || $niveau==2);
+			$dep_is_info=strpos('departement '.strtoupper($departement_nom),strtoupper('informatique'))>0;
+
+			if(($dep_is_info && $is_licence && $niveau==3 )){
+
+                $fiche=substr($stage->fiche_demande,strpos($stage->fiche_demande,'/')+1,strlen($stage->fiche_demande));
+
+                $stage->file=$fiche;
+				$stage->code_classe=$classe->code;
+				$stages->push($stage);
+
+			}
+
+        }
+
+        return view('admin.stage.listes_demandes_stage.so3Info',compact(['stages']));
+    }
+    public function list_oblig_2eme_master(){
+        $all_stages=Stage::All();
+        $stages=new Collection();
+
+        foreach($all_stages as $stage){
+
+            $etudiant=Etudiant::findOrFail($stage->etudiant_id);
+            $classe=Classe::findOrFail($etudiant->classe_id);
+            $niveau=$classe->niveau;
+            $cycle=$classe->cycle;
+
+            $specialite=Specialite::findOrFail($classe->specialite_id);
+            $departement_nom=Departement::findOrFail($specialite->departement_id)->nom;
+
+
+			$is_licence=(strtoupper($cycle)===strtoupper('licence'));
+            $is_master=(strtoupper($cycle)===strtoupper('master'));
+			$is_1_or_2=($niveau==1 || $niveau==2);
+			$dep_is_info=strpos('departement '.strtoupper($departement_nom),strtoupper('informatique'))>0;
+
+			if(($is_master && $niveau==2 )){
+
+                $fiche=substr($stage->fiche_demande,strpos($stage->fiche_demande,'/')+1,strlen($stage->fiche_demande));
+
+                $stage->file=$fiche;
+				$stage->code_classe=$classe->code;
+				$stages->push($stage);
+
+			}
+
+        }
+
+        return view('admin.stage.listes_demandes_stage.so2m',compact(['stages']));
     }
 
 
@@ -62,12 +257,8 @@ class StageController extends Controller
      */
     public function store(Request $request)
     {
-        //dd($request->entreprise);
-        //dd(Auth::user());
-
         $request->validate([
             'titre_sujet' => ['required', 'string', 'max:255'],
-            //'type_sujet'=>['required','string','max:255'],
             'date_debut' => ['required', 'date'],
             'date_fin' => ['required', 'date'],
             'fiche_demande' => ['required'],
@@ -79,12 +270,27 @@ class StageController extends Controller
         $stage->titre_sujet = $request->titre_sujet;
         $etudiant = Etudiant::where('user_id', Auth::user()->id)->first();
         $stage->etudiant_id = $etudiant->id;
-        //dd($etudiant->id);
+		$is_licence=strtoupper($etudiant->classe->cycle)===strtoupper('licence');
+		$is_master=strtoupper($etudiant->classe->cycle)===strtoupper('master');
+
+        if($is_licence||$is_master ){
+			if($etudiant->classe->niveau==1){
+			$stage->type='volontaire';
+			}
+			if($etudiant->classe->niveau==2){
+				$stage->type='obligatoire';
+			}
+		}
+		if($is_licence && $etudiant->classe->niveau==3){
+			$stage->type='obligatoire';
+		}
+
+
         if($etudiant->classe->niveau == 3 && $etudiant->classe->cycle=="licence")
         {
             $request->validate(['type_sujet'=>['required']]);
             $stage->type_sujet = $request->type_sujet;
-            
+
         }
 
         if($etudiant->classe->niveau == 3 && $etudiant->classe->cycle=="licence" || $etudiant->classe->niveau == 2 && $etudiant->classe->cycle=="master"  )
@@ -94,6 +300,7 @@ class StageController extends Controller
             $enseignant= Enseignant::findOrFail($request->enseignant_id);
             //dd($stage);
         }
+
         //dd($stage);
         $entreprise = Entreprise::findOrFail($request->entreprise);
         $stage->entreprise_id = $entreprise->id;
@@ -103,7 +310,7 @@ class StageController extends Controller
 
         //dd($stage);
         //dd($current_date->format('Y-m-d') );
-
+        //dd('hii');
         $moisCourant = (int)$current_date->format('m');
         if ((6 < $moisCourant) && ($moisCourant < 12)) {
             $annee = '20' . $current_date->format('y') . '-20' . strval(((int)$current_date->format('y')) + 1);
@@ -138,13 +345,12 @@ class StageController extends Controller
         } else {
             return Redirect::back()->withErrors([ 'La date de fin de votre periode de stage doit etre ultérieure à la date de debut !      !']);
         }
-        
-          
-        $stage->confirmation_admin=0;
-        //dd($stage);
+        $cin=Auth::user()->numero_CIN;
+        $fiche_demande_name='FicheDemande_'.$cin.'.'.$request->file('fiche_demande')->extension();
+        $path = Storage::disk('public')
+                ->putFileAs('fiches_demande_'.$classe->code, $request->file('fiche_demande'),$fiche_demande_name);
+        $stage->fiche_demande=$path;
         $stage->save();
-       // dd($current_date);
-        //dd($current_date->hour.':'.$current_date->minute);
         if($etudiant->classe->niveau == 3 && $etudiant->classe->cycle=="licence")
         {
         $data=['nom_etud'=>ucwords($etudiant->nom.' '.$etudiant->prenom),
@@ -152,10 +358,10 @@ class StageController extends Controller
                'nom_ens'=>$enseignant->nom.' '.$enseignant->prenom,
                'etablissement'=>Etablissement::findOrFail($enseignant->etablissement_id)->nom,
                'date'=>'Le '.$current_date->day.'-'.$current_date->month.'-'.$current_date->year.' à '.$current_date->hour.':'.$current_date->minute];
-        
+
         $enseignant->notify(new DemandeEncadrementNotification($data));}
       //dd('hhh');
-        
+
         return redirect()->action([StageController::class,'create']);
 
     }
@@ -170,16 +376,85 @@ class StageController extends Controller
     {
         //
     }
-
-    /**
+	/**
      * Show the form for editing the specified resource.
      *
-     * @param \App\Models\Stage $stage
+     * @param int $stage_id
      * @return \Illuminate\Http\Response
      */
-    public function edit(Stage $stage)
+	public function modifier_demande(int $stage_id){
+		$stage=Stage::findOrFail($stage_id);
+		$etudiant=Etudiant::findOrFail($stage->etudiant_id);
+		$classe=Classe::findOrFail($etudiant->classe_id);
+		$enseignants=Enseignant::all();
+		$entreprises=Entreprise::all();
+		$isMaster=strtoupper($classe->cycle)===strtoupper('master');
+		$isLicence=strtoupper($classe->cycle)===strtoupper('licence');
+		$stage->isMaster=$isMaster;
+		$stage->isLicence=$isLicence;
+		//dd($stage);
+		/*$typeStage=TypeStage::findOrFail($classe->type_stage);
+		$type=strtoupper(substr($typeStage->nom,strpos(' ')+1,strlen($typeStage->nom)));*/
+		return view('admin.stage.listes_demandes_stage.modifier_demande_stage',compact(['stage','classe','enseignants','entreprises']));
+	}
+    /**
+     * Show the form for editing the specified resource.
+     *@param \Illuminate\Http\Request $request
+     * @param int $stage_id
+     * @return \Illuminate\Http\Response
+     */
+    public function edit(Request $request,int $stage_id)
     {
-        //
+        $stage=Stage::findOrFail($stage_id);
+
+		$stage->titre_sujet=$request->sujet;
+
+		if($request->encadrant){$stage->enseignant_id=$request->encadrant;}
+
+		if($request->entreprise){ $stage->entreprise_id =(int)$request->entreprise;}
+		if($request->fiche_demande){
+			$etudiant=Etudiant::findOrFail($stage->etudiant_id);
+			$nom_pren=Str::upper($etudiant->nom.'_'.$etudiant->prenom);
+        $fiche_demande_name='FicheDemande_'.$nom_pren.'.'.$request->file('fiche_demande')->extension();
+
+		$dossier=substr($stage->fiche_demande,0,strpos($stage->fiche_demande,'/')-1);
+
+		$path = Storage::disk('public')
+				->putFileAs($dossier, $request->file('fiche_demande'),$fiche_demande_name);
+
+        $stage->fiche_demande=$path;
+		}
+		$stage->update();
+		return back();
+
+    }
+/**
+     * Update the specified resource in storage.
+     *
+     * @param \Illuminate\Http\Request $request
+     *
+     * @return \Illuminate\Http\Response
+     */
+    public function confirmer_demande( int $stage_id)
+    {   //dd($stage_id);
+        $stage=Stage::findOrFail($stage_id);
+		$stage->confirmation_admin=1;
+		$stage->update();
+        return back();
+    }
+/**
+     * Update the specified resource in storage.
+     *
+     * @param \Illuminate\Http\Request $request
+     *
+     * @return \Illuminate\Http\Response
+     */
+    public function refuser_demande( int $stage_id)
+    {   //dd($stage_id);
+        $stage=Stage::findOrFail($stage_id);
+		$stage->confirmation_admin=-1;
+		$stage->update();
+        return back();
     }
 
     /**

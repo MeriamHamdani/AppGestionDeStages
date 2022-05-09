@@ -40,40 +40,31 @@
                                 </tr>
                             </thead>
                             <tbody>
+                                @foreach ($demandes_confirmer as $demande )
                                 <tr>
-                                    <td>Volontaire LF1I</td>
-                                    <td>2019-2020</td>
-                                    <td>Hyper-groupe</td>
-                                    <td>01-07-2020</td>
-                                    <td>30-07-2020</td>
-                                    <td><button class="btn btn-primary btn-sm" data-toggle="tooltip" title="Stage terminée">
+                                    <td>{{ Str::ucfirst($demande->type) }}&nbsp;{{ Str::upper($demande->classe) }}
+                                    </td>
+                                    <td>{{ App\Models\AnneeUniversitaire::find($demande->annee_universitaire_id)->annee
+                                        }}</td>
+                                    <td>{{ App\Models\Entreprise::find($demande->entreprise_id)->nom
+                                        }}</td>
+                                    <td>{{ $demande->date_debut }}</td>
+                                    <td>{{ $demande->date_fin }}</td>
+                                    <td>
+                                        @if ($demande->validation_admin==1)
+                                        <button class="btn btn-primary btn-sm" data-toggle="tooltip"
+                                            title="Stage terminée">
                                             <i class="icofont icofont-ui-check"></i>
                                         </button>
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <td>Obligatoire LF3I</td>
-                                    <td>2020-2021</td>
-                                    <td>Hyper-groupe</td>
-                                    <td>01-07-2021</td>
-                                    <td>31-08-2021</td>
-                                    <td><button class="btn btn-secondary" data-toggle="tooltip" title="Stage en cours">
+                                        @elseif ($demande->validation_admin==0)
+                                        <button class="btn btn-secondary" data-toggle="tooltip" title="Stage en cours">
                                             <i class="fa fa-spinner fa-spin"></i>
                                         </button>
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <td>Obligatoire LF2I</td>
-                                    <td>2021-2022</td>
-                                    <td>Hyper-groupe</td>
-                                    <td>01-02-2022</td>
-                                    <td>31-05-2022</td>
-                                    <td><button class="btn btn-secondary" data-toggle="tooltip" title="Stage en cours">
-                                            <i class="fa fa-spinner fa-spin"></i>
-                                        </button>
-                                    </td>
-                                </tr>
+                                        @endif
 
+                                    </td>
+                                </tr>
+                                @endforeach
                             </tbody>
                             <tfoot>
                                 <tr>
@@ -119,3 +110,4 @@
 @endpush
 
 @endsection
+

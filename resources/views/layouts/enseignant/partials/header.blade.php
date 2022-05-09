@@ -18,7 +18,9 @@
                                 App\Models\Enseignant::where('user_id',auth()->id())->first()->notifications->count()
                                 }} notifications dont {{
                                 App\Models\Enseignant::where('user_id',auth()->id())->first()->unreadNotifications->count()
-                                }} non lus <span class="pull-right badge badge-primary badge-pill">4</span></p>
+                                }} non lus
+                                <!--<span class="pull-right badge badge-primary badge-pill">4</span>-->
+                            </p>
                         </li>
                         @foreach (App\Models\Enseignant::where('user_id',auth()->id())->first()->notifications as
                         $notification )
@@ -89,3 +91,4 @@
         <div class="d-lg-none mobile-toggle pull-right w-auto"><i data-feather="more-horizontal"></i></div>
     </div>
 </div>
+

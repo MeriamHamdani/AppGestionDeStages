@@ -18,7 +18,9 @@ Route::middleware(['auth','role:etudiant'])->group(function(){
         Route::patch('coordonnees', [EtudiantController::class,'updateProfil'])->name('update_profil_etd');
 
         Route::view('/', 'etudiant.dashboard')->name('dash_etudiant');
-        Route::view('/stage/demandes-stages', 'etudiant.stage.demandes_stages')->name('demandes_stages');
+        Route::get('/stage/demandes-stages', [EtudiantController::class,'mes_demandes_stages'])->name('demandes_stages');
+        Route::get('/stage/liste-stages', [EtudiantController::class,'mes_demandes_confirmer'])->name('liste_stages');
+        //Route::view('/stage/liste-stages', 'etudiant.stage.liste_stages')->name('liste_stages');
         Route::view('/stage/demande-refuse', 'etudiant.stage.demande_refuse')->name('demande_refuse');
         Route::view('/stage/demande-refuse', 'etudiant.stage.demande_refuse')->name('demande_refuse');
         Route::view('/stage/demande-accepte', 'etudiant.stage.demande_accepte')->name('demande_accepte');
@@ -26,6 +28,8 @@ Route::middleware(['auth','role:etudiant'])->group(function(){
         Route::view('/stage/pas-de-demande', 'etudiant.stage.pas_de_demande')->name('pas_de_demande');
         Route::get('/stage/demander-stage', [StageController::class,'create'])->name('demande_stage');
         Route::post('/stage/demander', [StageController::class,'store'])->name('demander_stage');
+
+
         Route::get('stage/{fiche_demande}', function($fiche_demande)
             {
 
@@ -41,8 +45,8 @@ Route::middleware(['auth','role:etudiant'])->group(function(){
                     }
             })->where('fiche_demande', '[A-Za-z0-9\-\_\.]+')->name('telecharger_fiche_demande');
 
-        //Route::get('/stage/telecharger-fiche/{fiche_demande}', [StageController::class,'download'])->name('telecharger_fiche_demande');
-        Route::view('/stage/liste-stages', 'etudiant.stage.liste_stages')->name('liste_stages');
+
+
         Route::view('/stage/gerer-cahier-stage', 'etudiant.stage.gestion_cahier_stage')->name('gestion_cahier_stage');
         Route::view('/stage/cahier-stage', 'etudiant.stage.cahier_stage')->name('cahier_stage');
 

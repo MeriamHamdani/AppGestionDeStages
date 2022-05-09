@@ -22,13 +22,16 @@ class CreateStagesTable extends Migration
             $table->foreignId('annee_universitaire_id')->constrained();
             $table->string('titre_sujet');
             $table->string('type_sujet')->nullable();
+            $table->string('type');
             $table->date('date_debut');
             $table->date('date_fin');
             $table->date('date_demande');
+
             $table->integer('confirmation_encadrant')->nullable();
             $table->integer('confirmation_admin');
             $table->integer('validation_encadrant')->nullable();
             $table->integer('validation_admin')->nullable();
+
             $table->foreignId('entreprise_id')->constrained();
             $table->timestamps();
         });

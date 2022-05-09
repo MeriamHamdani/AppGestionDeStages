@@ -13,6 +13,7 @@ use App\Http\Controllers\SpecialiteController;
 use App\Http\Controllers\DepartementController;
 use App\Http\Controllers\EtablissementController;
 use App\Http\Controllers\AnneeUniversitaireController;
+use App\Http\Controllers\StageController;
 use App\Http\Controllers\TypeStageController;
 use Maatwebsite\Excel\Facades\Excel;
 
@@ -39,13 +40,37 @@ Route::middleware(['auth','role:admin|superadmin'])->group(function(){
         // ----------------------------------STAGE-----------------------------------
 
         Route::prefix('stage/demandes-stage')->group(function () {
-            Route::view('1ere-2eme-licence-master', 'admin.stage.listes_demandes_stage.sv12lm')->name('demandes_stage.sv12lm');
-            Route::view('2eme-licence', 'admin.stage.listes_demandes_stage.so2l')->name('demandes_stage.so2l');
-            Route::view('3eme-licence', 'admin.stage.listes_demandes_stage.so3l')->name('demandes_stage.so3l');
-            Route::view('3eme-licence-info', 'admin.stage.listes_demandes_stage.so3Info')->name('demandes_stage.so3Info');
-            Route::view('2eme-master', 'admin.stage.listes_demandes_stage.so2m')->name('demandes_stage.so2m');
-            Route::view('modifier', 'admin.stage.listes_demandes_stage.modifier_demande_stage')->name('demandes_stage.modifier_demande');
+
+
+
+
+            Route::get('1ere-2eme-licence-master',[StageController::class,'list_vol_1ere_2eme_licence_info_1ere_master'])->name('demandes_stage.sv12lm');
+            Route::get('2eme-licence',[StageController::class,'list_oblig_2eme_licence_non_info'])->name('demandes_stage.so2l');
+            Route::get('3eme-licence',[StageController::class,'list_oblig_3eme_licence_non_info'])->name('demandes_stage.so3l');
+            Route::get('3eme-licence-info', [StageController::class,'list_oblig_3eme_licence_info'])->name('demandes_stage.so3Info');
+            Route::get('2eme-master', [StageController::class,'list_oblig_2eme_master'])->name('demandes_stage.so2m');
+            Route::get('modifier/{stage_id}', [StageController::class,'modifier_demande'])->name('demandes_stage.modifier_demande');
+			Route::patch('modifier/{stage_id}',[StageController::class,'edit'])->name('edit');
+            Route::get('confirmer/{stage_id}',[StageController::class,'confirmer_demande'])->name('confirmer_demande');
+            Route::get('refuser/{stage_id}',[StageController::class,'refuser_demande'])->name('refuser_demande');
+
+
         });
+        Route::get('{fiche_demande}/{code_classe}', function($fiche_demande,$code_classe)
+            {
+
+                $file_path = public_path() .'/storage/fiches_demande_'.$code_classe.'/'. $fiche_demande;
+//dd($file_path);
+                if (file_exists($file_path))
+                    {
+                    return Response::download($file_path, $fiche_demande);
+                    }
+                else
+                    {
+                    //Error
+                    exit('fiche de demande introuvable !');
+                    }
+            })->where('fiche_demande', '[A-Za-z0-9\-\_\.]+')->name('telechargement_fiche_demande');
         Route::view('stage/gerer-cahiers-stages', 'admin.stage.gerer_cahiers_stages')->name('gerer_cahiers_stages');
         Route::view('stage/cahier-de-stage', 'admin.stage.cahier_de_stage')->name('cahier_de_stage');
 

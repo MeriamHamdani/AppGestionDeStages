@@ -95,7 +95,7 @@ class TypeStageController extends Controller
 
         //$path = $request->fiche_demande->storeAs('fiches_demande',$fiche_demande_name,'pulicb');
        //dd($path);
-        $type_stage->fiche_demande=$request->fiche_demande;
+        //$type_stage->fiche_demande=$request->fiche_demande;
 
         if(Str::upper($request->type)==Str::upper('obligatoire'))
         /*if($request->type=='Obligatoire')*/{

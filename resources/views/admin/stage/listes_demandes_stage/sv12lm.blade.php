@@ -7,6 +7,7 @@
 @push('css')
 <link rel="stylesheet" type="text/css" href="{{asset('assets/css/datatables.css')}}">
 <link rel="stylesheet" type="text/css" href="{{asset('assets/css/datatable-extension.css')}}">
+<link rel="stylesheet" type="text/css" href="{{ asset('assets/css/buttonload.css') }}">
 @endpush
 
 @section('content')
@@ -16,7 +17,7 @@
 @endslot
 <li class="breadcrumb-item">Stages</li>
 <li class="breadcrumb-item">Les demandes des stages</li>
-<li class="breadcrumb-item">Stage volontaire 1ère et 2éme licence et 1ère mastère</li>
+<li class="breadcrumb-item">Stage volontaire 1ère et 2éme licence informatique et 1ère mastère</li>
 
 @endcomponent
 
@@ -35,117 +36,71 @@
                                     <th>Nom</th>
                                     <th>Prénom</th>
                                     <th>Classe</th>
-                                    <th>Encadrant</th>
                                     <th>La fiche de demande</th>
-                                    <th>Confirmation de l'encadrant</th>
+                                    <th>Confirmation de l'administration</th>
                                     <th>Actions</th>
                                 </tr>
                             </thead>
                             <tbody>
+                                @foreach ($stages as $stage )
                                 <tr>
-                                    <td>Ben Foulen</td>
-                                    <td>Foulen</td>
-                                    <td>LF1I</td>
-                                    <td>Ali Ben Ali</td>
-                                    <td class="text-center"><a href="demande_stage.pdf" download="demande_stage.pdf">
+                                    <td>{{ App\Models\Etudiant::find($stage->etudiant_id)->nom }}</td>
+                                    <td>{{ App\Models\Etudiant::find($stage->etudiant_id)->prenom }}</td>
+                                    <td>{{$stage->code_classe}}</td>
+
+                                    <td class="text-center"><a
+                                            href="{{ route('telechargement_fiche_demande',['fiche_demande'=>$stage->file,'code_classe'=>$stage->code_classe]) }}">
                                             <i style="font-size: 2em;" class="icofont icofont-file-pdf icon-large"></i>
                                         </a>
                                     </td>
 
-                                    <td style="text-center">
-
+                                    <td class="text-center">
+                                        @if ($stage->confirmation_admin==null)
+                                        <button class="buttonload" data-toggle="tooltip" title="demande en attente">
+                                            <i class="fa fa-spinner fa-spin"></i>
+                                        </button>
+                                        @endif
+                                        @if ($stage->confirmation_admin==-1)
+                                        <i data-toggle="tooltip" title="demande refusée" style="background-position: 0 -90px;
+                                                height: 30px;
+                                                width: 23px;
+                                                display:block;
+                                                margin:0 auto; color: #B3363E;"
+                                            class="icofont icofont-ui-close icon-large"></i>
+                                        @endif
+                                        @if ($stage->confirmation_admin==1)
                                         <i data-toggle="tooltip" title="demande confirmée" style="background-position: 0 -90px;
                                             height: 30px;
                                             width: 23px;
                                             display:block;
-                                            margin:0 auto; color: #4B8D5F" class="icofont icofont-ui-check icon-large"></i>
-
+                                            margin:0 auto; color: #4B8D5F"
+                                            class="icofont icofont-ui-check icon-large"></i>
+                                        @endif
                                     </td>
+
                                     <td class="text-center">
-                                        <a href="#"> <i data-toggle="tooltip" title="Confirmer"
+                                        <a href="{{ route('confirmer_demande',['stage_id'=>$stage->id]) }}"> <i
+                                                data-toggle="tooltip" title="Confirmer"
                                                 class="icofont icofont-ui-check icon-large"></i></a>
                                         <a href="#"><i data-toggle="tooltip" title="Refuser"
                                                 class="icofont icofont-ui-close icon-large"></i></a>
-                                        <a href="{{ route('demandes_stage.modifier_demande') }}"
-                                            data-title="Modifer" data-toggle="tooltip"
-                                            title="Modifer"><i class="icofont icofont-ui-edit icon-large"></i></a>
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <td>Ben Foulen</td>
-                                    <td>Foulen</td>
-                                    <td>LF1I</td>
-                                    <td>Ali Ben Ali</td>
-                                    <td class="text-center"><a href="demande_stage.pdf" download="demande_stage.pdf">
-                                            <i style="font-size: 2em; " class="icofont icofont-file-pdf icon-large"></i>
-                                        </a>
-                                    </td>
-                                    <td style="text-center">
-
-                                        <i data-toggle="tooltip" title="demande confirmée" style="background-position: 0 -90px;
-                                            height: 30px;
-                                            width: 23px;
-                                            display:block;
-                                            margin:0 auto; color: #B3363E;" class="icofont icofont-ui-close icon-large"></i>
-
-                                    </td>
-
-                                    <td class="text-center">
-                                        <a href="#"> <i data-toggle="tooltip" title="Confirmer"
-                                                class="icofont icofont-ui-check icon-large"></i></a>
-                                        <a href="#"><i data-toggle="tooltip" title="Refuser"
-                                                class="icofont icofont-ui-close icon-large"></i></a>
-                                        <a href="{{ route('demandes_stage.modifier_demande') }}"
-                                            data-title="Modifer" data-toggle="tooltip"
-                                            title="Modifer"><i class="icofont icofont-ui-edit icon-large"></i></a>
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <td>Ben Foulen</td>
-                                    <td>Foulen</td>
-                                    <td>LF1I</td>
-                                    <td>Ali Ben Ali</td>
-                                    <td class="text-center"><a href="demande_stage.pdf" download="demande_stage.pdf">
-                                            <i style="font-size: 2em;" class="icofont icofont-file-pdf icon-large"></i>
-                                        </a>
-                                    </td>
-
-
-                                    <td class="text-center">
-
-                                        <i data-toggle="tooltip" title="demande confirmée" style="background-position: 0 -90px;
-                                        height: 30px;
-                                        width: 23px;
-                                        display:block;
-                                        margin:0 auto; color: #4B8D5F" class="icofont icofont-ui-check icon-large"></i>
-
-                                    </td>
-
-
-                                    <td class="text-center">
-                                        <a href="#"> <i data-toggle="tooltip" title="Confirmer"
-                                                class="icofont icofont-ui-check icon-large"></i></a>
-                                        <a href="#"><i data-toggle="tooltip" title="Refuser"
-                                                class="icofont icofont-ui-close icon-large"></i></a>
-                                        <a href="{{ route('demandes_stage.modifier_demande') }}"
-                                            data-title="Modifer" data-toggle="tooltip"
-                                            title="Modifer"><i
+                                        <a href="{{ route('demandes_stage.modifier_demande',['stage_id'=>$stage->id]) }}"
+                                            data-title="Modifer" data-toggle="tooltip" title="Modifer"><i
                                                 class="icofont icofont-ui-edit icon-large"></i></a>
                                     </td>
+
                                 </tr>
+                                @endforeach
 
                             </tbody>
                             <tfoot>
-
                                 <tr>
                                     <th>Nom</th>
                                     <th>Prénom</th>
                                     <th>Classe</th>
-                                    <th>Encadrant</th>
                                     <th>La fiche de demande</th>
-                                    <th>Confirmation de l'encadrant</th>
+                                    <th>Confirmation de l'administration</th>
                                     <th>Actions</th>
-
                                 </tr>
                             </tfoot>
                         </table>
