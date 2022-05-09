@@ -6,12 +6,14 @@ use App\Models\User;
 use App\Models\Stage;
 use App\Models\Classe;
 use App\Models\Etudiant;
+use App\Models\TypeStage;
+use Illuminate\Support\Arr;
 use Illuminate\Http\Request;
 use App\Models\Etablissement;
 use Illuminate\Support\Carbon;
+
 use Illuminate\Validation\Rule;
 use App\Exports\EtudiantsExport;
-
 use App\Imports\EtudiantsImport;
 use App\Models\AnneeUniversitaire;
 use Illuminate\Support\Collection;
@@ -226,14 +228,20 @@ class EtudiantController extends Controller
 		foreach($mes_demandes as $demande){
 			$classe=Classe::where('id',$etudiant->classe_id)
 						  ->where('annee_universitaire_id',$demande->annee_universitaire_id)->get()[0];
-			$demande->classe=$classe->code;
-            
+
+
+		    $typeStage=TypeStage::find($classe->typeStage->id);
+
+            $type = $typeStage->nom;
+			$demande->type=$type;
+
+
 			$demandes_classes->push($demande);
 		}
 //dd($demandes_classe);
         return view('etudiant.stage.demandes_stages',compact('demandes_classes'));
     }
-	
+
 	public function mes_demandes_confirmer(){
 		$etudiant=Etudiant::where('user_id',Auth::user()->id)->get()[0];
 		$demandes_confirmer=Stage::where('etudiant_id',$etudiant->id)
@@ -242,10 +250,17 @@ class EtudiantController extends Controller
 		foreach($demandes_confirmer as $demande){
 			$classe=Classe::where('id',$etudiant->classe_id)
 						  ->where('annee_universitaire_id',$demande->annee_universitaire_id)->get()[0];
-			$demande->classe=$classe->code;
-            
+			$typeStage=$classe->typeStage;
+
+            $type = $typeStage->nom;
+			$demande->type=$type;
+
+
+			$demandes_classes->push($demande);
+
+
 		}
-		
+
 		return view('etudiant.stage.liste_stages',compact('demandes_confirmer'));
 	}
 }

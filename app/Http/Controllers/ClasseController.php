@@ -8,6 +8,8 @@ use App\Models\Specialite;
 use App\Models\TypeStage;
 use Illuminate\Http\Request;
 use Illuminate\Support\Carbon;
+use Illuminate\Support\Facades\Storage;
+use Illuminate\Support\Str;
 use Illuminate\Validation\Rule;
 
 class ClasseController extends Controller
@@ -19,6 +21,7 @@ class ClasseController extends Controller
      */
     public function index()
     {
+
         return view('admin.etablissement.classe.liste_classes',
             ['classes' => Classe::with('specialite')->get()]);
     }
@@ -100,15 +103,17 @@ class ClasseController extends Controller
         $specialite=Specialite::find($request->specialite_id);
         $nom=$niveau.' '.$cycle.' '.$specialite->nom;
         $attributs=array_merge($attributs,["nom"=>$nom]);
-        //dd($attributs);
-
+        //dd(Str::upper(str_replace(' ','',$request->code)) . ' ' . $request->type);
+        //dd(ltrim($request->code),$request->code,str_replace(' ','',$request->code));
         $classe=Classe::create($attributs);
+
         $classe_id=$classe->id;
-        //dd($classe_id);
-        //return redirect()->action([ClasseController::class,'index']);
-        return redirect()->action([TypeStageController::class,'index']);
-        //return view('admin.configuration.generale.typeStage_classe',["error_message"]);
-        //return view('admin.configuration.generale.typeStage_classe',['error_message']);
+        //dd($classe);
+        $classes=Classe::with('typeStage')->get();
+        /*$error_message = array("nom" => "", "periode_stage" => "", "depot_stage" => "");
+        return view('admin.configuration.generale.typeStage_classe', ['classe' => $classe,'classes' => $classes,'error_message'=>$error_message]);*/
+        return redirect()->action([TypeStageController::class,'create'],$classe_id);
+
 
     }
 
@@ -150,11 +155,33 @@ class ClasseController extends Controller
             'cycle' => ['required', 'string', 'max:255'],
             'specialite_id' => ['required', Rule::exists('specialites', 'id')],
         ]);
+
+        if($request->code != $classe->code)
+        {
+
+            $fiche_demande_name = $classe->typeStage->fiche_demande;
+            //dd($fiche_demande_name);
+            $array=$this->decouper_nom($fiche_demande_name);
+            $array[2] = str_replace(' ', '',$request->code);
+            $fiche_demande_name = $array[0].'_'.$array[1].'_'.$array[2].'_'.$array[3];
+            $classe->update();
+        }
         $classe->update($attributs);
         return redirect()->action([ClasseController::class,'index']);
 
     }
+    public function decouper_nom(string $nom)
+    {
 
+        $retour = array();
+        $delimiteurs = '_';
+        $tok = strtok($nom, "_");
+        while (strlen(join(" ", $retour)) != strlen($nom)) {
+            array_push($retour, $tok);
+            $tok = strtok($delimiteurs);
+        }
+        return $retour;
+    }
     /**
      * Remove the specified resource from storage.
      *

@@ -11,4 +11,8 @@ class TypeStage extends Model
     protected $casts = [
         'type_sujet' => 'json',
     ];
+    public function classe()
+    {
+        return $this->belongsTo(Classe::class);
+    }
 }

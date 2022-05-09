@@ -14,8 +14,12 @@ class AddTypeStageForeignKeyToClasse extends Migration
     public function up()
     {
         Schema::table('classes', function (Blueprint $table) {
-           
-            $table->foreignId('type_stage')->nullable()->constrained();
+
+            $table->foreignId('type_stage_id')->nullable()->constrained()->nullOnDelete();
+        });
+        Schema::table('type_stages', function (Blueprint $table) {
+
+            $table->foreignId('classe_id')->nullable()->constrained()->nullOnDelete();
         });
     }
 

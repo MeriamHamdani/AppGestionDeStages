@@ -42,7 +42,7 @@
                             <tbody>
                                 @foreach ($demandes_confirmer as $demande )
                                 <tr>
-                                    <td>{{ Str::ucfirst($demande->type) }}&nbsp;{{ Str::upper($demande->classe) }}
+                                    <td>{{ Str::ucfirst($demande->type) }}
                                     </td>
                                     <td>{{ App\Models\AnneeUniversitaire::find($demande->annee_universitaire_id)->annee
                                         }}</td>

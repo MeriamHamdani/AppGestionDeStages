@@ -51,8 +51,7 @@
                                     <td>{{ App\Models\Enseignant::find($stage->enseignant_id)->nom }}&nbsp;{{
                                         App\Models\Enseignant::find($stage->enseignant_id)->prenom }}</td>
                                     </td>
-                                    <td class="text-center"><a
-                                            href="{{ route('telechargement_fiche_demande',['fiche_demande'=>$stage->file,'code_classe'=>$stage->code_classe]) }}">
+                                    <td class="text-center"><a href="{{ route('telechargement_fiche_demande',['fiche_demande'=>$stage->file,'code_classe'=>$stage->code_classe]) }}">
                                             <i style="font-size: 2em;" class="icofont icofont-file-pdf icon-large"></i>
                                         </a>
                                     </td>

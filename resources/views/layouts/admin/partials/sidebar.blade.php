@@ -3,7 +3,7 @@
         <a class="setting-primary" href="{{route('profil')}}"><i data-feather="settings"></i></a><img
             class="img-90 rounded-circle" src="{{asset('assets/images/dashboard/1.png')}}" alt="" />
         <div class="badge-bottom"><span class="badge badge-primary">Admin</span></div>
-        <a href="user-profile">
+        <a href="">
             <h6 class="mt-3 f-14 f-w-600">{{ucwords(App\Models\Admin::where('user_id',auth()->id())->first()->prenom)}}
                 {{ucwords(App\Models\Admin::where('user_id',auth()->id())->first()->nom)}}</h6>
         </a>
@@ -107,32 +107,26 @@
                         </div>
                     </li>
                     <li>
+                        <a class="nav-link menu-title link-nav {{ routeActive('liste_departements') }}"
+                           href="{{ route('liste_departements') }}">
+                            <i class="icofont icofont-building"></i>&nbsp<span>Gestion des départements</span></a>
+                    </li>
+                    <li>
                         <a class="nav-link menu-title link-nav {{ routeActive('liste_enseignants') }} "
                             href="{{ route('liste_enseignants') }}">
                             <i class="icofont icofont-teacher"></i>&nbsp&nbsp&nbsp<span>Gestion des
                                 enseignants</span></a>
                     </li>
-                    <li>
-                        <a class="nav-link menu-title link-nav {{ routeActive('liste_etudiants') }}"
-                            href="{{ route('liste_etudiants') }}">
-                            <i class="icofont icofont-group-students"></i>&nbsp&nbsp&nbsp<span>Gestion des
-                                étudiants</span></a>
-                    </li>
-                    <li>
-                        <a class="nav-link menu-title link-nav {{ routeActive('liste_departements') }}"
-                            href="{{ route('liste_departements') }}">
-                            <i class="icofont icofont-building"></i>&nbsp<span>Gestion des départements</span></a>
-                    </li>
                     <li class="dropdown">
                         <a class="nav-link menu-title link-nav {{ routeActive('liste_specialites') }}"
-                            href="{{ route('liste_specialites') }}">
+                           href="{{ route('liste_specialites') }}">
                             <i class="icofont icofont-list"></i>&nbsp&nbsp&nbsp<span>Gestion des spécialités
                             </span></a>
                     </li>
                     <li class="dropdown">
                         <a class="nav-link menu-title {{ in_array(Route::currentRouteName(),
-                            ['liste_classes','typeStage.index','ajouter_classe','modifier_classe']) ? 'active' : '' }}"
-                            href="javascript:void(0)">
+                            ['liste_classes','typeStage.create','typeStage.index','ajouter_classe','modifier_classe']) ? 'active' : '' }}"
+                           href="javascript:void(0)">
 
                             <i class="icofont icofont-users-social"></i>&nbsp&nbsp&nbsp<span>Gestion des
                                 classes</span></a>
@@ -141,12 +135,20 @@
                             <li><a href="{{ route('liste_classes') }}" class="{{ routeActive('liste_classes') }}">
                                     <strong><i class="icofont icofont-users-social"></i>Gérer les classes</strong></a>
                             </li>
-                            <li><a href="{{ route('typeStage.index')}}">
-                                    <strong><i class="icofont icofont-pen-nib"></i>Configurer le type de stage d'une
-                                        classe</strong></a> </li>
+                            <li><a href="{{ route('typeStage.index')}}" class="{{ routeActive('typeStage.index') }}">
+                                    <strong><i class="icofont icofont-pen-nib"></i>Classe & Type de stage</strong></a> </li>
                         </ul>
 
                     </li>
+                    <li>
+                        <a class="nav-link menu-title link-nav {{ routeActive('liste_etudiants') }}"
+                            href="{{ route('liste_etudiants') }}">
+                            <i class="icofont icofont-group-students"></i>&nbsp&nbsp&nbsp<span>Gestion des
+                                étudiants</span></a>
+                    </li>
+
+
+
                     <li class="sidebar-main-title">
                         <div>
                             <h6>Entreprise/Société</h6>

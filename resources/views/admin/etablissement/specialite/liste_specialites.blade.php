@@ -56,7 +56,7 @@
                                     <td>{{ucwords($specialite->code)}}</td>
                                     <td>{{ucwords($specialite->nom)}}</td>
                                     <td>{{ucwords($specialite->departement->nom)}}</td>
-                                    <td>{{ucwords($specialite->enseignant->nom)}} {{ucwords($specialite->enseignant->prenom)}}</td>
+                                    <td>@if(isset($specialite->enseignant_id)){{ucwords($specialite->enseignant->nom)}} {{ucwords($specialite->enseignant->prenom)}}@endif</td>
                                     <td class="text-center">
                                         <a href="{{ route('modifier_specialite', $specialite) }}"> <i style="font-size: 1.3em;" class='fa fa-edit'></i></a>
                                         <a href="{{ route('supprimer_specialite', $specialite) }}"> <i style="font-size: 1.3em;" class='fa fa-trash'></i></a>

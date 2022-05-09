@@ -42,7 +42,7 @@
                             <tbody>
                                 @foreach($demandes_classes as $demande)
                                 <tr>
-                                    <td>{{$demande->type}}&nbsp;{{ $demande->classe }}</td>
+                                    <td>{{$demande->type}}</td>
                                     <td>{{ App\Models\AnneeUniversitaire::find($demande->annee_universitaire_id)->annee
                                         }}
                                     </td>

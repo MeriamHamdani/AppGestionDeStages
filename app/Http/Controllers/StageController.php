@@ -10,6 +10,7 @@ use App\Models\Enseignant;
 use App\Models\Entreprise;
 use App\Models\Specialite;
 use App\Models\Departement;
+use Illuminate\Support\Arr;
 use Illuminate\Support\Str;
 use Illuminate\Http\Request;
 use App\Models\Etablissement;
@@ -24,6 +25,8 @@ use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Facades\Redirect;
 use Illuminate\Support\Facades\Response;
 use App\Notifications\DemandeEncadrementNotification;
+
+
 
 class StageController extends Controller
 {
@@ -149,10 +152,12 @@ class StageController extends Controller
                 $stage->file=$fiche;
 				$stage->code_classe=$classe->code;
 				$stages->push($stage);
+				
 
 			}
 
         }
+		dd($stages);
 
         return view('admin.stage.listes_demandes_stage.so3l',compact(['stages']));
     }
@@ -237,15 +242,16 @@ class StageController extends Controller
         $enseignants = Enseignant::all();
         $entreprises = Entreprise::all();
 
-        $etudiant = (Etudiant::where('user_id', Auth::user()->id)->select('*')->get())[0];
+        //$etudiant = (Etudiant::with('user')->where('user_id', Auth::user()->id))->first();
+
+        $etudiant = (Etudiant::where('user_id', Auth::user()->id)->select('*'))->first();
         $classe = Classe::findOrFail($etudiant->classe_id);
 
-        $type_stage = TypeStage::findOrFail($classe->type_stage);
+        $type_stage = TypeStage::findOrFail($classe->type_stage_id);
         $fiche_demande = substr($type_stage->fiche_demande, 15);
 
 
-        //dd($fiche_demande);
-        return view('etudiant.stage.demander_stage', compact(['enseignants', 'entreprises', 'etudiant', 'fiche_demande']));
+        return view('etudiant.stage.demander_stage', compact(['enseignants', 'entreprises', 'etudiant', 'fiche_demande', 'type_stage']));
 
     }
 
@@ -270,86 +276,78 @@ class StageController extends Controller
         $stage->titre_sujet = $request->titre_sujet;
         $etudiant = Etudiant::where('user_id', Auth::user()->id)->first();
         $stage->etudiant_id = $etudiant->id;
-		$is_licence=strtoupper($etudiant->classe->cycle)===strtoupper('licence');
-		$is_master=strtoupper($etudiant->classe->cycle)===strtoupper('master');
 
-        if($is_licence||$is_master ){
-			if($etudiant->classe->niveau==1){
-			$stage->type='volontaire';
-			}
-			if($etudiant->classe->niveau==2){
-				$stage->type='obligatoire';
-			}
-		}
-		if($is_licence && $etudiant->classe->niveau==3){
-			$stage->type='obligatoire';
-		}
+       
+        if ($etudiant->classe->niveau == 3 && $etudiant->classe->cycle == "licence")
 
-
-        if($etudiant->classe->niveau == 3 && $etudiant->classe->cycle=="licence")
         {
-            $request->validate(['type_sujet'=>['required']]);
+            $request->validate(['type_sujet' => ['required']]);
             $stage->type_sujet = $request->type_sujet;
 
         }
 
-        if($etudiant->classe->niveau == 3 && $etudiant->classe->cycle=="licence" || $etudiant->classe->niveau == 2 && $etudiant->classe->cycle=="master"  )
+        if ($etudiant->classe->niveau == 3 && $etudiant->classe->cycle == "licence" || $etudiant->classe->niveau == 2 && $etudiant->classe->cycle == "master")
         {
-            $request->validate(['enseignant_id'=>['required']]);
-            $stage->enseignant_id =$request->enseignant_id;
-            $enseignant= Enseignant::findOrFail($request->enseignant_id);
-            //dd($stage);
+            $request->validate(['enseignant_id' => ['required']]);
+            $stage->enseignant_id = $request->enseignant_id;
+            $enseignant = Enseignant::findOrFail($request->enseignant_id);
         }
 
-        //dd($stage);
         $entreprise = Entreprise::findOrFail($request->entreprise);
         $stage->entreprise_id = $entreprise->id;
 
         $current_date = Carbon::now();
         $stage->date_demande = $current_date->format('Y-m-d');;
 
-        //dd($stage);
-        //dd($current_date->format('Y-m-d') );
-        //dd('hii');
         $moisCourant = (int)$current_date->format('m');
-        if ((6 < $moisCourant) && ($moisCourant < 12)) {
+        if ((6 < $moisCourant) && ($moisCourant < 12))
+        {
             $annee = '20' . $current_date->format('y') . '-20' . strval(((int)$current_date->format('y')) + 1);
-        } else
+        }
+        else
             $annee = '20' . strval(((int)$current_date->format('y')) - 1) . '-20' . $current_date->format('y');
         $annees = AnneeUniversitaire::all();
-        foreach ($annees as $a) {
-            if ($a->annee == $annee) {
+        foreach ($annees as $a)
+        {
+            if ($a->annee == $annee)
+            {
                 $stage->annee_universitaire_id = $a->id;
-               // dd($stage->annee_universitaire_id);
+                // dd($stage->annee_universitaire_id);
                 break;
             }
         }
 
         $classe = Classe::findOrFail($etudiant->classe_id);
-        $type_stage = TypeStage::findOrFail($classe->type_stage);
+        $type_stage = TypeStage::findOrFail($classe->type_stage_id);
 
         $date_debut = Carbon::createFromFormat('m/d/Y', $request->date_debut)->format('Y-m-d');
         $date_fin = Carbon::createFromFormat('m/d/Y', $request->date_fin)->format('Y-m-d');
 
         //dd($date_debut<$type_stage->date_debut_periode);
-        if ($request->date_debut < $request->date_fin) {
+        if ($request->date_debut < $request->date_fin)
+        {
 
-            if ($date_debut < $type_stage->date_debut_periode || $date_fin > $type_stage->date_limite_periode) {
+            if ($date_debut < $type_stage->date_debut_periode || $date_fin > $type_stage->date_limite_periode)
+            {
                 return Redirect::back()->withErrors(['La période de votre stage est hors limite !']);
-            } else {
+            }
+            else
+            {
                 $stage->date_debut = $date_debut;
                 $stage->date_fin = $date_fin;
-                //dd($stage);
             }
 
-        } else {
-            return Redirect::back()->withErrors([ 'La date de fin de votre periode de stage doit etre ultérieure à la date de debut !      !']);
+        }else
+        {
+            return Redirect::back()->withErrors(['La date de fin de votre période de stage doit etre ultérieure à la date de debut !      !']);
         }
+
         $cin=Auth::user()->numero_CIN;
         $fiche_demande_name='FicheDemande_'.$cin.'.'.$request->file('fiche_demande')->extension();
         $path = Storage::disk('public')
                 ->putFileAs('fiches_demande_'.$classe->code, $request->file('fiche_demande'),$fiche_demande_name);
         $stage->fiche_demande=$path;
+        $stage->confirmation_admin = 0;
         $stage->save();
         if($etudiant->classe->niveau == 3 && $etudiant->classe->cycle=="licence")
         {
@@ -360,9 +358,12 @@ class StageController extends Controller
                'date'=>'Le '.$current_date->day.'-'.$current_date->month.'-'.$current_date->year.' à '.$current_date->hour.':'.$current_date->minute];
 
         $enseignant->notify(new DemandeEncadrementNotification($data));}
-      //dd('hhh');
 
         return redirect()->action([StageController::class,'create']);
+
+
+
+
 
     }
 

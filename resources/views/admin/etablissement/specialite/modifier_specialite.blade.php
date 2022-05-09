@@ -216,7 +216,7 @@
 
                             <div class="col-md-6 position-relative ">
                                 <label class="form-label" for="validationTooltip01">Responsable</label>
-                                <select class="js-example-basic-single col-sm-12" id="enseignant_id" name="enseignant_id" required>
+                                <select class="js-example-basic-single col-sm-12" id="enseignant_id" name="enseignant_id">
                                     <option disabled="disabled" selected="selected">Sélectionnez le responsable</option>
                                     @foreach (\App\Models\Enseignant::all() as $enseignant)
                                         <option value="{{ $enseignant->id }}"

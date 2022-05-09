@@ -22,7 +22,7 @@ class EnseignantController extends Controller
     /*public function __construct(){
         $this->middlewar(['auth','verified']);
     }*/
-    
+
     /**
      * Display a listing of the resource.
      *
@@ -92,7 +92,7 @@ class EnseignantController extends Controller
                 break;
             }
         }
-        $attributs2['etablissement_id'] = Etablissement::first()->id;
+        $attributs2['etablissement_id'] = Etablissement::all()->firstOrFail()->id;
         $user = User::create($attributs);
         $user->assignRole('enseignant');
         $attributs2['user_id'] = $user->id;

@@ -44,7 +44,7 @@ class SpecialiteController extends Controller
             'code' => ['required', 'string', 'max:255', 'unique:specialites'],
             'cycle' => ['required', 'string', 'max:255'],
             'departement_id' => ['required', Rule::exists('departements', 'id')],
-            'enseignant_id' => ['required', Rule::exists('enseignants', 'id')],
+            'enseignant_id' => [ Rule::exists('enseignants', 'id')],
 
         ]);
         $spec_exist = Specialite::where('code', $request->code)->first();

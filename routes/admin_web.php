@@ -60,7 +60,7 @@ Route::middleware(['auth','role:admin|superadmin'])->group(function(){
             {
 
                 $file_path = public_path() .'/storage/fiches_demande_'.$code_classe.'/'. $fiche_demande;
-//dd($file_path);
+dd($file_path);
                 if (file_exists($file_path))
                     {
                     return Response::download($file_path, $fiche_demande);
@@ -166,8 +166,13 @@ Route::middleware(['auth','role:admin|superadmin'])->group(function(){
             Route::view('liste-grille', 'admin.configuration.generale.liste_grille')->name('liste_grille');
             Route::view('config-grille', 'admin.configuration.generale.configuration_grille')->name('configurer_grille');
 
-            Route::get('typeStage-classe/ajouter',[TypeStageController::class,'index'])->name('typeStage.index');
-            Route::put('typeStage-classe/store',[TypeStageController::class,'store'])->name('typeStage.store');
+            Route::get('typeStage-classe/ajouter/{classe}',[TypeStageController::class,'create'])->name('typeStage.create');
+            Route::put('typeStage-classe/store/{classe}',[TypeStageController::class,'store'])->name('typeStage.store');
+            Route::get('liste-classes-typeStages',[TypeStageController::class,'index'])->name('typeStage.index');
+            Route::get('typeStage-classe/modifier-typeStage/{typeStage:id}',[TypeStageController::class,'edit'])->name('modifier_type_stage');
+            Route::patch('typeStage-classe/update-typeStage/{typeStage:id}', [TypeStageController::class,'update'])->name('update_type_stage');
+            Route::get('typeStage-classe/supprimer-typeStage/{typeStage:id}',[TypeStageController::class,'destroy'])->name('supprimer_type_stage');
+            Route::patch('etablissement/update-cls/{classe}', [ClasseController::class,'update'])->name('update_classe');
         });
         Route::get('configuration/annee-universitaire', [AnneeUniversitaireController::class, 'create'])->name('config_annee_universitaire');
         Route::post('configuration/ajouter-annee-universitaire', [AnneeUniversitaireController::class, 'store'])->name('ajouter_annee_universitaire');

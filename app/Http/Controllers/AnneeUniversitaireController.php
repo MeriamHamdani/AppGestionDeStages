@@ -46,7 +46,7 @@ class AnneeUniversitaireController extends Controller
             return back()->with('error',  'cette année est déjà créee');
         }
         $annee = AnneeUniversitaire::create($attribut);
-        return back();
+        return view('admin.etablissement.departement.ajouter_departement');
     }
 
     /**
