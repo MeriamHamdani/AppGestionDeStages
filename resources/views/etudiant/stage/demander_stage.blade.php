@@ -58,7 +58,7 @@
                                     <label class="form-label">Le sujet</label>
                                     <div class="mb-3">
                                         <input class="form-control" name="titre_sujet" id="titre_sujet"
-                                            placeholder="Taper votre sujet..." type="text"/>
+                                            placeholder="Taper votre sujet..." value="{{old('titre_sujet')}}" type="text"/>
                                     </div>
                                 </div>
                             </div>
@@ -67,9 +67,9 @@
                                 <label class="form-label" for="message-text">Type de sujet</label>
                                 <select class="js-example-basic-single col-sm-12" name="type_sujet" id="type_sujet" required="">
                                     <option disabled="disabled" selected="selected">Choisissez le type de sujet</option>
-                                    <option value="PFE">PFE</option>
-                                    <option value="Business Plan">Business Plan</option>
-                                    <option value="Projet Tutoré">Projet Tutoré</option>
+                                    <option value="PFE" {{ old('type_sujet') == "PFE" ? 'selected' : '' }}>PFE</option>
+                                    <option value="Business Plan" {{ old('type_sujet') == "Business Plan" ? 'selected' : '' }}>Business Plan</option>
+                                    <option value="Projet Tutoré" {{ old('type_sujet') == "Projet Tutoré" ? 'selected' : '' }}>Projet Tutoré</option>
                                 </select>
                             </div>
                             @endif
@@ -81,12 +81,22 @@
                                 <div class="mb-3">
                                     <label class="form-label" for="exampleFormControlSelect9">Le nom de
                                         l'Encadrant</label>
-                                    <select class="js-example-basic-single col-sm-12" id="enseignant_id" name="enseignant_id" required>
+                                    {{--<select class="js-example-basic-single col-sm-12" id="enseignant_id" name="enseignant_id" required>
                                         <option disabled="disabled" selected="selected">Choisissez l'encadrant académique</option>
                                         @foreach ($enseignants as $enseignant )
                                         <option value="{{ $enseignant->id }}">
                                             {{ $enseignant->nom }} {{$enseignant->prenom}}
                                         </option>
+                                        @endforeach
+                                    </select>--}}
+                                    <select class="js-example-basic-single col-sm-12" id="enseignant_id"
+                                            name="enseignant_id" required>
+                                        <option disabled="disabled" selected="selected">Choisissez l'encadrant académique</option>
+                                        @foreach ($enseignants as $enseignant )
+                                            <option
+                                                value="{{ $enseignant->id }}"
+                                                {{ old('enseignant_id') == $enseignant->id ? 'selected' : '' }}
+                                            >{{ ucwords($enseignant->nom) }} {{ ucwords($enseignant->prenom) }}</option>
                                         @endforeach
                                     </select>
                                 </div>
@@ -101,26 +111,33 @@
                                     <select class="js-example-basic-single col-sm-12" name="entreprise" id="entreprise">
                                         <option disabled="disabled" selected="selected">Choisissez l'entreprise</option>
                                         @foreach ($entreprises as $entreprise )
-                                        <option value="{{ $entreprise->id }}">{{ $entreprise->nom }}</option>
+                                        <option  value="{{ $entreprise->id }}"
+                                            {{ old('entreprise') == $entreprise->id ? 'selected' : '' }}>{{ $entreprise->nom }}</option>
                                         @endforeach
                                     </select>
                                 </div>
                             </div>
                         </div>
+
                         <div class="row">
+                            <div class="alert alert-secondary dark" role="alert">
+                                <p><i class="icofont icofont-exclamation-tringle"></i>
+                                   Veillez choisir la période de votre stage incluse dans la période définie par le type de stage</p>
+                                <p> entre <strong>{{$type_stage->date_debut_periode}}</strong> et <strong>{{$type_stage->date_limite_periode}} </strong> </p>
+                            </div>
                             <div class="col">
                                 <div class="mb-3">
                                     <label class="form-label" for="exampleFormControlSelect9">Date début de
                                         stage</label>
                                     <input class="datepicker-here form-control digits" placeholder="mm/jj/aaaa"
-                                        type="text" data-language="en" name="date_debut" id="date_debut" />
+                                           value="{{old('date_debut')}}"  type="text" data-language="en" name="date_debut" id="date_debut" />
                                 </div>
                             </div>
                             <div class="col">
                                 <div class="mb-3">
                                     <label class="form-label" for="exampleFormControlSelect9">Date fin de stage</label>
                                     <input class="datepicker-here form-control digits" placeholder="mm/jj/aaaa"
-                                        type="text" data-language="en" name="date_fin" id="date_fin" />
+                                           value="{{old('date_fin')}}"   type="text" data-language="en" name="date_fin" id="date_fin" />
                                 </div>
                             </div>
                         </div>

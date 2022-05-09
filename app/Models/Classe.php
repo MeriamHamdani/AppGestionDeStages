@@ -19,4 +19,8 @@ class Classe extends Model
     {
         return $this->belongsTo(Specialite::class);
     }
+    public function typeStage()
+    {
+        return $this->hasOne(TypeStage::class);
+    }
 }

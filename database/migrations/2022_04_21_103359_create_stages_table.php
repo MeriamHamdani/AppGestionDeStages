@@ -15,7 +15,7 @@ class CreateStagesTable extends Migration
     {
         Schema::create('stages', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('etudiant_id')->constrained();
+            $table->foreignId('etudiant_id')->constrained()->cascadeOnDelete();
             /*$table->foreignId('cahier_stage_id')->nullable()->constrained();
             $table->foreignId('depot_memoire_id')->nullable()->constrained();
             $table->foreignId('soutenance_id')->nullable()->constrained();*/
@@ -25,11 +25,13 @@ class CreateStagesTable extends Migration
             $table->date('date_debut');
             $table->date('date_fin');
             $table->date('date_demande');
+            $table->string('fiche_demande');
             $table->integer('confirmation_encadrant')->nullable();
             $table->integer('confirmation_admin');
             $table->integer('validation_encadrant')->nullable();
             $table->integer('validation_admin')->nullable();
-            $table->foreignId('entreprise_id')->constrained();
+            $table->foreignId('entreprise_id')->nullOnDelete()->constrained();
+            ///$table->foreignId('forign_id')->nullable()->constrained()->nullOnDelete();
             $table->timestamps();
         });
     }

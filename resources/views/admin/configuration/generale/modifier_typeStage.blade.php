@@ -1,6 +1,6 @@
 @extends('layouts.admin.master')
 
-@section('title')configuration de type de stage par classe
+@section('title')Configuration de type de stage par classe
 {{ $title }}
 @endsection
 
@@ -30,7 +30,7 @@
                         <div class="stepwizard">
                             <div class="stepwizard-row setup-panel">
                                 <div class="stepwizard-step"><a class="btn btn-primary" href="#step-1">1</a>
-                                    <p>classe et type de stage</p>
+                                    <p>Classe et Type de stage</p>
                                 </div>
                                 <div class="stepwizard-step"><a class="btn btn-light" href="#step-2">2</a>
                                     <p>Periode de stage</p>
@@ -39,12 +39,12 @@
                                     <p>Fiche de demande</p>
                                 </div>
                                 @if($classe->niveau == 3 && $classe->cycle=="licence" ||$classe->niveau == 2 && $classe->cycle=="master"  )
-                                <div class="stepwizard-step"><a class="btn btn-light" href="#step-4">4</a>
-                                    <p>Dates limites de <br>dépôt des mémoires</p>
-                                </div>
-                                <div class="stepwizard-step"><a class="btn btn-light" href="#step-5">5</a>
-                                    <p>Le(s) type(s) de sujet</p>
-                                </div>
+                                    <div class="stepwizard-step"><a class="btn btn-light" href="#step-4">4</a>
+                                        <p>Dates limites de <br>dépôt des mémoires</p>
+                                    </div>
+                                    <div class="stepwizard-step"><a class="btn btn-light" href="#step-5">5</a>
+                                        <p>Le(s) type(s) de sujet</p>
+                                    </div>
                                 @endif
                             </div>
                         </div>
@@ -57,9 +57,10 @@
                             @endforeach
                         @endif
 
-                        <form action="{{ route('typeStage.store',$classe) }}" method="POST" enctype="multipart/form-data">
+                        <form action="{{ route('update_type_stage',$typeStage) }}" method="POST"
+                              enctype="multipart/form-data">
                             @csrf
-                            @method('PUT')
+                            @method('PATCH')
                             @if ($error_message['nom']!="")
                                 <div class="alert alert-danger" role="alert">
                                     {{ $error_message['nom'] }}
@@ -82,7 +83,8 @@
                                             <label class="control-label">Classe</label>
                                             <select class="js-example-basic-single col-sm-12" name="nom_classe"
                                                     id="nom_classe">
-                                                <option disabled="disabled" selected="selected" value="{{ $classe->nom }}">
+                                                <option disabled="disabled" selected="selected"
+                                                        value="{{ $classe->nom }}">
                                                     {{ $classe->nom }}
                                                 </option>
                                             </select>
@@ -92,10 +94,12 @@
                                             <select name="type" id="type" class="js-example-basic-single col-sm-12">
                                                 <option disabled="disabled" selected="selected">Sélectionnez le type
                                                 </option>
-                                                <option value="Obligatoire">
+                                                <option
+                                                    value="Obligatoire" {{ $type == "Obligatoire" ? 'selected' : '' }}>
                                                     Obligatoire
                                                 </option>
-                                                <option value="Volontaire">
+                                                <option
+                                                    value="Volontaire" {{ $type == "Volontaire" ? 'selected' : '' }}>
                                                     Volontaire
                                                 </option>
                                             </select>
@@ -110,16 +114,16 @@
                                 <div class="col-xs-12">
                                     <div class="col-md-12">
                                         <div class="form-group">
-                                            <label class="control-label">Date de debut</label>
+                                            <label class="control-label">Date de début</label>
                                             <input class="datepicker-here form-control digits date-picker" type="text"
                                                    data-language="en" required="required" name="date_debut"
-                                                   id="date_debut"/>
+                                                   id="date_debut" value="{{old('date_debut_periode',$typeStage->date_debut_periode)}}"/>
                                         </div>
                                         <div class="form-group">
                                             <label class="control-label">Date de fin</label>
                                             <input class="datepicker-here form-control digits" type="text"
                                                    data-language="en" required="required" name="date_fin"
-                                                   id="date_fin"/>
+                                                   id="date_fin" value="{{$typeStage->date_limite_periode}}"/>
                                         </div>
                                         <button class="btn btn-primary nextBtn pull-right" type="button">Suivant
                                         </button>
@@ -138,7 +142,8 @@
                                                             stage</label>
                                                         <div class="col-sm-9">
                                                             <input class="form-control" type="file" name="fiche_demande"
-                                                                   id="fiche_demande" required="required"/>
+                                                                   id="fiche_demande"
+                                                                   value="{{$typeStage->fiche_demande}}"/>
                                                         </div>
                                                     </div>
                                                 </div>
@@ -157,55 +162,77 @@
                                 </div>
                             </div>
                             @if($classe->niveau == 3 && $classe->cycle=="licence" ||
-                            $classe->niveau == 2 && $classe->cycle=="master"  )
-                            <div class="setup-content" id="step-4">
-                                <div class="col-xs-12">
-                                    <div class="col-md-12">
-                                        <div class="form-group">
-                                            <label class="control-label">Date de debut</label>
-                                            <input class="datepicker-here form-control digits date-picker" type="text"
-                                                   data-language="en" name="date_debut_depo" id="date_debut_depo"/>
-                                        </div>
-                                        <div class="form-group">
-                                            <label class="control-label">Date de fin</label>
-                                            <input class="datepicker-here form-control digits" type="text"
-                                                   data-language="en" name="date_fin_depo" id="date_fin_depo"/>
-                                        </div>
-                                        <button class="btn btn-primary nextBtn pull-right" type="button">Suivant
-                                        </button>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="setup-content" id="step-5">
-                                <div class="col-xs-12 card-body animate-chk">
-                                    <div class="col-md-12">
-                                        <div class="form-group">
-                                            <label class="d-block" for="chk-ani"><input class="checkbox_animated"
-                                                                                        id="chk-ani" type="checkbox"
-                                                                                        name="type_sujet[]"
-                                                                                        value="PFE">
-                                                PFE</label>
-                                        </div>
-                                        <div class="form-group">
-                                            <label class="d-block" for="chk-ani"><input class="checkbox_animated"
-                                                                                        id="chk-ani" type="checkbox"
-                                                                                        name="type_sujet[]"
-                                                                                        value="Projet Tutoré">
-                                                Projet Tutore</label>
-                                        </div>
-                                        <div class="form-group">
-                                            <label class="d-block" for="chk-ani"><input class="checkbox_animated"
-                                                                                        id="chk-ani" type="checkbox"
-                                                                                        name="type_sujet[]"
-                                                                                        value="Business Plan">
-                                                Business Plan</label>
-                                            <button class="btn btn-secondary pull-right"
-                                                    type="submit">Términer!
+                            $classe->niveau == 2 && $classe->cycle=="master" )
+                                <div class="setup-content" id="step-4">
+                                    <div class="col-xs-12">
+                                        <div class="col-md-12">
+                                            <div class="form-group">
+                                                <label class="control-label">Date de début</label>
+                                                <input class="datepicker-here form-control digits date-picker"
+                                                       type="text"
+                                                       data-language="en" name="date_debut_depo" id="date_debut_depo"
+                                                       value="{{$typeStage->date_debut_depot}}"/>
+                                            </div>
+                                            <div class="form-group">
+                                                <label class="control-label">Date de fin</label>
+                                                <input class="datepicker-here form-control digits" type="text"
+                                                       data-language="en" name="date_fin_depo" id="date_fin_depo"
+                                                       value="{{old('date_limite_depot',$typeStage->date_limite_depot)}}"/>
+                                            </div>
+
+                                            <button class="btn btn-primary nextBtn pull-right" type="button">Suivant
                                             </button>
                                         </div>
                                     </div>
                                 </div>
-                            </div>
+                                <div class="setup-content" id="step-5">
+                                    <div class="col-xs-12 card-body animate-chk">
+                                        <div class="col-md-12">
+                                            <div class="form-group">
+                                                <label class="d-block" for="chk-ani"><input class="checkbox_animated"
+                                                                                            id="chk-ani" type="checkbox"
+                                                                                            name="type_sujet[]"
+                                                                                            value="PFE" @for ($i = 0; $i < 3; $i++)
+                                                        @if(isset(($typeStage->type_sujet)[$i] )&& ($typeStage->type_sujet)[$i])
+                                                            == "PFE" )
+                                                            {{($typeStage->type_sujet)[$i] == "PFE" ? 'checked' : ''}}
+                                                        @endif
+                                                    @endfor >
+                                                    PFE</label>
+                                            </div>
+                                            <div class="form-group">
+                                                <label class="d-block" for="chk-ani"><input class="checkbox_animated"
+                                                                                            id="chk-ani" type="checkbox"
+                                                                                            name="type_sujet[]"
+                                                                                            value="Projet Tutoré" @for ($i = 0; $i < 3; $i++)
+                                                        @if(isset(($typeStage->type_sujet)[$i] )&& ($typeStage->type_sujet)[$i])
+                                                            == "Projet Tutoré" )
+                                                            {{($typeStage->type_sujet)[$i] == "Projet Tutoré" ? 'checked' : '' }}
+                                                        @endif
+                                                    @endfor >
+                                                    Projet Tutoré</label>
+                                            </div>
+                                            <div class="form-group">
+                                                <label class="d-block" for="chk-ani"><input class="checkbox_animated"
+                                                                                            id="chk-ani" type="checkbox"
+                                                                                            name="type_sujet[]"
+                                                                                            value="Business Plan" @for ($i = 0; $i < 3; $i++)
+                                                        @if(isset(($typeStage->type_sujet)[$i] )&& ($typeStage->type_sujet)[$i])
+                                                            == "Business Plan" )
+                                                            {{ ($typeStage->type_sujet)[$i] == "Business Plan" ? 'checked' : '' }}
+                                                        @endif
+                                                    @endfor >
+                                                    Business Plan</label>
+                                                <button class="btn btn-secondary pull-right"
+                                                        type="submit">Términer!
+                                                </button>
+                                            </div>
+                                            <div class="form-group">
+
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
                             @endif
                         </form>
                     </div>

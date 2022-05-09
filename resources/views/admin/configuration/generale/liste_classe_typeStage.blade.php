@@ -1,6 +1,6 @@
 @extends('layouts.admin.master')
 
-@section('title')Gestion des spécialités
+@section('title')Classe et son type de stage
 {{ $title }}
 @endsection
 
@@ -8,17 +8,15 @@
     <link rel="stylesheet" type="text/css" href="{{asset('assets/css/datatables.css')}}">
     <link rel="stylesheet" type="text/css" href="{{asset('assets/css/datatable-extension.css')}}">
     <link rel="stylesheet" type="text/css" href="{{ asset('assets/css/select2.css') }}">
-
-
 @endpush
 
 @section('content')
     @component('components.breadcrumb')
         @slot('breadcrumb_title')
-            <h3>Gestion des spécialités</h3>
+            <h3>Gestion des classes</h3>
         @endslot
         <li class="breadcrumb-item">Etablissement</li>
-        <li class="breadcrumb-item">Gestion des spécialités</li>
+        <li class="breadcrumb-item">Gestion des classes</li>
 
     @endcomponent
 
@@ -27,53 +25,39 @@
             <div class="col-sm-12">
                 <div class="card">
                     <div class="card-header pb-0">
-                        <h5>La liste des Spécialités</h5>
-                        <div style="padding-left: 2px">
-                            <a href={{ route('ajouter_specialite') }}>
-                                <i class="text-right" aria-hidden="true">
-                                    <button class="btn btn-pill btn-success btn-sm pull-right" type="button">
-                                        Ajouter une Spécialité
-                                    </button>
-                                </i>
-                            </a>
-                        </div>
+                        <h5>Classe et son type de stage</h5>
                     </div>
                     <div class="card-body">
                         <div class="dt-ext table-responsive">
                             <table class="display" id="auto-fill">
                                 <thead>
                                 <tr>
-                                    <th>Code</th>
-                                    <th>Spécialité</th>
-                                    <th>Déparetement</th>
-                                    <th>Responsable</th>
+                                    <th>Code Classe</th>
+                                    <th>Nom Classe</th>
+                                    <th>Type de Stage</th>
                                     <th>Actions</th>
                                 </tr>
                                 </thead>
                                 <tbody>
-                                @foreach($specialites as $specialite)
-                                <tr>
-                                    <td>{{ucwords($specialite->code)}}</td>
-                                    <td>{{ucwords($specialite->nom)}}</td>
-                                    <td>{{ucwords($specialite->departement->nom)}}</td>
-                                    <td>@if(isset($specialite->enseignant_id)){{ucwords($specialite->enseignant->nom)}} {{ucwords($specialite->enseignant->prenom)}}@endif</td>
-                                    <td class="text-center">
-                                        <a href="{{ route('modifier_specialite', $specialite) }}"> <i style="font-size: 1.3em;" class='fa fa-edit'></i></a>
-                                        <a href="{{ route('supprimer_specialite', $specialite) }}"> <i style="font-size: 1.3em;" class='fa fa-trash'></i></a>
-                                    </td>
-                                </tr>
+                                @foreach($typeStages as $typeStage)
+                                    <tr>
+                                        <td>{{ucwords($typeStage->classe->code)}}</td>
+                                        <td>{{ucwords($typeStage->classe->nom)}}</td>
+                                        <td>{{ucwords($typeStage->nom)}}</td>
+                                        <td class="text-center">
+                                            <a href="{{route('modifier_type_stage',$typeStage)}}"> <i style="font-size: 1.3em;"  class='fa fa-edit'></i></a>
+                                            <a href="{{route('supprimer_type_stage',$typeStage)}}"> <i style="font-size: 1.3em;" class='fa fa-trash'></i></a>
+                                        </td>
+                                    </tr>
                                 @endforeach
                                 </tbody>
                                 <tfoot>
                                 <tr>
-                                <tr>
-                                    <th>Code</th>
-                                    <th>Spécialité</th>
-                                    <th>Déparetement</th>
-                                    <th>Responsable</th>
+                                    <th>Code Classe</th>
+                                    <th>Nom Classe</th>
+                                    <th>Type de Stage</th>
                                     <th>Actions</th>
                                 </tr>
-
                                 </tfoot>
                             </table>
                         </div>
@@ -114,4 +98,5 @@
     @endpush
 
 @endsection
+
 
