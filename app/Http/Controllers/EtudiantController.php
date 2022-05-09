@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\User;
+use App\Models\Stage;
 use App\Models\Classe;
 use App\Models\Etudiant;
 use Illuminate\Http\Request;
@@ -10,8 +11,8 @@ use App\Models\Etablissement;
 use Illuminate\Support\Carbon;
 use Illuminate\Validation\Rule;
 use App\Exports\EtudiantsExport;
-use App\Imports\EtudiantsImport;
 
+use App\Imports\EtudiantsImport;
 use App\Models\AnneeUniversitaire;
 use Maatwebsite\Excel\Facades\Excel;
 use Illuminate\Support\Facades\Storage;
@@ -146,6 +147,11 @@ class EtudiantController extends Controller
     {
         $user_id = $etudiant->user_id;
         $user = User::findOrFail($user_id);
+        $stages=Stage::where('etudiant_id',$etudiant->id)->get();
+        foreach($stages as $stage)
+        {
+            $stage->delete(); 
+        }
         $user->delete();
         return redirect()->action([EtudiantController::class,'index']);
 

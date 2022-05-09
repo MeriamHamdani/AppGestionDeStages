@@ -1,6 +1,7 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\UserController;
 use App\Http\Middleware\EnsureUserIsActive;
 use App\Http\Controllers\Auth\AuthenticatedSessionController;
 
@@ -33,7 +34,12 @@ Route::get('/deconnexion', [AuthenticatedSessionController::class, 'destroy'])
                 ->middleware('auth')
                 ->name('deconnexion');
 
+Route::get('connexion/modifier_coordonnes',[UserController::class,'index'])->middleware('auth');
 
+Route::patch('connexion/modifier_coordonnes/modifier',[UserController::class,'edit'])
+        ->middleware('auth')
+        ->name('modifier_coordonnes');
+        
 Route::view('/modifier_mdp','login.modifier_mdp')
             /*->middleware([EnsureUserIsActive::class])*/->name('modifier_mdp');
 
