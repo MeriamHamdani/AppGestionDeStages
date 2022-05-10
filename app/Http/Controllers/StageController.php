@@ -152,12 +152,12 @@ class StageController extends Controller
                 $stage->file=$fiche;
 				$stage->code_classe=$classe->code;
 				$stages->push($stage);
-				
+
 
 			}
 
         }
-		dd($stages);
+
 
         return view('admin.stage.listes_demandes_stage.so3l',compact(['stages']));
     }
@@ -277,7 +277,7 @@ class StageController extends Controller
         $etudiant = Etudiant::where('user_id', Auth::user()->id)->first();
         $stage->etudiant_id = $etudiant->id;
 
-       
+
         if ($etudiant->classe->niveau == 3 && $etudiant->classe->cycle == "licence")
 
         {

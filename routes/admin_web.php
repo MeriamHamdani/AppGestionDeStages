@@ -56,22 +56,7 @@ Route::middleware(['auth','role:admin|superadmin'])->group(function(){
 
 
         });
-        Route::get('{fiche_demande}/{code_classe}', function($fiche_demande,$code_classe)
-            {
-
-                $file_path = public_path() .'/storage/fiches_demande_'.$code_classe.'/'. $fiche_demande;
-dd($file_path);
-                if (file_exists($file_path))
-                    {
-                    return Response::download($file_path, $fiche_demande);
-                    }
-                else
-                    {
-                    //Error
-                    exit('fiche de demande introuvable !');
-                    }
-            })->where('fiche_demande', '[A-Za-z0-9\-\_\.]+')->name('telechargement_fiche_demande');
-        Route::view('stage/gerer-cahiers-stages', 'admin.stage.gerer_cahiers_stages')->name('gerer_cahiers_stages');
+         Route::view('stage/gerer-cahiers-stages', 'admin.stage.gerer_cahiers_stages')->name('gerer_cahiers_stages');
         Route::view('stage/cahier-de-stage', 'admin.stage.cahier_de_stage')->name('cahier_de_stage');
 
         //---------------------------------- ETABLISSEMENT--------------------------
@@ -177,6 +162,21 @@ dd($file_path);
         Route::get('configuration/annee-universitaire', [AnneeUniversitaireController::class, 'create'])->name('config_annee_universitaire');
         Route::post('configuration/ajouter-annee-universitaire', [AnneeUniversitaireController::class, 'store'])->name('ajouter_annee_universitaire');
 
+        Route::get('{fiche_demande}/{code_classe}', function($fiche_demande,$code_classe)
+        {
+
+            $file_path = public_path() .'/storage/fiches_demande_'.$code_classe.'/'. $fiche_demande;
+
+            if (file_exists($file_path))
+                {
+                return Response::download($file_path, $fiche_demande);
+                }
+            else
+                {
+                //Error
+                exit('fiche de demande introuvable !');
+                }
+        })->where('fiche_demande', '[A-Za-z0-9\-\_\.]+')->name('telechargement_fiche_demande');
 
 
     });

@@ -35,22 +35,22 @@ class AuthenticatedSessionController extends Controller
             'password' => 'required'
 
         ]);
-        
+
         if (! auth()->attempt($attributes)) {
             throw ValidationException::withMessages([
                 'email' => 'Your provided credentials could not be verified.'
             ]);
         }
-        
+
         session()->regenerate();
         $user = Auth::user();
-        
+
         if($user['is_active']==0){
-            
+
             //return view('user/modifier_coordonnes');
             return redirect()->intended('connexion/modifier_coordonnes');
         }
-        
+
         //$user['is_active'] = 1;
         //$user->update(['is_active']);
         return redirect()->intended($this->accueil());
@@ -58,6 +58,7 @@ class AuthenticatedSessionController extends Controller
     }
 
     public function accueil() :string{
+        //dd(Auth::user()->getRoleNames());
         if (Auth::user()) {
             $roles=Auth::user()->getRoleNames();
             foreach ($roles as $r) {
@@ -72,13 +73,21 @@ class AuthenticatedSessionController extends Controller
                         break;
                     case 'etudiant':
                        // $role='etudiant';
-
                         return ('etudiant/stage/demandes-stages');
                         break;
+                    case 'superadmin':
+                        // $role='etudiant';
+                        return ('admin/administration/liste-admin');
+                        break;
+
+
                 }
+
             }
+
         }
         return 'ok';
+
     }
     /**
      * Destroy an authenticated session.
