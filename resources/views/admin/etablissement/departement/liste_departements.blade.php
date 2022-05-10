@@ -8,7 +8,7 @@
 <link rel="stylesheet" type="text/css" href="{{asset('assets/css/datatables.css')}}">
 <link rel="stylesheet" type="text/css" href="{{asset('assets/css/datatable-extension.css')}}">
 <link rel="stylesheet" type="text/css" href="{{ asset('assets/css/select2.css') }}">
-
+<link rel="stylesheet" type="text/css" href="{{asset('assets/css/sweetalert2.css')}}">
 
 @endpush
 
@@ -31,7 +31,8 @@
                     <div style="padding-left: 2px">
                         <a href={{ route('departement.create') }}>
                             <i class="text-right" aria-hidden="true">
-                                <button class="btn btn-pill btn-success btn-sm pull-right" type="button">
+                                <button onclick="_gaq.push(['_trackEvent', 'example', 'try', 'sweet-8']);"
+                                    class="btn btn-pill btn-success btn-sm pull-right" type="button">
                                     Ajouter un département
                                 </button>
                             </i>
@@ -59,8 +60,8 @@
                                     <td class="text-center">
                                         <a href="{{ route('departement.edit',['id' => $d->id]) }}"> <i
                                                 style="font-size: 1.3em;" class='fa fa-edit'></i></a>
-                                        <a href="{{ route('departement.destroy',['id' => $d->id]) }}"> <i
-                                                style="font-size: 1.3em;" class='fa fa-trash'></i></a>
+                                        <a href="#" data-id="{{ $d->id }}" data-name="{{ $d->nom }}" class="delete"> <i
+                                                style="font-size: 1.3em;" class='fa fa-trash delete'></i></a>
 
                                     </td>
 
@@ -90,6 +91,9 @@
 
 @push('scripts')
 
+<script src="https://cdnjs.cloudflare.com/ajax/libs/sweetalert/2.1.2/sweetalert.min.js"
+    integrity="sha512-AA1Bzp5Q0K1KanKKmvN/4d3IRKVlv9PYgwFPvm32nPO6QS8yH1HO7LbgB1pgiOxPtfeg5zEn2ba64MUcqJx6CA=="
+    crossorigin="anonymous" referrerpolicy="no-referrer"></script>
 <script src="{{ asset('assets/js/notify/bootstrap-notify.min.js') }}"></script>
 <script src="{{ asset('assets/js/icons/icons-notify.js') }}"></script>
 <script src="{{ asset('assets/js/icons/feather-icon/feather-icon-clipart.js') }}"></script>
@@ -115,6 +119,61 @@
 <script src="{{asset('assets/js/datatable/datatable-extension/dataTables.rowReorder.min.js')}}"></script>
 <script src="{{asset('assets/js/datatable/datatable-extension/dataTables.scroller.min.js')}}"></script>
 <script src="{{asset('assets/js/datatable/datatable-extension/custom.js')}}"></script>
+
+@if(Session::has('message'))
+<script>
+    toastr.success("{!! Session::get('message') !!}")
+</script>
+@endif
+@if(Session::has('message'))
+@if (Session::get('message')=='ok')
+
+<script>
+    swal('Bien','Le département est bien ajouté','success',{
+        button: 'continuer'
+    })
+    
+</script>
+
+@elseif (Session::get('message')=='ko')
+<script>
+    swal('Oups','Le département existe déja','error',{
+    button: 'reéssayer'
+})
+</script>
+@elseif (Session::get('message')=='update')
+<script>
+    swal('Bien','Le département est bien mis à jour','success',{
+    button: 'continuer'
+})
+</script>
+@endif
+@endif
+<script>
+    $('.delete').click(function(){
+        var dataId=$(this).attr('data-id');
+        var dataName=$(this).attr('data-name');
+        swal({
+                    title: "Etes-vous sur de vouloir supprimer le departement "+dataName+" ?",
+                    //text: "Once deleted, you will not be able to recover this imaginary file!",
+                    icon: "warning",
+                    buttons: true,
+                    dangerMode: true,
+                })
+                .then((willDelete) => {
+                    if (willDelete) {
+                        //window.location=route('departement.destroy', ['id'=>dataId]);
+                        window.location="supprimer-departement/"+dataId+"";
+                        swal("Poof! Le departement est bien supprimer!", {
+                            icon: "success",
+                        });
+                    } else {
+                        swal("La suppression est annulée!");
+                    }
+                })
+});
+
+</script>
 @endpush
 
 @endsection

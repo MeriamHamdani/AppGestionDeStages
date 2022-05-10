@@ -2,14 +2,17 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Specialite;
 use App\Models\Departement;
 use Illuminate\Http\Request;
 use Illuminate\Support\Carbon;
+use Illuminate\Validation\Rule;
 use App\Models\AnneeUniversitaire;
+use App\Models\Enseignant;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Session;
 use Illuminate\Support\Facades\Redirect;
 use Illuminate\Support\Facades\Validator;
-use Illuminate\Validation\Rule;
 
 class DepartementController extends Controller
 {
@@ -43,10 +46,10 @@ class DepartementController extends Controller
     {
         if((AnneeUniversitaire::first()))
         {
-            $request->validate([
+            /*$request->validate([
                 'nom' => ['required', 'string', 'max:255'],
                 'code' => ['required', 'string', 'max:255', 'unique:departements'],
-            ]);
+            ]);*/
             $mydate = Carbon::now();
             //dd( $mytime->toDateString());
             $moisCourant = (int)$mydate->format('m');
@@ -67,7 +70,11 @@ class DepartementController extends Controller
                 $departement->code = $request->code;
                 $departement->nom = $request->nom;
                 $departement->save();
+                Session::flash('message', 'ok');
+            }else{
+                Session::flash('message', 'ko');
             }
+           
             return redirect()->action([DepartementController::class, 'showAll']);
         }
         else
@@ -129,14 +136,16 @@ class DepartementController extends Controller
     public function update(Request $request, Departement $departement, $id)
     {
         $departement = Departement::findOrFail($id);
-        $request->validate([
+        $attr=$request->validate([
             'nom' => ['required', 'string', 'max:255'],
             'code' => ['required', 'string', 'max:255', Rule::unique('departements', 'code')->ignore($departement->id)],
         ]);
+        
         $departement->code = $request->code;
         $departement->nom = $request->nom;
 //dd($departement);
         $departement->update();
+        Session::flash('message', 'update');
         return redirect()->action([DepartementController::class, 'showAll']);
 
     }
@@ -150,6 +159,19 @@ class DepartementController extends Controller
     public function destroy($id)
     {
         $departement = Departement::findOrFail($id);
+        $spcialites=Specialite::where('departement_id',$departement->id)->get();
+        $enseignants=Enseignant::where('departement_id',$departement->id)->get();
+        
+        foreach($enseignants as $ens){
+            
+            $ens->departement_id=null;
+            $ens->save();
+        }
+        foreach($spcialites as $sp){
+            $sp->departement_id=null;
+            $sp->save();
+        }
+        
         $departement->delete();
         return redirect()->action([DepartementController::class, 'showAll']);
 

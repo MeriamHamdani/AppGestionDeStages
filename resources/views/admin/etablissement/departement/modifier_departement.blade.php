@@ -35,24 +35,24 @@
                         </div>
                         @endforeach
                         @endif
-                            <div class="form-group">
-                                <label class="form-label" for="exampleFormControlInput1">Code département </label>
-                                <div class="input-group">
-                                    <input class="form-control" id="exampleFormControlInput1" type="text"
-                                           name="code" id="code" placeholder="entrez le code de département..."
-                                           value="{{ $departement->code }}" required=""/>
-                                    <div class="invalid-tooltip">Entrez le code svp!</div>
-                                </div>
+                        <div class="form-group">
+                            <label class="form-label" for="exampleFormControlInput1">Code département </label>
+                            <div class="input-group">
+                                <input class="form-control" id="exampleFormControlInput1" type="text" name="code"
+                                    id="code" placeholder="entrez le code de département..."
+                                    value="{{ $departement->code }}" required="" />
+                                <div class="invalid-tooltip">Entrez le code svp!</div>
                             </div>
-                            <div class="form-group">
-                                <label class="form-label" for="exampleFormControlInput1">Nom département </label>
-                                <div class="input-group">
-                                    <input class="form-control" id="exampleFormControlInput1" type="text"
-                                           name="nom" id="nom" placeholder="entrez le nom du département..."
-                                           value="{{$departement->nom }}" required=""/>
-                                    <div class="invalid-tooltip">Entrez le nom svp!</div>
-                                </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="form-label" for="exampleFormControlInput1">Nom département </label>
+                            <div class="input-group">
+                                <input class="form-control" id="exampleFormControlInput1" type="text" name="nom"
+                                    id="nom" placeholder="entrez le nom du département..."
+                                    value="{{$departement->nom }}" required="" />
+                                <div class="invalid-tooltip">Entrez le nom svp!</div>
                             </div>
+                        </div>
                     </div>
                     <div class="card-footer text-end">
                         <a class="btn btn-light" href="{{ route('liste_departements') }}">Annuler</a>
@@ -66,9 +66,8 @@
 
 
 @push('scripts')
-    <script src="{{ asset('assets/js/form-validation-custom.js') }}"></script>
+<script src="{{ asset('assets/js/form-validation-custom.js') }}"></script>
 
 @endpush
 
 @endsection
-
