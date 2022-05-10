@@ -22,7 +22,7 @@ class CreateStagesTable extends Migration
             $table->foreignId('annee_universitaire_id')->constrained();
             $table->string('titre_sujet');
             $table->string('type_sujet')->nullable();
-            $table->string('type');
+
             $table->date('date_debut');
             $table->date('date_fin');
             $table->date('date_demande');

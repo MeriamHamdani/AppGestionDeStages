@@ -87,7 +87,7 @@ class AdminController extends Controller
         $user->password = bcrypt($request->numero_CIN);
         $user->is_active=false;
         $user->assignRole('admin');
-        event(new Registered($user));
+        //event(new Registered($user));
         $user->save();
 
         $admin=new Admin();
@@ -96,7 +96,7 @@ class AdminController extends Controller
         $admin->email=$request->email;
         $admin->numero_telephone=$request->numero_telephone;
         $admin->user_id=$user->id;
-$admin->save();
+        $admin->save();
 
         return redirect()->action([AdminController::class,'index']);
         //return redirect()->route('liste_admin');
