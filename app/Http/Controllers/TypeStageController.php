@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Classe;
 use App\Models\TypeStage;
 use Illuminate\Support\Arr;
+use Illuminate\Support\Facades\Session;
 use Illuminate\Support\Str;
 use Illuminate\Http\Request;
 use Illuminate\Support\File;
@@ -133,9 +134,8 @@ class TypeStageController extends Controller
         $type_stage->save();
         $classe->type_stage_id = $type_stage->id;
         $classe->update();
-        //dd($classe->type_stage->id);
+        Session::flash('message', 'ok');
         return redirect()->action([ClasseController::class, 'index']);
-        //return redirect()->action([TypeStageController::class, 'index']);
 
     }
 

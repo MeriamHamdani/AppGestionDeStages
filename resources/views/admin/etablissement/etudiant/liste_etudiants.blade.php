@@ -183,7 +183,7 @@
                                 <tr>
                                     <td>{{ucwords($etudiant->nom)}} {{ucwords($etudiant->prenom)}}</td>
                                     <td>{{($etudiant->user->numero_CIN)}}</td>
-                                    <td>{{ucwords($etudiant->classe->nom)}}</td>
+                                    <td>@if(isset($etudiant->classe_id)){{ucwords($etudiant->classe->nom)}} @endif</td>
                                     <td>{{ucwords($etudiant->email)}}</td>
                                     <td>{{($etudiant->numero_telephone)}}</td>
                                     @if(App\Models\User::find($etudiant->user_id)->is_active == 1)

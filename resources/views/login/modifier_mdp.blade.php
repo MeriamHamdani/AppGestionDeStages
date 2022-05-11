@@ -126,7 +126,7 @@
                     </svg>
                 </div>
                 <div class="col-md-8 offset-md-2">
-                    <h3>vous devez changer votre mot de passe pour pouvoir accéder à votre espace</h3>
+                    <h3>Vous devez changer votre mot de passe pour pouvoir accéder à votre espace</h3>
 
                     <div>
                         <div class="row">
@@ -135,16 +135,18 @@
 
                                     <input class="form-control" type="password" id="motdepasse" placeholder="Password">
                                 </div>
-
+                            </div>
 
                                 <!--<input class="form-control" id="motdepasse" type="password"
                             placeholder="entrez le nouveau mot de passe..." />-->
+                            <div class="col">
                                 <div class="checkbox checkbox-solid-primary mb-3">
 
                                     <input id="solid3" type="checkbox" onclick="Afficher()">
                                     <label for="solid3">afficher le mot de passe</label>
 
                                 </div>
+                            </div>
 
                                 <!--<div class="mb-3">
                                     <a onclick="Afficher()"><i class="icofont icofont-eye-alt" style="size: 2em"></i>

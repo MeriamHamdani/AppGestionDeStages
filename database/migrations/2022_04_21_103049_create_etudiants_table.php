@@ -17,8 +17,8 @@ class CreateEtudiantsTable extends Migration
             $table->id();
             $table->foreignId('user_id')->constrained()->cascadeOnDelete();
             $table->foreignId('annee_universitaire_id')->constrained();
-            
-            $table->foreignId('classe_id')->constrained();
+
+            $table->foreignId('classe_id')->nullable()->constrained()->nullOnDelete();
             $table->string('nom');
             $table->string('prenom');
             $table->string('numero_telephone')->nullable();

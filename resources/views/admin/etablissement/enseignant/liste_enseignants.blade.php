@@ -59,7 +59,8 @@
                                                             <select class="js-example-basic-single col-sm-12"
                                                                 id="departement_id" name="departement_id" required>
                                                                 <option disabled="disabled" selected="selected">
-                                                                    Sélectionnez le département</option>
+                                                                    Sélectionnez le département
+                                                                </option>
                                                                 @foreach (\App\Models\Departement::all() as
                                                                 $departement)
                                                                 <option value="{{ $departement->id }}" {{
@@ -73,7 +74,8 @@
                                                 </div>
                                                 <div class="modal-footer">
                                                     <button class="btn btn-secondary" type="button"
-                                                        data-bs-dismiss="modal">Annuler</button>
+                                                        data-bs-dismiss="modal">Annuler
+                                                    </button>
                                                     {{--<a href="{{ route('file-export') }}" class="btn btn-primary"
                                                         s>Exporter</a>--}}
                                                     <button class="btn btn-primary" type="submit">Exporter</button>
@@ -117,7 +119,8 @@
                                                             <select class="js-example-basic-single col-sm-12"
                                                                 id="departement_id" name="departement_id" required>
                                                                 <option disabled="disabled" selected="selected">
-                                                                    Sélectionnez le département</option>
+                                                                    Sélectionnez le département
+                                                                </option>
                                                                 @foreach (\App\Models\Departement::all() as
                                                                 $departement)
                                                                 <option value="{{ $departement->id }}" {{
@@ -138,7 +141,8 @@
                                                 </div>
                                                 <div class="modal-footer">
                                                     <button class="btn btn-secondary" type="button"
-                                                        data-bs-dismiss="modal">Annuler</button>
+                                                        data-bs-dismiss="modal">Annuler
+                                                    </button>
                                                     <button class="btn btn-primary" type="submit">Importer</button>
                                                 </div>
                                             </form>
@@ -167,18 +171,8 @@
                                 @foreach($enseignants as $enseignant)
                                 <tr>
                                     <td>{{ucwords($enseignant->nom)}} {{ucwords($enseignant->prenom)}} </td>
-                                    @if ($enseignant->departement_id!=null)
-                                    <td>{{ucwords($enseignant->departement->nom)}}</td>
-                                    @else
-                                    <td class="text-center">
-                                        <a href="{{ route('modifier_specialite', $specialite) }}" data-toggle="tooltip"
-                                            title="veuillez editer les informations de cet enseignant pour l'affecter à un département">
-                                            <i class="icofont icofont-exclamation-tringle" style="font-size: 1.3em"></i>
-                                        </a>
-
+                                    <td>@if(isset($enseignant->departement_id)){{ucwords($enseignant->departement->nom)}}@endif
                                     </td>
-                                    @endif
-
                                     <td>{{ucwords($enseignant->grade)}}</td>
                                     <td>{{ucwords($enseignant->email)}}</td>
                                     <td>{{($enseignant->numero_telephone)}}</td>
@@ -198,11 +192,11 @@
                                     <td class="text-center">
                                         <a href="{{ route('modifier_enseignant', $enseignant) }}"> <i
                                                 style="font-size: 1.3em;" class='fa fa-edit'></i></a>
-
+                                        {{-- <a href="{{ route('supprimer_enseignant', $enseignant) }}"> <i
+                                                style="font-size: 1.3em;" class='fa fa-trash'></i></a>--}}
                                         <a href="#" data-id="{{ $enseignant->id }}"
-                                            data-name="{{ $enseignant->nom }}&nbsp;{{ $enseignant->prenom }}"
-                                            class="delete"> <i style="font-size: 1.3em;"
-                                                class='fa fa-trash delete'></i></a>
+                                            data-name="{{ $enseignant->prenom }} {{ $enseignant->nom }}" class="delete">
+                                            <i style="font-size: 1.3em;" class='fa fa-trash delete'></i></a>
                                     </td>
                                 </tr>
                                 @endforeach
@@ -258,7 +252,6 @@
 <script src="{{asset('assets/js/datatable/datatable-extension/dataTables.rowReorder.min.js')}}"></script>
 <script src="{{asset('assets/js/datatable/datatable-extension/dataTables.scroller.min.js')}}"></script>
 <script src="{{asset('assets/js/datatable/datatable-extension/custom.js')}}"></script>
-
 @if(Session::has('message'))
 <script>
     toastr.success("{!! Session::get('message') !!}")
@@ -268,68 +261,48 @@
 @if (Session::get('message')=='ok')
 
 <script>
-    swal({
-  position: 'center',
-  icon: 'success',
-  title: 'Le nouvel enseignant est sauvegardé avec succée',
-  showConfirmButton: false,
-  timer: 2500
-})
-    /*swal('Bien','Le nouveau enseignant est sauvegardé','success',{
-        button: 'continuer'
-    })*/
-    
+    swal('Bien',"L'enseignant est bien ajouté",'success',{
+                        button: 'Continuer'
+                    })
+
 </script>
 
 @elseif (Session::get('message')=='ko')
 <script>
-    swal({
-  position: 'center',
-  icon: 'error',
-  title: 'Oups! cet enseignant existe déja ',
-  showConfirmButton: false,
-  timer: 2500
-})
-    /*swal('Oups','L\'enseignant existe déja','error',{
-    button: 'reéssayer'
-})*/
+    swal('Oups',"L'enseignant existe déja",'error',{
+                        button: 'Reéssayer'
+                    })
 </script>
 @elseif (Session::get('message')=='update')
 <script>
-    swal({
-  position: 'center',
-  icon: 'success',
-  title: 'Les informations de l\'enseignants sont mises à jour avec succée',
-  showConfirmButton: false,
-  timer: 2500
-})
-    
+    swal('Bien',"L'enseignant est bien mis à jour",'success',{
+                        button: 'Continuer'
+                    })
 </script>
 @endif
 @endif
+
 <script>
-    $('.delete').click(function(){
-        var dataId=$(this).attr('data-id');
-        var dataName=$(this).attr('data-name');
-        //var dataAll =$(this).att('data-all');
-        swal({
-                    title: "Etes-vous sur de vouloir supprimer l\'enseignant "+dataName+" ?",
-                    //text: "Once deleted, you will not be able to recover this imaginary file!",
+    $('.delete').click(function () {
+                var dataId = $(this).attr('data-id');
+                var dataName = $(this).attr('data-name');
+                swal({
+                    title: "Êtes-vous  sûr de vouloir supprimer l'enseignant " + dataName + " ?",
                     icon: "warning",
                     buttons: true,
                     dangerMode: true,
                 })
-                .then((willDelete) => {
-                    if (willDelete) {
-                        window.location="supprimer-enseignant/"+dataId+"";
-                        swal("Poof! L\'enseignant est supprimer!", {
-                            icon: "success",
-                        });
-                    } else {
-                        swal("La suppression est annulée!");
-                    }
-                })
-});
+                    .then((willDelete) => {
+                        if (willDelete) {
+                            window.location = "supprimer-enseignant/" + dataId + "";
+                            swal("Poof! L'enseignant est bien supprimé!", {
+                                icon: "success",
+                            });
+                        } else {
+                            swal("La suppression est annulée!");
+                        }
+                    })
+            });
 
 </script>
 @endpush
