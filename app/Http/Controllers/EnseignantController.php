@@ -2,16 +2,19 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\User;
+use App\Models\Stage;
+use App\Models\Enseignant;
+use App\Models\Specialite;
+use Illuminate\Http\Request;
+use App\Models\Etablissement;
+use Illuminate\Support\Carbon;
+use Illuminate\Validation\Rule;
 use App\Exports\EnseignantExport;
 use App\Imports\EnseignantsImport;
 use App\Models\AnneeUniversitaire;
-use App\Models\Enseignant;
-use App\Models\Etablissement;
-use App\Models\User;
-use Illuminate\Http\Request;
-use Illuminate\Support\Carbon;
-use Illuminate\Validation\Rule;
 use Maatwebsite\Excel\Facades\Excel;
+use Illuminate\Support\Facades\Session;
 
 class EnseignantController extends Controller
 {
@@ -30,6 +33,7 @@ class EnseignantController extends Controller
      */
     public function index()
     {
+        //dd(Session::get('message'));
         return view('admin.etablissement.enseignant.liste_enseignants',
             ['enseignants' => Enseignant::with('user','departement')->get()]);//with('departement')->get()
     }
@@ -74,6 +78,7 @@ class EnseignantController extends Controller
         ]);
         $ens_exist = Enseignant::where('email', $request->email)->first();
         if ($ens_exist) {
+            Session::flash('message', 'ko');
             return back();
         }
         $mydate = Carbon::now();
@@ -97,6 +102,7 @@ class EnseignantController extends Controller
         $user->assignRole('enseignant');
         $attributs2['user_id'] = $user->id;
         $enseignant = Enseignant::create($attributs2);
+        Session::flash('message', 'ok');
         return redirect()->action([EnseignantController::class,'index']);
     }
 
@@ -148,6 +154,7 @@ class EnseignantController extends Controller
             $enseignant->user->update();
         }
         $enseignant->update($attributs);
+        Session::flash('message', 'update');
         return redirect()->action([EnseignantController::class,'index']);
     }
 
@@ -157,11 +164,25 @@ class EnseignantController extends Controller
      * @param \App\Models\Enseignant $enseignant
      * @return \Illuminate\Http\Response
      */
-    public function destroy(Enseignant $enseignant)
+    public function destroy(string $enseignant_id)
+    //public function destroy(Enseignant $enseignant)
     {
+        $enseignant=Enseignant::findOrFail($enseignant_id);
         $user_id = $enseignant->user_id;
+        //$user_id = $enseignant->user_id;
+        
+        $specialite=Specialite::find($enseignant->id);
+        $specialite->enseignant_id=null;
+        $specialite->save();
         $user = User::findOrFail($user_id);
+        $stages=Stage::where('enseignant_id',$enseignant_id)->get();
+        foreach($stages as $stage){
+            $stage->enseignant_id=null;
+            $stage->save();
+        }
+        $enseignant->delete();
         $user->delete();
+        
         return redirect()->action([EnseignantController::class,'index']);
     }
 

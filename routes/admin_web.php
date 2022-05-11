@@ -68,7 +68,7 @@ Route::middleware(['auth','role:admin|superadmin'])->group(function(){
         Route::post('etablissement/ajouter-enseignant', [EnseignantController::class,'store'])->name('sauvegarder_enseignant');
         Route::get('etablissement/modifier-enseignant/{enseignant}', [EnseignantController::class,'edit'])->name('modifier_enseignant');
         Route::patch('etablissement/update-ens/{enseignant}', [EnseignantController::class,'update'])->name('update_enseignant');
-        Route::get('etablissement/supprimer-enseignant/{enseignant}', [EnseignantController::class,'destroy'])->name('supprimer_enseignant');
+        Route::get('etablissement/supprimer-enseignant/{enseignant_id}', [EnseignantController::class,'destroy'])->name('supprimer_enseignant');
         Route::post('import/liste-enseignants',[EnseignantController::class,'importData'])->name('file-import');
         Route::post('export/liste-enseignants', [EnseignantController::class, 'exportData'])->name('file-export');
 
@@ -111,7 +111,7 @@ Route::middleware(['auth','role:admin|superadmin'])->group(function(){
         Route::post('etablissement/ajouter-specialite', [SpecialiteController::class, 'store'])->name('sauvegarder_specialite');
         Route::get('etablissement/modifier-specialite/{specialite}', [SpecialiteController::class, 'edit'])->name('modifier_specialite');
         Route::patch('etablissement/update-spec/{specialite}', [SpecialiteController::class,'update'])->name('update_specialite');
-        Route::get('etablissement/supprimer-specialite/{specialite}', [SpecialiteController::class,'destroy'])->name('supprimer_specialite');
+        Route::get('etablissement/supprimer-specialite/{specialite_id}', [SpecialiteController::class,'destroy'])->name('supprimer_specialite');
 
         // ************************************* C L A S S E ******************************
 

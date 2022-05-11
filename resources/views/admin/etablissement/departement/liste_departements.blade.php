@@ -129,23 +129,39 @@
 @if (Session::get('message')=='ok')
 
 <script>
-    swal('Bien','Le département est bien ajouté','success',{
-        button: 'continuer'
-    })
+    swal({
+  position: 'center',
+  icon: 'success',
+  title: 'Ajout avec succée',
+  showConfirmButton: false,
+  timer: 2500
+})
+   
     
 </script>
 
 @elseif (Session::get('message')=='ko')
 <script>
-    swal('Oups','Le département existe déja','error',{
-    button: 'reéssayer'
+    swal({
+  position: 'center',
+  icon: 'error',
+  title: 'Le département existe déja',
+  showConfirmButton: false,
+  timer: 2500
 })
 </script>
 @elseif (Session::get('message')=='update')
 <script>
-    swal('Bien','Le département est bien mis à jour','success',{
-    button: 'continuer'
+    swal({
+  position: 'center',
+  icon: 'success',
+  title: 'Le département est mis à jour',
+  showConfirmButton: false,
+  timer: 2500
 })
+    /*swal('Bien','Le département est mis à jour','success',{
+    button: 'continuer'
+})*/
 </script>
 @endif
 @endif
@@ -164,7 +180,7 @@
                     if (willDelete) {
                         //window.location=route('departement.destroy', ['id'=>dataId]);
                         window.location="supprimer-departement/"+dataId+"";
-                        swal("Poof! Le departement est bien supprimer!", {
+                        swal("OK! Le departement est bien supprimer!", {
                             icon: "success",
                         });
                     } else {

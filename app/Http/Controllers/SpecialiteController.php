@@ -2,11 +2,13 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\AnneeUniversitaire;
+use App\Models\Classe;
 use App\Models\Specialite;
 use Illuminate\Http\Request;
 use Illuminate\Support\Carbon;
 use Illuminate\Validation\Rule;
+use App\Models\AnneeUniversitaire;
+use Illuminate\Support\Facades\Session;
 
 class SpecialiteController extends Controller
 {
@@ -50,6 +52,7 @@ class SpecialiteController extends Controller
         $spec_exist = Specialite::where('code', $request->code)->first();
         if ($spec_exist) {
             return back();
+            Session::flash('message','ko');
         }
         $mydate = Carbon::now();
         $moisCourant = (int)$mydate->format('m');
@@ -69,6 +72,7 @@ class SpecialiteController extends Controller
         }
        // dd($attributs);
         $specialite=Specialite::create($attributs);
+        Session::flash('message','ok');
         return redirect()->action([SpecialiteController::class,'index']);
     }
 
@@ -112,6 +116,7 @@ class SpecialiteController extends Controller
 
         ]);
         $specialite->update($attributs);
+        Session::flash('message','update');
         //dd($attributs);
         return redirect()->action([SpecialiteController::class,'index']);
 
@@ -123,8 +128,15 @@ class SpecialiteController extends Controller
      * @param  \App\Models\Specialite  $specialite
      * @return \Illuminate\Http\Response
      */
-    public function destroy(Specialite $specialite)
+    public function destroy(string $specialite_id)
     {
+        $specialite=Specialite::findOrFail($specialite_id);
+        $classes=Classe::where('specialite_id',$specialite_id)->get();
+        foreach($classes as $classe){
+            $classe->specialite_id=null;
+            $classe->save();
+            //$classe->update(['specialite_id'=>null]);
+        }
         $specialite->delete();
         return redirect()->action([SpecialiteController::class,'index']);
 
