@@ -74,8 +74,8 @@
                             </div>
                             @endif
                         </div>
-                        @if($etudiant->classe->niveau == 3 && $etudiant->classe->cycle=="licence" ||
-                           $etudiant->classe->niveau == 2 && $etudiant->classe->cycle=="master"  )
+                        @if(($etudiant->classe->niveau == 3 && $etudiant->classe->cycle=="licence") ||
+                           ($etudiant->classe->niveau == 2 && $etudiant->classe->cycle=="master")  )
                         <div class="row">
                             <div class="col">
                                 <div class="mb-3">
@@ -156,8 +156,9 @@
                         </div>
                     </div>
                     <div class="card-footer text-end">
-                        <button class="btn btn-primary" type="submit">Envoyer</button>
                         <input class="btn btn-light" type="reset" value="Annuler" />
+                        <button class="btn btn-primary" type="submit">Envoyer</button>
+
                     </div>
                 </form>
             </div>

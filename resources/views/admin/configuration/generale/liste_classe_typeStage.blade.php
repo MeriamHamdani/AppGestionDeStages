@@ -41,8 +41,8 @@
                                 <tbody>
                                 @foreach($typeStages as $typeStage)
                                     <tr>
-                                        <td>{{ucwords($typeStage->classe->code)}}</td>
-                                        <td>{{ucwords($typeStage->classe->nom)}}</td>
+                                        <td>@if(isset($typeStage->classe_id)){{ucwords($typeStage->classe->code)}}@endif</td>
+                                        <td>@if(isset($typeStage->classe_id)){{ucwords($typeStage->classe->nom)}}@endif</td>
                                         <td>{{ucwords($typeStage->nom)}}</td>
                                         <td class="text-center">
                                             <a href="{{route('modifier_type_stage',$typeStage)}}"> <i style="font-size: 1.3em;"  class='fa fa-edit'></i></a>

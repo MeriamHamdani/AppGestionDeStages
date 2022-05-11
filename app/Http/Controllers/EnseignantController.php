@@ -10,6 +10,7 @@ use App\Models\Etablissement;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Carbon;
+use Illuminate\Support\Facades\Session;
 use Illuminate\Validation\Rule;
 use Maatwebsite\Excel\Facades\Excel;
 
@@ -52,9 +53,9 @@ class EnseignantController extends Controller
      */
     public function store(Request $request)
     {
-
-        $attributs = $request->validate(
-            ['numero_CIN'=>['required', 'string', 'max:8','min:8', 'unique:users']
+//dd('hi');
+       $attributs = $request->validate(
+            ['numero_CIN'=>['required', 'string', 'max:8','min:8']
         ]);
 
         $attributs['password'] = bcrypt($attributs['numero_CIN']);
@@ -66,37 +67,43 @@ class EnseignantController extends Controller
             'nom' => 'required|max:255',
             'prenom' => 'required|max:255',
             'numero_telephone' => 'required|max:11|min:8',
-            'email' => ['required','email','max:255',Rule::unique('enseignants','email')],
+           'email' => ['required','email','max:255'],
             'grade' => 'required',
             'rib' => 'required',
             'identifiant' => ['required','max:255',Rule::unique('enseignants','identifiant')],
             'departement_id' => ['required', Rule::exists('departements', 'id')]
         ]);
-        $ens_exist = Enseignant::where('email', $request->email)->first();
-        if ($ens_exist) {
-            return back();
-        }
-        $mydate = Carbon::now();
-        $moisCourant = (int)$mydate->format('m');
-        if ((6 < $moisCourant) && ($moisCourant < 12))
+
+        $ens_exist = Enseignant::where('email', $request->email)->exists();
+        $user_exist = User::where('numero_CIN',$request->numero_CIN)->exists();
+        if (!($ens_exist || $user_exist))
         {
-            $annee = '20' . $mydate->format('y') . '-20' . strval(((int)$mydate->format('y')) + 1);
-        } else
-            $annee = '20' . strval(((int)$mydate->format('y')) - 1) . '-20' . $mydate->format('y');
-        $annees = AnneeUniversitaire::all();
-        foreach ($annees as $a)
-        {
-            if ($a->annee == $annee)
+            $mydate = Carbon::now();
+            $moisCourant = (int)$mydate->format('m');
+            if ((6 < $moisCourant) && ($moisCourant < 12))
             {
-                $attributs2['annee_universitaire_id'] = $a->id;
-                break;
+                $annee = '20' . $mydate->format('y') . '-20' . strval(((int)$mydate->format('y')) + 1);
+            } else
+                $annee = '20' . strval(((int)$mydate->format('y')) - 1) . '-20' . $mydate->format('y');
+            $annees = AnneeUniversitaire::all();
+            foreach ($annees as $a)
+            {
+                if ($a->annee == $annee)
+                {
+                    $attributs2['annee_universitaire_id'] = $a->id;
+                    break;
+                }
             }
+            $attributs2['etablissement_id'] = Etablissement::all()->firstOrFail()->id;
+            $user = User::create($attributs);
+            $user->assignRole('enseignant');
+            $attributs2['user_id'] = $user->id;
+            $enseignant = Enseignant::create($attributs2);
+            Session::flash('message', 'ok');
+        }else{
+            Session::flash('message', 'ko');
         }
-        $attributs2['etablissement_id'] = Etablissement::all()->firstOrFail()->id;
-        $user = User::create($attributs);
-        $user->assignRole('enseignant');
-        $attributs2['user_id'] = $user->id;
-        $enseignant = Enseignant::create($attributs2);
+
         return redirect()->action([EnseignantController::class,'index']);
     }
 
@@ -148,6 +155,7 @@ class EnseignantController extends Controller
             $enseignant->user->update();
         }
         $enseignant->update($attributs);
+        Session::flash('message', 'update');
         return redirect()->action([EnseignantController::class,'index']);
     }
 

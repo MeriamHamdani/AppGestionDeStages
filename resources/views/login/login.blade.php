@@ -100,7 +100,7 @@
                             <label>Numero de CIN</label>
                             <div class="input-group">
                                 <span class="input-group-text"><i class="icofont icofont-id-card"></i></span>
-                                <input class="form-control" type="text" required="" id="numero_CIN" name="numero_CIN" />
+                                <input class="form-control" type="text" required="" id="numero_CIN" name="numero_CIN" value="{{old('numero_CIN')}}" />
                                 <div class="invalid-tooltip">Entrez votre N°CIN svp!</div>
                             </div>
                         </div>

@@ -6,6 +6,7 @@ use App\Models\AnneeUniversitaire;
 use App\Models\Specialite;
 use Illuminate\Http\Request;
 use Illuminate\Support\Carbon;
+use Illuminate\Support\Facades\Session;
 use Illuminate\Validation\Rule;
 
 class SpecialiteController extends Controller
@@ -41,34 +42,36 @@ class SpecialiteController extends Controller
     {
         $attributs = $request->validate([
             'nom' => ['required', 'string', 'max:255'],
-            'code' => ['required', 'string', 'max:255', 'unique:specialites'],
+            'code' => ['required', 'string', 'max:255'],
             'cycle' => ['required', 'string', 'max:255'],
             'departement_id' => ['required', Rule::exists('departements', 'id')],
             'enseignant_id' => [ Rule::exists('enseignants', 'id')],
 
         ]);
-        $spec_exist = Specialite::where('code', $request->code)->first();
-        if ($spec_exist) {
-            return back();
-        }
-        $mydate = Carbon::now();
-        $moisCourant = (int)$mydate->format('m');
-        if ((6 < $moisCourant) && ($moisCourant < 12))
-        {
-            $annee = '20' . $mydate->format('y') . '-20' . strval(((int)$mydate->format('y')) + 1);
-        } else
-            $annee = '20' . strval(((int)$mydate->format('y')) - 1) . '-20' . $mydate->format('y');
-        $annees = AnneeUniversitaire::all();
-        foreach ($annees as $a)
-        {
-            if ($a->annee == $annee)
+        $spec_exist = Specialite::where('code', $request->code)->exists();
+        if (!$spec_exist) {
+            $mydate = Carbon::now();
+            $moisCourant = (int)$mydate->format('m');
+            if ((6 < $moisCourant) && ($moisCourant < 12))
             {
-                $attributs['annee_universitaire_id'] = $a->id;
-                break;
+                $annee = '20' . $mydate->format('y') . '-20' . strval(((int)$mydate->format('y')) + 1);
+            } else
+                $annee = '20' . strval(((int)$mydate->format('y')) - 1) . '-20' . $mydate->format('y');
+            $annees = AnneeUniversitaire::all();
+            foreach ($annees as $a)
+            {
+                if ($a->annee == $annee)
+                {
+                    $attributs['annee_universitaire_id'] = $a->id;
+                    break;
+                }
             }
+            $specialite=Specialite::create($attributs);
+            Session::flash('message', 'ok');
+        }else{
+            Session::flash('message', 'ko');
         }
-       // dd($attributs);
-        $specialite=Specialite::create($attributs);
+
         return redirect()->action([SpecialiteController::class,'index']);
     }
 
@@ -112,7 +115,7 @@ class SpecialiteController extends Controller
 
         ]);
         $specialite->update($attributs);
-        //dd($attributs);
+        Session::flash('message', 'update');
         return redirect()->action([SpecialiteController::class,'index']);
 
     }

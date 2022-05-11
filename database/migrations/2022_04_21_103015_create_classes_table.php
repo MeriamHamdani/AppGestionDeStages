@@ -15,7 +15,7 @@ class CreateClassesTable extends Migration
     {
         Schema::create('classes', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('specialite_id')->nullOnDelete()->constrained();
+            $table->foreignId('specialite_id')->nullable()->constrained()->nullOnDelete();
             $table->foreignId('annee_universitaire_id')->constrained();
             $table->string('code')->unique();
             $table->string('nom');

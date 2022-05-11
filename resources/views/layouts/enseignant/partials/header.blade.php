@@ -27,14 +27,15 @@
                         @if ($notification->type==='App\Notifications\DemandeEncadrementNotification')
 
 
-                        <li class="noti-primary">
+                        <li class="noti-secondary">
                             <div class="media">
-                                <span class="notification-bg bg-light-primary"><i data-feather="activity"> </i></span>
+                                <span class="notification-bg bg-light-secondary"><i data-feather="activity"> </i></span>
                                 <div class="media-body">
-                                    <p> Demande d'encadrement </p>
-                                    <a href={{ route('liste_demandes') }}><span>{{ $notification->data['nom_etud'] }} -
+                                    <p> Demandes d'encadrements </p>
+                                    <a href={{ route('liste_demandes') }}>
+                                        <span style="color: #ba895d"><strong>{{ $notification->data['nom_etud'] }} -
                                             {{
-                                            $notification->data['classe_etud'] }}</span></a>
+                                            $notification->data['classe_etud'] }}</strong></span></a>
                                     <hr>
                                     <span>{{ $notification->data['date'] }}</span>
                                 </div>

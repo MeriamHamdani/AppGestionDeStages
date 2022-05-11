@@ -8,6 +8,7 @@ use App\Models\Specialite;
 use App\Models\TypeStage;
 use Illuminate\Http\Request;
 use Illuminate\Support\Carbon;
+use Illuminate\Support\Facades\Session;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Str;
 use Illuminate\Validation\Rule;
@@ -46,74 +47,74 @@ class ClasseController extends Controller
     {
         $attributs = $request->validate([
            // 'nom' => ['required', 'string', 'max:255'],
-            'code' => ['required', 'string', 'max:255', 'unique:classes'],
+            'code' => ['required', 'string', 'max:255'],
             'niveau' => ['required', 'string', 'max:255'],
             'cycle' => ['required', 'string', 'max:255'],
             'specialite_id' => ['required', Rule::exists('specialites', 'id')],
         ]);
-        $cls_exist = Classe::where('code', $request->code)->first();
-        if ($cls_exist) {
-            return back();
-        }
-
-        $mydate = Carbon::now();
-        $moisCourant = (int)$mydate->format('m');
-        if ((6 < $moisCourant) && ($moisCourant < 12))
-        {
-            $annee = '20' . $mydate->format('y') . '-20' . strval(((int)$mydate->format('y')) + 1);
-        } else
-            $annee = '20' . strval(((int)$mydate->format('y')) - 1) . '-20' . $mydate->format('y');
-        $annees = AnneeUniversitaire::all();
-        foreach ($annees as $a)
-        {
-            if ($a->annee == $annee)
+        $cls_exist = Classe::where('code', $request->code)->exists();
+        //dd( $cls_exist);
+        if (!$cls_exist) {
+            $mydate = Carbon::now();
+            $moisCourant = (int)$mydate->format('m');
+            if ((6 < $moisCourant) && ($moisCourant < 12))
             {
-                $attributs['annee_universitaire_id'] = $a->id;
-                break;
+                $annee = '20' . $mydate->format('y') . '-20' . strval(((int)$mydate->format('y')) + 1);
+            } else
+                $annee = '20' . strval(((int)$mydate->format('y')) - 1) . '-20' . $mydate->format('y');
+            $annees = AnneeUniversitaire::all();
+            foreach ($annees as $a)
+            {
+                if ($a->annee == $annee)
+                {
+                    $attributs['annee_universitaire_id'] = $a->id;
+                    break;
+                }
             }
+            switch($request->niveau){
+                case 1:
+                    $niveau="1ère année";
+                    break;
+                case 2:
+                    $niveau="2ème année";
+                    break;
+                case 3:
+                    $niveau="3ème année";
+                    break;
+
+            }
+            switch($request->cycle){
+                case 'licence':
+                    $cycle="Licence";
+                    break;
+                case 'master':
+                    $cycle="Mastère";
+                    break;
+                case 'doctorat':
+                    $cycle="Doctorat";
+                    break;
+                case 'ingenierie':
+                    $cycle="Ingénierie";
+                    break;
+
+            }
+            //dd($cycle);
+            $specialite=Specialite::find($request->specialite_id);
+            $nom=$niveau.' '.$cycle.' '.$specialite->nom;
+            $attributs=array_merge($attributs,["nom"=>$nom]);
+            $classe=Classe::create($attributs);
+            $classe_id=$classe->id;
+            $classes=Classe::with('typeStage')->get();
+            /*$error_message = array("nom" => "", "periode_stage" => "", "depot_stage" => "");
+            return view('admin.configuration.generale.typeStage_classe', ['classe' => $classe,'classes' => $classes,'error_message'=>$error_message]);*/
+            return redirect()->action([TypeStageController::class,'create'],$classe_id);
+
+
+        }else {
+            Session::flash('message', 'ko');
         }
-        switch($request->niveau){
-            case 1:
-                $niveau="1ère année";
-                break;
-            case 2:
-                $niveau="2ème année";
-                break;
-            case 3:
-                $niveau="3ème année";
-                break;
 
-        }
-        switch($request->cycle){
-            case 'licence':
-                $cycle="Licence";
-                break;
-            case 'master':
-                $cycle="Mastère";
-                break;
-            case 'doctorat':
-                $cycle="Doctorat";
-                break;
-            case 'ingenierie':
-                $cycle="Ingénierie";
-                break;
-
-        }
-        //dd($cycle);
-        $specialite=Specialite::find($request->specialite_id);
-        $nom=$niveau.' '.$cycle.' '.$specialite->nom;
-        $attributs=array_merge($attributs,["nom"=>$nom]);
-        //dd(Str::upper(str_replace(' ','',$request->code)) . ' ' . $request->type);
-        //dd(ltrim($request->code),$request->code,str_replace(' ','',$request->code));
-        $classe=Classe::create($attributs);
-
-        $classe_id=$classe->id;
-        //dd($classe);
-        $classes=Classe::with('typeStage')->get();
-        /*$error_message = array("nom" => "", "periode_stage" => "", "depot_stage" => "");
-        return view('admin.configuration.generale.typeStage_classe', ['classe' => $classe,'classes' => $classes,'error_message'=>$error_message]);*/
-        return redirect()->action([TypeStageController::class,'create'],$classe_id);
-
+        return redirect()->action([ClasseController::class,'index']);
 
     }
 
@@ -165,8 +166,10 @@ class ClasseController extends Controller
             $array[2] = str_replace(' ', '',$request->code);
             $fiche_demande_name = $array[0].'_'.$array[1].'_'.$array[2].'_'.$array[3];
             $classe->update();
+            Session::flash('message', 'update');
         }
         $classe->update($attributs);
+        Session::flash('message', 'update');
         return redirect()->action([ClasseController::class,'index']);
 
     }

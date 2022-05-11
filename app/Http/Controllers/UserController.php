@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Session;
 
 class UserController extends Controller
 {
@@ -59,10 +60,19 @@ class UserController extends Controller
     public function edit(Request $request)
     {
         $user=Auth::user();
-        $user->password=bcrypt($request->new_password);
-        $user->is_active=1;
-        $user->update();
-        return redirect('deconnexion');
+        //dd($request->new_password,$request->new_password2);
+        if($request->new_password==$request->new_password2)
+        {
+            $user->password=bcrypt($request->new_password);
+            $user->is_active=1;
+            $user->update();
+            return redirect('deconnexion');
+        }
+        else  {
+            Session::flash('message', 'no-change');
+            return back();
+        }
+
     }
 
     /**

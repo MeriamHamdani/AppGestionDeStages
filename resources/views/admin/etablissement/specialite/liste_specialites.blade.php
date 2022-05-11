@@ -55,11 +55,11 @@
                                 <tr>
                                     <td>{{ucwords($specialite->code)}}</td>
                                     <td>{{ucwords($specialite->nom)}}</td>
-                                    <td>{{ucwords($specialite->departement->nom)}}</td>
+                                    <td>@if(isset($etudiant->classe_id)){{ucwords($specialite->departement->nom)}}@endif</td>
                                     <td>@if(isset($specialite->enseignant_id)){{ucwords($specialite->enseignant->nom)}} {{ucwords($specialite->enseignant->prenom)}}@endif</td>
                                     <td class="text-center">
                                         <a href="{{ route('modifier_specialite', $specialite) }}"> <i style="font-size: 1.3em;" class='fa fa-edit'></i></a>
-                                        <a href="{{ route('supprimer_specialite', $specialite) }}"> <i style="font-size: 1.3em;" class='fa fa-trash'></i></a>
+                                        <a href="#" data-id="{{ $specialite->id }}" data-name="{{ $specialite->nom }}" class="delete"> <i style="font-size: 1.3em;" class='fa fa-trash'></i></a>
                                     </td>
                                 </tr>
                                 @endforeach
@@ -85,6 +85,9 @@
 
 
     @push('scripts')
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/sweetalert/2.1.2/sweetalert.min.js"
+                integrity="sha512-AA1Bzp5Q0K1KanKKmvN/4d3IRKVlv9PYgwFPvm32nPO6QS8yH1HO7LbgB1pgiOxPtfeg5zEn2ba64MUcqJx6CA=="
+                crossorigin="anonymous" referrerpolicy="no-referrer"></script>
 
         <script src="{{ asset('assets/js/notify/bootstrap-notify.min.js') }}"></script>
         <script src="{{ asset('assets/js/icons/icons-notify.js') }}"></script>
@@ -111,6 +114,60 @@
         <script src="{{asset('assets/js/datatable/datatable-extension/dataTables.rowReorder.min.js')}}"></script>
         <script src="{{asset('assets/js/datatable/datatable-extension/dataTables.scroller.min.js')}}"></script>
         <script src="{{asset('assets/js/datatable/datatable-extension/custom.js')}}"></script>
+        @if(Session::has('message'))
+            <script>
+                toastr.success("{!! Session::get('message') !!}")
+            </script>
+        @endif
+        @if(Session::has('message'))
+            @if (Session::get('message')=='ok')
+
+                <script>
+                    swal('Bien','La spécialité est bien ajoutée','success',{
+                        button: 'Continuer'
+                    })
+
+                </script>
+
+            @elseif (Session::get('message')=='ko')
+                <script>
+                    swal('Oups','La spécialité existe déja','error',{
+                        button: 'Reéssayer'
+                    })
+                </script>
+            @elseif (Session::get('message')=='update')
+                <script>
+                    swal('Bien','La spécialité est bien mise à jour','success',{
+                        button: 'Continuer'
+                    })
+                </script>
+            @endif
+        @endif
+        <script>
+            $('.delete').click(function(){
+                var dataId=$(this).attr('data-id');
+                var dataName=$(this).attr('data-name');
+                swal({
+                    title: "Etes-vous sur de vouloir supprimer La spécialité "+dataName+" ?",
+                    //text: "Once deleted, you will not be able to recover this imaginary file!",
+                    icon: "warning",
+                    buttons: true,
+                    dangerMode: true,
+                })
+                    .then((willDelete) => {
+                        if (willDelete) {
+                            //window.location=route('departement.destroy', ['id'=>dataId]);
+                            window.location="supprimer-specialite/"+dataId+"";
+                            swal("Poof! La spécialité est bien supprimée!", {
+                                icon: "success",
+                            });
+                        } else {
+                            swal("La suppression est annulée!");
+                        }
+                    })
+            });
+
+        </script>
     @endpush
 
 @endsection
