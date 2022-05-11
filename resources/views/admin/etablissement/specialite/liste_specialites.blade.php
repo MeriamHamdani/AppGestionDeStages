@@ -55,45 +55,38 @@
                                 <tr>
                                     <td>{{ucwords($specialite->code)}}</td>
                                     <td>{{ucwords($specialite->nom)}}</td>
-                                    <<<<<<< HEAD @if ( $specialite->departement_id==null)
-                                        <td class="text-center">
-                                            <!--<a class=" btn btn-icon-only default" href="#" data-placement="top"
-                                            data-toggle="tooltip" title="n'appartient a aucun departement"><img style="height: 20%;
-                                            width: 20%;
-                                            object-fit: contain;" src="{{ asset('assets/images/alertnoirr.png') }}">
-                                        </a>-->
-                                            <a href="{{ route('modifier_specialite', $specialite) }}"
-                                                data-toggle="tooltip" title="veuillez editer les informations de cette spécialité pour l'affecter à un
+                                    @if ( $specialite->departement_id==null)
+                                    <td class="text-center">
+                                        
+                                        <a href="{{ route('modifier_specialite', $specialite) }}" data-toggle="tooltip"
+                                            title="veuillez editer les informations de cette spécialité pour l'affecter à un
                                         département">
-                                                <i class="icofont icofont-exclamation-tringle"
-                                                    style="font-size: 1.3em"></i>
-                                            </a>
+                                            <i class="icofont icofont-exclamation-tringle" style="font-size: 1.3em"></i>
+                                        </a>
 
-                                        </td>
+                                    </td>
+                                    @else
+                                    <td>{{ucwords($specialite->departement->nom)}}</td>
+                                    @endif
+
+                                    <td class="text-center">
+                                        @if(isset($specialite->enseignant_id)){{ucwords($specialite->enseignant->nom)}}
+                                        {{ucwords($specialite->enseignant->prenom)}}
                                         @else
-                                        <td>{{ucwords($specialite->departement->nom)}}</td>
+                                        <a href="{{ route('modifier_specialite', $specialite) }}" data-toggle="tooltip"
+                                            title="veuillez editer les informations de cette spécialité pour lui affecter un responsable">
+                                            <i class="icofont icofont-exclamation-tringle" style="font-size: 1.3em"></i>
+                                        </a>
                                         @endif
+                                    </td>
+                                    <td class="text-center">
+                                        <a href="{{ route('modifier_specialite', $specialite) }}"> <i
+                                                style="font-size: 1.3em;" class='fa fa-edit'></i></a>
+                                        <a href="#" data-id="{{ $specialite->id }}" data-name="{{ $specialite->nom }}"
+                                            class="delete"> <i style="font-size: 1.3em;"
+                                                class='fa fa-trash delete'></i></a>
 
-                                        <td class="text-center">
-                                            @if(isset($specialite->enseignant_id)){{ucwords($specialite->enseignant->nom)}}
-                                            {{ucwords($specialite->enseignant->prenom)}}
-                                            @else
-                                            <a href="{{ route('modifier_specialite', $specialite) }}"
-                                                data-toggle="tooltip"
-                                                title="veuillez editer les informations de cette spécialité pour lui affecter un responsable">
-                                                <i class="icofont icofont-exclamation-tringle"
-                                                    style="font-size: 1.3em"></i>
-                                            </a>
-                                            @endif
-                                        </td>
-                                        <td class="text-center">
-                                            <a href="{{ route('modifier_specialite', $specialite) }}"> <i
-                                                    style="font-size: 1.3em;" class='fa fa-edit'></i></a>
-                                            <a href="#" data-id="{{ $specialite->id }}"
-                                                data-name="{{ $specialite->nom }}" class="delete"> <i
-                                                    style="font-size: 1.3em;" class='fa fa-trash delete'></i></a>
-
-                                        </td>
+                                    </td>
                                 </tr>
                                 @endforeach
                             </tbody>

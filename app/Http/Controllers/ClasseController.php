@@ -193,6 +193,7 @@ class ClasseController extends Controller
      */
     public function destroy(Classe $classe)
     {
+        
         $classe->delete();
         return redirect()->action([ClasseController::class,'index']);
     }

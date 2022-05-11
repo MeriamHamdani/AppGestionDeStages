@@ -15,7 +15,7 @@ class CreateSousGrilleEvaluationsTable extends Migration
     {
         Schema::create('sous_grille_evaluations', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('grille_evaluation_id')->constrained();
+            $table->foreignId('grille_evaluation_id')->constrained()->cascadeOnDelete();
             $table->string('grand_titre');
             $table->timestamps();
         });

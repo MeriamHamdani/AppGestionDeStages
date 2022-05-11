@@ -15,7 +15,7 @@ class CreateTachesTable extends Migration
     {
         Schema::create('taches', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('cahier_stage_id')->constrained();
+            $table->foreignId('cahier_stage_id')->constrained()->cascadeOnDelete();
             $table->string('titre');
             $table->string('contenu');
             $table->date('date');

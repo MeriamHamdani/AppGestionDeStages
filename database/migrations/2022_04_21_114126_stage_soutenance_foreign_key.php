@@ -14,10 +14,10 @@ class StageSoutenanceForeignKey extends Migration
     public function up()
     {
         Schema::table('stages', function (Blueprint $table) {
-            $table->foreignId('soutenance_id')->nullable()->constrained();
+            $table->foreignId('soutenance_id')->nullable()->constrained()->cascadeOnDelete();
         });
         Schema::table('soutenances', function (Blueprint $table) {
-            $table->foreignId('stage_id')->constrained();
+            $table->foreignId('stage_id')->constrained()->nullable();
         });
     }
 
