@@ -5,6 +5,9 @@ namespace App\Http\Controllers;
 
 use App\Models\User;
 use App\Models\Stage;
+use App\Models\Classe;
+use App\Models\Etudiant;
+use App\Models\TypeStage;
 use App\Models\Enseignant;
 use App\Models\Specialite;
 use Illuminate\Http\Request;
@@ -14,6 +17,7 @@ use Illuminate\Validation\Rule;
 use App\Exports\EnseignantExport;
 use App\Imports\EnseignantsImport;
 use App\Models\AnneeUniversitaire;
+use Illuminate\Support\Facades\Auth;
 use Maatwebsite\Excel\Facades\Excel;
 use Illuminate\Support\Facades\Session;
 
@@ -57,7 +61,7 @@ class EnseignantController extends Controller
      */
     public function store(Request $request)
     {
-//dd('hi');
+
        $attributs = $request->validate(
             ['numero_CIN'=>['required', 'string', 'max:8','min:8']
         ]);
@@ -170,7 +174,7 @@ class EnseignantController extends Controller
      * @param \App\Models\Enseignant $enseignant
      * @return \Illuminate\Http\Response
      */
-   
+
         public function destroy(Enseignant $enseignant)
     {
         $user_id = $enseignant->user_id;
@@ -178,7 +182,7 @@ class EnseignantController extends Controller
         $user->delete();
         return redirect()->action([EnseignantController::class,'index']);
     }
-    
+
 
     public function editProfil (Enseignant $enseignant)
     {
@@ -215,5 +219,31 @@ class EnseignantController extends Controller
     {
         return Excel::download(new EnseignantExport, 'liste-enseignants.xlsx');
     }
-
+    public function liste_stages_actifs(){
+        
+        $enseignant=Enseignant::where('user_id',Auth::user()->id)->get()[0];
+        $stages_actifs=Stage::where('enseignant_id',$enseignant->id)
+                            ->where('confirmation_admin',1)
+                            ->where('confirmation_encadrant',1)
+                            ->get();
+        foreach($stages_actifs as $sa){
+            $etudiant=Etudiant::findOrFail($sa->etudiant_id);
+            $classe=Classe::find($etudiant->classe_id);
+            $type_stage=TypeStage::findOrFail($classe->type_stage_id);
+            $sa->type_stage=$type_stage->nom;
+        }
+        //dd($stages_actifs);
+        return view('enseignant.encadrement.liste_stages_actifs',compact('stages_actifs'));
+                            
+    }
+   
+    public function details_stage(Stage $stage){
+      
+        $etudiant=Etudiant::findOrFail($stage->etudiant_id);
+        $classe=Classe::find($etudiant->classe_id);
+        $type_stage=TypeStage::findOrFail($classe->type_stage_id);
+        $stage->type_stage=$type_stage->nom;
+      
+        return view('enseignant.encadrement.details_stage',compact('stage'));
+    }
 }

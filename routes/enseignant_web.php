@@ -12,9 +12,9 @@ Route::middleware(['auth','role:enseignant'])->group(function(){
 
         Route::get('/encadrement/liste-demandes', [StageController::class,'liste_demandes_pour_enseignant'])->name('liste_demandes');
         Route::get('/encadrement/liste-demandes/accepter-demande/{stage}', [StageController::class,'confirmer_demande_enseignant'])->name('confirmer_demande_enseignant');
-        Route::view('/encadrement/liste-stages-actifs','enseignant.encadrement.Liste_stages_actifs' )->name('liste_stages_actifs');
+        Route::get('/encadrement/liste-stages-actifs',[EnseignantController::class,'liste_stages_actifs'] )->name('liste_stages_actifs');
         Route::view('/encadrement/liste-stages-actifs/cahier-stage-etud','enseignant.encadrement.cahier_stage_etud' )->name('cahier_stage_etud');
-        Route::view('/encadrement/liste-stages-actifs/details-stage','enseignant.encadrement.details_stage' )->name('details_stage');
+        Route::get('/encadrement/liste-stages-actifs/details-stage/{stage}',[EnseignantController::class,'details_stage'] )->name('details_stage');
 
         Route::view('/paiement/liste-stages-paye','enseignant.paiement.liste_stages_paye' )->name('liste_stages_paye');
         Route::view('/paiement/liste-stages-non-paye','enseignant.paiement.liste_stages_non_paye' )->name('liste_stages_non_paye');

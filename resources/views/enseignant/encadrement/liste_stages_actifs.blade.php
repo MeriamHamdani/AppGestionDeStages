@@ -40,60 +40,35 @@
                                 </tr>
                             </thead>
                             <tbody>
+                                @foreach ($stages_actifs as $stage_actif)
                                 <tr>
-                                    <td>Zouhour Ben Ticha</td>
-                                    <td>LF3I obligatoire</td>
-                                    <td>Application de gestion des stages </td>
-                                    <td>01-02-2022</td>
-                                    <td>31-05-2022</td>
-                                    <td>
-                                        <a href="#" data-title="Télécharger la lettre d'affectation" data-toggle="tooltip" data-original-title="Télécharger la lettre d'affectation" title="Télécharger la lettre d'affectation">
-                                            <i class="icofont icofont-file-document icon-large" style="color:#bf9168 "></i></a>
-                                        <a data-title="Consulter les détails de stage" data-toggle="tooltip" data-original-title="Consulter les détails de stage" title="Consulter les détails de stage"
-                                           href={{ route('details_stage') }}>
+                                    <td>{{ App\Models\Etudiant::find($stage_actif->etudiant_id)->nom }}&nbsp;
+                                        {{ App\Models\Etudiant::find($stage_actif->etudiant_id)->prenom }}</td>
+                                    <td>{{ $stage_actif->type_stage }}</td>
+                                    <td>{{ $stage_actif->titre_sujet }} </td>
+                                    <td>{{ $stage_actif->date_debut }}</td>
+                                    <td>{{ $stage_actif->date_fin }}</td>
+                                    <td class="text-center">
+                                        <!-- <a href="#" data-title="Télécharger la lettre d'affectation"
+                                            data-toggle="tooltip"
+                                            data-original-title="Télécharger la lettre d'affectation"
+                                            title="Télécharger la lettre d'affectation">
+                                            <i class="icofont icofont-file-document icon-large"
+                                                style="color:#bf9168 "></i></a>-->
+                                        <a data-title="Consulter les détails de stage" data-toggle="tooltip"
+                                            data-original-title="Consulter les détails de stage"
+                                            title="Consulter les détails de stage" href={{
+                                            route('details_stage',['stage'=>$stage_actif]) }}>
                                             <i class="icofont icofont-info-square icon-large"></i></a>
-                                        <a data-title="Consulter le cahier de stage" data-toggle="tooltip"  title="Consulter le cahier de stage"
-                                           href={{ route('cahier_stage_etud') }}>
-                                            <i class="icofont icofont-book-alt icon-large" style="color:#fd2e64"></i></a>
+                                        <a data-title="Consulter le cahier de stage" data-toggle="tooltip"
+                                            title="Consulter le cahier de stage" href={{ route('cahier_stage_etud') }}>
+                                            <i class="icofont icofont-book-alt icon-large"
+                                                style="color:#fd2e64"></i></a>
 
                                     </td>
 
                                 </tr>
-                                <tr>
-                                    <td>Meriam Hamdani</td>
-                                    <td>LF3I obligatoire</td>
-                                    <td>Application de gestion des stages </td>
-                                    <td>01-02-2022</td>
-                                    <td>31-05-2022</td>
-                                    <td>
-                                        <a href="#" data-title="Télécharger la lettre d'affectation" data-toggle="tooltip" data-original-title="Télécharger la lettre d'affectation" title="Télécharger la lettre d'affectation">
-                                            <i class="icofont icofont-file-document icon-large" style="color:#bf9168 "></i></a>
-                                        <a data-title="Consulter les détails de stage icon-large" data-toggle="tooltip" data-original-title="Consulter les détails de stage" title="Consulter les détails de stage"
-                                           href={{ route('details_stage') }}>
-                                            <i class="icofont icofont-info-square icon-large"></i></a>
-                                        <a class="{{ routeActive('liste_stages_actifs') }}" data-title="Consulter le cahier de stage" data-toggle="tooltip"  title="Consulter le cahier de stage"
-                                           href={{ route('cahier_stage_etud') }} >
-                                            <i class="icofont icofont-book-alt icon-large" style="color:#fd2e64"></i></a>
-
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <td>Ali Ben Ali</td>
-                                    <td>LF3I obligatoire</td>
-                                    <td>Application de gestion des stages </td>
-                                    <td>01-02-2022</td>
-                                    <td>31-05-2022</td>
-                                    <td>
-                                        <a href="#" data-title="Télécharger la lettre d'affectation" data-toggle="tooltip" data-original-title="Télécharger la lettre d'affectation" title="Télécharger la lettre d'affectation">
-                                            <i class="icofont icofont-file-document icon-large" style="color:#bf9168 "></i></a>
-                                        <a data-title="Consulter les détails de stage" data-toggle="tooltip" data-original-title="Consulter les détails de stage" title="Consulter les détails de stage"
-                                           href={{ route('details_stage') }}>
-                                            <i class="icofont icofont-info-square icon-large"></i></a>
-                                        <a class="{{ routeActive('liste_stages_actifs') }}" data-title="Consulter le cahier de stage" data-toggle="tooltip"  title="Consulter le cahier de stage"
-                                           href={{ route('cahier_stage_etud') }} >
-                                            <i class="icofont icofont-book-alt icon-large" style="color:#fd2e64"></i></a>
-                                    </td>
-                                </tr>
+                                @endforeach
                             </tbody>
                             <tfoot>
                                 <tr>
@@ -145,4 +120,3 @@
 @endpush
 
 @endsection
-
