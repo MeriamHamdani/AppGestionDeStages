@@ -32,8 +32,7 @@
                         <table class="display" id="auto-fill">
                             <thead>
                                 <tr>
-                                    <th>Nom</th>
-                                    <th>Prénom</th>
+                                    <th>Nom Complet</th>
                                     <th>Classe</th>
                                     <th>Encadrant</th>
                                     <th>La fiche de demande</th>
@@ -45,8 +44,8 @@
                             <tbody>
                                 @foreach ($stages as $stage )
                                 <tr>
-                                    <td>{{ App\Models\Etudiant::find($stage->etudiant_id)->nom }}</td>
-                                    <td>{{ App\Models\Etudiant::find($stage->etudiant_id)->prenom }}</td>
+                                    <td>{{ App\Models\Etudiant::find($stage->etudiant_id)->nom }}
+                                    {{ App\Models\Etudiant::find($stage->etudiant_id)->prenom }}</td>
                                     <td>{{$stage->code_classe}}</td>
                                     <td>{{ App\Models\Enseignant::find($stage->enseignant_id)->nom }}&nbsp;{{
                                         App\Models\Enseignant::find($stage->enseignant_id)->prenom }}</td>
@@ -107,12 +106,18 @@
                                         @endif
                                     </td>
                                     <td class="text-center">
-                                        <a href="#"> <i data-toggle="tooltip" title="Confirmer"
-                                                class="icofont icofont-ui-check icon-large"></i></a>
-                                        <a href="#"><i data-toggle="tooltip" title="Refuser"
-                                                class="icofont icofont-ui-close icon-large"></i></a>
+                                        @if ($stage->confirmation_admin!=1)
+                                            <a href="{{ route('confirmer_demande',['stage_id'=>$stage->id]) }}"> <i
+                                                    data-toggle="tooltip" title="Confirmer"
+                                                    class="icofont icofont-ui-check icon-large"></i></a>
+                                        @endif
+                                        @if ($stage->confirmation_admin!=-1)
+                                            <a href="{{ route('refuser_demande',['stage_id'=>$stage->id]) }}"><i
+                                                    data-toggle="tooltip" title="Refuser"
+                                                    class="icofont icofont-ui-close icon-large"></i></a>
+                                        @endif
                                         <a href="{{ route('demandes_stage.modifier_demande',['stage_id'=>$stage->id]) }}"
-                                            data-title="Modifer" data-toggle="tooltip" title="Modifer"><i
+                                           data-title="Modifer" data-toggle="tooltip" title="Modifer"><i
                                                 class="icofont icofont-ui-edit icon-large"></i></a>
                                     </td>
 
@@ -123,8 +128,7 @@
                             <tfoot>
 
                                 <tr>
-                                    <th>Nom</th>
-                                    <th>Prénom</th>
+                                    <th>Nom Complet</th>
                                     <th>Classe</th>
                                     <th>Encadrant</th>
                                     <th>La fiche de demande</th>

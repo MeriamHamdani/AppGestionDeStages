@@ -58,7 +58,9 @@ class TypeStageController extends Controller
             'date_debut' => ['required', 'date'],
             'date_fin' => ['required', 'date'/*, new dateDebFinRule()*/],
             'fiche_demande' => ['required', 'max:2048'],
-            'fiche_demande.*' => ['required', 'mimes:pdf,doc,docx',]
+            'fiche_demande.*' => ['required', 'mimes:pdf,doc,docx',],
+            'fiche_assurance' => ['max:2048'],
+            'fiche_2Dinars' => ['max:2048']
         ]);
         //$classe = Classe::all()->last();
         $code_classe = $classe->code;
@@ -99,7 +101,6 @@ class TypeStageController extends Controller
         $type_stage->nom = $type_stage_nom;
         $type_stage->date_debut_periode = $date_deb;
         $type_stage->date_limite_periode = $date_f;
-
         $type_stage->fiche_demande = $request->fiche_demande;
 
 
