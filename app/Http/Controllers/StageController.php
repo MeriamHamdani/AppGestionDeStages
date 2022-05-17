@@ -468,7 +468,7 @@ class StageController extends Controller
      * @return \Illuminate\Http\Response
      */
     public function confirmer_demande(int $stage_id)
-    {   //dd($stage_id);
+    {
 
         $current_date = Carbon::now();
         $stage = Stage::findOrFail($stage_id);
@@ -505,8 +505,10 @@ class StageController extends Controller
         }else{
             $ts='تطوعي';
         }
-        $file_path = public_path() .'/storage/models_lettre_affectation/model_lettre_affectation_'.$annee->annee.'.docx';
-
+        $file_path = public_path().'\storage\ '.$annee->lettre_affectation;
+        $file_path=str_replace(' ','',$file_path);
+        $file_path=str_replace('/','\\',$file_path);
+        //dd($file_path);
         $templateProcessor = new TemplateProcessor($file_path);
         $templateProcessor->setValue('nom', $etudiant->nom.' '.$etudiant->prenom);
         $templateProcessor->setValue('CIN',$user->numero_CIN);
@@ -514,7 +516,7 @@ class StageController extends Controller
         $templateProcessor->setValue('date_fin',$stage->date_fin);
         $templateProcessor->setValue('type_stage',$ts);
         $templateProcessor->setValue('classe',$classe->nom);
-        $templateProcessor->saveAs(public_path() .'/storage/lettres_affectation_'.$annee->annee.'/lettre_aff_'.$user->numero_CIN.'_'.$stage->id.'.docx');
+        $templateProcessor->saveAs(public_path() .'\storage\lettres_affectation_'.$annee->annee.'\lettre_aff_'.$user->numero_CIN.'_'.$stage->id.'.docx');
         $stage->update();
         $details = ['etudiant'=>$etudiant->nom.' '.$etudiant->prenom,
                     'sujet' => $stage->titre_sujet,
