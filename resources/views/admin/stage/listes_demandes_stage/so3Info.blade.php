@@ -32,8 +32,7 @@
                         <table class="display" id="auto-fill">
                             <thead>
                                 <tr>
-                                    <th>Nom</th>
-                                    <th>Prénom</th>
+                                    <th>Nom Complet</th>
                                     <th>Classe</th>
                                     <th>Encadrant</th>
                                     <th>La fiche de demande</th>
@@ -45,8 +44,8 @@
                             <tbody>
                                 @foreach ($stages as $stage )
                                 <tr>
-                                    <td>{{ App\Models\Etudiant::find($stage->etudiant_id)->nom }}</td>
-                                    <td>{{ App\Models\Etudiant::find($stage->etudiant_id)->prenom }}</td>
+                                    <td>{{ App\Models\Etudiant::find($stage->etudiant_id)->nom }}
+                                        {{ App\Models\Etudiant::find($stage->etudiant_id)->prenom }}</td>
                                     <td>{{$stage->code_classe}}</td>
                                     <td>{{ App\Models\Enseignant::find($stage->enseignant_id)->nom }}&nbsp;{{
                                         App\Models\Enseignant::find($stage->enseignant_id)->prenom }}</td>
@@ -126,8 +125,7 @@
                             <tfoot>
 
                                 <tr>
-                                    <th>Nom</th>
-                                    <th>Prénom</th>
+                                    <th>Nom Complet</th>
                                     <th>Classe</th>
                                     <th>Encadrant</th>
                                     <th>La fiche de demande</th>

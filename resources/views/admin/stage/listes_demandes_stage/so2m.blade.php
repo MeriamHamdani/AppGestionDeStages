@@ -32,8 +32,7 @@
                         <table class="display" id="auto-fill">
                             <thead>
                                 <tr>
-                                    <th>Nom</th>
-                                    <th>Prénom</th>
+                                    <th>Nom Complet</th>
                                     <th>Classe</th>
                                     <th>Encadrant</th>
                                     <th>La fiche de demande</th>
@@ -45,8 +44,8 @@
                             <tbody>
                                 @foreach ($stages as $stage )
                                 <tr>
-                                    <td>{{ App\Models\Etudiant::find($stage->etudiant_id)->nom }}</td>
-                                    <td>{{ App\Models\Etudiant::find($stage->etudiant_id)->prenom }}</td>
+                                    <td>{{ App\Models\Etudiant::find($stage->etudiant_id)->nom }}
+                                    {{ App\Models\Etudiant::find($stage->etudiant_id)->prenom }}</td>
                                     <td>{{$stage->code_classe}}</td>
                                     <td>{{ App\Models\Enseignant::find($stage->enseignant_id)->nom }}&nbsp;{{
                                         App\Models\Enseignant::find($stage->enseignant_id)->prenom }}</td>
@@ -57,42 +56,69 @@
                                         </a>
                                     </td>
                                     @if ($stage->confirmation_encadrant==null)
-                                    <td class="text-center">
-                                        <button class="buttonload" data-toggle="tooltip" title="demande en attente">
-                                            <i class="fa fa-spinner fa-spin"></i>
-                                        </button>
-                                    </td>
+                                        <td class="text-center">
+                                            <button class="buttonload" data-toggle="tooltip" title="demande en attente">
+                                                <i class="fa fa-spinner fa-spin"></i>
+                                            </button>
+                                        </td>
                                     @endif
                                     @if ($stage->confirmation_encadrant==-1)
-                                    <td style="text-center">
-                                        <i data-toggle="tooltip" title="demande refusée" style="background-position: 0 -90px;
+                                        <td style="text-center">
+                                            <i data-toggle="tooltip" title="demande refusée" style="background-position: 0 -90px;
                                             height: 30px;
                                             width: 23px;
                                             display:block;
                                             margin:0 auto; color: #B3363E;"
-                                            class="icofont icofont-ui-close icon-large"></i>
+                                               class="icofont icofont-ui-close icon-large"></i>
 
-                                    </td>
+                                        </td>
                                     @endif
                                     @if ($stage->confirmation_encadrant==1)
-                                    <td class="text-center">
+                                        <td class="text-center">
 
-                                        <i data-toggle="tooltip" title="demande confirmée" style="background-position: 0 -90px;
+                                            <i data-toggle="tooltip" title="demande confirmée" style="background-position: 0 -90px;
                                         height: 30px;
                                         width: 23px;
                                         display:block;
                                         margin:0 auto; color: #4B8D5F" class="icofont icofont-ui-check icon-large"></i>
 
-                                    </td>
+                                        </td>
                                     @endif
-                                    <td></td>
                                     <td class="text-center">
-                                        <a href="#"> <i data-toggle="tooltip" title="Confirmer"
-                                                class="icofont icofont-ui-check icon-large"></i></a>
-                                        <a href="#"><i data-toggle="tooltip" title="Refuser"
-                                                class="icofont icofont-ui-close icon-large"></i></a>
+                                        @if ($stage->confirmation_admin==null)
+                                            <button class="buttonload" data-toggle="tooltip" title="demande en attente">
+                                                <i class="fa fa-spinner fa-spin"></i>
+                                            </button>
+                                        @endif
+                                        @if ($stage->confirmation_admin==-1)
+                                            <i data-toggle="tooltip" title="demande refusée" style="background-position: 0 -90px;
+                                            height: 30px;
+                                            width: 23px;
+                                            display:block;
+                                            margin:0 auto; color: #B3363E;"
+                                               class="icofont icofont-ui-close icon-large"></i>
+                                        @endif
+                                        @if ($stage->confirmation_admin==1)
+                                            <i data-toggle="tooltip" title="demande confirmée" style="background-position: 0 -90px;
+                                        height: 30px;
+                                        width: 23px;
+                                        display:block;
+                                        margin:0 auto; color: #4B8D5F" class="icofont icofont-ui-check icon-large"></i>
+                                        @endif
+                                    </td>
+                                    <td class="text-center">
+                                        @if ($stage->confirmation_admin!=1)
+                                            <a href="{{ route('confirmer_demande',['stage_id'=>$stage->id]) }}"> <i
+                                                    data-toggle="tooltip" title="Confirmer"
+                                                    class="icofont icofont-ui-check icon-large"></i></a>
+                                        @endif
+                                        @if ($stage->confirmation_admin!=-1)
+                                            <a href="{{ route('refuser_demande',['stage_id'=>$stage->id]) }}"><i
+                                                    data-toggle="tooltip" title="Refuser"
+                                                    class="icofont icofont-ui-close icon-large"></i></a>
+                                        @endif
                                         <a href="{{ route('demandes_stage.modifier_demande',['stage_id'=>$stage->id]) }}"
-                                            data-title="Modifer" data-toggle="tooltip" title="Modifer"><i
+                                           data-title="Modifer" data-toggle="tooltip" title="Modifer"><i
                                                 class="icofont icofont-ui-edit icon-large"></i></a>
                                     </td>
 
@@ -103,8 +129,7 @@
                             <tfoot>
 
                                 <tr>
-                                    <th>Nom</th>
-                                    <th>Prénom</th>
+                                    <th>Nom Complet</th>
                                     <th>Classe</th>
                                     <th>Encadrant</th>
                                     <th>La fiche de demande</th>
