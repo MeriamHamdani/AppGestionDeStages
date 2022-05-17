@@ -36,7 +36,7 @@
                                     <p>Periode de stage</p>
                                 </div>
                                 <div class="stepwizard-step"><a class="btn btn-light" href="#step-3">3</a>
-                                    <p>Fiche de demande</p>
+                                    <p>Fiches nécessaires</p>
                                 </div>
                                 @if($classe->niveau == 3 && $classe->cycle=="licence" ||$classe->niveau == 2 && $classe->cycle=="master"  )
                                 <div class="stepwizard-step"><a class="btn btn-light" href="#step-4">4</a>
@@ -139,6 +139,28 @@
                                                         <div class="col-sm-9">
                                                             <input class="form-control" type="file" name="fiche_demande"
                                                                    id="fiche_demande" required="required"/>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="row">
+                                                <div class="col">
+                                                    <div class="mb-3 row">
+                                                        <label class="col-sm-3 col-form-label">La fiche d'assurance</label>
+                                                        <div class="col-sm-9">
+                                                            <input class="form-control" type="file" name="fiche_assurance"
+                                                                   id="fiche_assurance"/>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="row">
+                                                <div class="col">
+                                                    <div class="mb-3 row">
+                                                        <label class="col-sm-3 col-form-label">La fiche de 2 Dinars</label>
+                                                        <div class="col-sm-9">
+                                                            <input class="form-control" type="file" name="fiche_2Dinars"
+                                                                   id="fiche_2Dinars"/>
                                                         </div>
                                                     </div>
                                                 </div>

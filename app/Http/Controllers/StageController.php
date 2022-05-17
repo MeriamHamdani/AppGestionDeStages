@@ -285,9 +285,9 @@ class StageController extends Controller
 
         $type_stage = TypeStage::findOrFail($classe->type_stage_id);
         $fiche_demande = substr($type_stage->fiche_demande, 15);
-
-
-        return view('etudiant.stage.demander_stage', compact(['enseignants', 'entreprises', 'etudiant', 'fiche_demande', 'type_stage']));
+        $fiche_assurance = substr($type_stage->fiche_assurance, 18);
+        $fiche_2Dinars = substr($type_stage->fiche_2Dinars, 15);
+        return view('etudiant.stage.demander_stage', compact(['enseignants', 'entreprises', 'etudiant', 'fiche_demande', 'fiche_assurance','fiche_2Dinars','type_stage']));
 
     }
 
@@ -305,15 +305,16 @@ class StageController extends Controller
             'date_debut' => ['required', 'date'],
             'date_fin' => ['required', 'date'],
             'fiche_demande' => ['required'],
-            'fiche_demande.*' => ['required', 'mimes:pdf,jpg,png,jpeg']
-
+            'fiche_demande.*' => ['required', 'mimes:pdf,jpg,png,jpeg'],
+            'fiche_assurance.*' => ['mimes:pdf,jpg,png,jpeg'],
+            'fiche_2Dinars.*' => ['mimes:pdf,jpg,png,jpeg']
         ]);
 
         $stage = new Stage();
         $stage->titre_sujet = $request->titre_sujet;
         $etudiant = Etudiant::where('user_id', Auth::user()->id)->first();
         $stage->etudiant_id = $etudiant->id;
-
+        //dd($etudiant->classe->typeStage->fiche_2Dinars);
 
         if ($etudiant->classe->niveau == 3 && $etudiant->classe->cycle == "licence") {
             $request->validate(['type_sujet' => ['required']]);
@@ -329,10 +330,8 @@ class StageController extends Controller
 
         $entreprise = Entreprise::findOrFail($request->entreprise);
         $stage->entreprise_id = $entreprise->id;
-
         $current_date = Carbon::now();
         $stage->date_demande = $current_date->format('Y-m-d');;
-
         $moisCourant = (int)$current_date->format('m');
         if ((6 < $moisCourant) && ($moisCourant < 12)) {
             $annee = '20' . $current_date->format('y') . '-20' . strval(((int)$current_date->format('y')) + 1);
@@ -372,6 +371,23 @@ class StageController extends Controller
         $path = Storage::disk('public')
             ->putFileAs('fiches_demande_' . $classe->code, $request->file('fiche_demande'), $fiche_demande_name);
         $stage->fiche_demande = $path;
+        //dd($request->file('fiche_demande'));
+        if (isset($etudiant->classe->typeStage->fiche_2Dinars))
+        {
+            $fiche_2Dinars_name = 'Fiche2Dinars_' . $cin . '.' . $request->file('fiche_2Dinars')->extension();
+            $path3 = Storage::disk('public')
+                ->putFileAs('fiches_2Dinars_'. $classe->code, $request->file('fiche_2Dinars'), $fiche_2Dinars_name);
+            $stage->fiche_2Dinars = $path3;
+            //dd($request->file('fiche_2Dinars'));
+        }
+        if (isset($etudiant->classe->typeStage->fiche_assurance))
+        {
+            $fiche_assurance_name = 'FicheAssurance_' . $cin . '.' . $request->file('fiche_assurance')->extension();
+            $path2 = Storage::disk('public')
+                ->putFileAs('fiches_assurances_'. $classe->code, $request->file('fiche_assurance'), $fiche_assurance_name);
+            $stage->fiche_assurance = $path2;
+           // dd($request->file('fiche_assurance'),$request->file('fiche_2Dinars'),$request->file('fiche_demande'));
+        }
         $stage->confirmation_admin = 0;
         $stage->save();
         if (($etudiant->classe->niveau == 3 && $etudiant->classe->cycle == "licence") ||
@@ -579,6 +595,68 @@ class StageController extends Controller
         $stage->update();
         return back();
     }
+    public function telecharger_fiche_assurance()
+    {
+        $etudiant = Etudiant::where('user_id', Auth::user()->id)->first();
+        $classe = Classe::findOrFail($etudiant->classe_id);
+        $typeStage= TypeStage::findOrFail($classe->type_stage_id);
+        $fiche_assurance =$typeStage->fiche_assurance;
+       //dd($fiche_assurance);
+        $fiche_assurance_name = substr($fiche_assurance, 18);
+        $file_path2 = public_path() .'/storage/'. $fiche_assurance;
+       // dd($file_path2,$fiche_assurance_name);
+        if (file_exists($file_path2))
+        {
+            return Response::download($file_path2,$fiche_assurance_name);
+        }
+        else
+        {
+            //Error
+            exit('fiche assurance inexistante !');
+        }
+    }
+    public function telecharger_fiche_demande()
+    {
+
+        $etudiant = Etudiant::where('user_id', Auth::user()->id)->first();
+        $classe = Classe::findOrFail($etudiant->classe_id);
+        //dd($classe);
+        $typeStage= TypeStage::findOrFail($classe->type_stage_id);
+       //dd($typeStage);
+        $fiche_demande =$typeStage->fiche_demande;
+        $fiche_demande_name = substr($fiche_demande, 15);
+       //dd($fiche_demande);
+        $file_path = public_path() .'/storage/'. $fiche_demande;
+        //dd($file_path);
+        if (file_exists($file_path))
+        {
+            return Response::download($file_path,$fiche_demande_name);
+        }
+        else
+        {
+            exit('fiche demande waw inexistante !');
+        }
+    }
+    public function telecharger_fiche_2Dinars()
+    {
+        $etudiant = Etudiant::where('user_id', Auth::user()->id)->first();
+        $classe = Classe::findOrFail($etudiant->classe_id);
+        $typeStage= TypeStage::findOrFail($classe->type_stage_id);
+        $fiche_2Dinars =$typeStage->fiche_2Dinars;
+        $fiche_2Dinars_name = substr($fiche_2Dinars, 15);
+        //dd($fiche_2Dinars);
+        $file_path3 = public_path() .'/storage/'. $fiche_2Dinars;
+       //dd($file_path3,$fiche_2Dinars);
+        if (file_exists($file_path3))
+        {
+            return Response::download($file_path3, $fiche_2Dinars_name);
+        }
+        else
+        {
+            exit('fiche 2 dinars inexistante !');
+        }
+    }
+
 
 
     /**
