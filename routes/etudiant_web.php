@@ -1,6 +1,6 @@
 <?php
 
-
+use App\Http\Controllers\CahierStageController;
 use App\Http\Controllers\EntrepriseController;
 
 
@@ -25,11 +25,12 @@ Route::middleware(['auth', 'role:etudiant'])->group(function () {
         Route::view('/stage/demande-accepte', 'etudiant.stage.demande_accepte')->name('demande_accepte');
         Route::view('/stage/demande-en-cours', 'etudiant.stage.demande_en_cours')->name('demande_en_cours');
         Route::view('/stage/pas-de-demande', 'etudiant.stage.pas_de_demande')->name('pas_de_demande');
-        Route::get('/stage/demander-stage', [StageController::class, 'create'])->name('demande_stage');
-        Route::post('/stage/demander', [StageController::class, 'store'])->name('demander_stage');
 
-
-        Route::view('/stage/gerer-cahier-stage', 'etudiant.stage.gestion_cahier_stage')->name('gestion_cahier_stage');
+        Route::get('/stage/demander-stage', [StageController::class,'create'])->name('demande_stage');
+        Route::post('/stage/demander', [StageController::class,'store'])->name('demander_stage');
+        Route::get('/stage/liste-stages/{demande}', [StageController::class,'download_lettre_affect'])
+                                                            ->name('telecharger_lettre_affect');
+        Route::get('/stage/gerer-cahier-stage', [CahierStageController::class,'index'])->name('gestion_cahier_stage');
         Route::view('/stage/cahier-stage', 'etudiant.stage.cahier_stage')->name('cahier_stage');
 
 
@@ -53,24 +54,10 @@ Route::middleware(['auth', 'role:etudiant'])->group(function () {
 
         Route::view('/soutenance/liste_soutenances', 'etudiant.soutenance.liste_soutenances')->name('liste_soutenances');
         Route::view('/soutenance/info', 'etudiant.soutenance.info_soutenance')->name('info_soutenance');
+
         Route::get('/stage/fiche_demande/{fiche_demande}', [StageController::class, 'telecharger_fiche_demande'])->where('fiche_demande', '[A-Za-z0-9\-\_\.]+')->name('telecharger_fiche_demande');
         Route::get('/stage/fiche_assurance/{fiche_assurance}', [StageController::class, 'telecharger_fiche_assurance'])->where('fiche_assurance', '[A-Za-z0-9\-\_\.]+')->name('telecharger_fiche_assurance');
         Route::get('/stage/fiche_2Dinars/{fiche_2Dinars}', [StageController::class, 'telecharger_fiche_2Dinars'])->where('fiche_2Dinars', '[A-Za-z0-9\-\_\.]+')->name('telecharger_fiche_2Dinars');
-
-        /*Route::get('stage/{fiche_demande}', function($fiche_demande)
-        {
-
-            $file_path = public_path() .'/storage/fiches_demande/'. $fiche_demande;
-            if (file_exists($file_path))
-            {
-                return Response::download($file_path, $fiche_demande);
-            }
-            else
-            {
-                //Error
-                exit('fiche de demande inexistante !');
-            }
-        })->where('fiche_demande', '[A-Za-z0-9\-\_\.]+')->name('telecharger_fiche_demande');*/
 
     });
 });

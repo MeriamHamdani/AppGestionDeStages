@@ -16,6 +16,7 @@ class CreateAnneeUniversitairesTable extends Migration
         Schema::create('annee_universitaires', function (Blueprint $table) {
             $table->id();
             $table->string('annee')->unique();
+            //$table->string('lettre_affectation')->nullable();
             $table->timestamps();
         });
     }

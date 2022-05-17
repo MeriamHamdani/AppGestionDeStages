@@ -2,8 +2,12 @@
 
 namespace App\Http\Controllers;
 
+use Auth;
+use App\Models\Stage;
+use App\Models\Etudiant;
 use App\Models\CahierStage;
 use Illuminate\Http\Request;
+use Illuminate\Support\Collection;
 
 class CahierStageController extends Controller
 {
@@ -14,8 +18,22 @@ class CahierStageController extends Controller
      */
     public function index()
     {
-        //
+        $cahiers_stage=new Collection();
+        $etudiant=Etudiant::where('user_id',Auth::user()->id)->get()[0];
+        $cahiers=CahierStage::all();
+
+        foreach($cahiers as $cahier){
+            $stage=Stage::findOrFail($cahier->stage_id);
+
+            if($stage->etudiant_id== $etudiant->id){
+                $cahier->stage=$stage;
+                $cahiers_stage->push($cahier);
+            }
+        }
+        //dd($cahiers_stage);
+        return view('etudiant.stage.gestion_cahier_stage',compact(['cahiers_stage']));
     }
+
 
     /**
      * Show the form for creating a new resource.
