@@ -36,6 +36,7 @@
                                     <th>Entreprise</th>
                                     <th>Date de début</th>
                                     <th>Date de fin</th>
+                                    <th>Ma lettre d'affectation</th>
                                     <th>Etat</th>
                                 </tr>
                             </thead>
@@ -50,6 +51,11 @@
                                         }}</td>
                                     <td>{{ $demande->date_debut }}</td>
                                     <td>{{ $demande->date_fin }}</td>
+                                    <td class="text-center"><a href={{
+                                            route('telecharger_lettre_affect',['demande'=>$demande]) }}>
+                                            <i style="font-size: 2em;" class="icofont icofont-file-pdf icon-large"></i>
+                                        </a>
+                                    </td>
                                     <td>
                                         @if ($demande->validation_admin==1)
                                         <button class="btn btn-primary btn-sm" data-toggle="tooltip"
@@ -73,6 +79,7 @@
                                     <th>Entreprise</th>
                                     <th>Date de début</th>
                                     <th>Date de fin</th>
+                                    <th>Ma letttre d'affectation</th>
                                     <th>Etat</th>
                                 </tr>
                             </tfoot>
@@ -86,6 +93,9 @@
 
 
 @push('scripts')
+<script src="https://cdnjs.cloudflare.com/ajax/libs/sweetalert/2.1.2/sweetalert.min.js"
+    integrity="sha512-AA1Bzp5Q0K1KanKKmvN/4d3IRKVlv9PYgwFPvm32nPO6QS8yH1HO7LbgB1pgiOxPtfeg5zEn2ba64MUcqJx6CA=="
+    crossorigin="anonymous" referrerpolicy="no-referrer"></script>
 <script src="{{asset('assets/js/datatable/datatables/jquery.dataTables.min.js')}}"></script>
 <script src="{{asset('assets/js/datatable/datatable-extension/dataTables.buttons.min.js')}}"></script>
 <script src="{{asset('assets/js/datatable/datatable-extension/jszip.min.js')}}"></script>
@@ -107,7 +117,59 @@
 <script src="{{asset('assets/js/datatable/datatable-extension/dataTables.scroller.min.js')}}"></script>
 <script src="{{asset('assets/js/datatable/datatable-extension/custom.js')}}"></script>
 <script src="{{ asset('assets/js/tooltip-init.js')}}"></script>
+
+@if(Session::has('message'))
+<script>
+    toastr.success("{!! Session::get('message') !!}")
+</script>
+@endif
+@if(Session::has('message'))
+@if (Session::get('message')=='download_OK')
+
+<script>
+    swal('Bien', 'Votre lettre d\'affectation est téléchargée', 'success', {
+                        button: 'Continuer'
+                    })
+
+</script>
+
+@elseif (Session::get('message')=='lettre_aff_introuvable')
+<script>
+    swal('Oups', 'Vous n\'avez pas une lettre d\'affectation pour ce stage , Veuillez contactez l\'administration', 'error')
+</script>
+@elseif (Session::get('message')=='attend_encadrant')
+<script>
+    swal('oups', 'Cette demande n\'est pas confirmée par l\'encadrant', 'alert', {
+                        button: 'Continuer'
+                    })
+</script>
+@endif
+@endif
+<script>
+    $('.delete').click(function () {
+                var dataId = $(this).attr('data-id');
+                var dataName = $(this).attr('data-name');
+                swal({
+                    title: "Êtes-vous  sûr de vouloir supprimer La classe " + dataName + " ?",
+                    //text: "Once deleted, you will not be able to recover this imaginary file!",
+                    icon: "warning",
+                    buttons: true,
+                    dangerMode: true,
+                })
+                    .then((willDelete) => {
+                        if (willDelete) {
+                            //window.location=route('departement.destroy', ['id'=>dataId]);
+                            window.location = "supprimer-classe/" + dataId + "";
+                            swal("Poof! La classe est bien supprimée!", {
+                                icon: "success",
+                            });
+                        } else {
+                            swal("La suppression est annulée!");
+                        }
+                    })
+            });
+
+</script>
 @endpush
 
 @endsection
-

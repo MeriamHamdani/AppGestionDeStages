@@ -2,13 +2,16 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\User;
 use App\Models\Stage;
 use App\Models\Classe;
 use App\Models\Etudiant;
+use Barryvdh\DomPDF\PDF;
 use App\Models\TypeStage;
 use App\Models\Enseignant;
 use App\Models\Entreprise;
 use App\Models\Specialite;
+use App\Models\CahierStage;
 use App\Models\Departement;
 use Illuminate\Support\Arr;
 use Illuminate\Support\Str;
@@ -20,11 +23,15 @@ use App\Mail\ConfirmerEncadrement;
 use App\Models\AnneeUniversitaire;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\File;
 use Illuminate\Support\Facades\Mail;
+use Illuminate\Support\Facades\Session;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Facades\Redirect;
 use Illuminate\Support\Facades\Response;
+use PhpOffice\PhpWord\TemplateProcessor;
 use App\Notifications\DemandeEncadrementNotification;
+use App\Notifications\DownloadLettreAffectationNotification;
 
 
 class StageController extends Controller
@@ -462,10 +469,84 @@ class StageController extends Controller
      */
     public function confirmer_demande(int $stage_id)
     {   //dd($stage_id);
+
+        $current_date = Carbon::now();
         $stage = Stage::findOrFail($stage_id);
+        if($stage->confirmation_encadrant==0){
+            Session::flash('message','attend_encadrant');
+            //dd(Session::get('message'));
+            return back();
+        }
         $stage->confirmation_admin = 1;
+        $etudiant=Etudiant::findOrFail($stage->etudiant_id);
+        $enseignant=Enseignant::findOrFail($stage->enseignant_id);
+        $classe=Classe::findOrFail($etudiant->classe_id);
+
+        //if (strpos(strtoupper($type_stage->nom), strtoupper('volontaire')) !== false) {
+            $cahier_stage=new CahierStage();
+            $cahier_stage->stage_id=$stage_id;
+            $annee=$this->current_annee_univ();
+
+            $annees = AnneeUniversitaire::all();
+            foreach ($annees as $a) {
+                if ($a->annee == $annee->annee) {
+                    $cahier_stage->annee_universitaire_id = $annee->id;
+                    break;
+                }
+            }
+            $cahier_stage->save();
+        //}
+        $stage->cahier_stage_id=$cahier_stage->id;
+        $user=User::findOrFail($etudiant->user_id);
+        $type_stage=TypeStage::findOrFail($classe->type_stage_id);
+        $type=strtoupper(substr($type_stage->nom,strpos($type_stage->nom,' ')+1,strlen($type_stage->nom))) ;
+        if($type==='OBLIGATOIRE'){
+            $ts='اجباري';
+        }else{
+            $ts='تطوعي';
+        }
+        $file_path = public_path() .'/storage/models_lettre_affectation/model_lettre_affectation_'.$annee->annee.'.docx';
+
+        $templateProcessor = new TemplateProcessor($file_path);
+        $templateProcessor->setValue('nom', $etudiant->nom.' '.$etudiant->prenom);
+        $templateProcessor->setValue('CIN',$user->numero_CIN);
+        $templateProcessor->setValue('date_debut',$stage->date_debut);
+        $templateProcessor->setValue('date_fin',$stage->date_fin);
+        $templateProcessor->setValue('type_stage',$ts);
+        $templateProcessor->setValue('classe',$classe->nom);
+        $templateProcessor->saveAs(public_path() .'/storage/lettres_affectation_'.$annee->annee.'/lettre_aff_'.$user->numero_CIN.'_'.$stage->id.'.docx');
         $stage->update();
+        $details = ['etudiant'=>$etudiant->nom.' '.$etudiant->prenom,
+                    'sujet' => $stage->titre_sujet,
+                    'annee'=>$annee->annee_universitaire,
+                    'type_stage'=>$type,
+                    'encadrant'=>$enseignant->nom.' '.$enseignant->prenom,
+                    'date' => 'Le ' . $current_date->day . '-' . $current_date->month . '-' . $current_date->year . ' à ' . $current_date->hour . ':' . $current_date->minute];
+
+            $etudiant->notify(new DownloadLettreAffectationNotification($details));
         return back();
+    }
+
+
+    public function current_annee_univ(){
+
+        $mydate = Carbon::now();
+        $moisCourant = (int)$mydate->format('m');
+        if ((6 < $moisCourant) && ($moisCourant < 12)) {
+            $annee ='20' . $mydate->format('y') . '-20' . strval(((int)$mydate->format('y')) + 1);
+        } else {
+            $annee = '20' . strval(((int)$mydate->format('y')) - 1) . '-20' . $mydate->format('y');
+        }
+        $annees = AnneeUniversitaire::all();
+        foreach ($annees as $a)
+        {
+            if ($a->annee == $annee)
+            {
+                return  $a;
+
+            }
+        }
+
     }
 
     /**
@@ -477,7 +558,21 @@ class StageController extends Controller
      */
     public function refuser_demande(int $stage_id)
     {   //dd($stage_id);
+
+
         $stage = Stage::findOrFail($stage_id);
+        if($stage->confirmation_admin==1){
+
+            $annee_univ=AnneeUniversitaire::findOrFail($stage->annee_universitaire_id)->annee;
+            $cin=User::findOrFail(Etudiant::findOrFail($stage->etudiant_id)->user_id)->numero_CIN;
+
+            $file_path =public_path('\storage\lettres_affectation_'.$annee_univ.'\lettre_aff_'.$cin.'_'.$stage_id.'.docx');
+            //dd($file_path);
+            if (File::exists($file_path)) {
+                File::delete($file_path);
+            }
+
+       }
         $stage->confirmation_admin = -1;
         $stage->update();
         return back();
@@ -506,4 +601,25 @@ class StageController extends Controller
     {
         //
     }
+
+    public function download_lettre_affect(Stage $demande){
+       $annee_univ=AnneeUniversitaire::findOrFail($demande->annee_universitaire_id)->annee;
+       $cin=Auth::user()->numero_CIN;
+       $file_path =public_path('\storage\lettres_affectation_'.$annee_univ.'\lettre_aff_'.$cin.'_'.$demande->id.'.docx');
+
+       //dd($file_path);
+
+            if (file_exists($file_path))
+                {
+                    Session::flash('message', 'download_OK');
+                return Response::download($file_path,'lettre d\'affectation.docx');
+                }
+            else
+                {
+                    Session::flash('message', 'lettre_aff_introuvable');
+                exit('Vous n\'avez aucune lettre d\'affectation pour ce stage!');
+
+                }
+    }
+
 }

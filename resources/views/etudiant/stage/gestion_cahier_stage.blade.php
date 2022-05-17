@@ -31,53 +31,31 @@
                             <thead>
                                 <tr>
                                     <th>Titre</th>
-                                    <th>Type</th>
+                                    <th>Type de stage</th>
                                     <th>Cahier de stage</th>
                                 </tr>
                             </thead>
 
                             <tbody>
+                                @foreach ($cahiers_stage as $cs)
                                 <tr>
-                                    <td> sujet abc </td>
+                                    <td> {{ $cs->stage->titre_sujet }} </td>
                                     <td>Type pfe_oblig_volont</td>
                                     <td><a class="btn btn-primary" href="/stage/cahiers_de_stage/{cahier}">
                                             <i class="icofont icofont-book-alt">
                                                 Cahier de stage
                                             </i></a></td>
                                 </tr>
-                                <tr>
-                                    <td>Bradley Greer</td>
-                                    <td>Software Engineer</td>
-                                    <td><a class="btn btn-primary" {{ prefixActive('etudiant/stage')}}
-                                            href="{{ route('cahier_stage') }}" class="{{routeActive('cahier_stage')}}">
-                                            <i class="icofont icofont-book-alt">
-                                                Cahier de stage
-                                            </i></a></td>
-                                </tr>
-                                <tr>
-                                    <td>Dai Rios</td>
-                                    <td>Personnel Lead</td>
-                                    <td><a class="btn btn-primary" {{ prefixActive('etudiant/stage')}}
-                                            href="{{ route('cahier_stage') }}" class="{{routeActive('cahier_stage')}}">
-                                            <i class="icofont icofont-book-alt">
-                                                Cahier de stage
-                                            </i></a></td>
-                                </tr>
-                                <tr>
-                                    <td>Jenette Caldwell</td>
-                                    <td>Development Lead</td>
-                                    <td><a class="btn btn-primary" {{ prefixActive('etudiant/stage')}}
-                                            href="{{ route('cahier_stage') }}" class="{{routeActive('cahier_stage')}}">
-                                            <i class="icofont icofont-book-alt">
-                                                Cahier de stage
-                                            </i></a></td>
-                                </tr>
+                                @endforeach
+
+
+
 
                             </tbody>
                             <tfoot>
                                 <tr>
                                     <th>Titre</th>
-                                    <th>Type</th>
+                                    <th>Type de stage</th>
                                     <th>Cahier de stage</th>
                                 </tr>
                             </tfoot>

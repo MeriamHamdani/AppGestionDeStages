@@ -2,10 +2,13 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\AnneeUniversitaire;
 use Illuminate\Http\Request;
+use PhpOffice\PhpWord\PhpWord;
+use App\Models\AnneeUniversitaire;
+use Illuminate\Support\Facades\Storage;
+use PhpOffice\PhpWord\TemplateProcessor;
 use Illuminate\Validation\ValidationException;
-
+use Response;
 
 class AnneeUniversitaireController extends Controller
 {
@@ -39,14 +42,23 @@ class AnneeUniversitaireController extends Controller
     public function store(Request $request)
     {
         $attribut = $request->validate(
-            [ 'annee' => 'required']
+            ['annee' => 'required',
+            /*'lettre_affectation'=>'required',
+            'lettre_affectation.*' => ['required', 'mimes:docx']*/]
         );
         $an_exist = AnneeUniversitaire::where('annee', $request->annee)->first();
         if($an_exist) {
             return back()->with('error',  'cette année est déjà créee');
         }
-        $annee = AnneeUniversitaire::create($attribut);
+        /*$lettre_affectation = Storage::disk('public')
+            ->putFileAs('Lettres_affectation', $request->file('lettre_affectation'), 'lettre_aff_'.$request->annee.'.docx');*/
+            $annee=new AnneeUniversitaire();
+            $annee->annee=$request->annee;
+            //$annee->lettre_affectation=$lettre_affectation;
+            $annee->save();
         return view('admin.etablissement.departement.ajouter_departement');
+        
+            
     }
 
     /**

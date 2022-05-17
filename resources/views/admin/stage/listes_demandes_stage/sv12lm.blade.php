@@ -37,6 +37,7 @@
                                     <th>Prénom</th>
                                     <th>Classe</th>
                                     <th>La fiche de demande</th>
+
                                     <th>Confirmation de l'administration</th>
                                     <th>Actions</th>
                                 </tr>
@@ -99,6 +100,7 @@
                                     <th>Prénom</th>
                                     <th>Classe</th>
                                     <th>La fiche de demande</th>
+
                                     <th>Confirmation de l'administration</th>
                                     <th>Actions</th>
                                 </tr>
