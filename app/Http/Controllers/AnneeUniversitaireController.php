@@ -42,23 +42,27 @@ class AnneeUniversitaireController extends Controller
     public function store(Request $request)
     {
         $attribut = $request->validate(
-            ['annee' => 'required',
-            /*'lettre_affectation'=>'required',
-            'lettre_affectation.*' => ['required', 'mimes:docx']*/]
+            [
+            'annee' => 'required',
+            'lettre_affectation'=>'required',
+            'lettre_affectation.*' => ['required', 'mimes:docx'],
+            /*'fiche_encadrement'=>'required',
+            'fiche_encadrement.*'=>['required', 'mimes:docx']*/
+            ]
         );
         $an_exist = AnneeUniversitaire::where('annee', $request->annee)->first();
         if($an_exist) {
             return back()->with('error',  'cette année est déjà créee');
         }
-        /*$lettre_affectation = Storage::disk('public')
-            ->putFileAs('Lettres_affectation', $request->file('lettre_affectation'), 'lettre_aff_'.$request->annee.'.docx');*/
+        $lettre_affectation = Storage::disk('public')
+            ->putFileAs('models_lettre_affectation', $request->file('lettre_affectation'), 'model_lettre_affectation_'.$request->annee.'.docx');
             $annee=new AnneeUniversitaire();
             $annee->annee=$request->annee;
-            //$annee->lettre_affectation=$lettre_affectation;
+            $annee->lettre_affectation=$lettre_affectation;
             $annee->save();
         return view('admin.etablissement.departement.ajouter_departement');
-        
-            
+
+
     }
 
     /**

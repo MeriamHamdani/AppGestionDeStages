@@ -40,10 +40,22 @@
                         <div class="row">
                             <div class="col">
                                 <div class="mb-3">
-                                    <label class="form-label" for="exampleFormControlInput1">Lettre d'affectation
+                                    <label class="form-label" for="exampleFormControlInput1">Modèle de lettre
+                                        d'affectation
                                     </label>
                                     <input class="form-control" id="lettre_affectation" name="lettre_affectation"
-                                        type="file" required />
+                                        type="file" required accept=".docx" />
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col">
+                                <div class="mb-3">
+                                    <label class="form-label" for="exampleFormControlInput1">Modèle de fiche
+                                        d'encadrement
+                                    </label>
+                                    <input class="form-control" id="fiche_encadrement" name="fiche_encadrement"
+                                        type="file" accept=".docx" required />
                                 </div>
                             </div>
                         </div>
@@ -61,3 +73,4 @@
 @endpush
 
 @endsection
+
