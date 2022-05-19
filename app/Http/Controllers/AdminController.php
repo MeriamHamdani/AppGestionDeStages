@@ -4,10 +4,11 @@ namespace App\Http\Controllers;
 
 use App\Models\User;
 use App\Models\Admin;
-use Illuminate\Validation\Rule;
 use PHPUnit\Util\Json;
 use Illuminate\Http\Request;
+use Illuminate\Validation\Rule;
 use Illuminate\Validation\Rules;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Auth\Events\Registered;
 
@@ -24,7 +25,8 @@ class AdminController extends Controller
 
         $adminIsActive=array();
         //dd($adminIsActive);
-        $admins=Admin::all();
+        //$admins=Admin::all();
+        $admins = Admin::where('user_id', '!=', auth()->id())->get();
         //dd($admins);
         $i=0;
         foreach($admins as $admin){

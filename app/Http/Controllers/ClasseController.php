@@ -2,16 +2,17 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\AnneeUniversitaire;
 use App\Models\Classe;
-use App\Models\Specialite;
 use App\Models\TypeStage;
+use App\Models\Specialite;
+use Illuminate\Support\Str;
 use Illuminate\Http\Request;
 use Illuminate\Support\Carbon;
+use Illuminate\Validation\Rule;
+use App\Models\AnneeUniversitaire;
 use Illuminate\Support\Facades\Session;
 use Illuminate\Support\Facades\Storage;
-use Illuminate\Support\Str;
-use Illuminate\Validation\Rule;
+use Illuminate\Support\Facades\Redirect;
 
 class ClasseController extends Controller
 {
@@ -45,6 +46,7 @@ class ClasseController extends Controller
      */
     public function store(Request $request)
     {
+        //$request->session()->forget('key');
         $attributs = $request->validate([
            // 'nom' => ['required', 'string', 'max:255'],
             'code' => ['required', 'string', 'max:255'],
@@ -100,6 +102,13 @@ class ClasseController extends Controller
             }
             //dd($cycle);
             $specialite=Specialite::find($request->specialite_id);
+            $sp_cycle=$specialite->cycle;
+            if(strtoupper($sp_cycle) !== $request->cycle){
+                
+                //Session::flash('message','notMatchCycle');
+                
+                return Redirect::back()->withErrors(['Vous ne pouvez pas attribuer la spécialité '.$specialite->nom.' aux classes '.$request->cycle]);
+            }
             $nom=$niveau.' '.$cycle.' '.$specialite->nom;
             $attributs=array_merge($attributs,["nom"=>$nom]);
             $classe=Classe::create($attributs);

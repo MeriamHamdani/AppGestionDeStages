@@ -68,6 +68,7 @@ class EnseignantController extends Controller
 
         $attributs['password'] = bcrypt($attributs['numero_CIN']);
         $attributs['is_active'] = 0;
+        
         /* $user = User::create($attributs);
          $user->assignRole('enseignant');*/
 
@@ -81,7 +82,7 @@ class EnseignantController extends Controller
             'identifiant' => ['required','max:255',Rule::unique('enseignants','identifiant')],
             'departement_id' => ['required', Rule::exists('departements', 'id')]
         ]);
-
+        $attributs['email'] = $request->email;
 
         $ens_exist = Enseignant::where('email', $request->email)->exists();
         $user_exist = User::where('numero_CIN',$request->numero_CIN)->exists();
@@ -111,6 +112,7 @@ class EnseignantController extends Controller
             $attributs2['user_id'] = $user->id;
             $enseignant = Enseignant::create($attributs2);
             $user->email=$enseignant->email;
+            
             Session::flash('message', 'ok');
         }else{
             Session::flash('message', 'ko');

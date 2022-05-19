@@ -23,8 +23,8 @@ class CreateTypeStagesTable extends Migration
             $table->string('fiche_assurance_type');
             $table->string('fiche__type');
             $table->string('cahier_stage_type');
-            $table->int('duree_stage_min');
-            $table->int('duree_stage_max');
+            $table->integer('duree_stage_min');
+            $table->integer('duree_stage_max');
             $table->date('date_debut_depot')->nullable();
             $table->date('date_limite_depot')->nullable();
             $table->json('type_sujet')->nullable();

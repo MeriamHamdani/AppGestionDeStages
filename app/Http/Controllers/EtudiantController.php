@@ -59,7 +59,7 @@ class EtudiantController extends Controller
 
         $attributs['password'] = bcrypt($attributs['numero_CIN']);
         $attributs['is_active'] = 0;
-
+        
         $attributs2 = $request->validate([
             'nom' => 'required|max:255',
             'prenom' => 'required|max:255',
@@ -67,6 +67,7 @@ class EtudiantController extends Controller
             'email' => ['required','email','max:255',Rule::unique('etudiants','email')],
             'classe_id' => ['required', Rule::exists('classes', 'id')]
         ]);
+        $attributs['email'] = $request->email;
         $etd_exist = Etudiant::where('email', $request->email)->first();
         if ($etd_exist) {
             return back();
