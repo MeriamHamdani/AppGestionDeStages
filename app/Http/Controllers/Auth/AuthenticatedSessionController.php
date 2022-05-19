@@ -8,6 +8,7 @@ use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Auth;
 use App\Providers\RouteServiceProvider;
 use App\Http\Requests\Auth\LoginRequest;
+use App\Notifications\FirstLoginNotification;
 use Illuminate\Validation\ValidationException;
 
 class AuthenticatedSessionController extends Controller
@@ -30,10 +31,10 @@ class AuthenticatedSessionController extends Controller
      */
     public function store()
     {
+        
         $attributes = request()->validate([
             'numero_CIN' => 'required',
-            'password' => 'required'
-
+            'password' => 'required',
         ]);
 
         if (! auth()->attempt($attributes)) {
@@ -41,14 +42,17 @@ class AuthenticatedSessionController extends Controller
                 'email' => 'Your provided credentials could not be verified.'
             ]);
         }
-
+        
         session()->regenerate();
         $user = Auth::user();
 
         if($user['is_active']==0){
-
-            //return view('user/modifier_coordonnes');
+            $code=random_int(100000,999999);
+            session( [ 'code' => $code ] );
+            $user->notify(new FirstLoginNotification($code));
+            
             return redirect()->intended('connexion/modifier_coordonnes');
+           
         }
 
         //$user['is_active'] = 1;

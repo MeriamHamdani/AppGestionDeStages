@@ -108,7 +108,7 @@
                     </li>
                     <li>
                         <a class="nav-link menu-title link-nav {{ routeActive('liste_departements') }}"
-                           href="{{ route('liste_departements') }}">
+                            href="{{ route('liste_departements') }}">
                             <i class="icofont icofont-building"></i>&nbsp<span>Gestion des départements</span></a>
                     </li>
                     <li>
@@ -119,14 +119,14 @@
                     </li>
                     <li class="dropdown">
                         <a class="nav-link menu-title link-nav {{ routeActive('liste_specialites') }}"
-                           href="{{ route('liste_specialites') }}">
+                            href="{{ route('liste_specialites') }}">
                             <i class="icofont icofont-list"></i>&nbsp&nbsp&nbsp<span>Gestion des spécialités
                             </span></a>
                     </li>
                     <li class="dropdown">
                         <a class="nav-link menu-title {{ in_array(Route::currentRouteName(),
                             ['liste_classes','typeStage.create','typeStage.index','ajouter_classe','modifier_classe']) ? 'active' : '' }}"
-                           href="javascript:void(0)">
+                            href="javascript:void(0)">
 
                             <i class="icofont icofont-users-social"></i>&nbsp&nbsp&nbsp<span>Gestion des
                                 classes</span></a>
@@ -136,7 +136,8 @@
                                     <strong><i class="icofont icofont-users-social"></i>Gérer les classes</strong></a>
                             </li>
                             <li><a href="{{ route('typeStage.index')}}" class="{{ routeActive('typeStage.index') }}">
-                                    <strong><i class="icofont icofont-pen-nib"></i>Classe & Type de stage</strong></a> </li>
+                                    <strong><i class="icofont icofont-pen-nib"></i>Classe & Type de stage</strong></a>
+                            </li>
                         </ul>
 
                     </li>
@@ -176,6 +177,9 @@
                             href="{{ route('gerer_depot') }}">
                             <i class="icofont icofont-papers"></i>&nbsp&nbsp&nbsp<span>Gérer les dépôts</span></a>
                     </li>
+                    <li><a href="{{ route('config_session_depot') }}" class="{{ routeActive('config_session_depot') }}">
+                            <strong><i class="icofont icofont-pen-nib"></i>Configurer une session de
+                                dépot</strong></a> </li>
                     <li class="sidebar-main-title">
                         <div>
                             <h6>Soutenances</h6>
@@ -246,4 +250,3 @@
         </div>
     </nav>
 </header>
-

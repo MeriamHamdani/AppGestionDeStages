@@ -5,12 +5,14 @@ namespace App\Http\Controllers;
 use App\Models\Classe;
 use App\Models\TypeStage;
 use Illuminate\Support\Arr;
-use Illuminate\Support\Facades\Session;
 use Illuminate\Support\Str;
 use Illuminate\Http\Request;
 use Illuminate\Support\File;
 use App\Rules\dateDebFinRule;
 use Illuminate\Support\Carbon;
+use App\Models\AnneeUniversitaire;
+use Illuminate\Support\Collection;
+use Illuminate\Support\Facades\Session;
 use Illuminate\Support\Facades\Storage;
 
 class TypeStageController extends Controller
@@ -289,4 +291,60 @@ class TypeStageController extends Controller
         $typeStage->delete();
         return redirect()->action([TypeStageController::class, 'index']);
     }
+    
+    public function new_session_depot(Request $request){
+        //dd($request->type_stages);
+        /*$request->validate([
+            'date_debut_depot'=>'required',
+            'date_limite_depot'=>'required',
+            'type_stages[]'=>'required'
+        ]);*/
+        //dd($request->type_stages);
+        foreach($request->type_stages as $ts_id){
+            $typeStage=TypeStage::findOrFail($ts_id);
+            if($typeStage->date_debut_depot || $typeStage->date_limite_depot){
+            Session::flash('message','Une session de dépot pour le type de stage '.$typeStage->nom.' est déja ouverte');
+            return back(); 
+            }
+            
+        $date_debut_depot = Carbon::createFromFormat('m/d/Y', $request->date_debut_depot)->format('Y-m-d');
+        $date_limite_depot = Carbon::createFromFormat('m/d/Y', $request->date_limite_depot)->format('Y-m-d');
+        $typeStage->date_debut_depot=$date_debut_depot;
+        $typeStage->date_limite_depot=$date_limite_depot;
+        $typeStage->update();
+            
+        }
+        return view('admin.configuration.generale.config_session_depot');
+    }
+    
+    
+    public function ts_cette_annee(){
+        $tpStg= new Collection();
+        $mydate = Carbon::now();
+        $moisCourant = (int)$mydate->format('m');
+        if ((6 < $moisCourant) && ($moisCourant < 12)) {
+            $annee ='20' . $mydate->format('y') . '-20' . strval(((int)$mydate->format('y')) + 1);
+        } else {
+            $annee = '20' . strval(((int)$mydate->format('y')) - 1) . '-20' . $mydate->format('y');
+        }
+       
+        $types_stages = TypeStage::all();
+        foreach ($types_stages as $ts)
+        {
+            $classe=Classe::findOrFail($ts->classe_id);   
+            $anneeUni=AnneeUniversitaire::findOrFail($classe->annee_universitaire_id);
+            $isMaster_term=((strtoupper($classe->cycle)===strtoupper('master'))&&($classe->niveau==2));
+            $isLicence_term=((strtoupper($classe->cycle)===strtoupper('licence'))&&($classe->niveau==3));
+            if ($anneeUni->annee === $annee &&($isMaster_term || $isLicence_term))
+        {
+            $tpStg->push($ts);
+        }
+        }
+        return view('admin.configuration.generale.config_session_depot',compact('tpStg','annee'));
+                 
+        
+    }
+    
+    
+    
 }

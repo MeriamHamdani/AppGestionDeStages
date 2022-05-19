@@ -136,9 +136,6 @@
                                     <input class="form-control" type="password" id="motdepasse" placeholder="Password">
                                 </div>
                             </div>
-
-                                <!--<input class="form-control" id="motdepasse" type="password"
-                            placeholder="entrez le nouveau mot de passe..." />-->
                             <div class="col">
                                 <div class="checkbox checkbox-solid-primary mb-3">
 
@@ -148,20 +145,7 @@
                                 </div>
                             </div>
 
-                                <!--<div class="mb-3">
-                                    <a onclick="Afficher()"><i class="icofont icofont-eye-alt" style="size: 2em"></i>
-
-                                        <label for="solid3">afficher le mot de passe</label>
-                                </div>-->
-                            </div>
-                            <!--     <div class="checkbox checkbox-solid-primary mb-3">
-
-                            <input id="solid3" type="checkbox" onclick="Afficher()">
-                            <label for="solid3">afficher le mot de passe</label>
-
-                          </div>-->
-                            <!--<input type="checkbox" onclick="Afficher()"> Afficher le mot de passe-->
-                        </div>
+                                </div>
                         <a class="btn btn-primary btn-lg" href="#" disabled>modifier</a>
                     </div>
                 </div>

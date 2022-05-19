@@ -23,6 +23,7 @@ class User extends Authenticatable implements MustVerifyEmail
     protected $fillable = [
         'numero_CIN',
         'password',
+        'email',
         'is_active'
     ];
 
