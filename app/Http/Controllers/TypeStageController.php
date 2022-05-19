@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Classe;
 use App\Models\TypeStage;
 use Illuminate\Support\Arr;
+use Illuminate\Support\Facades\Response;
 use Illuminate\Support\Facades\Session;
 use Illuminate\Support\Str;
 use Illuminate\Http\Request;
@@ -37,7 +38,7 @@ class TypeStageController extends Controller
      */
     public function create(Classe $classe)
     {
-        $error_message = array("nom" => "", "periode_stage" => "", "depot_stage" => "");
+        $error_message = array("nom" => "", "periode_stage" => "", "depot_stage" => "","duree_max_min" => "");
         return view('admin.configuration.generale.typeStage_classe', ['classe' => $classe, 'error_message' => $error_message]);
     }
 
@@ -49,25 +50,23 @@ class TypeStageController extends Controller
      */
     public function store(Request $request, Classe $classe)
     {
-        $error_message = array("nom" => "", "periode_stage" => "", "depot_stage" => "");
+        $error_message = array("nom" => "", "periode_stage" => "", "depot_stage" => "","duree_max_min"=> "");
         //dd($request->hasFile('fiche_demande'));
         //dd($request->fiche_demande->store('public/files'));
         //dd($request->file('fiche_demande'));
         $request->validate([
             'type' => ['required'],
             'date_debut' => ['required', 'date'],
-            'date_fin' => ['required', 'date'/*, new dateDebFinRule()*/],
-            'fiche_demande' => ['required', 'max:2048'],
-            'fiche_demande.*' => ['required', 'mimes:pdf,doc,docx'],
-            'fiche_assurance.*' => ['mimes:pdf,jpg,png,jpeg'],
-            'fiche_2Dinars.*' => ['mimes:pdf,jpg,png,jpeg']
+            'date_fin' => ['required', 'date'],
+            'duree_stage_min' =>['required'],
+            'duree_stage_max' =>['required'],
+            'fiche_demande_type' =>['required'],
+            'fiche_assurance_type' =>['required'],
+            'fiche__type' =>['required'],
+            'cahier_stage_type' =>['required'],
         ]);
-        //$classe = Classe::all()->last();
         $code_classe = $classe->code;
-
-        //$type_stage_nom = Str::upper(str_replace(' ', '', $code_classe)) . ' ' . $request->type;
         $type_stage_nom = Str::upper($code_classe) . ' ' . $request->type;
-
         $types_stage = TypeStage::all();
         $nouveau_nom = $this->decouper_nom($type_stage_nom);
         foreach ($types_stage as $ts) {
@@ -95,11 +94,26 @@ class TypeStageController extends Controller
         $type_stage->nom = $type_stage_nom;
         $type_stage->date_debut_periode = $date_deb;
         $type_stage->date_limite_periode = $date_f;
-        $type_stage->fiche_demande = $request->fiche_demande;
+       // dd($nbre_mois = StageController::diff_date_en_mois($date_deb, $date_f));
+        $nbre_mois = StageController::diff_date_en_mois($date_deb, $date_f);
 
-
-        if ((Str::upper($request->type) == Str::upper('obligatoire'))
-            && (($classe->niveau == 2 && $classe->cycle == 'master') || ($classe->niveau == 3 && $classe->cycle == 'licence'))) /*if($request->type=='Obligatoire')*/ {
+        $type_stage->fiche_demande_type=$request->fiche_demande_type;
+        //dd(($request->fiche_demande_type == "requis"));
+        $type_stage->fiche_assurance_type=$request->fiche_assurance_type;
+        $type_stage->fiche__type=$request->fiche__type;
+        $type_stage->cahier_stage_type=$request->cahier_stage_type;
+        $type_stage->duree_stage_min=$request->duree_stage_min;
+        //dd($nbre_mois <  $request->duree_stage_max);
+        if($nbre_mois !=  $request->duree_stage_max )
+        {
+            $error_message = array("nom" => "", "periode_stage" => "", "depot_stage" => "","duree_max_min" => "L'erreur est dû à cause de mal correspondance entre la péeriode de stage que vous avez saisi et la durée maximale! Verifiez!");
+            return view('admin.configuration.generale.typeStage_classe', compact(["classe", "error_message"]));
+        }
+        $type_stage->duree_stage_max=$request->duree_stage_max;
+        //dept dates
+     /*   if ((Str::upper($request->type) == Str::upper('obligatoire'))
+            && (($classe->niveau == 2 && $classe->cycle == 'master') || ($classe->niveau == 3 && $classe->cycle == 'licence')))
+            {
             $request->validate([
                 'date_debut_depo' => ['required', 'date'],
                 'date_fin_depo' => ['required', 'date'],
@@ -116,15 +130,23 @@ class TypeStageController extends Controller
             }
             $type_stage->date_debut_depot = $date_deb_depo;
             $type_stage->date_limite_depot = $date_f_depo;
-
             $type_stage->type_sujet = $request->type_sujet;
+        }*/
+        if (($request->fiche_demande_type == "requis"))
+        {
+            $request->validate(['fiche_demande' => ['required']]);
+            //dd(($request->fiche_demande_type == "requis"));
+            if (isset($request->fiche_demande))
+            {
+                $fiche_demande_name = 'FicheDemande_' . Str::upper(str_replace(' ', '', $code_classe)) . '_' . $request->type . '.' . $request->file('fiche_demande')->extension();//dd($fiche_demande_name)
+                $path = Storage::disk('public')
+                    ->putFileAs('fiches_demande', $request->file('fiche_demande'), $fiche_demande_name);
+                $type_stage->fiche_demande = $path;
+            }
         }
-        $fiche_demande_name = 'FicheDemande_' . Str::upper(str_replace(' ', '', $code_classe)) . '_' . $request->type . '.' . $request->file('fiche_demande')->extension();//dd($fiche_demande_name)
-        $path = Storage::disk('public')
-            ->putFileAs('fiches_demande', $request->file('fiche_demande'), $fiche_demande_name);
-        $type_stage->fiche_demande = $path;
-        //dd($request->fiche_demande,$type_stage->fiche_demande);
-        if (isset($request->fiche_assurance))
+        //dd($request->fiche_demande_type);
+        // isset fiche assurance
+       /* if (isset($request->fiche_assurance))
         {
             $fiche_assurance_name = 'FicheAssurance_' . Str::upper(str_replace(' ', '', $code_classe)) . '_' . $request->type . '.' . $request->file('fiche_assurance')->extension();
             $path2 = Storage::disk('public')
@@ -142,9 +164,9 @@ class TypeStageController extends Controller
                 ->putFileAs('fiches_2Dinars', $request->file('fiche_2Dinars'), $fiche_2Dinars_name);
             $type_stage->fiche_2Dinars = $path3;
             //dd($request->fiche_2Dinars,$type_stage->fiche_2Dinars);
-        }
+        }*/
 
-        //dd($request->fiche_assurance);
+
         $type_stage->save();
         $classe->type_stage_id = $type_stage->id;
         $classe->update();
@@ -163,6 +185,22 @@ class TypeStageController extends Controller
     public function show(TypeStage $typeStage)
     {
         //
+    }
+    public function telechargement_fiche_demande(Request $request)
+    {
+
+        $fiche_demande =$request->fiche_demande;
+        $fiche_demande2 ='fiches_demande/'.$fiche_demande;
+        $file_path = public_path() .'/storage/'. $fiche_demande2;
+
+        if (file_exists($file_path))
+        {
+            return Response::download($file_path,$fiche_demande);
+        }
+        else
+        {
+            exit('fiche demande inexistante !');
+        }
     }
 
     /**
@@ -206,6 +244,7 @@ class TypeStageController extends Controller
         $request->validate([
             'type' => ['required'],
         ]);
+
         $classe = $typeStage->classe;
         $code_classe = $typeStage->classe->code;
 
@@ -223,7 +262,7 @@ class TypeStageController extends Controller
         }
 
         //depot
-        if (($classe->niveau == 2 && $classe->cycle == 'master') || ($classe->niveau == 3 && $classe->cycle == 'licence')) {
+       /* if (($classe->niveau == 2 && $classe->cycle == 'master') || ($classe->niveau == 3 && $classe->cycle == 'licence')) {
             if ($request->date_debut_depo > $request->date_fin_depo) {
                 $error_message = array("nom" => "", "periode_stage" => "", "depot_stage" => "La date de fin doit etre ultérieure à la date de début   !");
                 //dd($typeStage);
@@ -237,18 +276,21 @@ class TypeStageController extends Controller
             if ($typeStage->date_limite_depot !== $request->date_fin_depo) {
                 $typeStage->date_limite_depot = Carbon::createFromFormat('m/d/Y', $request->date_fin_depo)->format('Y-m-d');
             }
-        }
+        }*/
+        if (($request->fiche_demande_type == "requis")&&(($typeStage->fiche_demande)== null))
+        {
+            $request->validate(['fiche_demande.*' => ['required','mimes:pdf,jpg,png,jpeg,docx']]);
+            //dd(($request->fiche_demande_type == "requis"));
+            if (isset($request->fiche_demande))
+            {
+                $fiche_demande_name = 'FicheDemande_' . Str::upper(str_replace(' ', '', $code_classe)) . '_' . $request->type . '.' . $request->file('fiche_demande')->extension();//dd($fiche_demande_name)
+                $path = Storage::disk('public')
+                    ->putFileAs('fiches_demande', $request->file('fiche_demande'), $fiche_demande_name);
+                $typeStage->fiche_demande = $path;
+            }
 
-
-        if (isset($request->fiche_demande)) {
-            $fiche_demande_name = 'FicheDemande_' . Str::upper(str_replace(' ', '', $code_classe)) . '_' . $request->type . '.' . $request->file('fiche_demande')->extension();//dd($fiche_demande_name);
-            // $fiche_demande_name = $request->fiche_demande->getClientOriginalName();
-            $path = Storage::disk('public')
-                ->putFileAs('fiches_demande', $request->file('fiche_demande'), $fiche_demande_name);
-            //$typeStage->fiche_demande = $request->fiche_demande;
-            $typeStage->fiche_demande = $path;
         }
-        if (isset($request->fiche_assurance)) {
+      /*  if (isset($request->fiche_assurance)) {
             $fiche_assurance_name = 'FicheAssurance_' . Str::upper(str_replace(' ', '', $code_classe)) . '_' . $request->type . '.' . $request->file('fiche_assurance')->extension();
             $path2 = Storage::disk('public')
                 ->putFileAs('fiches_assurance', $request->file('fiche_assurance'), $fiche_assurance_name);
@@ -262,15 +304,21 @@ class TypeStageController extends Controller
                 ->putFileAs('fiches_2Dinars', $request->file('fiche_2Dinars'), $fiche_2Dinars_name);
             //$typeStage->fiche_2Dinars = $request->fiche_2Dinars;
             $typeStage->fiche_2Dinars = $path3;
-        }
-
+        }*/
+        //$nbre_mois = $this->diff_date_en_mois($date_debut, $date_fin);
         $typeStage_nom = Str::upper($code_classe) . ' ' . $request->type;
-
-
         $typeStage->classe_id = $classe->id;
-
         $typeStage->nom = $typeStage_nom;
         $typeStage->type_sujet = $request->type_sujet;
+        $typeStage->cahier_stage_type = $request->cahier_stage_type;
+        $typeStage->fiche__type = $request->fiche__type;
+        $typeStage->fiche_demande_type = $request->fiche_demande_type;
+        $typeStage->fiche_assurance_type = $request->fiche_assurance_type;
+        $typeStage->duree_stage_max = $request->duree_stage_max;
+        $typeStage->duree_stage_min = $request->duree_stage_min;
+
+
+        //dd($request);
         $typeStage->update();
         return redirect()->action([TypeStageController::class, 'index']);
 

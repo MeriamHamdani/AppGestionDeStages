@@ -155,6 +155,7 @@ Route::middleware(['auth','role:admin|superadmin'])->group(function(){
             Route::put('typeStage-classe/store/{classe}',[TypeStageController::class,'store'])->name('typeStage.store');
             Route::get('liste-classes-typeStages',[TypeStageController::class,'index'])->name('typeStage.index');
             Route::get('typeStage-classe/modifier-typeStage/{typeStage:id}',[TypeStageController::class,'edit'])->name('modifier_type_stage');
+            Route::get('typeStage-classe/fiche_demande/{fiche_demande}', [TypeStageController::class, 'telechargement_fiche_demande'])->where('fiche_demande', '[A-Za-z0-9\-\_\.]+')->name('fiche_demande');
             Route::patch('typeStage-classe/update-typeStage/{typeStage:id}', [TypeStageController::class,'update'])->name('update_type_stage');
             Route::get('typeStage-classe/supprimer-typeStage/{typeStage:id}',[TypeStageController::class,'destroy'])->name('supprimer_type_stage');
             Route::patch('etablissement/update-cls/{classe}', [ClasseController::class,'update'])->name('update_classe');

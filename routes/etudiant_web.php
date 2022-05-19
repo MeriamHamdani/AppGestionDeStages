@@ -56,8 +56,8 @@ Route::middleware(['auth', 'role:etudiant'])->group(function () {
         Route::view('/soutenance/info', 'etudiant.soutenance.info_soutenance')->name('info_soutenance');
 
         Route::get('/stage/fiche_demande/{fiche_demande}', [StageController::class, 'telecharger_fiche_demande'])->where('fiche_demande', '[A-Za-z0-9\-\_\.]+')->name('telecharger_fiche_demande');
-        Route::get('/stage/fiche_assurance/{fiche_assurance}', [StageController::class, 'telecharger_fiche_assurance'])->where('fiche_assurance', '[A-Za-z0-9\-\_\.]+')->name('telecharger_fiche_assurance');
-        Route::get('/stage/fiche_2Dinars/{fiche_2Dinars}', [StageController::class, 'telecharger_fiche_2Dinars'])->where('fiche_2Dinars', '[A-Za-z0-9\-\_\.]+')->name('telecharger_fiche_2Dinars');
+      /*  Route::get('/stage/fiche_assurance/{fiche_assurance}', [StageController::class, 'telecharger_fiche_assurance'])->where('fiche_assurance', '[A-Za-z0-9\-\_\.]+')->name('telecharger_fiche_assurance');
+        Route::get('/stage/fiche_2Dinars/{fiche_2Dinars}', [StageController::class, 'telecharger_fiche_2Dinars'])->where('fiche_2Dinars', '[A-Za-z0-9\-\_\.]+')->name('telecharger_fiche_2Dinars');*/
 
     });
 });

@@ -27,7 +27,7 @@
             <div class="col-sm-12">
                 <div class="card">
                     <div class="card-header pb-0">
-                        <h5>Stage</h5>
+                        <h5>Demander un Stage</h5>
                     </div>
                     <form class="form theme-form" action={{ route('demander_stage') }} method="POST"
                           enctype="multipart/form-data">
@@ -40,39 +40,41 @@
                                     </div>
                                 @endforeach
                             @endif
-                            <div class="alert alert-primary dark" role="alert">
-                                <p><i class="icofont icofont-exclamation-tringle"></i>
-                                    Prière de télécharger la fiche de demande de stage, la remplir,
-                                    la signer avec le responsable de l entreprise ( avec cachet )
-                                    et la scanner puis la dépôser dans ce formulaire.</p>
+                            @if(($etudiant->classe->typeStage->fiche_demande) != null)
+                                <div class="alert alert-primary dark" role="alert">
+                                    <p><i class="icofont icofont-exclamation-tringle"></i>
+                                        Prière de télécharger la fiche de demande de stage, la remplir,
+                                        la signer avec le responsable de l entreprise ( avec cachet )
+                                        et la scanner puis la dépôser dans ce formulaire.</p>
 
-                                <p><a href="{{ route('telecharger_fiche_demande',$fiche_demande) }}">
-                                        <u style="color:rgb(255, 255, 255)">Télécharger la fiche de demande de stage</u>
-                                    </a>
-                                </p>
+                                    <p><a href="{{ route('telecharger_fiche_demande',$fiche_demande) }}">
+                                            <u style="color:rgb(255, 255, 255)"><i class="icofont icofont-download-alt">Télécharger
+                                                    la fiche de demande de stage</i></u>
+                                        </a>
+                                    </p>
+                                </div>
+                            @endif
+                            {{-- <div class="alert alert-primary dark" role="alert">
+                                 <p><i class="icofont icofont-exclamation-tringle"></i>
+                                     Prière de télécharger la fiche d'assurance.</p>
 
-                            </div>
-                            <div class="alert alert-primary dark" role="alert">
-                                <p><i class="icofont icofont-exclamation-tringle"></i>
-                                    Prière de télécharger la fiche d'assurance.</p>
+                                 <p>
 
-                                <p>
+                                     <a href="{{ route('telecharger_fiche_assurance',$fiche_assurance) }}">
+                                         <u style="color:rgb(255, 255, 255)">Télécharger la fiche d'assurance</u>
+                                     </a>
+                                 </p>
+                             </div>
+                             <div class="alert alert-primary dark" role="alert">
+                                 <p><i class="icofont icofont-exclamation-tringle"></i>
+                                     Prière de télécharger la fiche de reçue 2 dinars.</p>
 
-                                    <a href="{{ route('telecharger_fiche_assurance',$fiche_assurance) }}">
-                                        <u style="color:rgb(255, 255, 255)">Télécharger la fiche d'assurance</u>
-                                    </a>
-                                </p>
-                            </div>
-                            <div class="alert alert-primary dark" role="alert">
-                                <p><i class="icofont icofont-exclamation-tringle"></i>
-                                    Prière de télécharger la fiche de reçue 2 dinars.</p>
-
-                                <p>
-                                    <a href="{{ route('telecharger_fiche_2Dinars',$fiche_2Dinars) }}">
-                                        <u style="color:rgb(255, 255, 255)">Télécharger la fiche de reçue 2 dinars.</u>
-                                    </a>
-                                </p>
-                            </div>
+                                 <p>
+                                     <a href="{{ route('telecharger_fiche_2Dinars',$fiche_2Dinars) }}">
+                                         <u style="color:rgb(255, 255, 255)">Télécharger la fiche de reçue 2 dinars.</u>
+                                     </a>
+                                 </p>
+                             </div>--}}
                             <div class="row">
                                 <div class="col">
                                     <div class="mb-3">
@@ -137,23 +139,26 @@
                                     </div>
                                 </div>
                             @endif
-                            <div class="row">
-                                <div class="col">
-                                    <div class="mb-3">
-                                        <label class="form-label" for="exampleFormControlSelect9">Le nom de
-                                            l'entreprise</label>
-                                        <select class="js-example-basic-single col-sm-12" name="entreprise"
-                                                id="entreprise">
-                                            <option disabled="disabled" selected="selected">Choisissez l'entreprise
-                                            </option>
-                                            @foreach ($entreprises as $entreprise )
-                                                <option value="{{ $entreprise->id }}"
-                                                    {{ old('entreprise') == $entreprise->id ? 'selected' : '' }}>{{ $entreprise->nom }}</option>
-                                            @endforeach
-                                        </select>
+                            @if((($etudiant->classe->typeStage->type_sujet) != "Business Plan") &&
+                            (($etudiant->classe->typeStage->type_sujet) != "Projet Tutoré"))
+                                <div class="row">
+                                    <div class="col">
+                                        <div class="mb-3">
+                                            <label class="form-label" for="exampleFormControlSelect9">Le nom de
+                                                l'entreprise</label>
+                                            <select class="js-example-basic-single col-sm-12" name="entreprise"
+                                                    id="entreprise">
+                                                <option disabled="disabled" selected="selected">Choisissez l'entreprise
+                                                </option>
+                                                @foreach ($entreprises as $entreprise )
+                                                    <option value="{{ $entreprise->id }}"
+                                                        {{ old('entreprise') == $entreprise->id ? 'selected' : '' }}>{{ $entreprise->nom }}</option>
+                                                @endforeach
+                                            </select>
+                                        </div>
                                     </div>
                                 </div>
-                            </div>
+                            @endif
 
                             <div class="row">
                                 <div class="alert alert-secondary dark" role="alert">
@@ -183,45 +188,48 @@
                                 </div>
                             </div>
 
-
-                            <div class="row">
-                                <div class="col">
-                                    <div class="mb-3">
-                                        <label class="form-label">La fiche de demande de stage scannée</label>
-                                        <div class="mb-3">
-                                            <input class="form-control" type="file" name="fiche_demande"
-                                                   id="fiche_demande"
-                                                   required="required"/>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="col">
-                                    <div class="mb-3">
-                                        <label class="form-label">La fiche de reçu 2 Dinars</label>
-                                        <div class="mb-3">
-                                            <input class="form-control" type="file" name="fiche_2Dinars"
-                                                   id="fiche_2Dinars" />
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
+                            @if(($etudiant->classe->typeStage->fiche_demande) != null)
                                 <div class="row">
                                     <div class="col">
                                         <div class="mb-3">
-                                            <label class="form-label">La fiche d'assurance</label>
+                                            <label class="form-label">La fiche de demande de stage scannée</label>
                                             <div class="mb-3">
-                                                <input class="form-control" type="file" name="fiche_assurance"
-                                                       id="fiche_assurance" />
-
+                                                <input class="form-control" type="file" name="fiche_demande"
+                                                       id="fiche_demande"
+                                                       required="required"/>
                                             </div>
                                         </div>
                                     </div>
-                                </div>
-                        </div>
-                        <div class="card-footer text-end">
-                            <input class="btn btn-light" type="reset" value="Annuler"/>
-                            <button class="btn btn-primary" type="submit">Envoyer</button>
+                                    @endif
+                                    {{--     <div class="col">
+                                             <div class="mb-3">
+                                                 <label class="form-label">La fiche de reçu 2 Dinars</label>
+                                                 <div class="mb-3">
+                                                     <input class="form-control" type="file" name="fiche_2Dinars"
+                                                            id="fiche_2Dinars"/>
+                                                 </div>
+                                             </div>
+                                         </div>
+                                     </div>--}}
+                                    @if(($etudiant->classe->typeStage->fiche_assurance_type== "requis"))
+                                        <div class="row">
+                                            <div class="col">
+                                                <div class="mb-3">
+                                                    <label class="form-label">La fiche d'assurance</label>
+                                                    <div class="mb-3">
+                                                        <input class="form-control" type="file" name="fiche_assurance"
+                                                               id="fiche_assurance"/>
 
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                </div>
+                            @endif
+                            <div class="card-footer text-end">
+                                <input class="btn btn-light" type="reset" value="Annuler"/>
+                                <button class="btn btn-primary" type="submit">Envoyer</button>
+                            </div>
                         </div>
                     </form>
                 </div>

@@ -14,6 +14,7 @@ use App\Models\Specialite;
 use App\Models\CahierStage;
 use App\Models\Departement;
 use Illuminate\Support\Arr;
+use Illuminate\Support\Facades\Date;
 use Illuminate\Support\Str;
 use Illuminate\Http\Request;
 use App\Models\Etablissement;
@@ -304,10 +305,10 @@ class StageController extends Controller
             'titre_sujet' => ['required', 'string', 'max:255'],
             'date_debut' => ['required', 'date'],
             'date_fin' => ['required', 'date'],
-            'fiche_demande' => ['required'],
+            /*'fiche_demande' => ['required'],
             'fiche_demande.*' => ['required', 'mimes:pdf,jpg,png,jpeg'],
             'fiche_assurance.*' => ['mimes:pdf,jpg,png,jpeg'],
-            'fiche_2Dinars.*' => ['mimes:pdf,jpg,png,jpeg']
+            'fiche_2Dinars.*' => ['mimes:pdf,jpg,png,jpeg']*/
         ]);
 
         $stage = new Stage();
@@ -351,8 +352,17 @@ class StageController extends Controller
 
         $date_debut = Carbon::createFromFormat('m/d/Y', $request->date_debut)->format('Y-m-d');
         $date_fin = Carbon::createFromFormat('m/d/Y', $request->date_fin)->format('Y-m-d');
-
-        //dd($date_debut<$type_stage->date_debut_periode);
+        $nbre_mois = $this->diff_date_en_mois($date_debut, $date_fin);
+        //dd($nbre_mois);
+        //dd($nbre_mois<$type_stage->duree_stage_min);
+        if($nbre_mois<$type_stage->duree_stage_min)
+        {
+            return Redirect::back()->withErrors(['la période de stage devrait être au minimum de '. $type_stage->duree_stage_min .' mois !']);
+        }
+        if($nbre_mois>$type_stage->duree_stage_max)
+        {
+            return Redirect::back()->withErrors(['la période de stage devrait être au maximaum de '. $type_stage->duree_stage_max .' mois !']);
+        }
         if ($request->date_debut < $request->date_fin) {
 
             if ($date_debut < $type_stage->date_debut_periode || $date_fin > $type_stage->date_limite_periode) {
@@ -367,12 +377,8 @@ class StageController extends Controller
         }
 
         $cin = Auth::user()->numero_CIN;
-        $fiche_demande_name = 'FicheDemande_' . $cin . '.' . $request->file('fiche_demande')->extension();
-        $path = Storage::disk('public')
-            ->putFileAs('fiches_demande_' . $classe->code, $request->file('fiche_demande'), $fiche_demande_name);
-        $stage->fiche_demande = $path;
-        //dd($request->file('fiche_demande'));
-        if (isset($etudiant->classe->typeStage->fiche_2Dinars))
+
+        /*if (isset($etudiant->classe->typeStage->fiche_2Dinars))
         {
             $fiche_2Dinars_name = 'Fiche2Dinars_' . $cin . '.' . $request->file('fiche_2Dinars')->extension();
             $path3 = Storage::disk('public')
@@ -387,8 +393,19 @@ class StageController extends Controller
                 ->putFileAs('fiches_assurances_'. $classe->code, $request->file('fiche_assurance'), $fiche_assurance_name);
             $stage->fiche_assurance = $path2;
            // dd($request->file('fiche_assurance'),$request->file('fiche_2Dinars'),$request->file('fiche_demande'));
+        }*/
+        if($etudiant->classe->typeStage->fiche_demande_type == "requis")
+        {
+            if (isset($request->fiche_demande))
+            {
+                $fiche_demande_name = 'FicheDemande_' . $cin . '.' . $request->file('fiche_demande')->extension();
+                $path = Storage::disk('public')
+                    ->putFileAs('fiches_demande_' . $classe->code, $request->file('fiche_demande'), $fiche_demande_name);
+                $stage->fiche_demande = $path;
+            }
         }
         $stage->confirmation_admin = 0;
+       // dd($stage);//
         $stage->save();
         if (($etudiant->classe->niveau == 3 && $etudiant->classe->cycle == "licence") ||
             ($etudiant->classe->niveau == 2 && $etudiant->classe->cycle == "master")) {
@@ -401,7 +418,7 @@ class StageController extends Controller
             $enseignant->notify(new DemandeEncadrementNotification($data));
         }
 
-        return redirect()->action([StageController::class, 'create']);
+        return redirect()->action([EtudiantController::class, 'mes_demandes_stages']);
 
 
     }
@@ -415,6 +432,13 @@ class StageController extends Controller
     public function show(Stage $stage)
     {
         //
+    }
+    static function diff_date_en_mois(string $a, string  $b)
+    {
+        $from = Carbon::createFromFormat('Y-m-d', $a);
+        $to = Carbon::createFromFormat('Y-m-d', $b);
+        $nbreJours = $to->diffInDays($from);
+        return intdiv($nbreJours,27);
     }
 
     /**
@@ -471,6 +495,7 @@ class StageController extends Controller
 
             $stage->fiche_demande = $path;
         }
+
         $stage->update();
         return back();
 

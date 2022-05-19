@@ -25,7 +25,7 @@ class CreateStagesTable extends Migration
             $table->date('date_debut');
             $table->date('date_fin');
             $table->date('date_demande');
-            $table->string('fiche_demande');
+            $table->string('fiche_demande')->nullable();
             $table->string('fiche_assurance')->nullable();
             $table->string('fiche_2Dinars')->nullable();
             $table->integer('confirmation_encadrant')->nullable();
