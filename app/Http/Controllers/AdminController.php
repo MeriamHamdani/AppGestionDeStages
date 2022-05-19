@@ -85,6 +85,7 @@ class AdminController extends Controller
         $user=new User();
         $user->numero_CIN=$request->numero_CIN;
         $user->password = bcrypt($request->numero_CIN);
+        $user->email = $request->email;
         $user->is_active=false;
         $user->assignRole('admin');
         //event(new Registered($user));

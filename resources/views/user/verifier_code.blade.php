@@ -124,41 +124,22 @@
                         </svg>
                     </div>
                     <form class="form theme-form needs-validation" method="POST"
-                        action="{{route('modifier_coordonnes')}}">
+                        action="{{route('verifier_code',['code'=>$code])}}">
+
                         @csrf
-                        @method('PATCH')
-
-                        <div class="col-md-8 offset-md-2">
-                            <h3>Veuillez changer votre mot de passe et Valider votre compte afin de pouvoir accédez à
-                                votre compte </h3>
+                        <div class="col-md-8 offset-md-2 text-center">
+                            <h3>Un code de confirmation est envoyer par couriel , veuillez consulter votre boite mail
+                            </h3>
                             <div class="row">
-                                <div class="col-md-6 position-left">
-                                    <label class="form-label">Le nouveau mot de passe</label>
-                                    <input class="form-control" type="password" name="new_password" id="motdepasse" />
-                                    <!--<i class="far fa-eye" onclick="afficher()"></i>-->
-                                </div>
+                                <div class="col">
+                                    <div class="mb-3">
+                                        <label class="form-label">Tapez le code ici</label>
+                                        <input class="form-control" type="text" name="aVerif" id="aVerif" />
 
-                                <div class="col-md-6 position-right">
-                                    <label class="form-label">Retapez le nouveau mot de passe</label>
-                                    <input class="form-control" type="password" name="new_password2" id="motdepasse2" />
-                                    <!--<i class="far fa-eye" onclick="afficher()"></i>-->
-                                </div>
-                                <div class="col-md-6 position-left">
-                                    <input type="checkbox" onclick="afficher()"><label>&nbsp;&nbsp;Afficher le
-                                        mot de passe</label></i>
+                                    </div>
                                 </div>
                             </div>
-                            <div>
-                                <div class="col text-center">
-                                    <label class="form-label">code de validation</label>
-                                    <input class="form-control" type="text" name="aVerifier" id="aVerifier" />
-
-                                    <!--<i class="far fa-eye" onclick="afficher()"></i>-->
-                                </div>
-                            </div>
-                            <input type="hidden" value={{ Session::get('code') }} name="code" id="code">
-
-                            <button class="btn btn-primary btn-lg" type="submit">Modifier</button>
+                            <button class="btn btn-primary btn-lg" type="submit">confirmer</button>
                         </div>
                     </form>
                 </div>
@@ -180,25 +161,14 @@
     integrity="sha512-AA1Bzp5Q0K1KanKKmvN/4d3IRKVlv9PYgwFPvm32nPO6QS8yH1HO7LbgB1pgiOxPtfeg5zEn2ba64MUcqJx6CA=="
     crossorigin="anonymous" referrerpolicy="no-referrer"></script>
 
-@if(Session::has('message'))
-@if (Session::get('message')=='no-change')
+@if((Session::has('message')) && (Session::get('message')=='invalide'))
 <script>
-    swal('Oups','Pas de correspondance entre les 2 champs saisis!',{
-            icon: 'error',
-            button: 'Reéssayer'
-        })
-</script>
-@else
-<script>
-    swal('Oups','Le code est invalide, vérifier bien votre courriel !',{
+    swal('Oups','Code invalide , Verifier bien le code envoyer!',{
             icon: 'error',
             button: 'Reéssayer'
         })
 </script>
 @endif
-
-@endif
-
 
 
 

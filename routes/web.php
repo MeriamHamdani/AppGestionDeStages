@@ -40,6 +40,10 @@ Route::patch('connexion/modifier_coordonnes/modifier',[UserController::class,'ed
         ->middleware('auth')
         ->name('modifier_coordonnes');
         
+/*Route::post('connexion/verifier_code/{code}',[UserController::class,'verifier_code'])
+        ->middleware('auth')
+        ->name('verifier_code');*/
+        
 Route::view('/modifier_mdp','login.modifier_mdp')
             /*->middleware([EnsureUserIsActive::class])*/->name('modifier_mdp');
 

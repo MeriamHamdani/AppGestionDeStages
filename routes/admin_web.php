@@ -150,7 +150,8 @@ Route::middleware(['auth','role:admin|superadmin'])->group(function(){
             Route::view('dates-stages', 'admin.configuration.generale.dates_stages')->name('dates_stages');
             Route::view('liste-grille', 'admin.configuration.generale.liste_grille')->name('liste_grille');
             Route::view('config-grille', 'admin.configuration.generale.configuration_grille')->name('configurer_grille');
-
+            Route::get('session-depot',[TypeStageController::class,'ts_cette_annee'])->name('config_session_depot');
+            Route::post('session-depot/creer',[TypeStageController::class,'new_session_depot'])->name('new_session_depot');
             Route::get('typeStage-classe/ajouter/{classe}',[TypeStageController::class,'create'])->name('typeStage.create');
             Route::put('typeStage-classe/store/{classe}',[TypeStageController::class,'store'])->name('typeStage.store');
             Route::get('liste-classes-typeStages',[TypeStageController::class,'index'])->name('typeStage.index');
@@ -159,6 +160,8 @@ Route::middleware(['auth','role:admin|superadmin'])->group(function(){
             Route::patch('typeStage-classe/update-typeStage/{typeStage:id}', [TypeStageController::class,'update'])->name('update_type_stage');
             Route::get('typeStage-classe/supprimer-typeStage/{typeStage:id}',[TypeStageController::class,'destroy'])->name('supprimer_type_stage');
             Route::patch('etablissement/update-cls/{classe}', [ClasseController::class,'update'])->name('update_classe');
+            
+            
         });
         Route::get('configuration/annee-universitaire', [AnneeUniversitaireController::class, 'create'])->name('config_annee_universitaire');
         Route::post('configuration/ajouter-annee-universitaire', [AnneeUniversitaireController::class, 'store'])->name('ajouter_annee_universitaire');
