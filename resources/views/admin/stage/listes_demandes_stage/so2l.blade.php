@@ -43,7 +43,7 @@
                                 @foreach ($stages as $stage )
                                 <tr>
                                     <td>{{ App\Models\Etudiant::find($stage->etudiant_id)->nom }}
-                                    {{ App\Models\Etudiant::find($stage->etudiant_id)->prenom }}</td>
+                                        {{ App\Models\Etudiant::find($stage->etudiant_id)->prenom }}</td>
                                     <td>{{$stage->code_classe}}</td>
                                     <td class="text-center"><a
                                             href="{{ route('telechargement_fiche_demande',['fiche_demande'=>$stage->file,'code_classe'=>$stage->code_classe]) }}">
@@ -75,17 +75,17 @@
                                     </td>
                                     <td class="text-center">
                                         @if ($stage->confirmation_admin!=1)
-                                            <a href="{{ route('confirmer_demande',['stage_id'=>$stage->id]) }}"> <i
-                                                    data-toggle="tooltip" title="Confirmer"
-                                                    class="icofont icofont-ui-check icon-large"></i></a>
+                                        <a href="{{ route('confirmer_demande',['stage_id'=>$stage->id]) }}"> <i
+                                                data-toggle="tooltip" title="Confirmer"
+                                                class="icofont icofont-ui-check icon-large"></i></a>
                                         @endif
                                         @if ($stage->confirmation_admin!=-1)
-                                            <a href="{{ route('refuser_demande',['stage_id'=>$stage->id]) }}"><i
-                                                    data-toggle="tooltip" title="Refuser"
-                                                    class="icofont icofont-ui-close icon-large"></i></a>
+                                        <a href="{{ route('refuser_demande',['stage_id'=>$stage->id]) }}"><i
+                                                data-toggle="tooltip" title="Refuser"
+                                                class="icofont icofont-ui-close icon-large"></i></a>
                                         @endif
                                         <a href="{{ route('demandes_stage.modifier_demande',['stage_id'=>$stage->id]) }}"
-                                           data-title="Modifer" data-toggle="tooltip" title="Modifer"><i
+                                            data-title="Modifer" data-toggle="tooltip" title="Modifer"><i
                                                 class="icofont icofont-ui-edit icon-large"></i></a>
                                     </td>
                                 </tr>
@@ -138,7 +138,25 @@
 <script src="{{asset('assets/js/datatable/datatable-extension/dataTables.rowReorder.min.js')}}"></script>
 <script src="{{asset('assets/js/datatable/datatable-extension/dataTables.scroller.min.js')}}"></script>
 <script src="{{asset('assets/js/datatable/datatable-extension/custom.js')}}"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/sweetalert/2.1.2/sweetalert.min.js"
+    integrity="sha512-AA1Bzp5Q0K1KanKKmvN/4d3IRKVlv9PYgwFPvm32nPO6QS8yH1HO7LbgB1pgiOxPtfeg5zEn2ba64MUcqJx6CA=="
+    crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+@if(Session::has('message'))
+<script>
+    toastr.success("{!! Session::get('message') !!}")
+</script>
+@endif
+@if(Session::has('message'))
+@if (Session::get('message')=='attend_encadrant')
+
+<script>
+    swal('C\'est interdit', 'Il faut que l\'encadrant confirme la demande d\'abord', 'warning', {
+                        button: 'error'
+                    })
+
+</script>
+@endif
+@endif
 @endpush
 
 @endsection
-
