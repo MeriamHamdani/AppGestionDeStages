@@ -106,9 +106,11 @@ class EnseignantController extends Controller
             }
             $attributs2['etablissement_id'] = Etablissement::all()->firstOrFail()->id;
             $user = User::create($attributs);
+            
             $user->assignRole('enseignant');
             $attributs2['user_id'] = $user->id;
             $enseignant = Enseignant::create($attributs2);
+            $user->email=$enseignant->email;
             Session::flash('message', 'ok');
         }else{
             Session::flash('message', 'ko');

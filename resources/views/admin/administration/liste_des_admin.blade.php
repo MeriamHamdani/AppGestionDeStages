@@ -35,8 +35,8 @@
                                     <th>N°CIN</th>
                                     <th>Numéro de téléphone</th>
                                     <th>Adresse mail</th>
-                                    <th>Statut</th>
-                                    <th>Actions</th>
+                                    
+                                    @super<th>Actions</th>@endsuper
 
                                 </tr>
                             </thead>
@@ -47,19 +47,8 @@
                                     <td>{{ $aia["user"]->numero_CIN }}</td>
                                     <td>{{ $aia["admin"]->numero_telephone }}</td>
                                     <td>{{ $aia["admin"]->email }}</td>
-                                    <td class="text-center">
-                                        @if ( $aia["user"]->is_active)
-                                        <a class=" btn btn-icon-only default" href="#" data-placement="top"
-                                            data-toggle="tooltip" title="admin active"><img
-                                                src="{{ asset('assets/images/userActive.png') }}">
-                                        </a>
-                                        @else
-                                        <a class=" btn btn-icon-only default" href="#" data-placement="top"
-                                            data-toggle="tooltip" title="admin inactive"><img
-                                                src="{{ asset('assets/images/usercancled.png') }}">
-                                        </a>
-                                        @endif
-                                    </td>
+
+                                    @super
                                     <td class="text-center">
                                         <a href="{{ route('admin.edit',['id_admin'=>$aia['admin']->id]) }}"
                                             data-title="Modifer les coordonnées de cet admin" data-toggle="tooltip"
@@ -72,6 +61,7 @@
                                             <i class="icofont icofont-trash icon-large"></i>
                                         </a>
                                     </td>
+                                    @endsuper
                                 </tr>
                                 @endforeach
                             </tbody>
@@ -82,8 +72,8 @@
                                     <th>N°CIN</th>
                                     <th>Numéro de téléphone</th>
                                     <th>Adresse mail</th>
-                                    <th>Statut</th>
-                                    <th>Actions</th>
+                                  
+                                    @super<th>Actions</th>@endsuper
                                 </tr>
                                 </tr>
                             </tfoot>
@@ -125,4 +115,3 @@
 @endpush
 
 @endsection
-
