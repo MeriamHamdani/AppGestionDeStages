@@ -32,7 +32,8 @@ Route::middleware(['auth', 'role:etudiant'])->group(function () {
         Route::get('/stage/liste-stages/{demande}', [StageController::class,'download_lettre_affect'])
                                                             ->name('telecharger_lettre_affect');
         Route::get('/stage/gerer-cahier-stage', [CahierStageController::class,'index'])->name('gestion_cahier_stage');
-        Route::view('/stage/cahier-stage', 'etudiant.stage.cahier_stage')->name('cahier_stage');
+        Route::get('/stage/gerer-cahier-stage/creer/{stage}',[CahierStageController::class,'create'])->name('nouvelle_cahier_stage');
+        //Route::view('/stage/cahier-stage', 'etudiant.stage.cahier_stage')->name('cahier_stage');
 
 
         Route::get('entreprise/liste-entreprises', [EntrepriseController::class, 'indexEtd'])->name('liste_entreprises');

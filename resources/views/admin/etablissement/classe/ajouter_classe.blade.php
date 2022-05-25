@@ -32,7 +32,7 @@
                     <div>{{ $err }}</div>
                     @endforeach
 
-                  
+
                 </div>
                 <div class="card-body">
                     <form class="row g-3 needs-validation" novalidate="" method="POST"
@@ -202,7 +202,7 @@
 @if(Session::has('message'))
 @if (Session::get('message')=='notMatchCycle')
 <script>
-    swal('Oups', 'La spécialite selectionnée ne peut pas etre attribuée au cycle choisi', 'error', {
+    swal('Oups', 'La spécialite '.Session::get('sp').' ne peut pas etre attribuée au cycle '.Session::get('cycle'), 'error', {
                             button: 'Reéssayer'
                         })
 </script>

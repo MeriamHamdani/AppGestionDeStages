@@ -101,12 +101,13 @@ class ClasseController extends Controller
 
             }
             //dd($cycle);
+
             $specialite=Specialite::find($request->specialite_id);
             $sp_cycle=$specialite->cycle;
-            //dd(strtoupper($request->cycle),strtoupper($sp_cycle));
             if(strtoupper($sp_cycle) !== strtoupper($request->cycle)){
 
                 //Session::flash('message','notMatchCycle');
+
 
                 return Redirect::back()->withErrors(['Vous ne pouvez pas attribuer la spécialité '.$specialite->nom.' aux classes '.$request->cycle]);
             }

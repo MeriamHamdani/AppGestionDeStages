@@ -41,7 +41,8 @@
                                 <tr>
                                     <td> {{ $cs->stage->titre_sujet }} </td>
                                     <td>Type pfe_oblig_volont</td>
-                                    <td><a class="btn btn-primary" href="/stage/cahiers_de_stage/{cahier}">
+                                    <td><a class="btn btn-primary" href={{
+                                            route('nouvelle_cahier_stage',['stage'=>$cs->stage]) }}>
                                             <i class="icofont icofont-book-alt">
                                                 Cahier de stage
                                             </i></a></td>
@@ -75,4 +76,3 @@
 @endpush
 
 @endsection
-

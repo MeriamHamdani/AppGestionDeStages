@@ -168,7 +168,6 @@
                                                  </div>
                                              </div>
                                          </div>
-
                                     </div>
                                     <div class="f1-buttons">
                                         <button class="btn btn-primary btn-previous" type="button">Retour</button>

@@ -161,6 +161,48 @@
         <script src="{{ asset('assets/js/icons/icons-notify.js') }}"></script>
         <script src="{{ asset('assets/js/icons/feather-icon/feather-icon-clipart.js') }}"></script>
 
+<<<<<<< HEAD
+<script src="{{asset('assets/js/datatable/datatables/jquery.dataTables.min.js')}}"></script>
+<script src="{{asset('assets/js/datatable/datatable-extension/dataTables.buttons.min.js')}}"></script>
+<script src="{{asset('assets/js/datatable/datatable-extension/jszip.min.js')}}"></script>
+<script src="{{asset('assets/js/datatable/datatable-extension/buttons.colVis.min.js')}}"></script>
+<script src="{{asset('assets/js/datatable/datatable-extension/pdfmake.min.js')}}"></script>
+<script src="{{asset('assets/js/datatable/datatable-extension/vfs_fonts.js')}}"></script>
+<script src="{{asset('assets/js/datatable/datatable-extension/dataTables.autoFill.min.js')}}"></script>
+<script src="{{asset('assets/js/datatable/datatable-extension/dataTables.select.min.js')}}"></script>
+<script src="{{asset('assets/js/datatable/datatable-extension/buttons.bootstrap4.min.js')}}"></script>
+<script src="{{asset('assets/js/datatable/datatable-extension/buttons.html5.min.js')}}"></script>
+<script src="{{asset('assets/js/datatable/datatable-extension/buttons.print.min.js')}}"></script>
+<script src="{{asset('assets/js/datatable/datatable-extension/dataTables.bootstrap4.min.js')}}"></script>
+<script src="{{asset('assets/js/datatable/datatable-extension/dataTables.responsive.min.js')}}"></script>
+<script src="{{asset('assets/js/datatable/datatable-extension/responsive.bootstrap4.min.js')}}"></script>
+<script src="{{asset('assets/js/datatable/datatable-extension/dataTables.keyTable.min.js')}}"></script>
+<script src="{{asset('assets/js/datatable/datatable-extension/dataTables.colReorder.min.js')}}"></script>
+<script src="{{asset('assets/js/datatable/datatable-extension/dataTables.fixedHeader.min.js')}}"></script>
+<script src="{{asset('assets/js/datatable/datatable-extension/dataTables.rowReorder.min.js')}}"></script>
+<script src="{{asset('assets/js/datatable/datatable-extension/dataTables.scroller.min.js')}}"></script>
+<script src="{{asset('assets/js/datatable/datatable-extension/custom.js')}}"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/sweetalert/2.1.2/sweetalert.min.js"
+    integrity="sha512-AA1Bzp5Q0K1KanKKmvN/4d3IRKVlv9PYgwFPvm32nPO6QS8yH1HO7LbgB1pgiOxPtfeg5zEn2ba64MUcqJx6CA=="
+    crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+@if(Session::has('message'))
+<script>
+    toastr.success("{!! Session::get('message') !!}")
+</script>
+@endif
+@if(Session::has('message'))
+@if (Session::get('message')=='attend_encadrant')
+
+<script>
+    swal('C\'est interdit', 'Il faut que l\'encadrant confirme la demande d\'abord', 'warning', {
+                        button: 'error'
+                    })
+
+</script>
+@endif
+@endif
+@endpush
+=======
         <script src="{{asset('assets/js/datatable/datatables/jquery.dataTables.min.js')}}"></script>
         <script src="{{asset('assets/js/datatable/datatable-extension/dataTables.buttons.min.js')}}"></script>
         <script src="{{asset('assets/js/datatable/datatable-extension/jszip.min.js')}}"></script>
@@ -196,6 +238,6 @@
             @endif
         @endif
     @endpush
+>>>>>>> bcddc20a77918df5111cd331b08d1b328bc08eb6
 
 @endsection
-
