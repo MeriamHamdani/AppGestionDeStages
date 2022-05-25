@@ -86,8 +86,9 @@ class DepotMemoireController extends Controller
         $nomComplet = ucwords($etudiant->nom) . ucwords($etudiant->prenom);
         $current_date = Carbon::now()->format('Y-m-d');
         $classe = Classe::findOrFail($etudiant->classe_id);
+        //dd($stage->typeStage->date_limite_depot >= $current_date);
         if($stage->typeStage->date_limite_depot >= $current_date) {
-            if ($stage->type_sujet == "Business Plan" || $stage->type_sujet == "Projet Tutore") {
+            if ($stage->type_sujet == "Business Plan" || $stage->type_sujet == "Projet Tutoré") {
                 if (isset($request->fiche_plagiat)) {
                     $fiche_plagiat_name = 'FichePlagiat_' . $nomComplet . '.' . $request->file('fiche_plagiat')->extension();
                     $path = Storage::disk('public')
