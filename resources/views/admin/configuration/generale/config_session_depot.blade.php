@@ -74,10 +74,7 @@
                                                                                 required="required" name="date_fin"
                                                                                 id="date_limite_depo" />
                                                                         </div>
-                                                                        <button
-                                                                            class="btn btn-primary nextBtn pull-right"
-                                                                            type="button">Suivant
-                                                                        </button>
+                                                                        
                                                                     </div>
                                                                     <div class="mb-3">
                                                                         <label class="col-form-label"
