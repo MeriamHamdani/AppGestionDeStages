@@ -52,7 +52,7 @@
                                                         Gérer le dépôt
                                                     </i></a>
                                             </td>
-                                            @if(\App\Models\DepotMemoire::where('stage_id',$stage->id)->first()->memoire == null)
+                                            @if(\App\Models\DepotMemoire::where('stage_id',$stage->id)->first() == null)
                                                 <td>
                                                     <button class="btn btn-warning btn-sm" data-toggle="tooltip"
                                                             title="Pas encore dépôsé">
