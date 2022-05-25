@@ -68,7 +68,7 @@ class EnseignantController extends Controller
 
         $attributs['password'] = bcrypt($attributs['numero_CIN']);
         $attributs['is_active'] = 0;
-        
+
         /* $user = User::create($attributs);
          $user->assignRole('enseignant');*/
 
@@ -107,12 +107,12 @@ class EnseignantController extends Controller
             }
             $attributs2['etablissement_id'] = Etablissement::all()->firstOrFail()->id;
             $user = User::create($attributs);
-            
+
             $user->assignRole('enseignant');
             $attributs2['user_id'] = $user->id;
             $enseignant = Enseignant::create($attributs2);
             $user->email=$enseignant->email;
-            
+
             Session::flash('message', 'ok');
         }else{
             Session::flash('message', 'ko');
@@ -223,8 +223,8 @@ class EnseignantController extends Controller
     {
         return Excel::download(new EnseignantExport, 'liste-enseignants.xlsx');
     }
-    public function liste_stages_actifs(){
-        
+    static function liste_stages_actifs(){
+
         $enseignant=Enseignant::where('user_id',Auth::user()->id)->get()[0];
         $stages_actifs=Stage::where('enseignant_id',$enseignant->id)
                             ->where('confirmation_admin',1)
@@ -238,16 +238,16 @@ class EnseignantController extends Controller
         }
         //dd($stages_actifs);
         return view('enseignant.encadrement.liste_stages_actifs',compact('stages_actifs'));
-                            
+
     }
-   
+
     public function details_stage(Stage $stage){
-      
+
         $etudiant=Etudiant::findOrFail($stage->etudiant_id);
         $classe=Classe::find($etudiant->classe_id);
         $type_stage=TypeStage::findOrFail($classe->type_stage_id);
         $stage->type_stage=$type_stage->nom;
-      
+
         return view('enseignant.encadrement.details_stage',compact('stage'));
     }
 }

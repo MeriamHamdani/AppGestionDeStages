@@ -15,4 +15,8 @@ class TypeStage extends Model
     {
         return $this->belongsTo(Classe::class);
     }
+    public function stages()
+    {
+        return $this->hasMany(Stage::class);
+    }
 }

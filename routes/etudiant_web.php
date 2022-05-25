@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\CahierStageController;
+use App\Http\Controllers\DepotMemoireController;
 use App\Http\Controllers\EntrepriseController;
 
 
@@ -47,8 +48,9 @@ Route::middleware(['auth', 'role:etudiant'])->group(function () {
         //  Route::view('/entreprise/liste-entreprises', 'etudiant.entreprise.liste_entreprises')->name('liste_entreprises');
         // Route::view('/entreprise/ajouter-entreprise', 'etudiant.entreprise.ajouter_entreprise')->name('ajouter-entreprise');
 
-        Route::view('/depot/gerer-depot', 'etudiant.depot.depot_memoire')->name('depot');
-        Route::view('/depot/deposer', 'etudiant.depot.deposer')->name('deposer');
+        Route::get('/depot/gerer-depot', [DepotMemoireController::class, 'index'])->name('depot');
+        Route::get('/depot/deposer/', [DepotMemoireController::class, 'create'])->name('deposer');
+        Route::post('/depot/gerer-depot/deposer-memoire', [DepotMemoireController::class, 'store'])->name('deposer_memoire');
         Route::view('/depot/gerer-depot/remarques-encadrant', 'etudiant.depot.remarques_encadrant')->name('remarques_encadrant');
 
 

@@ -6,10 +6,25 @@ use App\Models\User;
 use App\Models\Etudiant;
 use Illuminate\Support\Carbon;
 use App\Models\AnneeUniversitaire;
+use Illuminate\Support\Str;
 use Maatwebsite\Excel\Concerns\ToModel;
+use Maatwebsite\Excel\Concerns\WithCustomCsvSettings;
+use Maatwebsite\Excel\Concerns\WithStartRow;
 
-class EtudiantsImport implements ToModel
+class EtudiantsImport implements ToModel, WithStartRow, WithCustomCsvSettings
 {
+    public function startRow(): int
+    {
+        return 3;
+    }
+
+    public function getCsvSettings(): array
+    {
+        return [
+            'delimiter' => ';'
+        ];
+    }
+
     /**
     * @param array $row
     *
@@ -19,9 +34,24 @@ class EtudiantsImport implements ToModel
     {
         //dd($row);
         $classe_id = request()->classe_id;
+        $numCinExcel = $row[3];
+        $length = Str::length($numCinExcel);
+        if ( $length == 6)
+        {
+            $row[3] = '00'.$numCinExcel;
+        }
+        elseif ($length == 7)
+        {
+            $row[3] = '0'.$numCinExcel;
+        }
+        elseif ($length == 8)
+        {
+            $row[3] = $numCinExcel;
+        }
         $attributs = [
             'numero_CIN'     => $row[3],
             'password' => bcrypt($row[3]),
+            'email'=>$row[2],
             'is_active' => '0' ];
 
         $attributs2 = [
@@ -50,9 +80,9 @@ class EtudiantsImport implements ToModel
                 break;
             }
         }
-        
+
         $attributs2['numero_telephone']="-----";
-        
+
         $user = User::create($attributs);
         $user->assignRole('etudiant');
         $attributs2['user_id'] = $user->id;

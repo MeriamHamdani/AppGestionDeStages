@@ -45,14 +45,17 @@
                                 <tr>
                                     <td>{{ Str::ucfirst($demande->type) }}
                                     </td>
-                                    <td>{{ App\Models\AnneeUniversitaire::find($demande->annee_universitaire_id)->annee
-                                        }}</td>
-                                    <td>{{ App\Models\Entreprise::find($demande->entreprise_id)->nom
-                                        }}</td>
+                                    <td>{{ App\Models\AnneeUniversitaire::find($demande->annee_universitaire_id)->annee}}</td>
+                                    @if(isset($demande->entreprise))
+                                    <td>{{ App\Models\Entreprise::find($demande->entreprise_id)->nom }}</td>
+                                    @else
+                                        <td class="text-center">
+                                            <i class="icofont icofont-exclamation-tringle" style="font-size: 1.3em"></i>
+                                        </td>
+                                    @endif
                                     <td>{{ $demande->date_debut }}</td>
                                     <td>{{ $demande->date_fin }}</td>
-                                    <td class="text-center"><a href={{
-                                            route('telecharger_lettre_affect',['demande'=>$demande]) }}>
+                                    <td class="text-center"><a href={{ route('telecharger_lettre_affect',['demande'=>$demande]) }}>
                                             <i style="font-size: 2em;" class="icofont icofont-file-pdf icon-large"></i>
                                         </a>
                                     </td>

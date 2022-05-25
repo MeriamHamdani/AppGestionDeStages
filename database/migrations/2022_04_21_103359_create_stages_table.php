@@ -32,7 +32,7 @@ class CreateStagesTable extends Migration
             $table->integer('confirmation_admin')->nullable();
             $table->integer('validation_encadrant')->nullable();
             $table->integer('validation_admin')->nullable();
-            $table->foreignId('entreprise_id')->nullOnDelete()->constrained();
+            $table->foreignId('entreprise_id')->nullable()->nullOnDelete()->constrained();
             $table->timestamps();
         });
     }

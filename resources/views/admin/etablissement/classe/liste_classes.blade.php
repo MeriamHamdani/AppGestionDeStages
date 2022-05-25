@@ -125,7 +125,7 @@
     toastr.success("{!! Session::get('message') !!}")
 </script>
 @endif
-@if(Session::has('message'))
+@if(Session::has('message')) @endif
 @if (Session::get('message')=='ok')
 
 <script>

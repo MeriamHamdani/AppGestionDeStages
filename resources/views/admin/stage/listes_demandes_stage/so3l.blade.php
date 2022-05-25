@@ -50,10 +50,16 @@
                                     <td>{{ App\Models\Enseignant::find($stage->enseignant_id)->nom }}&nbsp;{{
                                         App\Models\Enseignant::find($stage->enseignant_id)->prenom }}</td>
                                     </td>
+                                    @if(isset($stage->fiche_demande))
                                     <td class="text-center"><a href="{{ route('telechargement_fiche_demande',['fiche_demande'=>$stage->file,'code_classe'=>$stage->code_classe]) }}">
                                             <i style="font-size: 2em;" class="icofont icofont-file-pdf icon-large"></i>
                                         </a>
                                     </td>
+                                    @else
+                                        <td class="text-center">
+                                            <i class="icofont icofont-exclamation-tringle" style="font-size: 1.3em"></i>
+                                        </td>
+                                    @endif
                                     @if ($stage->confirmation_encadrant==null)
                                     <td class="text-center">
                                         <button class="buttonload" data-toggle="tooltip" title="demande en attente">
@@ -148,7 +154,9 @@
 
 
 @push('scripts')
-
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/sweetalert/2.1.2/sweetalert.min.js"
+            integrity="sha512-AA1Bzp5Q0K1KanKKmvN/4d3IRKVlv9PYgwFPvm32nPO6QS8yH1HO7LbgB1pgiOxPtfeg5zEn2ba64MUcqJx6CA=="
+            crossorigin="anonymous" referrerpolicy="no-referrer"></script>
 <script src="{{ asset('assets/js/notify/bootstrap-notify.min.js') }}"></script>
 <script src="{{ asset('assets/js/icons/icons-notify.js') }}"></script>
 <script src="{{ asset('assets/js/icons/feather-icon/feather-icon-clipart.js') }}"></script>
@@ -173,6 +181,20 @@
 <script src="{{asset('assets/js/datatable/datatable-extension/dataTables.rowReorder.min.js')}}"></script>
 <script src="{{asset('assets/js/datatable/datatable-extension/dataTables.scroller.min.js')}}"></script>
 <script src="{{asset('assets/js/datatable/datatable-extension/custom.js')}}"></script>
+@if(Session::has('message'))
+    @if (Session::get('message')=='attend_encadrant')
+
+        <script>
+            swal({
+                position: 'center',
+                icon: 'info',
+                title: 'Enacdrant doit confirmer avant!!',
+                showConfirmButton: false,
+                timer: 3000
+            })
+        </script>
+    @endif
+@endif
 @endpush
 
 @endsection
