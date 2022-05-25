@@ -33,5 +33,9 @@ class Stage extends Model
     {
         return $this->hasOne(Soutenance::class);
     }
+    public function typeStage()
+    {
+        return $this->belongsTo(TypeStage::class);
+    }
 
 }

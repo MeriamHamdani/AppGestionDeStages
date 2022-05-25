@@ -173,13 +173,16 @@
                         </div>
                     </li>
                     <li class="dropdown">
+                        <a class="nav-link menu-title link-nav {{ routeActive('config_session_depot') }}"
+                           href="{{ route('config_session_depot') }}">
+                            <i class="icofont icofont-download-alt"></i>&nbsp&nbsp&nbsp<span>Session de
+                                dépôt</span></a>
+                    </li>
+                    <li class="dropdown">
                         <a class="nav-link menu-title link-nav {{ routeActive('gerer_depot') }}"
                             href="{{ route('gerer_depot') }}">
                             <i class="icofont icofont-papers"></i>&nbsp&nbsp&nbsp<span>Gérer les dépôts</span></a>
                     </li>
-                    <li><a href="{{ route('config_session_depot') }}" class="{{ routeActive('config_session_depot') }}">
-                            <strong><i class="icofont icofont-pen-nib"></i>Configurer une session de
-                                dépot</strong></a> </li>
                     <li class="sidebar-main-title">
                         <div>
                             <h6>Soutenances</h6>

@@ -59,7 +59,7 @@ class EtudiantController extends Controller
 
         $attributs['password'] = bcrypt($attributs['numero_CIN']);
         $attributs['is_active'] = 0;
-        
+
         $attributs2 = $request->validate([
             'nom' => 'required|max:255',
             'prenom' => 'required|max:255',
@@ -218,28 +218,24 @@ class EtudiantController extends Controller
 
     }
 
-    public function export(){
+    public function export()
+    {
         return Excel::download(new EtudiantsExport, 'etudiants.csv');
     }
 
-    public function mes_demandes_stages(){
+    public function mes_demandes_stages()
+    {
         $etudiant=Etudiant::where('user_id',Auth::user()->id)->get()[0];
         $mes_demandes=Stage::where('etudiant_id',$etudiant->id)->get();
 		$demandes_classes=new Collection();
 		foreach($mes_demandes as $demande){
 			$classe=Classe::where('id',$etudiant->classe_id)
 						  ->where('annee_universitaire_id',$demande->annee_universitaire_id)->get()[0];
-
-
 		    $typeStage=TypeStage::find($classe->typeStage->id);
-
             $type = $typeStage->nom;
 			$demande->type=$type;
-
-
 			$demandes_classes->push($demande);
 		}
-//dd($demandes_classe);
         return view('etudiant.stage.demandes_stages',compact('demandes_classes'));
     }
 
@@ -252,16 +248,10 @@ class EtudiantController extends Controller
 			$classe=Classe::where('id',$etudiant->classe_id)
 						  ->where('annee_universitaire_id',$demande->annee_universitaire_id)->get()[0];
 			$typeStage=$classe->typeStage;
-
             $type = $typeStage->nom;
 			$demande->type=$type;
-
-
 			$demandes_classes->push($demande);
-
-
 		}
-
 		return view('etudiant.stage.liste_stages',compact('demandes_confirmer'));
 	}
 }

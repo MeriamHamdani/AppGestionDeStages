@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\DepotMemoireController;
 use App\Http\Controllers\EnseignantController;
 use App\Http\Controllers\StageController;
 use Illuminate\Support\Facades\Route;
@@ -22,7 +23,7 @@ Route::middleware(['auth','role:enseignant'])->group(function(){
 
         Route::view('/encadrement/demandes', 'enseignant.encadrement.demandes')->name('demandes');
 
-        Route::view('/depot/traiter-depot', 'enseignant.depot.liste-depots')->name('depots');
+        Route::get('/depot/traiter-depot', [DepotMemoireController::class,'liste_demandes_depot_enseignant'])->name('depots');
         Route::view('/depot/traiter-depot/details-depot', 'enseignant.depot.details_depot')->name('details_depot');
 
 

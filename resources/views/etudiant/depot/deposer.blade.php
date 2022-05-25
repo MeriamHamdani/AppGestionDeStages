@@ -29,28 +29,38 @@
                     <div class="stepwizard">
                         <div class="stepwizard-row setup-panel">
                             <div class="stepwizard-step"><a class="btn btn-primary" href="#step-1">1</a>
-                                <p>Etape 1</p>
+                                <p>Titre sujet</p>
                             </div>
                             <div class="stepwizard-step"><a class="btn btn-light" href="#step-2">2</a>
-                                <p>Etape 2</p>
+                                <p>Fichiers nécessaires 1</p>
                             </div>
                             <div class="stepwizard-step"><a class="btn btn-light" href="#step-3">3</a>
-                                <p>Etape 3</p>
+                                <p>Mémoire</p>
                             </div>
+                            @if($stage->type_sujet == "PFE")
                             <div class="stepwizard-step"><a class="btn btn-light" href="#step-4">4</a>
-                                <p>Etape 4</p>
+                                <p>Fichiers nécessaires 2</p>
                             </div>
+                            @endif
                         </div>
                     </div>
-                    <form action="#" method="POST">
+                    <form action="{{route('deposer_memoire',['stage_id'=>$stage->id])}}" method="POST"  enctype="multipart/form-data">
+                        @csrf
+                        @if($errors->any())
+                            @foreach ($errors->all() as $err )
+                                <div class="alert alert-danger" role="alert">
+                                    {{ $err }}
+                                </div>
+                            @endforeach
+                        @endif
                         <div class="setup-content" id="step-1">
                             <div class="col-xs-12">
                                 <div class="col-md-12">
                                     <div class="form-group">
                                         <label class="control-label">Titre de sujet</label>
-                                        <input class="form-control" type="text" required="required">
+                                        <input class="form-control" type="text" disabled value="{{$stage->titre_sujet}}">
                                     </div>
-                                    <button class="btn btn-primary nextBtn pull-right" type="button">Next</button>
+                                    <button class="btn btn-primary nextBtn pull-right" type="button">Suivant</button>
                                 </div>
                             </div>
                         </div>
@@ -61,21 +71,25 @@
                                         <div class="row">
                                             <div class="col">
                                                 <div class="mb-3 row">
-                                                    <label class="col-sm-3 col-form-label">L'attestation</label>
+                                                    <label class="col-sm-3 col-form-label">Fiche de bibliothèque</label>
                                                     <div class="col-sm-9">
-                                                        <input class="form-control" type="file" />
+                                                        <input class="form-control" type="file" name="fiche_biblio"
+                                                               id="fiche_biblio"
+                                                               required="required"/>
                                                     </div>
                                                 </div>
                                                 <div class="mb-3 row">
-                                                    <label class="col-sm-3 col-form-label">La fiche technique</label>
+                                                    <label class="col-sm-3 col-form-label">Fiche plagiat</label>
                                                     <div class="col-sm-9">
-                                                        <input class="form-control" type="file" />
+                                                        <input class="form-control" type="file" name="fiche_plagiat"
+                                                               id="fiche_plagiat"
+                                                               required="required" />
                                                     </div>
                                                 </div>
                                             </div>
                                         </div>
                                     </div>
-                                    <button class="btn btn-primary nextBtn pull-right" type="button">Next</button>
+                                    <button class="btn btn-primary nextBtn pull-right" type="button">Suivant</button>
                                 </div>
                             </div>
                         </div>
@@ -88,16 +102,26 @@
                                                 <div class="mb-3 row">
                                                     <label class="col-sm-3 col-form-label">Le mémoire</label>
                                                     <div class="col-sm-9">
-                                                        <input class="form-control" type="file" />
+                                                        <input class="form-control" type="file" name="memoire" id="memoire" required />
                                                     </div>
                                                 </div>
                                             </div>
                                         </div>
                                     </div>
-                                    <button class="btn btn-primary nextBtn pull-right" type="button">Next</button>
+
+                                    @if($stage->type_sujet == "Projet Tutoré" || $stage->type_sujet == "Business Plan" || $etudiant->classe->cycle =="master")
+                                        <button class="btn btn-secondary pull-right"
+                                                type="submit">Términer!
+                                        </button>
+                                    @else
+                                        <button class="btn btn-primary nextBtn pull-right"
+                                                type="button">Suivant
+                                        </button>
+                                    @endif
                                 </div>
                             </div>
                         </div>
+                        @if($stage->type_sujet == "PFE")
                         <div class="setup-content" id="step-4">
                             <div class="col-xs-12">
                                 <div class="col-md-12">
@@ -105,24 +129,26 @@
                                         <div class="row">
                                             <div class="col">
                                                 <div class="mb-3 row">
-                                                    <label class="col-sm-3 col-form-label">Fiche Biblio</label>
+                                                    <label class="col-sm-3 col-form-label">Attestation</label>
                                                     <div class="col-sm-9">
-                                                        <input class="form-control" type="file" />
+                                                        <input class="form-control" type="file" name="attestation" id="attestation"/>
                                                     </div>
                                                 </div>
                                                 <div class="mb-3 row">
-                                                    <label class="col-sm-3 col-form-label">Fiche plagiat</label>
+                                                    <label class="col-sm-3 col-form-label">Fiche technique</label>
                                                     <div class="col-sm-9">
-                                                        <input class="form-control" type="file" />
+                                                        <input class="form-control" type="file" name="fiche_tech" id="fiche_tech" required/>
                                                     </div>
                                                 </div>
                                             </div>
                                         </div>
                                     </div>
-                                    <button class="btn btn-secondary pull-right" type="submit">Finish!</button>
+                                    <input type="hidden" name="stage_id" value="{{$stage_id}}">
+                                    <button class="btn btn-secondary pull-right" type="submit">Terminer!</button>
                                 </div>
                             </div>
                         </div>
+                            @endif
                     </form>
                 </div>
             </div>

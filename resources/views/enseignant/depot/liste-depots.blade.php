@@ -31,17 +31,22 @@
                                 <tr>
                                     <th>Titre de sujet</th>
                                     <th>Etudiant</th>
-                                    <th>Date début</th>
-                                    <th>Date fin</th>
+                                    <th>Type sujet</th>
+                                    <th>Date début stage</th>
+                                    <th>Date fin stage</th>
+                                    <th>Date dépôt</th>
                                     <th>Actions</th>
                                 </tr>
                                 </thead>
                                 <tbody>
+                                @foreach($demandes_depots_memoires as $demande_depot)
                                 <tr>
-                                    <td>Tiger Nixon</td>
-                                    <td>System Architect</td>
-                                    <td>2011/04/25</td>
-                                    <td>2011/04/25</td>
+                                    <td>{{$demande_depot->stage->titre_sujet}}</td>
+                                    <td>{{ucwords($demande_depot->stage->etudiant->prenom)}} {{ucwords($demande_depot->stage->etudiant->nom)}}</td>
+                                    <td>{{$demande_depot->stage->type_sujet}}</td>
+                                    <td>{{$demande_depot->stage->date_debut}}</td>
+                                    <td>{{$demande_depot->stage->date_fin}}</td>
+                                    <td>{{$demande_depot->date_depot}}</td>
                                     <td>
                                         <a href="#" data-title="Consulter le mémoire" data-toggle="tooltip" data-original-title="Consulter le mémoire" title="Consulter le mémoire">
                                             <i class="icofont icofont-papers icon-large" style="color:#bf9168 "></i></a>
@@ -51,39 +56,16 @@
                                     </td>
 
                                 </tr>
-                                <tr>
-                                    <td>Michael Bruce</td>
-                                    <td>Javascript Developer</td>
-                                    <td>2011/04/25</td>
-                                    <td>2011/04/25</td>
-                                    <td>
-                                        <a href="#" data-title="Consulter le mémoire" data-toggle="tooltip" data-original-title="Consulter le mémoire" title="Consulter le mémoire">
-                                            <i class="icofont icofont-papers icon-large" style="color:#bf9168 "></i></a>
-                                        <a data-title="Commenter le dépôt" data-toggle="tooltip"  title="Commenter le dépôt"
-                                           href={{ route('details_depot') }}>
-                                            <i class="icofont icofont-comment icon-large"></i></a>
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <td>Donna Snider</td>
-                                    <td>Customer Support</td>
-                                    <td>2011/04/25</td>
-                                    <td>2011/04/25</td>
-                                    <td>
-                                        <a href="#" data-title="Consulter le mémoire" data-toggle="tooltip" data-original-title="Consulter le mémoire" title="Consulter le mémoire">
-                                           <i class="icofont icofont-papers icon-large" style="color:#bf9168 "></i></a>
-                                        <a  data-title="Commenter le dépôt" data-toggle="tooltip"  title="Commenter le dépôt"
-                                           href={{ route('details_depot') }}>
-                                            <i class="icofont icofont-comment icon-large"></i></a>
-                                    </td>
-                                </tr>
+                                @endforeach
                                 </tbody>
                                 <tfoot>
                                 <tr>
                                     <th>Titre de sujet</th>
                                     <th>Etudiant</th>
+                                    <th>Type sujet</th>
                                     <th>Date début</th>
                                     <th>Date fin</th>
+                                    <th>Date dépôt</th>
                                     <th>Actions</th>
                                 </tr>
                                 </tfoot>

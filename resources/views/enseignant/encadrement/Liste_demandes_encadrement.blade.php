@@ -50,7 +50,13 @@
                                     <td>{{$stage->etudiant->classe->typeStage->nom}}</td>
                                     <td>{{$stage->titre_sujet}}</td>
                                     <td>@if(isset($stage->type_sujet)){{$stage->type_sujet}}@endif</td>
+                                    @if(isset($stage->entreprise))
                                     <td>{{$stage->entreprise->nom}}</td>
+                                    @else
+                                        <td class="text-center">
+                                            <i class="icofont icofont-exclamation-tringle" style="font-size: 1.3em"></i>
+                                        </td>
+                                    @endif
                                     <td>{{$stage->date_debut}}</td>
                                     <td>{{$stage->date_fin}}</td>
                                     <td>

@@ -90,7 +90,7 @@
                                     <div class="mb-3">
                                         <label class="form-label" for="message-text">Type de sujet</label>
                                         <select class="js-example-basic-single col-sm-12" name="type_sujet"
-                                                id="type_sujet" required="">
+                                                id="type_sujet">
                                             <option disabled="disabled" selected="selected">Choisissez le type de
                                                 sujet
                                             </option>

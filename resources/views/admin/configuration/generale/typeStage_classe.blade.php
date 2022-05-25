@@ -74,11 +74,7 @@
                                     {{ $error_message['periode_stage'] }}
                                 </div>
                             @endif
-                            @if ($error_message['depot_stage']!="")
-                                <div class="alert alert-danger" role="alert">
-                                    {{ $error_message['depot_stage'] }}
-                                </div>
-                            @endif
+
                             @if ($error_message['duree_max_min']!="")
                                 <div class="alert alert-danger" role="alert">
                                     {{ $error_message['duree_max_min'] }}
@@ -157,8 +153,7 @@
                                             <div class="row">
                                                 <div class="col">
                                                     <div class="mb-3 row">
-                                                        <div
-                                                            class="form-group m-t-15 m-checkbox-inline mb-0 custom-radio-ml">
+                                                        <div class="form-group m-t-15 m-checkbox-inline mb-0 custom-radio-ml">
                                                             <label class="col-sm-3 col-form-label">La fiche de demande
                                                                 de stage</label>
                                                             <div class="radio radio-primary">

@@ -42,18 +42,22 @@
                                 </tr>
                             </thead>
                             <tbody>
-                                @foreach ($stages as $stage )
+                                @foreach ($stages_volontaires as $stage )
                                 <tr>
                                     <td>{{ App\Models\Etudiant::find($stage->etudiant_id)->nom }}
                                         {{ App\Models\Etudiant::find($stage->etudiant_id)->prenom }}</td>
                                     <td>{{$stage->code_classe}}</td>
-
-                                    <td class="text-center"><a
-                                            href="{{ route('telechargement_fiche_demande',['fiche_demande'=>$stage->file,'code_classe'=>$stage->code_classe]) }}">
+                                    @if(isset($stage->fiche_demande))
+                                    <td class="text-center">
+                                        <a href="{{ route('telechargement_fiche_demande',['fiche_demande'=>$stage->file,'code_classe'=>$stage->code_classe]) }}">
                                             <i style="font-size: 2em;" class="icofont icofont-file-pdf icon-large"></i>
                                         </a>
                                     </td>
-
+                                    @else
+                                        <td class="text-center">
+                                            <i class="icofont icofont-exclamation-tringle" style="font-size: 1.3em"></i>
+                                        </td>
+                                    @endif
                                     <td class="text-center">
                                         @if ($stage->confirmation_admin==null)
                                         <button class="buttonload" data-toggle="tooltip" title="demande en attente">

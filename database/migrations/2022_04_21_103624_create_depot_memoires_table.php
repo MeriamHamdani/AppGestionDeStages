@@ -19,6 +19,11 @@ class CreateDepotMemoiresTable extends Migration
             $table->foreignId('annee_universitaire_id')->constrained();
             $table->string('titre');
             $table->date('date_depot');
+            $table->string('fiche_tech')->nullable();
+            $table->string('fiche_biblio')->nullable();
+            $table->string('attestation')->nullable();
+            $table->string('fiche_plagiat')->nullable();
+            $table->string('memoire')->nullable();
             $table->boolean('validation_encadrant');
             $table->timestamps();
         });

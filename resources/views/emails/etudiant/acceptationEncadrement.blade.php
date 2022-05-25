@@ -17,9 +17,9 @@
                                                 <div class="col-xl-12">
                                                     <div class="media">
                                                         <img class="me-3 rounded-circle"
-                                                            src="{{asset('assets/images/user/user.png')}}" alt="" />
+                                                             src="{{asset('assets/images/user/user.png')}}" alt="" />
                                                         <div class="media-body">
-                                                            <h6 class="d-block">{{ $details['etudiant'] }}</h6>
+                                                            <h6 class="d-block">{{ $data['nom_etud'] }}</h6>
 
                                                         </div>
                                                     </div>
@@ -29,23 +29,13 @@
                                         <div class="email-wrapper">
                                             <div class="emailread-group">
                                                 <div class="read-group">
-                                                    <p>Bonjour Mme/Mr</p>
-
-                                                </div>
-                                                <div class="read-group">
 
                                                     <p>
-                                                        Votre demande de stage est confirmée.<br>
-                                                        <span>Sujet: {{$details['sujet'] }}</span><br>
-                                                        @if(isset($details['encadrant']))
-                                                        <span>Encadrant: {{$details['encadrant'] }}</span><br>
-                                                        @endif
-                                                        <span>Stage {{$details['type_stage'] }}</span><br>
+                                                        L'enseignant {{ $data['nom_ens'] }} a accepté votre demande d'encadrement.
 
                                                     </p>
                                                     <p class="m-t-10">
-                                                        Veuillez consulter votre compte sur l'application pour pouvoir
-                                                        télécharger votre lettre d'affectation</p>
+                                                       Votre stage sera validé dès l'acception de la part de l'administration.</p>
                                                     <p>Cordialement</p>
                                                 </div>
                                             </div>
@@ -78,7 +68,7 @@
 </div>
 
 @push('scripts')
-<script src="{{asset('assets/js/editor/ckeditor/ckeditor.js')}}"></script>
-<script src="{{asset('assets/js/editor/ckeditor/adapters/jquery.js')}}"></script>
-<script src="{{asset('assets/js/email-app.js')}}"></script>
+    <script src="{{asset('assets/js/editor/ckeditor/ckeditor.js')}}"></script>
+    <script src="{{asset('assets/js/editor/ckeditor/adapters/jquery.js')}}"></script>
+    <script src="{{asset('assets/js/email-app.js')}}"></script>
 @endpush

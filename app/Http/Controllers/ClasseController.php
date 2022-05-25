@@ -23,7 +23,7 @@ class ClasseController extends Controller
      */
     public function index()
     {
-
+//dd(Classe::with('specialite')->get());
         return view('admin.etablissement.classe.liste_classes',
             ['classes' => Classe::with('specialite')->get()]);
     }
@@ -101,11 +101,14 @@ class ClasseController extends Controller
 
             }
             //dd($cycle);
-           
+
             $specialite=Specialite::find($request->specialite_id);
             $sp_cycle=$specialite->cycle;
             if(strtoupper($sp_cycle) !== strtoupper($request->cycle)){
-                
+
+                //Session::flash('message','notMatchCycle');
+
+
                 return Redirect::back()->withErrors(['Vous ne pouvez pas attribuer la spécialité '.$specialite->nom.' aux classes '.$request->cycle]);
             }
             $nom=$niveau.' '.$cycle.' '.$specialite->nom;
@@ -164,18 +167,20 @@ class ClasseController extends Controller
             'cycle' => ['required', 'string', 'max:255'],
             'specialite_id' => ['required', Rule::exists('specialites', 'id')],
         ]);
+        if ($classe->typeStage->fiche_demande_type =="requis") {
+            if($request->code != $classe->code)
+            {
 
-        if($request->code != $classe->code)
-        {
-
-            $fiche_demande_name = $classe->typeStage->fiche_demande;
-            //dd($fiche_demande_name);
-            $array=$this->decouper_nom($fiche_demande_name);
-            $array[2] = str_replace(' ', '',$request->code);
-            $fiche_demande_name = $array[0].'_'.$array[1].'_'.$array[2].'_'.$array[3];
-            $classe->update();
-            Session::flash('message', 'update');
+                $fiche_demande_name = $classe->typeStage->fiche_demande;
+                dd($classe->typeStage->nom);
+                $array=$this->decouper_nom($fiche_demande_name);
+                $array[2] = str_replace(' ', '',$request->code);
+                $fiche_demande_name = $array[0].'_'.$array[1].'_'.$array[2].'_'.$array[3];
+                $classe->update();
+                Session::flash('message', 'update');
+            }
         }
+
         $classe->update($attributs);
         Session::flash('message', 'update');
         return redirect()->action([ClasseController::class,'index']);
@@ -201,7 +206,7 @@ class ClasseController extends Controller
      */
     public function destroy(Classe $classe)
     {
-        
+
         $classe->delete();
         return redirect()->action([ClasseController::class,'index']);
     }
