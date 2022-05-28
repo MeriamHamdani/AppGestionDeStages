@@ -23,6 +23,10 @@
 <div class="container-fluid  text-center">
     <div class="email-wrap bookmark-wrap">
         <div class="row">
+            @php
+            $d = 1;
+            $f=7;
+            @endphp
 
             @for($i=1;$i<=$nbr_semaines;$i++) <div class="col-xl-9 col-md-12 box-col-8">
                 <div class="email-right-aside bookmark-tabcontent">
@@ -34,116 +38,58 @@
                                     <div class="card mb-0">
                                         <div class="card-header">
                                             <h5 class="mb-0 text-center">Semaine N° {{ $i }}</h5>
-                                            <button class="btn btn-primary" type="button" data-bs-toggle="modal"
+                                            <!--<button class="btn btn-primary" type="button" data-bs-toggle="modal"
                                                 data-bs-target="#exampleModal"><i class="me-2"
-                                                    data-feather="check-circle"></i>Nouvelle tâche</button>
+                                                    data-feather="check-circle"></i>Nouvelle tâche</button>-->
+                                            @php
+                                            $tcs='';
+                                            foreach($taches as $t){
+                                            if($t->semaine==$i)
+                                            {$tcs=$tcs.'-'.$t->id;}
+                                            }
 
-                                            <a class="f-w-600" href="javascript:void(0)"><i class="me-2"
-                                                    data-feather="printer"></i>Imprimer</a>
+                                            @endphp
+                                            <a class="f-w-600" href={{
+                                                route('telecharger_cahier_stage',['semaine'=>$i,'taches'=>$tcs])
+                                                }}><i class="me-2" data-feather="download"
+                                                    class="text-primary"></i>Télécharger</a>
                                         </div>
                                         <div class="card-body p-0">
                                             <div class="taskadd">
                                                 <div class="table-responsive">
                                                     <table class="table">
-                                                        <tr>
-                                                            <td>
-                                                                <h6 class="task_title_0">Jour 1 </h6>
-                                                                <p class="f-w-300"><strong>06-04-2022</strong></p>
-                                                            </td>
-                                                            <td>
-                                                                <p class="task_desc_0">contenu</p>
-                                                            </td>
-                                                            <td>
-                                                                <a href="javascript:void(0)"><i
-                                                                        data-feather="edit"></i></a>
-                                                            </td>
-                                                            <td>
-                                                                <a href="javascript:void(0)"><i
-                                                                        data-feather="trash-2"></i></a>
-                                                            </td>
-                                                            <td>
-                                                            </td>
-                                                        </tr>
-                                                        <tr>
-                                                            <td>
-                                                                <h6 class="task_title_0">Jour 2</h6>
-                                                                <p class="project_name_0"><strong>01-04-2022</strong>
-                                                                </p>
-                                                            </td>
-                                                            <td>
-                                                                <p class="task_desc_0">Lorem Ipsum is simply dummy text
-                                                                    of the printing and typesetting industry. Lorem
-                                                                    Ipsum has been</p>
-                                                            </td>
-                                                            <td>
-                                                                <a href="javascript:void(0)"><i
-                                                                        data-feather="edit"></i></a>
-                                                            </td>
-                                                            <td>
-                                                                <a href="javascript:void(0)"><i
-                                                                        data-feather="trash-2"></i></a>
-                                                            </td>
-                                                        </tr>
-                                                        <tr>
-                                                            <td>
-                                                                <h6 class="task_title_0">Titre de la tâche</h6>
-                                                                <p class="project_name_0"><strong>22-03-2022</strong>
-                                                                </p>
-                                                            </td>
-                                                            <td>
-                                                                <p class="task_desc_0">Lorem Ipsum is simply dummy text
-                                                                    of the printing and typesetting industry. Lorem
-                                                                    Ipsum has been</p>
-                                                            </td>
-                                                            <td>
-                                                                <a href="javascript:void(0)"><i
-                                                                        data-feather="edit"></i></a>
-                                                            </td>
-                                                            <td>
-                                                                <a href="javascript:void(0)"><i
-                                                                        data-feather="trash-2"></i></a>
-                                                            </td>
-                                                        </tr>
-                                                        <tr>
-                                                            <td>
-                                                                <h6 class="task_title_0">Titre de la tâche</h6>
-                                                                <p class="project_name_0"><strong>28-03-2022</strong>
-                                                                </p>
-                                                            </td>
-                                                            <td>
-                                                                <p class="task_desc_0">Lorem Ipsum is simply dummy text
-                                                                    of the printing and typesetting industry. Lorem
-                                                                    Ipsum has been</p>
-                                                            </td>
-                                                            <td>
-                                                                <a href="javascript:void(0)"><i
-                                                                        data-feather="edit"></i></a>
-                                                            </td>
-                                                            <td>
-                                                                <a href="javascript:void(0)"><i
-                                                                        data-feather="trash-2"></i></a>
-                                                            </td>
-                                                        </tr>
-                                                        <tr>
-                                                            <td>
-                                                                <h6 class="task_title_0">Titre de la tâche</h6>
-                                                                <p class="project_name_0"><strong>31-03-2022</strong>
-                                                                </p>
-                                                            </td>
-                                                            <td>
-                                                                <p class="task_desc_0">Lorem Ipsum is simply dummy text
-                                                                    of the printing and typesetting industry. Lorem
-                                                                    Ipsum has been</p>
-                                                            </td>
-                                                            <td>
-                                                                <a href="javascript:void(0)"><i
-                                                                        data-feather="edit"></i></a>
-                                                            </td>
-                                                            <td>
-                                                                <a href="javascript:void(0)"><i
-                                                                        data-feather="trash-2"></i></a>
-                                                            </td>
-                                                        </tr>
+
+
+
+                                                        @foreach ($taches as $tache )
+                                                        @if($d<=$tache->rang && $tache->rang<=$f) <tr>
+                                                                <td>
+                                                                    <h6 class="task_title_0">Jour {{ $tache->rang }}
+                                                                    </h6>
+                                                                    <p class="f-w-300"><strong>{{ $tache->date
+                                                                            }}</strong>
+                                                                    </p>
+                                                                </td>
+                                                                <td>
+                                                                    <p class="task_desc_0">{!! $tache->contenu !!}</p>
+                                                                </td>
+                                                                <td>
+                                                                    <a href={{
+                                                                        route('redaction_tache',['tache'=>$tache])
+                                                                        }}><i data-feather="edit"></i></a>
+                                                                </td>
+                                                                <td>
+                                                                    <a href={{ route('effacer',['tache'=>$tache]) }}><i
+                                                                            data-feather="trash-2" data-toggle="tooltip"
+                                                                            title="effacer la tache de ce jour"></i></a>
+                                                                </td>
+                                                                <td>
+                                                                </td>
+                                                                </tr>
+
+                                                                @endif
+                                                                @endforeach
+                                                                @php $d=$d+7; $f=$f+7; @endphp
                                                     </table>
                                                 </div>
                                             </div>
@@ -177,3 +123,4 @@
 @endpush
 
 @endsection
+

@@ -559,23 +559,33 @@ class StageController extends Controller
     {
         $current_date = Carbon::now();
         $stage = Stage::findOrFail($stage_id);
-        $stage->confirmation_admin = 1;
         $etudiant = Etudiant::findOrFail($stage->etudiant_id);
         $classe = Classe::findOrFail($etudiant->classe_id);
-        $cahier_stage = new CahierStage();
-        $cahier_stage->stage_id = $stage_id;
-        $annee = $this->current_annee_univ();
+        $type_stage = TypeStage::findOrFail($classe->type_stage_id);
+		$annee_universitaire_id=null;
+		$annee = $this->current_annee_univ();
         $annees = AnneeUniversitaire::all();
         foreach ($annees as $a) {
             if ($a->annee == $annee->annee) {
-                $cahier_stage->annee_universitaire_id = $annee->id;
+                $annee_universitaire_id = $annee->id;
                 break;
             }
         }
+        $stage->confirmation_admin = 1;
+		if(strtoupper($type_stage->cahier_stage_type) ===strtoupper('requis'))
+		{
+			$cahier_stage = new CahierStage();
+        $cahier_stage->stage_id = $stage_id;
+		$cahier_stage->annee_universitaire_id = $annee_universitaire_id;
         $cahier_stage->save();
         $stage->cahier_stage_id = $cahier_stage->id;
+		$stage->update();
+		}
+
+
+
         $user = User::findOrFail($etudiant->user_id);
-        $type_stage = TypeStage::findOrFail($classe->type_stage_id);
+        //$type_stage = TypeStage::findOrFail($classe->type_stage_id);
         if (isset($stage->enseignant)) {
             $enseignant = Enseignant::findOrFail($stage->enseignant_id);
             if ($stage->confirmation_encadrant == 0) {

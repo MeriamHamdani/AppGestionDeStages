@@ -8,7 +8,11 @@ use Illuminate\Database\Eloquent\Model;
 class Tache extends Model
 {
     use HasFactory;
+    protected $fillable = [
+        'contenu',
+        'titre',
 
+    ];
     public function cahierStage()
     {
         return $this->belongsTo(CahierStage::class);
