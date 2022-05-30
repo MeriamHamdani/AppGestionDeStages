@@ -5,6 +5,8 @@ use App\Http\Controllers\DepotMemoireController;
 use App\Http\Controllers\EnseignantController;
 use App\Http\Controllers\StageController;
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\CahierStageController;
+
 
 Route::middleware(['auth','role:enseignant'])->group(function(){
     Route::prefix('enseignant')->group(function () {
@@ -16,6 +18,7 @@ Route::middleware(['auth','role:enseignant'])->group(function(){
         Route::get('/encadrement/liste-demandes/accepter-demande/{stage}', [StageController::class,'confirmer_demande_enseignant'])->name('confirmer_demande_enseignant');
         Route::get('/encadrement/liste-stages-actifs',[EnseignantController::class,'liste_stages_actifs'] )->name('liste_stages_actifs');
         Route::view('/encadrement/liste-stages-actifs/cahier-stage-etud','enseignant.encadrement.cahier_stage_etud' )->name('cahier_stage_etud');
+        Route::get('/encadrement/liste-stages-actifs/cahier-stage-etud/{cahier}', [CahierStageController::class,'show_for_enc'])->name('detail_cahier_stage');
         Route::get('/encadrement/liste-stages-actifs/details-stage/{stage}',[EnseignantController::class,'details_stage'] )->name('details_stage');
 
         Route::view('/paiement/liste-stages-paye','enseignant.paiement.liste_stages_paye' )->name('liste_stages_paye');

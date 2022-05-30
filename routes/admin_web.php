@@ -1,22 +1,23 @@
 <?php
 
-
 use App\Http\Controllers\DepotMemoireController;
 use App\Imports\EnseignantsImport;
 use App\Imports\UsersImport;
+use Maatwebsite\Excel\Facades\Excel;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\AdminController;
+use App\Http\Controllers\StageController;
+use App\Http\Controllers\TacheController;
 use App\Http\Controllers\ClasseController;
 use App\Http\Controllers\EtudiantController;
+use App\Http\Controllers\TypeStageController;
 use App\Http\Controllers\EnseignantController;
 use App\Http\Controllers\EntrepriseController;
 use App\Http\Controllers\SpecialiteController;
+use App\Http\Controllers\CahierStageController;
 use App\Http\Controllers\DepartementController;
 use App\Http\Controllers\EtablissementController;
 use App\Http\Controllers\AnneeUniversitaireController;
-use App\Http\Controllers\StageController;
-use App\Http\Controllers\TypeStageController;
-use Maatwebsite\Excel\Facades\Excel;
 
 /*Route::prefix('admin')->group(function () {
 });*/
@@ -58,9 +59,9 @@ Route::middleware(['auth','role:admin|superadmin'])->group(function(){
 
 
         });
-         Route::view('stage/gerer-cahiers-stages', 'admin.stage.gerer_cahiers_stages')->name('gerer_cahiers_stages');
-        Route::view('stage/cahier-de-stage', 'admin.stage.cahier_de_stage')->name('cahier_de_stage');
-
+         Route::get('stage/gerer-cahiers-stages', [CahierStageController::class,'all_cahier_stage'])->name('gerer_cahiers_stages');
+        Route::get('stage/cahier-stage/{cahier}', [CahierStageController::class,'show'])->name('cahier_de_stage');
+        Route::get('/stage/gerer-cahier-stage/telecharger/{semaine}/{taches}',[TacheController::class,'telecharger'])->name('telecharger_cahier');
         //---------------------------------- ETABLISSEMENT--------------------------
 
         // ***************************** E N S E I G N A N T ********************

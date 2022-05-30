@@ -49,31 +49,31 @@
                                         <td>{{$stage->code_classe}}</td>
                                         <td>{{ App\Models\Enseignant::find($stage->enseignant_id)->nom }}&nbsp;{{
                                         App\Models\Enseignant::find($stage->enseignant_id)->prenom }}</td>
-                                        </td>
-                                        @if(isset($stage->fiche_demande))
-                                            <td class="text-center"><a
-                                                    href="{{ route('telechargement_fiche_demande',['fiche_demande'=>$stage->file,'code_classe'=>$stage->code_classe]) }}">
-                                                    <i style="font-size: 2em;"
-                                                       class="icofont icofont-file-pdf icon-large"></i>
-                                                </a>
-                                            </td>
-                                        @else
-                                            <td class="text-center">
-                                                <i class="icofont icofont-exclamation-tringle"
-                                                   style="font-size: 1.3em"></i>
-                                            </td>
-                                        @endif
-                                        @if ($stage->confirmation_encadrant==null)
-                                            <td class="text-center">
-                                                <button class="buttonload" data-toggle="tooltip"
-                                                        title="demande en attente">
-                                                    <i class="fa fa-spinner fa-spin"></i>
-                                                </button>
-                                            </td>
-                                        @endif
-                                        @if ($stage->confirmation_encadrant==-1)
-                                            <td style="text-center">
-                                                <i data-toggle="tooltip" title="demande refusée" style="background-position: 0 -90px;
+
+
+                                    @if(isset($stage->fiche_demande))
+                                    <td class="text-center"><a
+                                            href="{{ route('telechargement_fiche_demande',['fiche_demande'=>$stage->file,'code_classe'=>$stage->code_classe]) }}">
+
+                                            <i style="font-size: 2em;" class="icofont icofont-file-pdf icon-large"></i>
+                                        </a>
+                                    </td>
+                                    @else
+                                    <td class="text-center">
+                                        <i class="icofont icofont-exclamation-tringle" style="font-size: 1.3em"></i>
+                                    </td>
+                                    @endif
+                                    @if ($stage->confirmation_encadrant==null)
+                                    <td class="text-center">
+                                        <button class="buttonload" data-toggle="tooltip" title="demande en attente">
+                                            <i class="fa fa-spinner fa-spin"></i>
+                                        </button>
+                                    </td>
+                                    @endif
+                                    @if ($stage->confirmation_encadrant==-1)
+                                    <td style="text-align: center">
+                                        <i data-toggle="tooltip" title="demande refusée" style="background-position: 0 -90px;
+>>>>>>> 7fbe0e17b3d84e1edbde6ce8fc8d8e17981bc97c
                                             height: 30px;
                                             width: 23px;
                                             display:block;
@@ -156,7 +156,6 @@
             </div>
         </div>
     </div>
-
 
     @push('scripts')
         <script src="https://cdnjs.cloudflare.com/ajax/libs/sweetalert/2.1.2/sweetalert.min.js"

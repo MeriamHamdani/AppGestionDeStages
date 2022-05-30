@@ -65,11 +65,18 @@
                                             data-original-title="Consulter les détails de stage"
                                             title="Consulter les détails de stage" href={{route('details_stage',['stage'=>$stage_actif]) }}>
                                             <i class="icofont icofont-info-square icon-large"></i></a>
+                                        @php
+                                        $cahier_req=strtoupper(App\Models\TypeStage::find($stage_actif->type_stage_id)->cahier_stage_type)
+                                        === strtoupper('requis');
+                                        $cahier=App\Models\CahierStage::find($stage_actif->cahier_stage_id);
+                                        @endphp
+                                        @if($cahier_req)
                                         <a data-title="Consulter le cahier de stage" data-toggle="tooltip"
-                                            title="Consulter le cahier de stage" href={{ route('cahier_stage_etud') }}>
+                                            title="Consulter le cahier de stage" href={{
+                                            route('detail_cahier_stage',['cahier'=>$cahier]) }}>
                                             <i class="icofont icofont-book-alt icon-large"
                                                 style="color:#fd2e64"></i></a>
-
+                                        @endif
                                     </td>
 
                                 </tr>
@@ -125,3 +132,4 @@
 @endpush
 
 @endsection
+

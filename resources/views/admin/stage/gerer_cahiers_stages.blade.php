@@ -34,61 +34,34 @@
                                     <th>Titre de sujet</th>
                                     <th>Type de sujet</th>
                                     <th>Etudiant</th>
-                                    <th>encadrant(e)</th>
+
                                     <th>Année universitaire</th>
                                     <th>Action</th>
 
                                 </tr>
                             </thead>
                             <tbody>
+                                @foreach ($cahiers as $cahierStg)
                                 <tr>
-                                    <td>Application web de gestion des stages</td>
-                                    <td>PFE</td>
-                                    <td>Ali Ben Ali </td>
-                                    <td>nom de l'Encadrant</td>
-                                    <td>2021-2022</td>
+                                    <td>{{ $cahierStg->stage->titre_sujet }} </td>
+                                    <td>{{ $cahierStg->stage->type_sujet }}</td>
+                                    <td>{{ App\Models\Etudiant::find($cahierStg->stage->etudiant_id)->nom }}&nbsp;{{
+                                        App\Models\Etudiant::find($cahierStg->stage->etudiant_id)->prenom }} </td>
+                                    <td>{{
+                                        App\Models\AnneeUniversitaire::find($cahierStg->stage->annee_universitaire_id)->annee
+                                        }}</td>
                                     <td>
                                         <div class="col-sm-6 col-md-6 col-lg-4"
                                             style="display: table-cell;text-align: center; vertical-align:middle;"><a
-                                                href="{{ route('cahier_de_stage') }}" data-toggle="tooltip"
-                                                title="consulter"><i class="icofont icofont-read-book icon-large"
+                                                href="{{ route('cahier_de_stage',['cahier'=>$cahierStg]) }}"
+                                                data-toggle="tooltip" title="consulter"><i
+                                                    class="icofont icofont-read-book icon-large"
                                                     style="font-size: 2em; aligne: center"></i></a>
                                         </div>
                                     </td>
 
                                 </tr>
-                                <tr>
-                                    <td>Application web de gestion des stages</td>
-                                    <td>PFE</td>
-                                    <td>Ali Ben Ali </td>
-                                    <td>nom de l'Encadrant</td>
-                                    <td>2021-2022</td>
-                                    <td>
-                                        <div class="col-sm-6 col-md-6 col-lg-4"
-                                            style="display: table-cell;text-align: center; vertical-align:middle;"><a
-                                                href="#" data-toggle="tooltip" title="consulter"><i
-                                                    class="icofont icofont-read-book icon-large" style="font-size: 2em;"></i></a>
-                                        </div>
-                                    </td>
-
-                                </tr>
-                                <tr>
-                                    <td>Application web de gestion des stages</td>
-                                    <td>PFE</td>
-                                    <td>Ali Ben Ali </td>
-                                    <td>nom de l'Encadrant</td>
-                                    <td>2021-2022</td>
-                                    <td>
-                                        <div class="col-sm-6 col-md-6 col-lg-4"
-                                            style="display: table-cell;text-align: center; vertical-align:middle;"><a
-                                                href="#" data-toggle="tooltip" title="consulter"><i
-                                                    class="icofont icofont-read-book icon-large" style="font-size: 2em;"></i></a>
-                                        </div>
-                                    </td>
-
-                                </tr>
-
-
+                                @endforeach
                             </tbody>
                             <tfoot>
                                 <tr>
@@ -96,7 +69,6 @@
                                     <th>Titre de sujet</th>
                                     <th>Type de sujet</th>
                                     <th>Etudiant</th>
-                                    <th>encadrant(e)</th>
                                     <th>Année universitaire</th>
                                     <th>Action</th>
                                 </tr>

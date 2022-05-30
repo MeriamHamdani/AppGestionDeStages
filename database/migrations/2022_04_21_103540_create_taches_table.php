@@ -19,6 +19,9 @@ class CreateTachesTable extends Migration
             $table->string('titre')->nullable();
             $table->string('contenu')->nullable();
             $table->date('date');
+            $table->integer('rang');
+            $table->integer('semaine');
+            $table->timestamps();
             //$table->timestamp('heure');
         });
     }

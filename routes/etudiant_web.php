@@ -8,6 +8,7 @@ use App\Http\Controllers\EntrepriseController;
 use App\Http\Controllers\EtudiantController;
 
 use App\Http\Controllers\StageController;
+use App\Http\Controllers\TacheController;
 use App\Models\Etudiant;
 use Illuminate\Support\Facades\Route;
 
@@ -33,6 +34,10 @@ Route::middleware(['auth', 'role:etudiant'])->group(function () {
                                                             ->name('telecharger_lettre_affect');
         Route::get('/stage/gerer-cahier-stage', [CahierStageController::class,'index'])->name('gestion_cahier_stage');
         Route::get('/stage/gerer-cahier-stage/creer/{stage}',[CahierStageController::class,'create'])->name('nouvelle_cahier_stage');
+        Route::get('/stage/gerer-cahier-stage/tache/{tache}',[TacheController::class,'index'])->name('redaction_tache');
+        Route::post('/stage/gerer-cahier-stage/tache/rediger/{tache}',[TacheController::class,'store'])->name('rediger');
+        Route::get('/stage/gerer-cahier-stage/tache/effacer/{tache}',[TacheController::class,'effacer'])->name('effacer');
+        Route::get('/stage/gerer-cahier-stage/telecharger/{semaine}/{taches}',[TacheController::class,'telecharger'])->name('telecharger_cahier_stage');
         //Route::view('/stage/cahier-stage', 'etudiant.stage.cahier_stage')->name('cahier_stage');
 
 

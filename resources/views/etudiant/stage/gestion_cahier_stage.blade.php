@@ -40,7 +40,7 @@
                                 @foreach ($cahiers_stage as $cs)
                                 <tr>
                                     <td> {{ $cs->stage->titre_sujet }} </td>
-                                    <td>Type pfe_oblig_volont</td>
+                                    <td>{{App\Models\TypeStage::findOrFail($cs->stage->type_stage_id)->nom }}</td>
                                     <td><a class="btn btn-primary" href={{
                                             route('nouvelle_cahier_stage',['stage'=>$cs->stage]) }}>
                                             <i class="icofont icofont-book-alt">
@@ -76,3 +76,4 @@
 @endpush
 
 @endsection
+
