@@ -41,18 +41,27 @@
                                 <tbody>
                                 @foreach($demandes_depots_memoires as $demande_depot)
                                 <tr>
-                                    <td>{{$demande_depot->stage->titre_sujet}}</td>
+                                    <td>{{$demande_depot->titre}}</td>
                                     <td>{{ucwords($demande_depot->stage->etudiant->prenom)}} {{ucwords($demande_depot->stage->etudiant->nom)}}</td>
                                     <td>{{$demande_depot->stage->type_sujet}}</td>
                                     <td>{{$demande_depot->stage->date_debut}}</td>
                                     <td>{{$demande_depot->stage->date_fin}}</td>
                                     <td>{{$demande_depot->date_depot}}</td>
                                     <td>
-                                        <a href="#" data-title="Consulter le mémoire" data-toggle="tooltip" data-original-title="Consulter le mémoire" title="Consulter le mémoire">
+                                        <a href="{{route('telecharger_memoire',['memoire'=>$demande_depot->memoire,
+                                                                                'code_classe'=>$demande_depot->stage->etudiant->classe->code])}}" data-title="Consulter le mémoire" data-toggle="tooltip" data-original-title="Consulter le mémoire" title="Consulter le mémoire">
                                             <i class="icofont icofont-papers icon-large" style="color:#bf9168 "></i></a>
                                         <a data-title="Commenter le dépôt" data-toggle="tooltip"  title="Commenter le dépôt"
-                                           href={{ route('details_depot') }}>
+                                           href={{ route('details_depot',['demande_depot'=>$demande_depot]) }}>
                                             <i class="icofont icofont-comment icon-large"></i></a>
+                                        @if($demande_depot->validation_encadrant == -1)
+                                            <i data-toggle="tooltip" title="mettez votre décision" class="fa fa-hand-o-left large" style="color:darkred"></i>
+                                        @elseif($demande_depot->validation_encadrant == 0)
+                                            <i data-toggle="tooltip" title="demande refusée" class="icofont icofont-ui-close icon-large" style="color:darkred"></i>
+                                        @elseif($demande_depot->validation_encadrant == 1)
+                                            <i data-toggle="tooltip" title="demande confirmée" class="icofont icofont-ui-check icon-large" style="color:darkgreen"></i>
+                                        @endif
+
                                     </td>
 
                                 </tr>
@@ -80,6 +89,20 @@
     @push('scripts')
         <script src="{{ asset('assets/js/datatable/datatables/jquery.dataTables.min.js') }}"></script>
         <script src="{{ asset('assets/js/datatable/datatables/datatable.custom.js') }}"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/sweetalert/2.1.2/sweetalert.min.js"
+                integrity="sha512-AA1Bzp5Q0K1KanKKmvN/4d3IRKVlv9PYgwFPvm32nPO6QS8yH1HO7LbgB1pgiOxPtfeg5zEn2ba64MUcqJx6CA=="
+                crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+        @if(Session::has('message'))
+            @if (Session::get('message')=='deja validé')
+
+                <script>
+                    swal('Erreur', "Vous avez déjà validé le mémoire!", 'error', {
+                        button: 'Ok'
+                    })
+
+                </script>
+            @endif
+        @endif
     @endpush
 
 @endsection

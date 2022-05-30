@@ -172,7 +172,7 @@ class ClasseController extends Controller
             {
 
                 $fiche_demande_name = $classe->typeStage->fiche_demande;
-                dd($classe->typeStage->nom);
+                //dd($classe->typeStage->nom);
                 $array=$this->decouper_nom($fiche_demande_name);
                 $array[2] = str_replace(' ', '',$request->code);
                 $fiche_demande_name = $array[0].'_'.$array[1].'_'.$array[2].'_'.$array[3];

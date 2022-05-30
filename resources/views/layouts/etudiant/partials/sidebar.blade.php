@@ -36,8 +36,9 @@
                                 stage</span></a>
                     </li>
                     <li class="dropdown">
-                        <a class="nav-link menu-title link-nav" href="{{ route('demande_stage') }}"><i
-                                class="icofont icofont-paper"></i>&nbsp&nbsp&nbsp<span>Demander un stage</span></a>
+                        <a class="nav-link menu-title link-nav {{routeActive('demande_stage')}}"
+                        href="{{ route('demande_stage') }}">
+                        <i class="icofont icofont-paper"></i>&nbsp&nbsp&nbsp<span>Demander un stage</span></a>
                     </li>
 
                     <li class="dropdown">

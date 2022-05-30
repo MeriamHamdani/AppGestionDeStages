@@ -105,7 +105,7 @@
                             </div>
 
                             <div class="card-footer text-end">
-                                <a class="btn btn-light" href="{{ route('liste_enseignants') }}">Annuler</a>
+                                <a class="btn btn-light" href="{{ route('liste_demandes') }}">Annuler</a>
                                 <button class="btn btn-primary" type="submit">Sauvegarder</button>
                             </div>
                         </form>

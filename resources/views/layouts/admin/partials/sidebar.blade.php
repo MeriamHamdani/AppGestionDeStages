@@ -63,35 +63,37 @@
                     </li>
                     <li class="dropdown">
                         <a class="nav-link menu-title   {{ in_array(Route::currentRouteName(),
-                            ['demandes_stage.sv12lm','demandes_stage.so2l','demandes_stage.so3l',
+                            ['demandes_stage.sv1lm','demandes_stage.so2l','demandes_stage.so3l',
                             'demandes_stage.so3Info','demandes_stage.so2m']) ? 'active' : '' }}"
                             href="javascript:void(0)">
                             <i class="icofont icofont-listing-box"></i>&nbsp&nbsp&nbsp<span>Les demandes de
                                 stages</span></a>
                         <ul class="nav-submenu menu-content"
                             style="display: {{ prefixBlock('/admin/stage/demandes-stage') }};">
-                            <li><a href="{{ route('demandes_stage.sv12lm') }}"
-                                    class="{{ routeActive('demandes_stage.sv12lm') }}"><strong><i
-                                            class="icofont icofont-pen-nib"></i>Stage volontaire 1ère et 2ème
-                                        licence informatique
-                                        et 1ére master</strong></a> </li>
+                            <li><a href="{{ route('demandes_stage.sv1lm') }}"
+                                    class="{{ routeActive('demandes_stage.sv1lm') }}"><strong><i
+                                            class="icofont icofont-pen-nib"></i>Stage Volontaire (1ère
+                                        licence et 1ére mastère)</strong></a> </li>
+                            <li><a href="{{ route('demandes_stage.so2lInfo') }}"
+                                   class="{{ routeActive('demandes_stage.so2lInfo') }}"><strong><i
+                                            class="icofont icofont-pen-nib"></i>Stage Obligatoire (2ème
+                                        licence informatique)</strong></a> </li>
                             <li><a href="{{ route('demandes_stage.so2l') }}"
                                     class="{{ routeActive('demandes_stage.so2l') }}"><strong><i
-                                            class="icofont icofont-pen-nib"></i>Stage obligatoire 2ème
-                                        licence non-informatique</strong></a> </li>
+                                            class="icofont icofont-pen-nib"></i>Stage Obligatoire (2ème
+                                        licence non-informatique)</strong></a> </li>
                             <li><a href="{{ route('demandes_stage.so3l') }}"
                                     class="{{ routeActive('demandes_stage.so3l') }}"><strong><i
-                                            class="icofont icofont-pen-nib"></i>Stage obligatoire 3ème
-                                        licence non-informatique </strong></a> </li>
+                                            class="icofont icofont-pen-nib"></i>Stage Obligatoire (3ème
+                                        licence non-informatique) </strong></a> </li>
                             <li><a href="{{ route('demandes_stage.so3Info') }}"
                                     class="{{ routeActive('demandes_stage.so3Info') }}"><strong><i
-                                            class="icofont icofont-pen-nib"></i>Stage obligatoire 3ème licence
-                                        informatique
-                                    </strong></a> </li>
+                                            class="icofont icofont-pen-nib"></i>Stage Obligatoire (3ème licence
+                                        informatique)</strong></a> </li>
                             <li><a href="{{ route('demandes_stage.so2m') }}"
                                     class="{{ routeActive('demandes_stage.so2m') }}"><strong><i
-                                            class="icofont icofont-pen-nib"></i>Stage obligatoire 2ème
-                                        master</strong></a> </li>
+                                            class="icofont icofont-pen-nib"></i>Stage Obligatoire (2ème
+                                        mastère)</strong></a> </li>
                         </ul>
                     </li>
                     <li class="dropdown">
@@ -179,8 +181,8 @@
                                 dépôt</span></a>
                     </li>
                     <li class="dropdown">
-                        <a class="nav-link menu-title link-nav {{ routeActive('gerer_depot') }}"
-                            href="{{ route('gerer_depot') }}">
+                        <a class="nav-link menu-title link-nav {{ routeActive('demande_depots') }}"
+                            href="{{ route('demande_depots') }}">
                             <i class="icofont icofont-papers"></i>&nbsp&nbsp&nbsp<span>Gérer les dépôts</span></a>
                     </li>
                     <li class="sidebar-main-title">

@@ -37,7 +37,7 @@
                             <div class="stepwizard-step"><a class="btn btn-light" href="#step-3">3</a>
                                 <p>Mémoire</p>
                             </div>
-                            @if($stage->type_sujet == "PFE")
+                            @if($stage->type_sujet == "PFE"  && $etudiant->classe->cycle =="licence")
                             <div class="stepwizard-step"><a class="btn btn-light" href="#step-4">4</a>
                                 <p>Fichiers nécessaires 2</p>
                             </div>
@@ -58,7 +58,7 @@
                                 <div class="col-md-12">
                                     <div class="form-group">
                                         <label class="control-label">Titre de sujet</label>
-                                        <input class="form-control" type="text" disabled value="{{$stage->titre_sujet}}">
+                                        <input class="form-control" id="titre" name="titre" type="text" required>
                                     </div>
                                     <button class="btn btn-primary nextBtn pull-right" type="button">Suivant</button>
                                 </div>
@@ -121,7 +121,7 @@
                                 </div>
                             </div>
                         </div>
-                        @if($stage->type_sujet == "PFE")
+                        @if($stage->type_sujet == "PFE"  && $etudiant->classe->cycle =="licence")
                         <div class="setup-content" id="step-4">
                             <div class="col-xs-12">
                                 <div class="col-md-12">

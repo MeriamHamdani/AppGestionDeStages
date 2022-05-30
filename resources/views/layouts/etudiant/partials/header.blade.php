@@ -31,7 +31,7 @@
                                         <span class="notification-bg bg-light-secondary"><i
                                                 data-feather="activity"> </i></span>
                                         <div class="media-body">
-                                            <p> Lettres d'affectation </p>
+                                            <p> Lettre d'affectation </p>
                                             <a href={{ route('liste_stages') }}>
                                         <span style="color: #ba895d"><strong>
                                                 Vous avez une demande de stage qui était confirmé</strong><br>

@@ -14,28 +14,21 @@
                     <div class="notification-box"><i data-feather="bell"></i><span class="dot-animated"></span></div>
                     <ul class="notification-dropdown onhover-show-div">
                         <li>
-                            <p class="f-w-700 mb-0"> Vous avez {{
-                                App\Models\Enseignant::where('user_id',auth()->id())->first()->notifications->count()
-                                }} notifications dont {{
-                                App\Models\Enseignant::where('user_id',auth()->id())->first()->unreadNotifications->count()
-                                }} non lus
-                                <!--<span class="pull-right badge badge-primary badge-pill">4</span>-->
+                            <p class="f-w-700 mb-0"> Vous avez {{App\Models\Enseignant::where('user_id',auth()->id())->first()->notifications->count()}}
+                               notifications dont {{ App\Models\Enseignant::where('user_id',auth()->id())->first()->unreadNotifications->count()}} non lus
+
                             </p>
                         </li>
-                        @foreach (App\Models\Enseignant::where('user_id',auth()->id())->first()->notifications as
-                        $notification )
+                        @foreach (App\Models\Enseignant::where('user_id',auth()->id())->first()->notifications as  $notification )
                         @if ($notification->type==='App\Notifications\DemandeEncadrementNotification')
-
-
                         <li class="noti-secondary">
                             <div class="media">
-                                <span class="notification-bg bg-light-secondary"><i data-feather="activity"> </i></span>
+                                <span class="notification-bg bg-light-secondary"><i data-feather="user"> </i></span>
                                 <div class="media-body">
-                                    <p> Demandes d'encadrements </p>
+                                    <p> Demande d'encadrement</p>
                                     <a href={{ route('liste_demandes') }}>
                                         <span style="color: #ba895d"><strong>{{ $notification->data['nom_etud'] }} -
-                                                {{
-                                                $notification->data['classe_etud'] }}</strong></span></a>
+                                                {{ $notification->data['classe_etud'] }}</strong></span></a>
                                     <hr>
                                     <span>{{ $notification->data['date'] }}</span>
                                 </div>

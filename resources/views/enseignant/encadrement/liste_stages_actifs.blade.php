@@ -42,10 +42,16 @@
                             <tbody>
                                 @foreach ($stages_actifs as $stage_actif)
                                 <tr>
-                                    <td>{{ App\Models\Etudiant::find($stage_actif->etudiant_id)->nom }}&nbsp;
-                                        {{ App\Models\Etudiant::find($stage_actif->etudiant_id)->prenom }}</td>
+                                    <td>{{ucwords($stage_actif->etudiant->nom) }}&nbsp;
+                                        {{ ucwords($stage_actif->etudiant->prenom) }}</td>
                                     <td>{{ $stage_actif->type_stage }}</td>
+                                    @if(isset($stage_actif->titre_sujet))
                                     <td>{{ $stage_actif->titre_sujet }} </td>
+                                    @else
+                                        <td class="text-center">
+                                            <i class="icofont icofont-exclamation-tringle" style="font-size: 1.3em"></i>
+                                        </td>
+                                    @endif
                                     <td>{{ $stage_actif->date_debut }}</td>
                                     <td>{{ $stage_actif->date_fin }}</td>
                                     <td class="text-center">
@@ -57,8 +63,7 @@
                                                 style="color:#bf9168 "></i></a>-->
                                         <a data-title="Consulter les détails de stage" data-toggle="tooltip"
                                             data-original-title="Consulter les détails de stage"
-                                            title="Consulter les détails de stage" href={{
-                                            route('details_stage',['stage'=>$stage_actif]) }}>
+                                            title="Consulter les détails de stage" href={{route('details_stage',['stage'=>$stage_actif]) }}>
                                             <i class="icofont icofont-info-square icon-large"></i></a>
                                         <a data-title="Consulter le cahier de stage" data-toggle="tooltip"
                                             title="Consulter le cahier de stage" href={{ route('cahier_stage_etud') }}>

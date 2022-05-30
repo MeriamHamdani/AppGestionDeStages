@@ -14,6 +14,7 @@ use App\Models\Entreprise;
 use App\Models\Specialite;
 use App\Models\CahierStage;
 use App\Models\Departement;
+use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Support\Arr;
 use Illuminate\Support\Facades\Date;
 use Illuminate\Support\Str;
@@ -23,7 +24,7 @@ use Illuminate\Support\Carbon;
 use PhpParser\Node\Stmt\ElseIf_;
 use App\Mail\ConfirmerEncadrement;
 use App\Models\AnneeUniversitaire;
-use Illuminate\Support\Collection;
+
 use Illuminate\Support\Facades\File;
 use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Facades\Auth;
@@ -54,7 +55,7 @@ class StageController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function list_vol_1ere_2eme_licence_info_1ere_master()
+    /* public function list_vol_1ere_licence_1ere_master()
     {
 
         $all_stages = Stage::All();
@@ -76,7 +77,8 @@ class StageController extends Controller
             $is_1_or_2 = ($niveau == 1 || $niveau == 2);
             $dep_is_info = strpos('departement ' . strtoupper($departement_nom), strtoupper('informatique')) > 0;
 
-            if (($dep_is_info && $is_licence && $is_1_or_2) || ($niveau == 1 && $is_master) || ($niveau == 1 && $is_licence)) {
+            //if (($dep_is_info && $is_licence && $is_1_or_2) || ($niveau == 1 && $is_master) || ($niveau == 1 && $is_licence)) {
+            if (($niveau == 1 && $is_master) || ($niveau == 1 && $is_licence)) {
 
                 $fiche = substr($stage->fiche_demande, strpos($stage->fiche_demande, '/') + 1, strlen($stage->fiche_demande));
                 $stage->file = $fiche;
@@ -87,24 +89,50 @@ class StageController extends Controller
         }
         //dd($stages_volontaires);
 
-        return view('admin.stage.listes_demandes_stage.sv12lm', compact(['stages_volontaires']));
-    }
-    /*public function list_vol_1ere_2eme_licence_info_1ere_master()
-   {
+        return view('admin.stage.listes_demandes_stage.sv1lm', compact(['stages_volontaires']));
+    } */
+    public function list_vol_1ere_licence_1ere_master()
+    {
 
-       $stages = Stage::with('type_stage_id');
-       $stages_volontaires = new Collection();
-       $types = new Collection();
-       foreach ($stages as $stg) {
-           $ts_id = $stg->type_stage_id;
-           $ts = TypeStage::findOrFail($ts_id);
-           $type = Arr::last((TypeStageController::decouper_nom($ts->nom)));
-           if ($type == "Volontaire") {
-               $stages_volontaires->push($stg);
-           }
-       }
-       return view('admin.stage.listes_demandes_stage.sv12lm', compact(['stages_volontaires']));
-   }*/
+        $stages = Stage::with('typeStage')->get();
+        $stages_volontaires = new Collection();
+        foreach ($stages as $stage) {
+            $ts_id = $stage->typeStage->id;
+            $ts = TypeStage::findOrFail($ts_id);
+            $type = Arr::last((TypeStageController::decouper_nom($ts->nom)));
+            if ($type == "Volontaire") {
+                $fiche = substr($stage->fiche_demande, strpos($stage->fiche_demande, '/') + 1, strlen($stage->fiche_demande));
+                $stage->file = $fiche;
+                $stage->code_classe = $stage->etudiant->classe->code;
+                $stages_volontaires->push($stage);
+
+            }
+        }
+        return view('admin.stage.listes_demandes_stage.sv1lm', compact(['stages_volontaires']));
+    }
+
+    public function list_oblig_2eme_licence_info()
+    {
+        $stages = Stage::with('typeStage')->get();
+        $stages_2lInfo = new Collection();
+        foreach ($stages as $stage) {
+            $etudiant = $stage->etudiant;
+            $departement_nom = Departement::findOrFail($etudiant->classe->specialite->departement_id)->nom;
+            //dd($departement_nom);
+            $is_licence = (strtoupper($etudiant->classe->cycle) === strtoupper('licence'));
+            $dep_is_info = strpos('departement ' . strtoupper($departement_nom), strtoupper('informatique')) > 0;
+            $niveau = $etudiant->classe->niveau;
+            //dd($dep_is_info);
+            if ($dep_is_info && $is_licence && $niveau == 2) {
+                $fiche = substr($stage->fiche_demande, strpos($stage->fiche_demande, '/') + 1, strlen($stage->fiche_demande));
+                $stage->file = $fiche;
+                $stage->code_classe = $stage->etudiant->classe->code;
+                $stages_2lInfo->push($stage);
+
+            }
+        }
+        return view('admin.stage.listes_demandes_stage.so2lInfo', compact(['stages_2lInfo']));
+    }
 
     /**
      * Display a listing of the resource.
@@ -325,7 +353,6 @@ class StageController extends Controller
     public function store(Request $request)
     {
         $request->validate([
-            'titre_sujet' => ['required', 'string', 'max:255'],
             'date_debut' => ['required', 'date'],
             'date_fin' => ['required', 'date'],
             /*'fiche_demande' => ['required'],
@@ -364,7 +391,7 @@ class StageController extends Controller
             $stage->enseignant_id = $request->enseignant_id;
             $entreprise = Entreprise::findOrFail($request->entreprise);
             $stage->entreprise_id = $entreprise->id;
-            $stage->type_sujet ="PFE";
+            $stage->type_sujet = "PFE";
         }
 
 
@@ -576,35 +603,34 @@ class StageController extends Controller
         $stage->cahier_stage_id = $cahier_stage->id;
         $user = User::findOrFail($etudiant->user_id);
         $type_stage = TypeStage::findOrFail($classe->type_stage_id);
+        if ($stage->confirmation_encadrant == 0) {
+            Session::flash('message', 'attend_encadrant');
+            //dd(Session::get('message'));
+            return back();
+        } else {
+            $type = Arr::last((TypeStageController::decouper_nom($type_stage->nom)));
+            if ($type === 'Obligatoire') {
+                $ts = 'إجباري';
+            } else {
+                $ts = 'تطوعي';
+            }
+            $file_path = public_path() . '\storage\ ' . $annee->lettre_affectation;
+            $file_path = str_replace(' ', '', $file_path);
+            $file_path = str_replace('/', '\\', $file_path);
+            //dd($file_path);
+            $templateProcessor = new TemplateProcessor($file_path);
+            $templateProcessor->setValue('nom', $etudiant->nom . ' ' . $etudiant->prenom);
+            $templateProcessor->setValue('CIN', $user->numero_CIN);
+            $templateProcessor->setValue('date_debut', $stage->date_debut);
+            $templateProcessor->setValue('date_fin', $stage->date_fin);
+            $templateProcessor->setValue('type_stage', $ts);
+            $templateProcessor->setValue('classe', $classe->nom);
+            $templateProcessor->saveAs(public_path() . '\storage\lettres_affectation_' . $annee->annee . '\lettre_aff_' . $user->numero_CIN . '_' . $stage->id . '.docx');
+            $stage->update();
         if (isset($stage->enseignant)) {
             $enseignant = Enseignant::findOrFail($stage->enseignant_id);
-            if ($stage->confirmation_encadrant == 0) {
-                Session::flash('message', 'attend_encadrant');
-                //dd(Session::get('message'));
-                return back();
-            }
-            else {
-                $type = strtoupper(substr($type_stage->nom, strpos($type_stage->nom, ' ') + 1, strlen($type_stage->nom)));
-                if ($type === 'OBLIGATOIRE') {
-                    $ts = 'اجباري';
-                } else {
-                    $ts = 'تطوعي';
-                }
-                $file_path = public_path() . '\storage\ ' . $annee->lettre_affectation;
-                $file_path = str_replace(' ', '', $file_path);
-                $file_path = str_replace('/', '\\', $file_path);
-                //dd($file_path);
-                $templateProcessor = new TemplateProcessor($file_path);
-                $templateProcessor->setValue('nom', $etudiant->nom . ' ' . $etudiant->prenom);
-                $templateProcessor->setValue('CIN', $user->numero_CIN);
-                $templateProcessor->setValue('date_debut', $stage->date_debut);
-                $templateProcessor->setValue('date_fin', $stage->date_fin);
-                $templateProcessor->setValue('type_stage', $ts);
-                $templateProcessor->setValue('classe', $classe->nom);
-                $templateProcessor->saveAs(public_path() . '\storage\lettres_affectation_' . $annee->annee . '\lettre_aff_' . $user->numero_CIN . '_' . $stage->id . '.docx');
-                $stage->update();
+
                 $details = ['etudiant' => $etudiant->nom . ' ' . $etudiant->prenom,
-                    'sujet' => $stage->titre_sujet,
                     'annee' => $annee->annee_universitaire,
                     'type_stage' => $type,
                     'encadrant' => $enseignant->nom . ' ' . $enseignant->prenom,
@@ -614,27 +640,7 @@ class StageController extends Controller
                 return back();
             }
         }
-        $type = strtoupper(substr($type_stage->nom, strpos($type_stage->nom, ' ') + 1, strlen($type_stage->nom)));
-        if ($type === 'OBLIGATOIRE') {
-            $ts = 'اجباري';
-        } else {
-            $ts = 'تطوعي';
-        }
-        $file_path = public_path() . '\storage\ ' . $annee->lettre_affectation;
-        $file_path = str_replace(' ', '', $file_path);
-        $file_path = str_replace('/', '\\', $file_path);
-        //dd($file_path);
-        $templateProcessor = new TemplateProcessor($file_path);
-        $templateProcessor->setValue('nom', $etudiant->nom . ' ' . $etudiant->prenom);
-        $templateProcessor->setValue('CIN', $user->numero_CIN);
-        $templateProcessor->setValue('date_debut', $stage->date_debut);
-        $templateProcessor->setValue('date_fin', $stage->date_fin);
-        $templateProcessor->setValue('type_stage', $ts);
-        $templateProcessor->setValue('classe', $classe->nom);
-        $templateProcessor->saveAs(public_path() . '\storage\lettres_affectation_' . $annee->annee . '\lettre_aff_' . $user->numero_CIN . '_' . $stage->id . '.docx');
-        $stage->update();
         $details = ['etudiant' => $etudiant->nom . ' ' . $etudiant->prenom,
-            'sujet' => $stage->titre_sujet,
             'annee' => $annee->annee_universitaire,
             'type_stage' => $type,
             'date' => 'Le ' . $current_date->day . '-' . $current_date->month . '-' . $current_date->year . ' à ' . $current_date->hour . ':' . $current_date->minute];
@@ -643,8 +649,6 @@ class StageController extends Controller
         return back();
 
     }
-
-
     public function current_annee_univ()
     {
 

@@ -16,36 +16,33 @@
 @section('content')
     @component('components.breadcrumb')
         @slot('breadcrumb_title')
-            <h3>Remarques de : l'encadrant</h3>
+            <h3>Remarques de : {{ucwords($encadrant->prenom)}} {{ucwords($encadrant->nom)}}</h3>
         @endslot
         <li class="breadcrumb-item">Dépôt</li>
-        <li class="breadcrumb-item active">Remarques de : l'encadrant</li>
+        <li class="breadcrumb-item active">Remarques</li>
     @endcomponent
     <div class="container-fluid">
         <div class="user-profile social-app-profile">
             <div class="col-md-6 col-sm-6 mx-auto">
                 <div class="card">
                     <div class="card-header">
-                        <h5>
-                            Remarques de : l'encadrant
+                        <h5 style="color: darkred">
+                            Remarques de : {{ucwords($encadrant->prenom)}} {{ucwords($encadrant->nom)}}
                         </h5>
                     </div>
                     <div class="collapse show" id="collapseicon2" aria-labelledby="collapseicon2" data-parent="#accordion">
                         <div class="card-body filter-cards-view">
-                            <h6 style="text-align: center">
+                           <!-- <h6 style="text-align: center">
                                 Les commentaires de l'enseignant
-                            </h6>
+                            </h6>-->
                             <div class="filter-view-group">
-                                <span class="f-w-600" style="color: #2b786a">Nom de l'enseignant </span>
+                                @foreach($commentaires as $commentaire)
+                                <span class="f-w-600" style="color: #2b786a">{{ucwords($commentaire->enseignant->prenom)}} {{ucwords($commentaire->enseignant->nom)}} </span>
                                 <p style="color: #0c0c0c">
-                                    J'espere que vous corrigez la partie 1 de chapitre1
+                                    {{$commentaire->contenu}}
                                 </p>
-                            </div>
-                            <div class="filter-view-group">
-                                <span class="f-w-600" style="color: #2b786a">Nom de l'enseignant </span>
-                                <p style="color: #0c0c0c">
-                                    Bien recu c bien le mémoire est bien corrigé
-                                </p>
+                                    <p class="f-w-600"> {{$commentaire->created_at}}</p> <br>
+                                @endforeach
                             </div>
                         </div>
                     </div>

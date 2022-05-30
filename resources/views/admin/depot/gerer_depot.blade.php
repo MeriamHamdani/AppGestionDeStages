@@ -39,83 +39,66 @@
                                 </tr>
                             </thead>
                             <tbody>
+                            @foreach($demandesDepotC as $demande)
                                 <tr>
-                                    <td>Tiger Nixon</td>
-                                    <td>System Architect</td>
-                                    <td>2011/04/25</td>
-                                    <td>encadrant</td>
+                                    <td>{{$demande->titre}}</td>
+                                    <td>{{ucwords($demande->stage->etudiant->prenom)}} {{ucwords($demande->stage->etudiant->nom)}}</td>
+                                    <td>{{$demande->date_depot}}</td>
+                                    <td>{{ucwords($demande->stage->enseignant->prenom)}} {{ucwords($demande->stage->enseignant->nom)}}</td>
+                                    @if($demande->validation_encadrant == -1)
                                     <td class="text-center">
-                                        <button class="buttonload" data-toggle="tooltip" title="demande en attente">
+                                        <button class="buttonload btn btn-warning btn-sm" data-toggle="tooltip" title="demande en attente">
                                             <i class="fa fa-spinner fa-spin"></i>
                                         </button>
                                     </td>
+                                    @elseif($demande->validation_encadrant == 0)
+                                        <td class="text-center">
+                                            <button class="buttonload btn btn-danger btn-sm" data-toggle="tooltip" title="demande refusée en attente de mise à jour">
+                                                <i class="icofont icofont-close-squared icon-large"></i>
+                                            </button>
+                                        </td>
+                                    @elseif($demande->validation_encadrant == 1)
+                                        <td class="text-center">
+                                            <button class="buttonload btn btn-primary btn-sm" data-toggle="tooltip" title="demande validée">
+                                                <i class="icofont icofont-checked icon-large"></i>
+                                            </button>
+                                        </td>
+                                    @endif
                                     <td class="text-center">
-                                        <a href="#" data-title="Consulter la mémoire" data-toggle="tooltip"
-                                            data-original-title="Consulter le mémoire" title="Consulter le mémoire">
-                                            <i class="icofont icofont-papers icon-large"></i></a>
-                                        <a href="#" data-title="Valider le dépôt du mémoire" data-toggle="tooltip"
+                                        <a href="{{route('telecharger_memoire_adm',['memoire'=>$demande->memoire,
+                                                                                'code_classe'=>$demande->stage->etudiant->classe->code])}}" data-toggle="tooltip"
+                                            data-original-title="Télécharger le mémoire" title="Télécharger le mémoire">
+                                            <i class="icofont icofont-papers icon-large" style="color: #8a6d3b"></i></a>
+                                        <a href="{{route('telecharger_fiche_plagiat',['fiche_plagiat'=>$demande->fiche_plagiat,
+                                                                                'code_classe'=>$demande->stage->etudiant->classe->code])}}" data-toggle="tooltip"
+                                           data-original-title="Télécharger le fiche plagiat" title="Télécharger le fiche plagiat">
+                                            <i class="icofont icofont-paper icon-large" style="color: #8a6d3b"></i></a>
+                                        <a href="{{route('telecharger_fiche_biblio',['fiche_biblio'=>$demande->fiche_biblio,
+                                                                                'code_classe'=>$demande->stage->etudiant->classe->code])}}" data-toggle="tooltip"
+                                           data-original-title="Télécharger le fiche biblio" title="Télécharger le fiche biblio">
+                                            <i class="icofont icofont-file-text icon-large" style="color: #8a6d3b"></i></a> <br>
+                                        @if(isset($demande->attestation) && isset($demande->fiche_tech))
+                                            <a href="{{route('telecharger_fiche_tech',['fiche_tech'=>$demande->fiche_tech,
+                                                                                'code_classe'=>$demande->stage->etudiant->classe->code])}}" data-toggle="tooltip"
+                                               data-original-title="Télécharger le fiche technique" title="Télécharger le fiche technique">
+                                                <i class="icofont icofont-ui-copy icon-large" style="color: #8a6d3b"></i></a>
+                                            <a href="{{route('telecharger_attestation',['attestation'=>$demande->attestation,
+                                                                                'code_classe'=>$demande->stage->etudiant->classe->code])}}" data-toggle="tooltip"
+                                               data-original-title="Télécharger l'attestation" title="Télécharger l'attestation">
+                                                <i class="icofont icofont-ui-file icon-large" style="color: #8a6d3b"></i></a><br>
+                                        @endif
+                                        @if($demande->validation_admin !=1)
+                                        <a href="{{route('valider_par_admin',['demande_depot'=>$demande])}}" data-title="Valider le dépôt du mémoire" data-toggle="tooltip"
                                             title="Valider le dépôt du mémoire">
                                             <i class="icofont icofont-checked icon-large"></i></a>
-                                        <a href="#" data-title="Refuser le dépôt du mémoire" data-toggle="tooltip"
-                                            title="Refuser le dépôt du mémoire">
-                                            <i class="icofont icofont-close-squared icon-large"></i></a>
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <td>Michael Bruce</td>
-                                    <td>Javascript Developer</td>
-                                    <td>2011/04/25</td>
-                                    <td>encadrant</td>
-                                    <td>
-                                        <a href="#" data-toggle="tooltip" title="demande refusée"
-                                            onclick="this.disabled = true">
-                                            <i style="background-position: 0 -90px;
-                                                height: 30px;
-                                                width: 23px;
-                                                display:block;
-                                                margin:0 auto;" class="icofont icofont-ui-close icon-large"></i>
-                                        </a>
-                                    </td>
-                                    <td class="text-center">
-                                        <a href="#" data-title="Consulter la mémoire" data-toggle="tooltip"
-                                            data-original-title="Consulter le mémoire" title="Consulter le mémoire">
-                                            <i class="icofont icofont-papers icon-large"></i></a>
-                                        <a href="#" data-title="Valider le dépôt du mémoire" data-toggle="tooltip"
-                                            title="Valider le dépôt du mémoire">
-                                            <i class="icofont icofont-checked icon-large"></i></a>
-                                        <a href="#" data-title="Refuser le dépôt du mémoire" data-toggle="tooltip"
-                                            title="Refuser le dépôt du mémoire">
-                                            <i class="icofont icofont-close-squared icon-large"></i></a>
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <td>Donna Snider</td>
-                                    <td>Customer Support</td>
 
-                                    <td>2011/04/25</td>
-                                    <td>encadrant</td>
-                                    <td>
-                                        <a href="#" data-toggle="tooltip" title="demande confirmée"
-                                            onclick="this.disabled = true">
-                                            <i style="background-position: 0 -90px;
-                                                    height: 30px;
-                                                    width: 23px;
-                                                    display:block;
-                                                    margin:0 auto;" class="icofont icofont-ui-check icon-large"></i>
-                                        </a>
-                                    </td>
-                                    <td class="text-center">
-                                        <a href="#" data-title="Consulter la mémoire" data-toggle="tooltip"
-                                            data-original-title="Consulter le mémoire" title="Consulter le mémoire">
-                                            <i class="icofont icofont-papers icon-large"></i></a>
-                                        <a href="#" data-title="Valider le dépôt du mémoire" data-toggle="tooltip"
-                                            title="Valider le dépôt du mémoire">
-                                            <i class="icofont icofont-checked icon-large"></i></a>
                                         <a href="#" data-title="Refuser le dépôt du mémoire" data-toggle="tooltip"
-                                            title="Refuser le dépôt du mémoire">
+                                            title="Refuser le dépôt du mémoire" style="color: darkred">
                                             <i class="icofont icofont-close-squared icon-large"></i></a>
+                                        @endif
                                     </td>
                                 </tr>
+                            @endforeach
                             </tbody>
                             <tfoot>
                                 <tr>
@@ -138,6 +121,20 @@
 @push('scripts')
 <script src="{{ asset('assets/js/datatable/datatables/jquery.dataTables.min.js') }}"></script>
 <script src="{{ asset('assets/js/datatable/datatables/datatable.custom.js') }}"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/sweetalert/2.1.2/sweetalert.min.js"
+        integrity="sha512-AA1Bzp5Q0K1KanKKmvN/4d3IRKVlv9PYgwFPvm32nPO6QS8yH1HO7LbgB1pgiOxPtfeg5zEn2ba64MUcqJx6CA=="
+        crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+@if(Session::has('message'))
+    @if (Session::get('message')=='attend validation encadrant')
+
+        <script>
+            swal('Erreur', "Validation d'encadrant requise!", 'error', {
+                button: 'Ok'
+            })
+
+        </script>
+    @endif
+@endif
 @endpush
 
 @endsection

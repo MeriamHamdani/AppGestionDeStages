@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\CommentaireController;
 use App\Http\Controllers\DepotMemoireController;
 use App\Http\Controllers\EnseignantController;
 use App\Http\Controllers\StageController;
@@ -24,7 +25,10 @@ Route::middleware(['auth','role:enseignant'])->group(function(){
         Route::view('/encadrement/demandes', 'enseignant.encadrement.demandes')->name('demandes');
 
         Route::get('/depot/traiter-depot', [DepotMemoireController::class,'liste_demandes_depot_enseignant'])->name('depots');
-        Route::view('/depot/traiter-depot/details-depot', 'enseignant.depot.details_depot')->name('details_depot');
+        Route::get('/depot/memoire/{memoire}/{code_classe}', [DepotMemoireController::class, 'telecharger_memoire'])->where('memoire', '[A-Za-z0-9\-\_\.]+')->name('telecharger_memoire');
+        Route::get('/depot/traiter-depot/details-depot/{demande_depot}',[CommentaireController::class, 'index'])->name('details_depot');
+        Route::post('/depot/traiter-depot/details-depot/{demande_depot}/refuser',[CommentaireController::class, 'store'])->name('refuser_depot');
+        Route::get('/depot/traiter-depot/details-depot/{demande_depot}/valider',[DepotMemoireController::class, 'valider_par_encadrant'])->name('valider_depot');
 
 
         Route::view('/soutenance/liste-role-encadrant', 'enseignant.soutenance.role_encadrant')->name('role_encadrant');

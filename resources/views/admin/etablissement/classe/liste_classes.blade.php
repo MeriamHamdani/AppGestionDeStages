@@ -149,7 +149,6 @@
 </script>
 
 @endif
-@endif
 
 <script>
     $('.delete').click(function () {

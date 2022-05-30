@@ -34,7 +34,6 @@
                                     <th>Etudiant</th>
                                     <th>Type de Stage</th>
                                     <th>Sujet</th>
-                                    <th>Type de sujet</th>
                                     <th>Entreprise</th>
                                     <th>Date début</th>
                                     <th>Date fin</th>
@@ -48,7 +47,6 @@
                                     <td>{{ucwords($stage->etudiant->nom)}}&nbsp; {{ucwords($stage->etudiant->prenom)}}
                                     </td>
                                     <td>{{$stage->etudiant->classe->typeStage->nom}}</td>
-                                    <td>{{$stage->titre_sujet}}</td>
                                     <td>@if(isset($stage->type_sujet)){{$stage->type_sujet}}@endif</td>
                                     @if(isset($stage->entreprise))
                                     <td>{{$stage->entreprise->nom}}</td>
@@ -104,7 +102,6 @@
                                     <th>Etudiant</th>
                                     <th>Type de Stage</th>
                                     <th>Sujet</th>
-                                    <th>Type de sujet</th>
                                     <th>Entreprise</th>
                                     <th>Date début</th>
                                     <th>Date fin</th>

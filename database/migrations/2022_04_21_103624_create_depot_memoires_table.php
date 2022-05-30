@@ -25,6 +25,7 @@ class CreateDepotMemoiresTable extends Migration
             $table->string('fiche_plagiat')->nullable();
             $table->string('memoire')->nullable();
             $table->boolean('validation_encadrant');
+            $table->boolean('validation_admin');
             $table->timestamps();
         });
     }

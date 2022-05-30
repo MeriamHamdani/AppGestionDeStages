@@ -75,10 +75,12 @@
                                      </a>
                                  </p>
                              </div>--}}
+
                             <div class="row">
+                                @if($etudiant->classe->niveau != 1)
                                 <div class="col">
                                     <div class="mb-3">
-                                        <label class="form-label">Le sujet</label>
+                                        <label class="form-label">Le sujet (champ non obligatoire)</label>
                                         <div class="mb-3">
                                             <input class="form-control" name="titre_sujet" id="titre_sujet"
                                                    placeholder="Taper votre sujet..." value="{{old('titre_sujet')}}"
@@ -86,9 +88,10 @@
                                         </div>
                                     </div>
                                 </div>
+                                @endif
                                 @if($etudiant->classe->niveau == 3 && $etudiant->classe->cycle=="licence")
                                     <div class="mb-3">
-                                        <label class="form-label" for="message-text">Type de sujet</label>
+                                        <label class="form-label" for="type_sujet">Type de sujet</label>
                                         <select class="js-example-basic-single col-sm-12" name="type_sujet"
                                                 id="type_sujet">
                                             <option disabled="disabled" selected="selected">Choisissez le type de
@@ -139,15 +142,13 @@
                                     </div>
                                 </div>
                             @endif
-                            @if((($etudiant->classe->typeStage->type_sujet) != "Business Plan") &&
-                            (($etudiant->classe->typeStage->type_sujet) != "Projet Tutoré"))
                                 <div class="row">
                                     <div class="col">
-                                        <div class="mb-3">
-                                            <label class="form-label" for="exampleFormControlSelect9">Le nom de
+                                        <div class="mb-3" id="entrepriseDiv">
+                                            <label class="form-label" for="entreprise">Le nom de
                                                 l'entreprise</label>
                                             <select class="js-example-basic-single col-sm-12" name="entreprise"
-                                                    id="entreprise">
+                                                    id="entreprise" >
                                                 <option disabled="disabled" selected="selected">Choisissez l'entreprise
                                                 </option>
                                                 @foreach ($entreprises as $entreprise )
@@ -158,16 +159,16 @@
                                         </div>
                                     </div>
                                 </div>
-                            @endif
-
                             <div class="row">
-                                <div class="alert alert-secondary dark" role="alert">
+                                <div class="alert alert-secondary dark round-badge-info" role="alert">
                                     <p><i class="icofont icofont-exclamation-tringle"></i>
                                         Veillez choisir la période de votre stage incluse dans la période définie par le
                                         type de stage</p>
                                     <p> entre <strong>{{$type_stage->date_debut_periode}}</strong> et
                                         <strong>{{$type_stage->date_limite_periode}} </strong></p>
                                 </div>
+                            </div> <br/>
+                        <div class="row">
                                 <div class="col">
                                     <div class="mb-3">
                                         <label class="form-label" for="exampleFormControlSelect9">Date début de
@@ -186,8 +187,7 @@
                                                name="date_fin" id="date_fin"/>
                                     </div>
                                 </div>
-                            </div>
-
+                        </div>
                             @if(($etudiant->classe->typeStage->fiche_demande) != null)
                                 <div class="row">
                                     <div class="col">
@@ -243,6 +243,17 @@
         <script src="{{ asset('assets/js/datepicker/date-picker/datepicker.js') }}"></script>
         <script src="{{ asset('assets/js/datepicker/date-picker/datepicker.en.js') }}"></script>
         <script src="{{ asset('assets/js/datepicker/date-picker/datepicker.custom.js') }}"></script>
+        <script src="{!!url('/js/jquery.min.js')!!}"></script>
+        <script type="text/javascript">
+            $("#type_sujet").change(function() {
+                if ($(this).val() == "PFE") {
+                    $('#entrepriseDiv').show();
+                } else {
+                    $('#entrepriseDiv').hide();
+                }
+            });
+            $("#type_sujet").trigger("change");
+        </script>
     @endpush
 @endsection
 

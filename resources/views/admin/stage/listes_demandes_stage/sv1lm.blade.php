@@ -1,6 +1,6 @@
 @extends('layouts.admin.master')
 
-@section('title')Liste des demandes des stages volontaire pour 1ére et 2éme licence et 1ère mastère
+@section('title')Liste des demandes des stages volontaires
 {{ $title }}
 @endsection
 
@@ -13,11 +13,11 @@
 @section('content')
 @component('components.breadcrumb')
 @slot('breadcrumb_title')
-<h3>La liste des demandes des stages volontaire pour 1ére année et 2éme année licence et 1ère année mastère</h3>
+<h3>La liste des demandes des stages volontaires </h3>
 @endslot
 <li class="breadcrumb-item">Stages</li>
 <li class="breadcrumb-item">Les demandes des stages</li>
-<li class="breadcrumb-item">Stage volontaire 1ère et 2éme licence informatique et 1ère mastère</li>
+<li class="breadcrumb-item">Stage volontaire 1ére année licence et 1ère année mastère</li>
 
 @endcomponent
 
@@ -44,9 +44,9 @@
                             <tbody>
                                 @foreach ($stages_volontaires as $stage )
                                 <tr>
-                                    <td>{{ App\Models\Etudiant::find($stage->etudiant_id)->nom }}
-                                        {{ App\Models\Etudiant::find($stage->etudiant_id)->prenom }}</td>
-                                    <td>{{$stage->code_classe}}</td>
+                                    <td>{{$stage->etudiant->nom }}
+                                        {{$stage->etudiant->prenom }}</td>
+                                    <td>{{$stage->etudiant->classe->nom}}</td>
                                     @if(isset($stage->fiche_demande))
                                     <td class="text-center">
                                         <a href="{{ route('telechargement_fiche_demande',['fiche_demande'=>$stage->file,'code_classe'=>$stage->code_classe]) }}">

@@ -36,7 +36,6 @@
 
                                                     <p>
                                                         Votre demande de stage est confirmée.<br>
-                                                        <span>Sujet: {{$details['sujet'] }}</span><br>
                                                         @if(isset($details['encadrant']))
                                                         <span>Encadrant: {{$details['encadrant'] }}</span><br>
                                                         @endif

@@ -20,7 +20,7 @@ class CreateStagesTable extends Migration
             $table->foreignId('depot_memoire_id')->nullable()->constrained();
             $table->foreignId('soutenance_id')->nullable()->constrained();*/
             $table->foreignId('annee_universitaire_id')->constrained();
-            $table->string('titre_sujet');
+            $table->string('titre_sujet')->nullable();
             $table->string('type_sujet')->nullable();
             $table->date('date_debut');
             $table->date('date_fin');

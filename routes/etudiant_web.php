@@ -52,7 +52,14 @@ Route::middleware(['auth', 'role:etudiant'])->group(function () {
         Route::get('/depot/gerer-depot', [DepotMemoireController::class, 'index'])->name('depot');
         Route::get('/depot/deposer/', [DepotMemoireController::class, 'create'])->name('deposer');
         Route::post('/depot/gerer-depot/deposer-memoire', [DepotMemoireController::class, 'store'])->name('deposer_memoire');
-        Route::view('/depot/gerer-depot/remarques-encadrant', 'etudiant.depot.remarques_encadrant')->name('remarques_encadrant');
+        Route::get('/depot/gerer-depot/afficher-details-depot/{depotMemoire}', [DepotMemoireController::class, 'show'])->name('afficher_details');
+        Route::get('/depot/gerer-depot/{memoire}/{code_classe}', [DepotMemoireController::class, 'telecharger_memoire'])->where('memoire', '[A-Za-z0-9\-\_\.]+')->name('telecharger_memoire');
+
+        Route::get('/depot/gerer-depot/redeposer-memoire/{depotMemoire}', [DepotMemoireController::class, 'edit'])->name('redeposer');
+        Route::post('/depot/gerer-depot/redeposer-memoire/{depotMemoire}', [DepotMemoireController::class, 'update'])->name('update_depot');
+        Route::get('/depot/gerer-depot/remarques-encadrant/{depotMemoire}', [DepotMemoireController::class, 'remarques_encadrant'])->name('remarques_encadrant');
+
+        //Route::view('/depot/gerer-depot/remarques-encadrant', 'etudiant.depot.remarques_encadrant')->name('remarques_encadrant');
 
 
         Route::view('/soutenance/liste_soutenances', 'etudiant.soutenance.liste_soutenances')->name('liste_soutenances');

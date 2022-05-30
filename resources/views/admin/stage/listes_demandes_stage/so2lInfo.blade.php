@@ -1,6 +1,6 @@
 @extends('layouts.admin.master')
 
-@section('title')Liste des demandes des stages obligatoires pour 2éme année mastère
+@section('title')Liste des demandes des stages obligatoires
 {{ $title }}
 @endsection
 
@@ -12,11 +12,11 @@
 @section('content')
 @component('components.breadcrumb')
 @slot('breadcrumb_title')
-<h3>Liste des demandes des stages obligatoires pour 2éme année mastère</h3>
+<h3>Liste des demandes des stages obligatoires: 2éme année licence informatique</h3>
 @endslot
 <li class="breadcrumb-item">Stages</li>
 <li class="breadcrumb-item">Les demandes des stages</li>
-<li class="breadcrumb-item">Stages obligatoires pour 2éme année mastère</li>
+<li class="breadcrumb-item">Stages obligatoires pour 2éme année licence non informatique</li>
 
 @endcomponent
 
@@ -34,22 +34,17 @@
                                 <tr>
                                     <th>Nom Complet</th>
                                     <th>Classe</th>
-                                    <th>Encadrant</th>
                                     <th>La fiche de demande</th>
-                                    <th>Confirmation de l'encadrant</th>
                                     <th>Confirmation de l'administration</th>
                                     <th>Actions</th>
                                 </tr>
                             </thead>
                             <tbody>
-                                @foreach ($stages as $stage )
+                                @foreach ($stages_2lInfo as $stage )
                                 <tr>
-                                    <td>{{ App\Models\Etudiant::find($stage->etudiant_id)->nom }}
-                                        {{ App\Models\Etudiant::find($stage->etudiant_id)->prenom }}</td>
+                                    <td>{{$stage->etudiant->nom }}
+                                        {{$stage->etudiant->prenom }}</td>
                                     <td>{{$stage->code_classe}}</td>
-                                    <td>{{ App\Models\Enseignant::find($stage->enseignant_id)->nom }}&nbsp;{{
-                                        App\Models\Enseignant::find($stage->enseignant_id)->prenom }}</td>
-                                    </td>
                                     @if(isset($stage->fiche_demande))
                                     <td class="text-center"><a
                                             href="{{ route('telechargement_fiche_demande',['fiche_demande'=>$stage->file,'code_classe'=>$stage->code_classe]) }}">
@@ -60,35 +55,6 @@
                                         <td class="text-center">
                                             <i class="icofont icofont-exclamation-tringle" style="font-size: 1.3em"></i>
                                         </td>
-                                    @endif
-                                    @if ($stage->confirmation_encadrant==null)
-                                    <td class="text-center">
-                                        <button class="buttonload" data-toggle="tooltip" title="demande en attente">
-                                            <i class="fa fa-spinner fa-spin"></i>
-                                        </button>
-                                    </td>
-                                    @endif
-                                    @if ($stage->confirmation_encadrant==-1)
-                                    <td style="text-center">
-                                        <i data-toggle="tooltip" title="demande refusée" style="background-position: 0 -90px;
-                                            height: 30px;
-                                            width: 23px;
-                                            display:block;
-                                            margin:0 auto; color: #B3363E;"
-                                            class="icofont icofont-ui-close icon-large"></i>
-
-                                    </td>
-                                    @endif
-                                    @if ($stage->confirmation_encadrant==1)
-                                    <td class="text-center">
-
-                                        <i data-toggle="tooltip" title="demande confirmée" style="background-position: 0 -90px;
-                                        height: 30px;
-                                        width: 23px;
-                                        display:block;
-                                        margin:0 auto; color: #4B8D5F" class="icofont icofont-ui-check icon-large"></i>
-
-                                    </td>
                                     @endif
                                     <td class="text-center">
                                         @if ($stage->confirmation_admin==null)
@@ -127,7 +93,6 @@
                                             data-title="Modifer" data-toggle="tooltip" title="Modifer"><i
                                                 class="icofont icofont-ui-edit icon-large"></i></a>
                                     </td>
-
                                 </tr>
                                 @endforeach
 
@@ -137,9 +102,7 @@
                                 <tr>
                                     <th>Nom Complet</th>
                                     <th>Classe</th>
-                                    <th>Encadrant</th>
                                     <th>La fiche de demande</th>
-                                    <th>Confirmation de l'encadrant</th>
                                     <th>Confirmation de l'administration</th>
                                     <th>Actions</th>
 
@@ -155,9 +118,7 @@
 
 
 @push('scripts')
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/sweetalert/2.1.2/sweetalert.min.js"
-            integrity="sha512-AA1Bzp5Q0K1KanKKmvN/4d3IRKVlv9PYgwFPvm32nPO6QS8yH1HO7LbgB1pgiOxPtfeg5zEn2ba64MUcqJx6CA=="
-            crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+
 <script src="{{ asset('assets/js/notify/bootstrap-notify.min.js') }}"></script>
 <script src="{{ asset('assets/js/icons/icons-notify.js') }}"></script>
 <script src="{{ asset('assets/js/icons/feather-icon/feather-icon-clipart.js') }}"></script>
@@ -182,7 +143,6 @@
 <script src="{{asset('assets/js/datatable/datatable-extension/dataTables.rowReorder.min.js')}}"></script>
 <script src="{{asset('assets/js/datatable/datatable-extension/dataTables.scroller.min.js')}}"></script>
 <script src="{{asset('assets/js/datatable/datatable-extension/custom.js')}}"></script>
-<<<<<<< HEAD
 <script src="https://cdnjs.cloudflare.com/ajax/libs/sweetalert/2.1.2/sweetalert.min.js"
     integrity="sha512-AA1Bzp5Q0K1KanKKmvN/4d3IRKVlv9PYgwFPvm32nPO6QS8yH1HO7LbgB1pgiOxPtfeg5zEn2ba64MUcqJx6CA=="
     crossorigin="anonymous" referrerpolicy="no-referrer"></script>
@@ -202,21 +162,6 @@
 </script>
 @endif
 @endif
-=======
-    @if(Session::has('message'))
-        @if (Session::get('message')=='attend_encadrant')
-
-            <script>
-                swal({
-                    position: 'center',
-                    icon: 'info',
-                    title: 'Enacdrant doit confirmer avant!!',
-                    showConfirmButton: false,
-                    timer: 3000
-                })
-            </script>
-        @endif
-    @endif
 @endpush
 
 @endsection
