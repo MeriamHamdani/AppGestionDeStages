@@ -54,28 +54,6 @@
                                     </p>
                                 </div>
                             @endif
-                            {{-- <div class="alert alert-primary dark" role="alert">
-                                 <p><i class="icofont icofont-exclamation-tringle"></i>
-                                     Prière de télécharger la fiche d'assurance.</p>
-
-                                 <p>
-
-                                     <a href="{{ route('telecharger_fiche_assurance',$fiche_assurance) }}">
-                                         <u style="color:rgb(255, 255, 255)">Télécharger la fiche d'assurance</u>
-                                     </a>
-                                 </p>
-                             </div>
-                             <div class="alert alert-primary dark" role="alert">
-                                 <p><i class="icofont icofont-exclamation-tringle"></i>
-                                     Prière de télécharger la fiche de reçue 2 dinars.</p>
-
-                                 <p>
-                                     <a href="{{ route('telecharger_fiche_2Dinars',$fiche_2Dinars) }}">
-                                         <u style="color:rgb(255, 255, 255)">Télécharger la fiche de reçue 2 dinars.</u>
-                                     </a>
-                                 </p>
-                             </div>--}}
-
                             <div class="row">
                                 @if($etudiant->classe->niveau != 1)
                                 <div class="col">
@@ -118,14 +96,6 @@
                                         <div class="mb-3">
                                             <label class="form-label" for="exampleFormControlSelect9">Le nom de
                                                 l'Encadrant</label>
-                                            {{--<select class="js-example-basic-single col-sm-12" id="enseignant_id" name="enseignant_id" required>
-                                                <option disabled="disabled" selected="selected">Choisissez l'encadrant académique</option>
-                                                @foreach ($enseignants as $enseignant )
-                                                <option value="{{ $enseignant->id }}">
-                                                    {{ $enseignant->nom }} {{$enseignant->prenom}}
-                                                </option>
-                                                @endforeach
-                                            </select>--}}
                                             <select class="js-example-basic-single col-sm-12" id="enseignant_id"
                                                     name="enseignant_id" required>
                                                 <option disabled="disabled" selected="selected">Choisissez l'encadrant

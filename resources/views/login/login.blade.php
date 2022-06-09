@@ -100,7 +100,7 @@
                     action="{{ route('connexion') }}">
                     <h4 style="text-align: center;color: #24695c">Connexion</h4>
                     <div class="form-group">
-                        <label>Numero de CIN</label>
+                        <label>Numéro de CIN</label>
                         <div class="input-group">
                             <span class="input-group-text"><i class="icofont icofont-id-card"></i></span>
                             <input class="form-control" type="text" required="" id="numero_CIN" name="numero_CIN"

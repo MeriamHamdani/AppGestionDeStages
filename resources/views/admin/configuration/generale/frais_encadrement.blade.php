@@ -1,23 +1,21 @@
 @extends('layouts.admin.master')
 
-@section('title')Classe et son type de stage
+@section('title')Configuration des paiements
 {{ $title }}
 @endsection
 
 @push('css')
     <link rel="stylesheet" type="text/css" href="{{asset('assets/css/datatables.css')}}">
     <link rel="stylesheet" type="text/css" href="{{asset('assets/css/datatable-extension.css')}}">
-    <link rel="stylesheet" type="text/css" href="{{ asset('assets/css/select2.css') }}">
 @endpush
 
 @section('content')
     @component('components.breadcrumb')
         @slot('breadcrumb_title')
-            <h3>Gestion des classes</h3>
+            <h3>Configuration des paiements</h3>
         @endslot
-        <li class="breadcrumb-item">Etablissement</li>
-        <li class="breadcrumb-item">Gestion des classes</li>
-
+        <li class="breadcrumb-item">Configuration</li>
+        <li class="breadcrumb-item">Frais d'encadrement</li>
     @endcomponent
 
     <div class="container-fluid">
@@ -25,39 +23,46 @@
             <div class="col-sm-12">
                 <div class="card">
                     <div class="card-header pb-0">
-                        <h5>Classe et son type de stage</h5>
+                        <h5>Frais d'encadrement</h5>
+                        <a href={{ route('ajouter_frais') }}>
+                            <i class="text-right" aria-hidden="true">
+                                <button class="btn btn-pill btn-success pull-right" type="button">
+                                    Ajouter
+                                </button>
+                            </i>
+                        </a>
                     </div>
                     <div class="card-body">
-                        <div class="dt-ext table-responsive">
+                        <div class="dt-ext table">
                             <table class="display" id="auto-fill">
                                 <thead>
                                 <tr>
-                                    <th>Code Classe</th>
-                                    <th>Nom Classe</th>
-                                    <th>Type de Stage</th>
+                                    <th>Grade</th>
+                                    <th>Cycle</th>
+                                    <th>Frais par mois</th>
                                     <th>Actions</th>
                                 </tr>
                                 </thead>
                                 <tbody>
-                                @foreach($typeStages as $typeStage)
-                                    <tr>
-                                        <td>@if(isset($typeStage->classe_id)){{ucwords($typeStage->classe->code)}}@endif</td>
-                                        <td>@if(isset($typeStage->classe_id)){{ucwords($typeStage->classe->nom)}}@endif</td>
-                                        <td>{{ucwords($typeStage->nom)}}</td>
-                                        <td class="text-center">
-                                            <a href="{{route('modifier_type_stage',$typeStage)}}"> <i style="font-size: 1.3em;"  class='fa fa-edit'></i></a>
-                                                <a href="#" data-id="{{ $typeStage->id }}"
-                                                   data-name="{{ $typeStage->nom }}"
-                                                   class="delete"><i style="font-size: 1.3em;" class='fa fa-trash'></i></a>
-                                        </td>
-                                    </tr>
+                                @foreach($fraisEncadrements as $frais)
+                                <tr>
+                                    <td>{{ucwords($frais->grade)}}</td>
+                                    <td>{{ucwords($frais->cycle)}}</td>
+                                    <td>{{ucwords($frais->frais)}} DT</td>
+                                    <td> <a href="{{route('modifier_frais',$frais)}}"> <i
+                                                style="font-size: 1.3em;" class='fa fa-edit'></i></a>
+                                        <a href="#" data-id="{{ $frais->id }}"
+                                           data-name=""
+                                           class="delete">
+                                            <i style="font-size: 1.3em;color:red" class='fa fa-trash delete'></i></a> </td>
+                                </tr>
                                 @endforeach
                                 </tbody>
                                 <tfoot>
                                 <tr>
-                                    <th>Code Classe</th>
-                                    <th>Nom Classe</th>
-                                    <th>Type de Stage</th>
+                                    <th>Grade</th>
+                                    <th>Cycle</th>
+                                    <th>Frais</th>
                                     <th>Actions</th>
                                 </tr>
                                 </tfoot>
@@ -71,12 +76,6 @@
 
 
     @push('scripts')
-
-        <script src="{{ asset('assets/js/notify/bootstrap-notify.min.js') }}"></script>
-        <script src="{{ asset('assets/js/icons/icons-notify.js') }}"></script>
-        <script src="{{ asset('assets/js/icons/feather-icon/feather-icon-clipart.js') }}"></script>
-        <script src="{{ asset('assets/js/select2/select2.full.min.js') }}"></script>
-        <script src="{{ asset('assets/js/select2/select2-custom.js') }}"></script>
         <script src="{{asset('assets/js/datatable/datatables/jquery.dataTables.min.js')}}"></script>
         <script src="{{asset('assets/js/datatable/datatable-extension/dataTables.buttons.min.js')}}"></script>
         <script src="{{asset('assets/js/datatable/datatable-extension/jszip.min.js')}}"></script>
@@ -100,32 +99,19 @@
         <script src="https://cdnjs.cloudflare.com/ajax/libs/sweetalert/2.1.2/sweetalert.min.js"
                 integrity="sha512-AA1Bzp5Q0K1KanKKmvN/4d3IRKVlv9PYgwFPvm32nPO6QS8yH1HO7LbgB1pgiOxPtfeg5zEn2ba64MUcqJx6CA=="
                 crossorigin="anonymous" referrerpolicy="no-referrer"></script>
-        @if (Session::get('message')=='ok update')
-            <script>
-                swal({
-                    position: 'center',
-                    icon: 'success',
-                    title: 'mise à jour éffectué',
-                    showConfirmButton: false,
-                    timer: 2500
-                })
-
-            </script>
-        @endif
         <script>
             $('.delete').click(function () {
                 var dataId = $(this).attr('data-id');
-                var dataName = $(this).attr('data-name');
                 swal({
-                    title: "Êtes-vous  sûr de vouloir supprimer le type de stage " + dataName + " ?",
+                    title: "Êtes-vous sûr de vouloir supprimer cette ligne ?",
                     icon: "warning",
                     buttons: true,
                     dangerMode: true,
                 })
                     .then((willDelete) => {
                         if (willDelete) {
-                            window.location = "supprimer-typeStage/" + dataId + "";
-                            swal("Poof! Le type de stage est bien supprimé!", {
+                            window.location = "supprimer-frais/" + dataId + "";
+                            swal("Poof! Cette ligne est bien supprimée!", {
                                 icon: "success",
                             });
                         } else {
@@ -138,5 +124,4 @@
     @endpush
 
 @endsection
-
 

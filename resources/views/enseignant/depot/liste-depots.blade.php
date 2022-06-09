@@ -48,7 +48,7 @@
                                     <td>{{$demande_depot->stage->date_fin}}</td>
                                     <td>{{$demande_depot->date_depot}}</td>
                                     <td>
-                                        <a href="{{route('telecharger_memoire',['memoire'=>$demande_depot->memoire,
+                                        <a href="{{route('telecharger_memoire_ens',['memoire'=>$demande_depot->memoire,
                                                                                 'code_classe'=>$demande_depot->stage->etudiant->classe->code])}}" data-title="Consulter le mémoire" data-toggle="tooltip" data-original-title="Consulter le mémoire" title="Consulter le mémoire">
                                             <i class="icofont icofont-papers icon-large" style="color:#bf9168 "></i></a>
                                         <a data-title="Commenter le dépôt" data-toggle="tooltip"  title="Commenter le dépôt"

@@ -29,37 +29,43 @@ class AnneeUniversitaireController extends Controller
      */
     public function create()
     {
-        return view ('admin.configuration.config_annee_universitaire');
+        return view('admin.configuration.config_annee_universitaire');
 
     }
 
     /**
      * Store a newly created resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
+     * @param \Illuminate\Http\Request $request
      * @return \Illuminate\Http\Response
      */
     public function store(Request $request)
     {
         $attribut = $request->validate(
             [
-            'annee' => 'required',
-            'lettre_affectation'=>'required',
-            'lettre_affectation.*' => ['required', 'mimes:docx'],
-            /*'fiche_encadrement'=>'required',
-            'fiche_encadrement.*'=>['required', 'mimes:docx']*/
+                'annee' => 'required',
+                'lettre_affectation' => 'required',
+                'lettre_affectation.*' => ['required', 'mimes:docx'],
+                'attrayant' => 'required',
+                'attrayant.*' => ['required', 'mimes:docx'],
+                /*'fiche_encadrement'=>'required',
+                'fiche_encadrement.*'=>['required', 'mimes:docx']*/
             ]
         );
+        //dd($attribut);
         $an_exist = AnneeUniversitaire::where('annee', $request->annee)->first();
-        if($an_exist) {
-            return back()->with('error',  'cette année est déjà créee');
+        if ($an_exist) {
+            return back()->with('error', 'cette année est déjà créee');
         }
         $lettre_affectation = Storage::disk('public')
-            ->putFileAs('models_lettre_affectation', $request->file('lettre_affectation'), 'model_lettre_affectation_'.$request->annee.'.docx');
-            $annee=new AnneeUniversitaire();
-            $annee->annee=$request->annee;
-            $annee->lettre_affectation=$lettre_affectation;
-            $annee->save();
+            ->putFileAs('models_lettre_affectation', $request->file('lettre_affectation'), 'model_lettre_affectation_' . $request->annee . '.docx');
+        $attrayant = Storage::disk('public')
+            ->putFileAs('model_attrayant', $request->file('attrayant'), 'model_attrayant_' . $request->annee . '.docx');
+        $annee = new AnneeUniversitaire();
+        $annee->annee = $request->annee;
+        $annee->lettre_affectation = $lettre_affectation;
+        $annee->attrayant = $attrayant;
+        $annee->save(); //dd($annee);
         return view('admin.etablissement.departement.ajouter_departement');
 
 
@@ -68,7 +74,7 @@ class AnneeUniversitaireController extends Controller
     /**
      * Display the specified resource.
      *
-     * @param  \App\Models\AnneeUniversitaire  $anneeUniversitaire
+     * @param \App\Models\AnneeUniversitaire $anneeUniversitaire
      * @return \Illuminate\Http\Response
      */
     public function show(AnneeUniversitaire $anneeUniversitaire)
@@ -79,7 +85,7 @@ class AnneeUniversitaireController extends Controller
     /**
      * Show the form for editing the specified resource.
      *
-     * @param  \App\Models\AnneeUniversitaire  $anneeUniversitaire
+     * @param \App\Models\AnneeUniversitaire $anneeUniversitaire
      * @return \Illuminate\Http\Response
      */
     public function edit(AnneeUniversitaire $anneeUniversitaire)
@@ -90,8 +96,8 @@ class AnneeUniversitaireController extends Controller
     /**
      * Update the specified resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  \App\Models\AnneeUniversitaire  $anneeUniversitaire
+     * @param \Illuminate\Http\Request $request
+     * @param \App\Models\AnneeUniversitaire $anneeUniversitaire
      * @return \Illuminate\Http\Response
      */
     public function update(Request $request, AnneeUniversitaire $anneeUniversitaire)
@@ -102,7 +108,7 @@ class AnneeUniversitaireController extends Controller
     /**
      * Remove the specified resource from storage.
      *
-     * @param  \App\Models\AnneeUniversitaire  $anneeUniversitaire
+     * @param \App\Models\AnneeUniversitaire $anneeUniversitaire
      * @return \Illuminate\Http\Response
      */
     public function destroy(AnneeUniversitaire $anneeUniversitaire)

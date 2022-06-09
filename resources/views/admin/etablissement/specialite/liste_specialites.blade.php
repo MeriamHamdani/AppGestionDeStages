@@ -57,7 +57,7 @@
                                     <td>{{ucwords($specialite->nom)}}</td>
                                     @if ( $specialite->departement_id==null)
                                     <td class="text-center">
-                                        
+
                                         <a href="{{ route('modifier_specialite', $specialite) }}" data-toggle="tooltip"
                                             title="veuillez editer les informations de cette spécialité pour l'affecter à un
                                         département">
@@ -152,14 +152,14 @@
     swal({
   position: 'center',
   icon: 'success',
-  title: 'La nouvelle spécialité est sauvegardé avec succée',
+  title: 'La nouvelle spécialité est sauvegardée avec succées',
   showConfirmButton: false,
   timer: 2500
 })
     /*swal('Bien','Le nouveau enseignant est sauvegardé','success',{
         button: 'continuer'
     })*/
-    
+
 </script>
 
 @elseif (Session::get('message')=='ko')
@@ -184,7 +184,7 @@
   showConfirmButton: false,
   timer: 2500
 })
-    
+
 </script>
 @endif
 @endif
@@ -194,17 +194,17 @@
         var dataName=$(this).attr('data-name');
         //var dataAll =$(this).att('data-all');
         swal({
-                    title: "Etes-vous sur de vouloir supprimer la spécialité "+dataName+" ?",
+                    title: "Etes-vous sûr de vouloir supprimer la spécialité "+dataName+" ?",
                     //text: "Une fois supprimé, les classes attachés à cette spécialité seront sans spécialité!",
                     icon: "warning",
                     buttons: true,
-                    
+
                     dangerMode: true,
                 })
                 .then((willDelete) => {
                     if (willDelete) {
                         window.location="supprimer-specialite/"+dataId+"";
-                        swal("Ok! La spécialité est supprimer!", {
+                        swal("Ok! La spécialité est supprimée!", {
                             icon: "success",
                         });
                     } else {

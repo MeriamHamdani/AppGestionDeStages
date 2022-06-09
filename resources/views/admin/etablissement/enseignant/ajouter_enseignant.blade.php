@@ -79,16 +79,24 @@
                                     <option disabled="disabled" selected="selected">Sélectionnez le grade
                                     </option>
                                     <option
-                                        value="maitre assistant" {{ old('grade') == "maitre assistant" ? 'selected' : '' }}>
-                                        Maitre assistant
+                                        value="maître assistant" {{ old('grade') == "maitre assistant" ? 'selected' : '' }}>
+                                        Maître assistant
                                     </option>
                                     <option
-                                        value="maitre de conference" {{ old('grade') == "maitre assistant" ? 'selected' : '' }}>
-                                        Maitre de conférence
+                                        value="maître de conférence" {{ old('grade') == "maitre de conférence" ? 'selected' : '' }}>
+                                        Maître de conférence
                                     </option>
                                     <option
                                         value="professeur" {{ old('grade') == "professeur" ? 'selected' : '' }}>
                                         Professeur
+                                    </option>
+                                    <option
+                                        value="assistant" {{ old('grade') == "assistant" ? 'selected' : '' }}>
+                                        Assistant
+                                    </option>
+                                    <option
+                                        value="expert" {{ old('grade') == "expert" ? 'selected' : '' }}>
+                                        Expert
                                     </option>
                                 </select>
                                 <div class="invalid-tooltip">Séléctionnez le grade svp!</div>

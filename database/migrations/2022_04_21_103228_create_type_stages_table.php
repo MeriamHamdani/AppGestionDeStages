@@ -21,7 +21,7 @@ class CreateTypeStagesTable extends Migration
             $table->string('fiche_demande')->nullable();
             $table->string('fiche_demande_type');
             $table->string('fiche_assurance_type');
-            $table->string('fiche__type');
+            $table->string('fiche_2Dinars_type');
             $table->string('cahier_stage_type');
             $table->integer('duree_stage_min');
             $table->integer('duree_stage_max');

@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class CreateAnneeUniversitairesTable extends Migration
+class CreateFraisEncadrementsTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,12 +13,11 @@ class CreateAnneeUniversitairesTable extends Migration
      */
     public function up()
     {
-        Schema::create('annee_universitaires', function (Blueprint $table) {
+        Schema::create('frais_encadrements', function (Blueprint $table) {
             $table->id();
-            $table->string('annee')->unique();
-            $table->string('lettre_affectation')->nullable();
-            $table->string('fiche_encadrement')->nullable();
-            $table->string('attrayant')->nullable();
+            $table->string('grade');
+            $table->string('cycle');
+            $table->float('frais',6,3);
             $table->timestamps();
         });
     }
@@ -30,6 +29,6 @@ class CreateAnneeUniversitairesTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('annee_universitaires');
+        Schema::dropIfExists('frais_encadrements');
     }
 }

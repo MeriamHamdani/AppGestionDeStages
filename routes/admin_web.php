@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\DepotMemoireController;
+use App\Http\Controllers\FraisEncadrementController;
 use App\Imports\EnseignantsImport;
 use App\Imports\UsersImport;
 use Maatwebsite\Excel\Facades\Excel;
@@ -151,13 +152,21 @@ Route::middleware(['auth','role:admin|superadmin'])->group(function(){
         //---------------------------------------PAIEMENT-------------------------------------
 
         Route::view('paiement/details-paiement-ens', 'admin.paiement.details_paiement_ens')->name('details_paiement_ens');
+        Route::get('paiement/details/{id}', [EnseignantController::class, 'getDetails'])->name('getDetails');
+        Route::post('paiement/details-paie/telecharger-attrayant', [EnseignantController::class, 'telecharger_attrayant'])->name('telecharger_attrayant');
+
 
         //-----------------------------------------CONFIGURATION---------------------------------
 
         Route::prefix('configuration/generale')->group(function () {
             Route::get('coordonnees', [EtablissementController::class,'edit'])->name('coordonnees');
             Route::patch('coordonnees', [EtablissementController::class,'update'])->name('valider_coordonnees');
-            Route::view('montant-selon-grade', 'admin.configuration.generale.montant_selon_grade')->name('montant_selon_grade');
+            Route::get('frais-encadrement', [FraisEncadrementController::class, 'index'])->name('frais_encadrement');
+            Route::get('ajouter-frais', [FraisEncadrementController::class, 'create'])->name('ajouter_frais');
+            Route::post('ajouter-frais', [FraisEncadrementController::class, 'store'])->name('sauvegarder_frais');
+            Route::get('supprimer-frais/{fraisEncadrement}', [FraisEncadrementController::class, 'destroy'])->name('supprimer_frais');
+            Route::get('modifier-frais/{fraisEncadrement}', [FraisEncadrementController::class, 'edit'])->name('modifier_frais');
+            Route::post('modifier-frais/{fraisEncadrement}', [FraisEncadrementController::class, 'update'])->name('_frais');
             Route::view('dates-stages', 'admin.configuration.generale.dates_stages')->name('dates_stages');
             Route::view('liste-grille', 'admin.configuration.generale.liste_grille')->name('liste_grille');
             Route::view('config-grille', 'admin.configuration.generale.configuration_grille')->name('configurer_grille');

@@ -129,8 +129,8 @@
                         @method('PATCH')
 
                         <div class="col-md-8 offset-md-2">
-                            <h3>Veuillez changer votre mot de passe et Valider votre compte afin de pouvoir accédez à
-                                votre éspace </h3>
+                            <h3>Veuillez changer votre mot de passe et Valider votre compte afin de pouvoir accéder à
+                                votre espace </h3>
                             <div class="row">
                                 <div class="col-md-6 position-left">
                                     <label class="form-label">Le nouveau mot de passe</label>

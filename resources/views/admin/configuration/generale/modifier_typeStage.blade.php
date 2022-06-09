@@ -64,20 +64,26 @@
                               enctype="multipart/form-data">
                             @csrf
                             @method('PATCH')
-                            @if ($error_message['nom']!="")
-                                <div class="alert alert-danger" role="alert">
-                                    {{ $error_message['nom'] }}
-                                </div>
+                            @if(isset($error_message['nom']))
+                                @if ($error_message['nom']!="")
+                                    <div class="alert alert-danger" role="alert">
+                                        {{ $error_message['nom'] }}
+                                    </div>
+                                @endif
                             @endif
-                            @if ($error_message['periode_stage']!="")
-                                <div class="alert alert-danger" role="alert">
-                                    {{ $error_message['periode_stage'] }}
-                                </div>
+                            @if(isset($error_message['periode_stage']))
+                                @if (($error_message['periode_stage']!=""))
+                                    <div class="alert alert-danger" role="alert">
+                                        {{ $error_message['periode_stage'] }}
+                                    </div>
+                                @endif
                             @endif
-                            @if ($error_message['depot_stage']!="")
-                                <div class="alert alert-danger" role="alert">
-                                    {{ $error_message['depot_stage'] }}
-                                </div>
+                            @if(isset($error_message['duree_max_min']))
+                                @if ($error_message['duree_max_min']!="")
+                                    <div class="alert alert-danger" role="alert">
+                                        {{ $error_message['duree_max_min'] }}
+                                    </div>
+                                @endif
                             @endif
                             <div class="setup-content" id="step-1">
                                 <div class="col-xs-12">
@@ -108,8 +114,10 @@
                                             </select>
 
                                         </div>
-                                        <button class="btn btn-primary nextBtn pull-right" type="button">Suivant
-                                        </button>
+                                        <div class="card-footer text-end">
+                                            <button class="btn btn-light" href="{{ route('typeStage.index') }}">Annuler</button> &nbsp;
+                                            <button class="btn btn-primary nextBtn pull-right" type="button">Suivant</button>
+                                        </div>
                                     </div>
                                 </div>
                             </div>
@@ -142,8 +150,10 @@
                                                        value="{{$typeStage->duree_stage_max}}" required/>
                                             </div>
                                         </div>
-                                        <button class="btn btn-primary nextBtn pull-right" type="button">Suivant
-                                        </button>
+                                        <div class="card-footer text-end">
+                                            <button class="btn btn-light" href="{{ route('typeStage.index') }}">Annuler</button> &nbsp;
+                                            <button class="btn btn-primary nextBtn pull-right" type="button">Suivant</button>
+                                        </div>
                                     </div>
                                 </div>
                             </div>
@@ -213,12 +223,12 @@
                                                             <label class="col-sm-3 col-form-label">La fiche</label>
                                                             <div class="radio radio-primary">
                                                                 <input id="radioinline5" type="radio"
-                                                                       name="fiche__type" value="requis"  value="requis" {{$typeStage->fiche__type == "requis" ? 'checked' : ''}}>
+                                                                       name="fiche_2Dinars_type" value="requis"  value="requis" {{$typeStage->fiche_2Dinars_type == "requis" ? 'checked' : ''}}>
                                                                 <label class="mb-0" for="radioinline5">Requis</label>
                                                             </div>
                                                             <div class="radio radio-primary">
                                                                 <input id="radioinline6" type="radio"
-                                                                       name="fiche__type" value="non requis" value="requis" {{$typeStage->fiche__type == "non requis" ? 'checked' : ''}}>
+                                                                       name="fiche_2Dinars_type" value="non requis" value="requis" {{$typeStage->fiche_2Dinars_type == "non requis" ? 'checked' : ''}}>
                                                                 <label class="mb-0" for="radioinline6">Non
                                                                     Requis</label>
                                                             </div>
@@ -226,9 +236,10 @@
                                                     </div>
                                                 </div>
                                             </div>
-                                            <button class="btn btn-primary nextBtn pull-right"
-                                                    type="button">Suivant
-                                            </button>
+                                            <div class="card-footer text-end">
+                                                <button class="btn btn-light" href="{{ route('typeStage.index') }}">Annuler</button> &nbsp;
+                                                <button class="btn btn-primary nextBtn pull-right" type="button">Suivant</button>
+                                            </div>
                                         </div>
                                     </div>
                                 </div>
@@ -259,13 +270,15 @@
                                                 </div>
                                             </div>
                                             @if($classe->niveau == 3 && $classe->cycle=="licence" || $classe->niveau == 2 && $classe->cycle=="master"  )
-                                                <button class="btn btn-primary nextBtn pull-right"
-                                                        type="button">Suivant
-                                                </button>
+                                                <div class="card-footer text-end">
+                                                    <button class="btn btn-light" href="{{ route('typeStage.index') }}">Annuler</button> &nbsp;
+                                                    <button class="btn btn-primary nextBtn pull-right" type="button">Suivant</button>
+                                                </div>
                                             @else
-                                                <button class="btn btn-secondary pull-right"
-                                                        type="submit">Términer!
-                                                </button>
+                                                <div class="card-footer text-end">
+                                                    <button class="btn btn-light" href="{{ route('typeStage.index') }}">Annuler</button> &nbsp;
+                                                    <button class="btn btn-secondary pull-right" type="submit">Términer!</button>
+                                                </div>
                                             @endif
                                         </div>
                                     </div>
@@ -273,28 +286,6 @@
                             </div>
                             @if($classe->niveau == 3 && $classe->cycle=="licence" ||
                             $classe->niveau == 2 && $classe->cycle=="master" )
-                                {{--<div class="setup-content" id="step-5">
-                                    <div class="col-xs-12">
-                                        <div class="col-md-12">
-                                            <div class="form-group">
-                                                <label class="control-label">Date de début</label>
-                                                <input class="datepicker-here form-control digits date-picker"
-                                                       type="text"
-                                                       data-language="en" name="date_debut_depo" id="date_debut_depo"
-                                                       value="{{$typeStage->date_debut_depot}}"/>
-                                            </div>
-                                            <div class="form-group">
-                                                <label class="control-label">Date de fin</label>
-                                                <input class="datepicker-here form-control digits" type="text"
-                                                       data-language="en" name="date_fin_depo" id="date_fin_depo"
-                                                       value="{{old('date_limite_depot',$typeStage->date_limite_depot)}}"/>
-                                            </div>
-
-                                            <button class="btn btn-primary nextBtn pull-right" type="button">Suivant
-                                            </button>
-                                        </div>
-                                    </div>
-                                </div>--}}
                                 <div class="setup-content" id="step-5">
                                     <div class="col-xs-12 card-body animate-chk">
                                         <div class="col-md-12">
@@ -333,12 +324,12 @@
                                                         @endif
                                                     @endfor >
                                                     Business Plan</label>
+                                            </div>
+                                            <div class="card-footer text-end">
+                                                <button class="btn btn-light" href="{{ route('typeStage.index') }}">Annuler</button> &nbsp;
                                                 <button class="btn btn-secondary pull-right"
                                                         type="submit">Términer!
                                                 </button>
-                                            </div>
-                                            <div class="form-group">
-
                                             </div>
                                         </div>
                                     </div>
@@ -363,6 +354,26 @@
         <script src="{{ asset('assets/js/datepicker/date-picker/datepicker.custom.js') }}"></script>
         <script src="{{ asset('assets/js/select2/select2.full.min.js') }}"></script>
         <script src="{{ asset('assets/js/select2/select2-custom.js') }}"></script>
+        <script type="text/javascript">
+            $("#radioinline2").change(function() {
+                if (this.checked) {
+                    $('#fiche_demande').hide();
+                } else {
+                    $('#fiche_demande').show();
+                }
+            });
+            $("#radioinline2").trigger("change");
+        </script>
+        <script type="text/javascript">
+            $("#radioinline1").change(function() {
+                if (this.checked) {
+                    $('#fiche_demande').show();
+                } else {
+                    $('#fiche_demande').hide();
+                }
+            });
+            $("#radioinline1").trigger("change");
+        </script>
     @endpush
 
 @endsection
