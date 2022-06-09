@@ -31,7 +31,7 @@ class AuthenticatedSessionController extends Controller
      */
     public function store()
     {
-        
+
         $attributes = request()->validate([
             'numero_CIN' => 'required',
             'password' => 'required',
@@ -42,7 +42,7 @@ class AuthenticatedSessionController extends Controller
                 'email' => 'Your provided credentials could not be verified.'
             ]);
         }
-        
+
         session()->regenerate();
         $user = Auth::user();
 
@@ -50,9 +50,9 @@ class AuthenticatedSessionController extends Controller
             $code=random_int(100000,999999);
             session( [ 'code' => $code ] );
             $user->notify(new FirstLoginNotification($code));
-            
+
             return redirect()->intended('connexion/modifier_coordonnes');
-           
+
         }
 
         //$user['is_active'] = 1;
@@ -99,7 +99,7 @@ class AuthenticatedSessionController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\RedirectResponse
      */
-    public function destroy(Request $request)
+   public function destroy(Request $request)
     {
         Auth::guard('web')->logout();
 
@@ -110,5 +110,5 @@ class AuthenticatedSessionController extends Controller
         return redirect('/');
 
 
-  }
+    }
 }

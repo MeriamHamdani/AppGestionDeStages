@@ -25,7 +25,7 @@ use App\Http\Controllers\Auth\AuthenticatedSessionController;
 Auth::routes(['verify'=>true]);
 Route::get('/',function(){
     return view('login.login');
-});
+})->name('connecter');
 //dd(Auth::user());
 
 Route::get('/connexion',[AuthenticatedSessionController::class, 'store'])->name('connexion');
@@ -39,11 +39,11 @@ Route::get('connexion/modifier_coordonnes',[UserController::class,'index'])->mid
 Route::patch('connexion/modifier_coordonnes/modifier',[UserController::class,'edit'])
         ->middleware('auth')
         ->name('modifier_coordonnes');
-        
+
 /*Route::post('connexion/verifier_code/{code}',[UserController::class,'verifier_code'])
         ->middleware('auth')
         ->name('verifier_code');*/
-        
+
 Route::view('/modifier_mdp','login.modifier_mdp')
             /*->middleware([EnsureUserIsActive::class])*/->name('modifier_mdp');
 
