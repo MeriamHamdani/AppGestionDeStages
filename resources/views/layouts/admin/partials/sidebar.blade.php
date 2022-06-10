@@ -75,7 +75,7 @@
                                             class="icofont icofont-pen-nib"></i>Stage Volontaire (1ère
                                         licence et 1ére mastère)</strong></a> </li>
                             <li><a href="{{ route('demandes_stage.so2lInfo') }}"
-                                   class="{{ routeActive('demandes_stage.so2lInfo') }}"><strong><i
+                                    class="{{ routeActive('demandes_stage.so2lInfo') }}"><strong><i
                                             class="icofont icofont-pen-nib"></i>Stage Obligatoire (2ème
                                         licence informatique)</strong></a> </li>
                             <li><a href="{{ route('demandes_stage.so2l') }}"
@@ -137,12 +137,13 @@
                                 classes</span></a>
                         <ul class="nav-submenu menu-content"
                             style="display: {{ prefixBlock('admin/configuration/generale') }};">
-                            <li><a {{ in_array(Route::currentRouteName(),
-                            ['ajouter_classe','modifier_classe']) ? 'active' : '' }} href="{{ route('liste_classes') }}" class="{{ routeActive('liste_classes') }}" >
+                            <li><a {{ in_array(Route::currentRouteName(), ['ajouter_classe','modifier_classe'])
+                                    ? 'active' : '' }} href="{{ route('liste_classes') }}"
+                                    class="{{ routeActive('liste_classes') }}">
                                     <strong><i class="icofont icofont-users-social"></i>Gérer les classes</strong></a>
                             </li>
-                            <li><a {{ in_array(Route::currentRouteName(),
-                            ['modifier_type_stage']) ? 'active' : '' }} href="{{ route('typeStage.index')}}" class="{{ routeActive('typeStage.index') }}">
+                            <li><a {{ in_array(Route::currentRouteName(), ['modifier_type_stage']) ? 'active' : '' }}
+                                    href="{{ route('typeStage.index')}}" class="{{ routeActive('typeStage.index') }}">
                                     <strong><i class="icofont icofont-pen-nib"></i>Classe & Type de stage</strong></a>
                             </li>
                         </ul>
@@ -182,12 +183,12 @@
                     </li>
                     <li class="dropdown">
                         <a class="nav-link menu-title link-nav {{ routeActive('liste_sessions_depot') }}"
-                           href="{{ route('liste_sessions_depot') }}">
+                            href="{{ route('liste_sessions_depot') }}">
                             <i class="icofont icofont-list"></i>&nbsp&nbsp&nbsp<span>Liste sessions de dépôt</span></a>
                     </li>
                     <li class="dropdown">
                         <a class="nav-link menu-title link-nav {{ routeActive('config_session_depot') }}"
-                           href="{{ route('config_session_depot') }}">
+                            href="{{ route('config_session_depot') }}">
                             <i class="icofont icofont-download-alt"></i>&nbsp&nbsp&nbsp<span>Session de
                                 dépôt</span></a>
                     </li>
@@ -230,9 +231,9 @@
                         </div>
                     </li>
                     <li class="dropdown">
-                        <a
-                            class="nav-link menu-title  {{ in_array(Route::currentRouteName(),
-                            ['coordonnees','frais_encadrement','ajouter_frais','modifier_frais','dates_stages','liste_grille','configurer_grille']) ? 'active' : '' }}"  href="javascript:void(0)">
+                        <a class="nav-link menu-title  {{ in_array(Route::currentRouteName(),
+                            ['coordonnees','frais_encadrement','ajouter_frais','modifier_frais','dates_stages','liste_grille','configurer_grille']) ? 'active' : '' }}"
+                            href="javascript:void(0)">
                             <i class="icofont icofont-university"></i>&nbsp&nbsp&nbsp<span>Configuration
                                 générale</span></a>
                         <ul class="nav-submenu menu-content"
@@ -240,10 +241,19 @@
                             <li><a href="{{ route('coordonnees') }}" class="{{ routeActive('coordonnees') }}">
                                     <strong><i class="icofont icofont-pen-nib"></i>Cordonnées de
                                         l'établissement</strong></a> </li>
+
                             <li><a href="{{ route('frais_encadrement') }}"
                                     class="{{ routeActive('frais_encadrement') }}">
-                                    <strong><i class="icofont icofont-pen-nib"></i>Frais d'encadrement</strong></a> </li>
-                           <!-- <li><a href="{{ route('dates_stages') }}" class="{{ routeActive('dates_stages') }}">
+                                    <strong><i class="icofont icofont-pen-nib"></i>Frais d'encadrement</strong></a>
+                            </li>
+                            <!-- <li><a href="{{ route('dates_stages') }}" class="{{ routeActive('dates_stages') }}">
+
+                            <li><a href="{{ route('montant_selon_grade') }}"
+                                    class="{{ routeActive('montant_selon_grade') }}">
+                                    <strong><i class="icofont icofont-pen-nib"></i>Montant Paiement selon Grade
+                                        d'enseignant</strong></a> </li>
+                            <li><a href="{{ route('dates_stages') }}" class="{{ routeActive('dates_stages') }}">
+
                                     <strong><i class="icofont icofont-pen-nib"></i>Dates des stages selon
                                         Formation</strong></a> </li>-->
                             <li><a href="{{ route('liste_grille') }}" class="{{ routeActive('liste_grille') }}">
@@ -265,3 +275,4 @@
         </div>
     </nav>
 </header>
+
