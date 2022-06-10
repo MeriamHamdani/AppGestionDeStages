@@ -75,7 +75,7 @@
                                             class="icofont icofont-pen-nib"></i>Stage Volontaire (1ère
                                         licence et 1ére mastère)</strong></a> </li>
                             <li><a href="{{ route('demandes_stage.so2lInfo') }}"
-                                   class="{{ routeActive('demandes_stage.so2lInfo') }}"><strong><i
+                                    class="{{ routeActive('demandes_stage.so2lInfo') }}"><strong><i
                                             class="icofont icofont-pen-nib"></i>Stage Obligatoire (2ème
                                         licence informatique)</strong></a> </li>
                             <li><a href="{{ route('demandes_stage.so2l') }}"
@@ -176,7 +176,7 @@
                     </li>
                     <li class="dropdown">
                         <a class="nav-link menu-title link-nav {{ routeActive('config_session_depot') }}"
-                           href="{{ route('config_session_depot') }}">
+                            href="{{ route('config_session_depot') }}">
                             <i class="icofont icofont-download-alt"></i>&nbsp&nbsp&nbsp<span>Session de
                                 dépôt</span></a>
                     </li>
@@ -233,9 +233,9 @@
                                     class="{{ routeActive('montant_selon_grade') }}">
                                     <strong><i class="icofont icofont-pen-nib"></i>Montant Paiement selon Grade
                                         d'enseignant</strong></a> </li>
-                            <li><a href="{{ route('dates_stages') }}" class="{{ routeActive('dates_stages') }}">
+                            <!--<li><a href="{{ route('dates_stages') }}" class="{{ routeActive('dates_stages') }}">
                                     <strong><i class="icofont icofont-pen-nib"></i>Dates des stages selon
-                                        Formation</strong></a> </li>
+                                        Formation</strong></a> </li>-->
                             <li><a href="{{ route('liste_grille') }}" class="{{ routeActive('liste_grille') }}">
                                     <strong><i class="icofont icofont-pen-nib"></i>Configurer la grille
                                         d'évaluation</strong></a> </li>
@@ -255,3 +255,4 @@
         </div>
     </nav>
 </header>
+

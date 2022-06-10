@@ -13,7 +13,7 @@
         </div>
         <div class="nav-right col pull-right right-menu p-0">
             <ul class="nav-menus">
-                <li class="onhover-dropdown">
+                <!--<li class="onhover-dropdown">
                     <div class="notification-box"><i data-feather="bell"></i><span class="dot-animated"></span></div>
                     <ul class="notification-dropdown onhover-show-div">
                         <li>
@@ -58,18 +58,16 @@
                             </div>
                         </li>
                     </ul>
-                </li>
+                </li>-->
                 <li>
                     <div class="mode"><i class="fa fa-moon-o"></i></div>
                 </li>
 
                 <li class="onhover-dropdown p-0">
-                    <!--<button class="btn btn-primary-light" type="button"><a href={{ route('deconnexion')
-                            }}><i data-feather="log-out"></i></a>Déconnecter</button>
--->
+
                     <form method="GET" action="{{ route('deconnexion') }}">
                         @csrf
-                        <button class="btn btn-primary-light" type="button" href=route('deconnexion')" onclick="event.preventDefault();
+                        <button class="btn btn-primary-light" type="button" href={{ route('deconnexion') }} onclick="event.preventDefault();
                         this.closest('form').submit();"><i data-feather="log-out"></i>Se Déconnecter</button>
                     </form>
 
