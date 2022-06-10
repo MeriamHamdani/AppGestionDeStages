@@ -248,12 +248,6 @@
                             </li>
                             <!-- <li><a href="{{ route('dates_stages') }}" class="{{ routeActive('dates_stages') }}">
 
-                            <li><a href="{{ route('montant_selon_grade') }}"
-                                    class="{{ routeActive('montant_selon_grade') }}">
-                                    <strong><i class="icofont icofont-pen-nib"></i>Montant Paiement selon Grade
-                                        d'enseignant</strong></a> </li>
-                            <li><a href="{{ route('dates_stages') }}" class="{{ routeActive('dates_stages') }}">
-
                                     <strong><i class="icofont icofont-pen-nib"></i>Dates des stages selon
                                         Formation</strong></a> </li>-->
                             <li><a href="{{ route('liste_grille') }}" class="{{ routeActive('liste_grille') }}">
