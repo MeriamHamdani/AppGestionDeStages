@@ -28,7 +28,7 @@
                         possible</span>
                     </div>
                     <div class="card-body">
-                        <div class="table-responsive">
+                        <div class="table">
                             <table class="display" id="basic-1">
                                 <thead>
                                 <tr>
@@ -91,7 +91,7 @@
                                                     <td><a class="btn btn-secondary btn"
                                                            href="{{ route('redeposer',['depotMemoire'=> \App\Models\DepotMemoire::where('stage_id',$stage->id)->first()]) }}">
                                                             <i class="fa fa-repeat">
-                                                               Redépôser
+                                                                Redépôser
                                                             </i></a>
                                                     </td>
                                                     <td>
@@ -108,57 +108,38 @@
                                                         </button>
                                                     </td>
                                                 @endif
+                                            @elseif($stage->typeStage->date_limite_depot < $current_date)
+                                                @if(\App\Models\DepotMemoire::where('stage_id',$stage->id)->first()->validation_encadrant == 1)
+                                                    <td><a class="btn btn-primary"
+                                                           href="{{ route('afficher_details',['depotMemoire'=> \App\Models\DepotMemoire::where('stage_id',$stage->id)->first()]) }}">
+                                                            <i class="fa fa-list">
+                                                                Afficher les détails
+                                                            </i></a>
+                                                    </td>
+                                                    <td>
+                                                        <button class="btn btn-primary btn-sm" data-toggle="tooltip"
+                                                                title="Déposé et validé">
+                                                            <i class="icofont icofont-ui-check"></i>
+                                                        </button>
+                                                    </td>
+                                                @elseif(\App\Models\DepotMemoire::where('stage_id',$stage->id)->first()->validation_encadrant == -1 || \App\Models\DepotMemoire::where('stage_id',$stage->id)->first()->validation_encadrant == 0)
+                                                    <td><a class="btn btn-danger" disabled=""
+                                                           href="#">
+                                                            <i class="fa fa-ban">
+                                                                Session dépôt expirée!
+                                                            </i></a>
+                                                    </td>
+                                                    <td>
+                                                        <button class="btn btn-danger btn-sm" data-toggle="tooltip"
+                                                                title="Déposé et validé">
+                                                            <i class="icofont icofont-time"></i>
+                                                        </button>
+                                                    </td>
+                                                @endif
                                             @endif
                                         </tr>
                                     @endforeach
                                 @endforeach
-                                <!-- <tr>
-                                    <td>Jenette Caldwell</td>
-                                    <td>Development Lead</td>
-                                    <td><a class="btn btn-primary" href={{ Route('deposer') }}
-                                    class="{{ routeActive('deposer') }}">
-                                            <i class="icofont icofont-papers">
-                                                Gérer le dépôt
-                                            </i></a>
-                                    </td>
-                                    <td><button class="btn btn-primary btn-sm" data-toggle="tooltip" title="demande dépôt confirmée">
-                                            <i class="icofont icofont-ui-check"></i>
-                                        </button>
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <td>Yuri Berry</td>
-                                    <td>Chief Marketing Officer (CMO)</td>
-                                    <td><a class="btn btn-primary" href="#"
-                                            class="#">
-                                            <i class="icofont icofont-papers">
-                                                Gérer le dépôt
-                                            </i></a>
-                                    </td>
-                                    <td><button class="btn btn-danger btn-sm" data-toggle="tooltip" title="demande dépôt refusée">
-                                            <i class="icofont icofont-ui-close"></i>
-                                        </button>
-                                        <button class="btn btn-secondary btn-sm" data-toggle="tooltip" title="Les remarques de l'encadrant">
-                                               <a href>
-                                            <i class="icofont icofont-comment" style="color: white"></i>
-                                               </a>
-                                        </button>
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <td>Caesar Vance</td>
-                                    <td>Pre-Sales Support</td>
-                                    <td><a class="btn btn-primary" href={{ Route('deposer') }}
-                                    class="{{ routeActive('deposer') }}">
-                                            <i class="icofont icofont-papers">
-                                                Gérer le dépôt
-                                            </i></a>
-                                    </td>
-                                    <td><button class="btn btn-primary btn-sm" data-toggle="tooltip" title="demande dépôt confirmée">
-                                            <i class="icofont icofont-ui-check"></i>
-                                        </button>
-                                    </td>
-                                </tr> -->
                                 </tbody>
                                 <tfoot>
                                 <tr>
@@ -171,10 +152,54 @@
                             </table>
                         </div>
                     </div>
+
+                        <div class="table">
+                            <table class="display" id="basic-1">
+                                <thead>
+                                <tr>
+                                    <th>Légende</th>
+                                </tr>
+                                </thead>
+                                <tbody>
+                                        <tr>
+                                            <td> <button class="btn btn-warning btn-sm" data-toggle="tooltip">
+                                                    <i class="icofont icofont-question"></i>
+                                                </button></td>
+
+                                            <td>Pas encore déposé</td>
+                                        </tr>
+                                        <tr>
+                                            <td>  <button class="btn btn-secondary" data-toggle="tooltip">
+                                                    <i class="fa fa-spinner fa-spin"></i>
+                                                </button></td>
+                                            <td>Déposé en attente de validation</td>
+                                        </tr>
+                                        <tr>
+                                            <td>   <button class="btn btn-primary btn-sm" data-toggle="tooltip">
+                                                    <i class="icofont icofont-ui-check"></i>
+                                                </button></td>
+                                            <td>Déposé et validé</td>
+                                        </tr>
+                                        <tr>
+                                            <td> <button class="btn btn-danger btn-sm" data-toggle="tooltip">
+                                                    <i class="icofont icofont-ui-close"></i>
+                                                </button></td>
+                                            <td>Demande dépôt refusée</td>
+                                        </tr>
+                                </tbody>
+                            </table>
+                        </div>
+
+
+
                 </div>
+
             </div>
-            <!-- Ajax Generated content for a column end-->
+
         </div>
+
+    </div>
+
     </div>
 
 
@@ -191,7 +216,7 @@
             @if (Session::get('message')=='deja déposé')
 
                 <script>
-                    swal('Erreur', "Vous avez déjà dépôsé le mémoire! Vous devez attendre la décision de vottre encadrant", 'error', {
+                    swal('Erreur', "Vous avez déjà dépôsé le mémoire pour ce stage!!", 'error', {
                         button: 'Ok'
                     })
 

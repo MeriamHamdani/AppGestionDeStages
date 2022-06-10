@@ -25,7 +25,7 @@
                         <h5>Ajouter un etudiant</h5>
                     </div>
                     <div class="card-body">
-                        <form class="row g-3 needs-validation" novalidate="" method="POST" action="{{ route('sauvegarder_etudiant') }}"> <!--{{ route('sauvegarder_etudiant') }}-->
+                        <form class="row g-3 needs-validation" novalidate="" method="POST" action="{{ route('sauvegarder_etudiant') }}">
                                 @csrf
                             @if($errors->any())
                                 @foreach ($errors->all() as $err )

@@ -21,7 +21,6 @@ Route::middleware(['auth', 'role:etudiant'])->group(function () {
         Route::view('/', 'etudiant.dashboard')->name('dash_etudiant');
         Route::get('/stage/demandes-stages', [EtudiantController::class, 'mes_demandes_stages'])->name('demandes_stages');
         Route::get('/stage/liste-stages', [EtudiantController::class, 'mes_demandes_confirmer'])->name('liste_stages');
-        //Route::view('/stage/liste-stages', 'etudiant.stage.liste_stages')->name('liste_stages');
         Route::view('/stage/demande-refuse', 'etudiant.stage.demande_refuse')->name('demande_refuse');
         Route::view('/stage/demande-refuse', 'etudiant.stage.demande_refuse')->name('demande_refuse');
         Route::view('/stage/demande-accepte', 'etudiant.stage.demande_accepte')->name('demande_accepte');
@@ -30,8 +29,7 @@ Route::middleware(['auth', 'role:etudiant'])->group(function () {
 
         Route::get('/stage/demander-stage', [StageController::class,'create'])->name('demande_stage');
         Route::post('/stage/demander', [StageController::class,'store'])->name('demander_stage');
-        Route::get('/stage/liste-stages/{demande}', [StageController::class,'download_lettre_affect'])
-                                                            ->name('telecharger_lettre_affect');
+        Route::get('/stage/liste-stages/{demande}', [StageController::class,'download_lettre_affect'])->name('telecharger_lettre_affect');
         Route::get('/stage/gerer-cahier-stage', [CahierStageController::class,'index'])->name('gestion_cahier_stage');
         Route::get('/stage/gerer-cahier-stage/creer/{stage}',[CahierStageController::class,'create'])->name('nouvelle_cahier_stage');
         Route::get('/stage/gerer-cahier-stage/tache/{tache}',[TacheController::class,'index'])->name('redaction_tache');
@@ -48,23 +46,15 @@ Route::middleware(['auth', 'role:etudiant'])->group(function () {
         //Route::get('entreprise/modifier-entreprise/{id}', [EntrepriseController::class,'edit'])->whereNumber('id')->name('modifier_entreprise');
         //Route::post('entreprise/modifier/{id}', [EntrepriseController::class,'update'])->whereNumber('id')->name('entreprise.update');
         //Route::get('entreprise/supprimer-entreprise/{id}', [EntrepriseController::class, 'destroy'])->whereNumber('id')->name('entreprise.destroy');
-
-        // Route::view('/entreprise/liste-entreprises', 'etudiant.entreprise.liste_entreprises')->name('liste_entreprises');
-
-        //  Route::view('/entreprise/liste-entreprises', 'etudiant.entreprise.liste_entreprises')->name('liste_entreprises');
-        // Route::view('/entreprise/ajouter-entreprise', 'etudiant.entreprise.ajouter_entreprise')->name('ajouter-entreprise');
-
         Route::get('/depot/gerer-depot', [DepotMemoireController::class, 'index'])->name('depot');
         Route::get('/depot/deposer/', [DepotMemoireController::class, 'create'])->name('deposer');
-        Route::post('/depot/gerer-depot/deposer-memoire', [DepotMemoireController::class, 'store'])->name('deposer_memoire');
+        Route::post('/depot/gerer-depot/deposer-memoire/deposer', [DepotMemoireController::class, 'store'])->name('deposer_memoire');
         Route::get('/depot/gerer-depot/afficher-details-depot/{depotMemoire}', [DepotMemoireController::class, 'show'])->name('afficher_details');
         Route::get('/depot/gerer-depot/{memoire}/{code_classe}', [DepotMemoireController::class, 'telecharger_memoire'])->where('memoire', '[A-Za-z0-9\-\_\.]+')->name('telecharger_memoire');
 
-        Route::get('/depot/gerer-depot/redeposer-memoire/{depotMemoire}', [DepotMemoireController::class, 'edit'])->name('redeposer');
-        Route::post('/depot/gerer-depot/redeposer-memoire/{depotMemoire}', [DepotMemoireController::class, 'update'])->name('update_depot');
-        Route::get('/depot/gerer-depot/remarques-encadrant/{depotMemoire}', [DepotMemoireController::class, 'remarques_encadrant'])->name('remarques_encadrant');
-
-        //Route::view('/depot/gerer-depot/remarques-encadrant', 'etudiant.depot.remarques_encadrant')->name('remarques_encadrant');
+        Route::get('/depot/gerer-depot/redeposer-memoire/memoire/{depotMemoire}', [DepotMemoireController::class, 'edit'])->name('redeposer');
+        Route::post('/depot/gerer-depot/redeposer-memoire/memoire/{depotMemoire}', [DepotMemoireController::class, 'update'])->name('update_depot');
+        Route::get('/depot/gerer-depot/remarques-encadrant/memoire/{depotMemoire}', [DepotMemoireController::class, 'remarques_encadrant'])->name('remarques_encadrant');
 
 
         Route::view('/soutenance/liste_soutenances', 'etudiant.soutenance.liste_soutenances')->name('liste_soutenances');

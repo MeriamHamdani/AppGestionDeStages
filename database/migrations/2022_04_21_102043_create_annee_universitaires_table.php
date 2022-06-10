@@ -18,6 +18,7 @@ class CreateAnneeUniversitairesTable extends Migration
             $table->string('annee')->unique();
             $table->string('lettre_affectation')->nullable();
             $table->string('fiche_encadrement')->nullable();
+            $table->string('attrayant')->nullable();
             $table->timestamps();
         });
     }

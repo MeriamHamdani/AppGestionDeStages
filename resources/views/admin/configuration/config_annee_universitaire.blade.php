@@ -59,6 +59,16 @@
                                 </div>
                             </div>
                         </div>
+                        <div class="row">
+                            <div class="col">
+                                <div class="mb-3">
+                                    <label class="form-label" for="exampleFormControlInput1">Modèle d'attrayant
+                                    </label>
+                                    <input class="form-control" id="attrayant" name="attrayant"
+                                           type="file" accept=".docx" required />
+                                </div>
+                            </div>
+                        </div>
                     </div>
                     <div class="card-footer text-end">
                         {{-- <a href class="btn btn-light" type="reset" value="Annuler" />--}}

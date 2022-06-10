@@ -46,7 +46,9 @@
                                         <td>{{ucwords($typeStage->nom)}}</td>
                                         <td class="text-center">
                                             <a href="{{route('modifier_type_stage',$typeStage)}}"> <i style="font-size: 1.3em;"  class='fa fa-edit'></i></a>
-                                            <a href="{{route('supprimer_type_stage',$typeStage)}}"> <i style="font-size: 1.3em;" class='fa fa-trash'></i></a>
+                                                <a href="#" data-id="{{ $typeStage->id }}"
+                                                   data-name="{{ $typeStage->nom }}"
+                                                   class="delete"><i style="font-size: 1.3em;" class='fa fa-trash'></i></a>
                                         </td>
                                     </tr>
                                 @endforeach
@@ -95,6 +97,44 @@
         <script src="{{asset('assets/js/datatable/datatable-extension/dataTables.rowReorder.min.js')}}"></script>
         <script src="{{asset('assets/js/datatable/datatable-extension/dataTables.scroller.min.js')}}"></script>
         <script src="{{asset('assets/js/datatable/datatable-extension/custom.js')}}"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/sweetalert/2.1.2/sweetalert.min.js"
+                integrity="sha512-AA1Bzp5Q0K1KanKKmvN/4d3IRKVlv9PYgwFPvm32nPO6QS8yH1HO7LbgB1pgiOxPtfeg5zEn2ba64MUcqJx6CA=="
+                crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+        @if (Session::get('message')=='ok update')
+            <script>
+                swal({
+                    position: 'center',
+                    icon: 'success',
+                    title: 'mise à jour éffectué',
+                    showConfirmButton: false,
+                    timer: 2500
+                })
+
+            </script>
+        @endif
+        <script>
+            $('.delete').click(function () {
+                var dataId = $(this).attr('data-id');
+                var dataName = $(this).attr('data-name');
+                swal({
+                    title: "Êtes-vous  sûr de vouloir supprimer le type de stage " + dataName + " ?",
+                    icon: "warning",
+                    buttons: true,
+                    dangerMode: true,
+                })
+                    .then((willDelete) => {
+                        if (willDelete) {
+                            window.location = "supprimer-typeStage/" + dataId + "";
+                            swal("Poof! Le type de stage est bien supprimé!", {
+                                icon: "success",
+                            });
+                        } else {
+                            swal("La suppression est annulée!");
+                        }
+                    })
+            });
+
+        </script>
     @endpush
 
 @endsection

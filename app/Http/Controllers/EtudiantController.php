@@ -12,6 +12,7 @@ use Illuminate\Http\Request;
 use App\Models\Etablissement;
 use Illuminate\Support\Carbon;
 
+use Illuminate\Support\Facades\Session;
 use Illuminate\Validation\Rule;
 use App\Exports\EtudiantsExport;
 use App\Imports\EtudiantsImport;
@@ -54,7 +55,7 @@ class EtudiantController extends Controller
     public function store(Request $request)
     {
         $attributs = $request->validate(
-            ['numero_CIN'=>['required', 'string', 'max:8','min:8', 'unique:users']
+            ['numero_CIN'=>['required', 'string', 'max:8','min:8']
             ]);
 
         $attributs['password'] = bcrypt($attributs['numero_CIN']);
@@ -64,31 +65,32 @@ class EtudiantController extends Controller
             'nom' => 'required|max:255',
             'prenom' => 'required|max:255',
             'numero_telephone' => 'required|max:11|min:8',
-            'email' => ['required','email','max:255',Rule::unique('etudiants','email')],
+            'email' => ['required','email','max:255'],
             'classe_id' => ['required', Rule::exists('classes', 'id')]
         ]);
         $attributs['email'] = $request->email;
+        $user_exist = User::where('numero_CIN',$request->numero_CIN)->exists();
         $etd_exist = Etudiant::where('email', $request->email)->first();
-        if ($etd_exist) {
-            return back();
-        }
-
-        $annee=$this->current_annee_univ();
-
-        $annees = AnneeUniversitaire::all();
-        foreach ($annees as $a)
-        {//dd($a->annee);
-            if ($a->annee == $annee->annee)
+        if (!($etd_exist || $user_exist)) {
+            $annee=$this->current_annee_univ();
+            $annees = AnneeUniversitaire::all();
+            foreach ($annees as $a)
             {
-                $attributs2['annee_universitaire_id'] = $annee->id;
-                break;
+                if ($a->annee == $annee->annee)
+                {
+                    $attributs2['annee_universitaire_id'] = $annee->id;
+                    break;
+                }
             }
+            $user = User::create($attributs);
+            $user->assignRole('etudiant');
+            $attributs2['user_id'] = $user->id;
+            $etudiant = Etudiant::create($attributs2);
+            $user->email=$etudiant->email;
+            Session::flash('message', 'ok1');
+        }else{
+            Session::flash('message', 'ko1');
         }
-        //dd($attributs2['annee_universitaire_id']);
-        $user = User::create($attributs);
-        $user->assignRole('etudiant');
-        $attributs2['user_id'] = $user->id;
-        $etudiant = Etudiant::create($attributs2);
         return redirect()->action([EtudiantController::class,'index']);
     }
 
@@ -134,10 +136,10 @@ class EtudiantController extends Controller
         if($etudiant->user->numero_CIN !==$request->numero_CIN){
             $request->validate(['numero_CIN'=>['required', 'string', 'max:8','min:8', 'unique:users'],]);
             $etudiant->user->numero_CIN=$request->numero_CIN;
-            $etudiant->user->password= bcrypt($request->numero_CIN);
             $etudiant->user->update();
         }
         $etudiant->update($attributs);
+        Session::flash('message', 'update1');
         return redirect()->action([EtudiantController::class,'index']);
 
     }

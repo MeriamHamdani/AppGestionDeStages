@@ -42,9 +42,9 @@
                                     <p>Cahier de stage</p>
                                 </div>
                                 @if($classe->niveau == 3 && $classe->cycle=="licence" ||$classe->niveau == 2 && $classe->cycle=="master"  )
-                                  {{--  <div class="stepwizard-step"><a class="btn btn-light" href="#step-5">5</a>
-                                        <p>Dates limites de <br>dépôt des mémoires</p>
-                                    </div>--}}
+                                    {{--  <div class="stepwizard-step"><a class="btn btn-light" href="#step-5">5</a>
+                                          <p>Dates limites de <br>dépôt des mémoires</p>
+                                      </div>--}}
                                     <div class="stepwizard-step"><a class="btn btn-light" href="#step-6">5</a>
                                         <p>Le(s) type(s) de sujet</p>
                                     </div>
@@ -64,21 +64,26 @@
                               method="POST" enctype="multipart/form-data">
                             @csrf
                             @method('PUT')
+                            @if(isset($error_message['nom']))
                             @if ($error_message['nom']!="")
                                 <div class="alert alert-danger" role="alert">
                                     {{ $error_message['nom'] }}
                                 </div>
                             @endif
-                            @if ($error_message['periode_stage']!="")
+                            @endif
+                            @if(isset($error_message['periode_stage']))
+                            @if (($error_message['periode_stage']!=""))
                                 <div class="alert alert-danger" role="alert">
                                     {{ $error_message['periode_stage'] }}
                                 </div>
                             @endif
-
+                            @endif
+                            @if(isset($error_message['duree_max_min']))
                             @if ($error_message['duree_max_min']!="")
                                 <div class="alert alert-danger" role="alert">
                                     {{ $error_message['duree_max_min'] }}
                                 </div>
+                            @endif
                             @endif
                             <div class="setup-content" id="step-1">
                                 <div class="col-xs-12">
@@ -203,12 +208,12 @@
                                                             <label class="col-sm-3 col-form-label">La fiche</label>
                                                             <div class="radio radio-primary">
                                                                 <input id="radioinline5" type="radio"
-                                                                       name="fiche__type" value="requis"  {{old('fiche__type') == "requis" ? 'checked' : ''}}>
+                                                                       name="fiche_2Dinars_type" value="requis"  {{old('fiche_2Dinars_type') == "requis" ? 'checked' : ''}}>
                                                                 <label class="mb-0" for="radioinline5">Requis</label>
                                                             </div>
                                                             <div class="radio radio-primary">
                                                                 <input id="radioinline6" type="radio"
-                                                                       name="fiche__type" value="non requis"  {{old('fiche__type') == "non requis" ? 'checked' : ''}}>
+                                                                       name="fiche_2Dinars_type" value="non requis"  {{old('fiche_2Dinars_type') == "non requis" ? 'checked' : ''}}>
                                                                 <label class="mb-0" for="radioinline6">Non
                                                                     Requis</label>
                                                             </div>
@@ -216,9 +221,9 @@
                                                     </div>
                                                 </div>
                                             </div>
-                                                <button class="btn btn-primary nextBtn pull-right"
-                                                        type="button">Suivant
-                                                </button>
+                                            <button class="btn btn-primary nextBtn pull-right"
+                                                    type="button">Suivant
+                                            </button>
                                         </div>
                                     </div>
                                 </div>
@@ -263,25 +268,25 @@
                             </div>
                             @if($classe->niveau == 3 && $classe->cycle=="licence" ||
                             $classe->niveau == 2 && $classe->cycle=="master"  )
-                             {{--   <div class="setup-content" id="step-5">
-                                    <div class="col-xs-12">
-                                        <div class="col-md-12">
-                                            <div class="form-group">
-                                                <label class="control-label">Date de debut</label>
-                                                <input class="datepicker-here form-control digits date-picker"
-                                                       type="text"
-                                                       data-language="en" name="date_debut_depo" id="date_debut_depo"/>
-                                            </div>
-                                            <div class="form-group">
-                                                <label class="control-label">Date de fin</label>
-                                                <input class="datepicker-here form-control digits" type="text"
-                                                       data-language="en" name="date_fin_depo" id="date_fin_depo"/>
-                                            </div>
-                                            <button class="btn btn-primary nextBtn pull-right" type="button">Suivant
-                                            </button>
-                                        </div>
-                                    </div>
-                                </div>--}}
+                                {{--   <div class="setup-content" id="step-5">
+                                       <div class="col-xs-12">
+                                           <div class="col-md-12">
+                                               <div class="form-group">
+                                                   <label class="control-label">Date de debut</label>
+                                                   <input class="datepicker-here form-control digits date-picker"
+                                                          type="text"
+                                                          data-language="en" name="date_debut_depo" id="date_debut_depo"/>
+                                               </div>
+                                               <div class="form-group">
+                                                   <label class="control-label">Date de fin</label>
+                                                   <input class="datepicker-here form-control digits" type="text"
+                                                          data-language="en" name="date_fin_depo" id="date_fin_depo"/>
+                                               </div>
+                                               <button class="btn btn-primary nextBtn pull-right" type="button">Suivant
+                                               </button>
+                                           </div>
+                                       </div>
+                                   </div>--}}
                                 <div class="setup-content" id="step-6">
                                     <div class="col-xs-12 card-body animate-chk">
                                         <div class="col-md-12">
@@ -332,6 +337,28 @@
         <script src="{{ asset('assets/js/datepicker/date-picker/datepicker.js') }}"></script>
         <script src="{{ asset('assets/js/datepicker/date-picker/datepicker.en.js') }}"></script>
         <script src="{{ asset('assets/js/datepicker/date-picker/datepicker.custom.js') }}"></script>
+        <script src="{!!url('/js/jquery.min.js')!!}"></script>
+        <script type="text/javascript">
+            $("#radioinline2").change(function() {
+                if (this.checked) {
+                    $('#fiche_demande').hide();
+                } else {
+                    $('#fiche_demande').show();
+                }
+            });
+            $("#radioinline2").trigger("change");
+        </script>
+        <script type="text/javascript">
+            $("#radioinline1").change(function() {
+                if (this.checked) {
+                    $('#fiche_demande').show();
+                } else {
+                    $('#fiche_demande').hide();
+                }
+            });
+            $("#radioinline1").trigger("change");
+        </script>
+
 
     @endpush
 

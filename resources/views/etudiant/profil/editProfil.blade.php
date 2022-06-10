@@ -80,7 +80,7 @@
                             </div>
 
                             <div class="card-footer text-end">
-                                <a class="btn btn-light" href="{{ route('liste_etudiants') }}">Annuler</a>
+                                <a class="btn btn-light" href="{{ route('liste_stages') }}">Annuler</a>
                                 <button class="btn btn-primary" type="submit">Valider</button>
                             </div>
                         </form>

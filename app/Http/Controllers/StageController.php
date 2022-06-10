@@ -431,12 +431,6 @@ class StageController extends Controller
         $nbre_mois = $this->diff_date_en_mois($date_debut, $date_fin);
         //dd($nbre_mois);
         //dd($nbre_mois<$type_stage->duree_stage_min);
-        if ($nbre_mois < $type_stage->duree_stage_min) {
-            return Redirect::back()->withErrors(['la période de stage devrait être au minimum de ' . $type_stage->duree_stage_min . ' mois !']);
-        }
-        if ($nbre_mois > $type_stage->duree_stage_max) {
-            return Redirect::back()->withErrors(['la période de stage devrait être au maximaum de ' . $type_stage->duree_stage_max . ' mois !']);
-        }
         if ($request->date_debut < $request->date_fin) {
 
             if ($date_debut < $type_stage->date_debut_periode || $date_fin > $type_stage->date_limite_periode) {
@@ -447,8 +441,15 @@ class StageController extends Controller
             }
 
         } else {
-            return Redirect::back()->withErrors(['La date de fin de votre période de stage doit etre ultérieure à la date de debut !      !']);
+            return Redirect::back()->withErrors(['La date de fin de votre période de stage doit etre ultérieure à la date de debut !']);
         }
+        if ($nbre_mois < $type_stage->duree_stage_min) {
+            return Redirect::back()->withErrors(['la période de stage devrait être au minimum de ' . $type_stage->duree_stage_min . ' mois !']);
+        }
+        if ($nbre_mois > $type_stage->duree_stage_max) {
+            return Redirect::back()->withErrors(['la période de stage devrait être au maximaum de ' . $type_stage->duree_stage_max . ' mois !']);
+        }
+
 
         $cin = Auth::user()->numero_CIN;
 
@@ -610,7 +611,7 @@ class StageController extends Controller
 		}
         $user = User::findOrFail($etudiant->user_id);
         $type_stage = TypeStage::findOrFail($classe->type_stage_id);
-        if ($stage->confirmation_encadrant == 0) {
+        if ($stage->confirmation_encadrant == 0 && $stage->enseignant!=null) {
             Session::flash('message', 'attend_encadrant');
             //dd(Session::get('message'));
             return back();
@@ -625,7 +626,7 @@ class StageController extends Controller
             $file_path = str_replace(' ', '', $file_path);
             $file_path = str_replace('/', '\\', $file_path);
             //dd($file_path);
-            $templateProcessor = new TemplateProcessor($file_path);
+            $templateProcessor = new TemplateProcessor($file_path);//dd($templateProcessor->getVariables());
             $templateProcessor->setValue('nom', $etudiant->nom . ' ' . $etudiant->prenom);
             $templateProcessor->setValue('CIN', $user->numero_CIN);
             $templateProcessor->setValue('date_debut', $stage->date_debut);
@@ -656,7 +657,7 @@ class StageController extends Controller
         return back();
 
     }
-    public function current_annee_univ()
+    static function current_annee_univ()
     {
 
         $mydate = Carbon::now();

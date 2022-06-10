@@ -76,7 +76,9 @@
                         </div>
                     </li>
                     <li class="dropdown">
-                        <a class="nav-link menu-title link-nav {{routeActive('depot')}}" href="{{ route('depot') }}">
+                        <a class="nav-link menu-title link-nav  {{ in_array(Route::currentRouteName(),
+                            ['deposer','afficher_details','redeposer','remarques_encadrant']) ? 'active' : '' }}
+                        {{routeActive('depot')}}" href="{{ route('depot') }}">
                             <i class="icofont icofont-papers"></i>&nbsp&nbsp&nbsp<span>Gérer le dépôt </span></a>
                     </li>
                     <li class="sidebar-main-title">

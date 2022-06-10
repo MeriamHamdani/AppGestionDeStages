@@ -4,7 +4,9 @@ namespace App\Http\Controllers;
 
 use App\Models\Commentaire;
 use App\Models\DepotMemoire;
+use App\Notifications\DepotMemoireRefuseParEncadrantNotification;
 use Illuminate\Http\Request;
+use Illuminate\Support\Carbon;
 use Illuminate\Support\Facades\Session;
 
 class CommentaireController extends Controller
@@ -46,6 +48,13 @@ class CommentaireController extends Controller
             $attributs['enseignant_id']=$demande_depot->stage->enseignant->id;
             Commentaire::create($attributs);
             $demande_depot->validation_encadrant = 0;
+            $etudiant = $demande_depot->stage->etudiant;
+            $enseignant = $demande_depot->stage->enseignant;
+            $current_date = Carbon::now();
+            $data = ['nom_etud' => ucwords($etudiant->nom . ' ' . $etudiant->prenom),
+                'nom_ens' => ucwords($enseignant->nom . ' ' . $enseignant->prenom),
+                'date' => 'Le ' . $current_date->day . '-' . $current_date->month . '-' . $current_date->year . ' à ' . $current_date->hour . ':' . $current_date->minute];
+            $etudiant->notify(new DepotMemoireRefuseParEncadrantNotification($data));
             $demande_depot->update();
         } else
             Session::flash('message', 'deja validé');

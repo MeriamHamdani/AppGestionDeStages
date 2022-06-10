@@ -202,7 +202,9 @@
                                     <td class="text-center">
                                         <a href="{{ route('modifier_etudiant',$etudiant) }}"> <i
                                                 style="font-size: 1.3em;" class='fa fa-edit'></i></a>
-                                        <a href="{{ route('supprimer_etudiant',$etudiant) }}"> <i
+                                        <a href="#" data-id="{{ $etudiant->id }}"
+                                           data-name="{{ $etudiant->prenom }} {{ $etudiant->nom }}"
+                                           class="delete"> <i
                                                 style="font-size: 1.3em;" class='fa fa-trash'></i></a>
                                     </td>
 
@@ -256,6 +258,61 @@
 <script src="{{asset('assets/js/datatable/datatable-extension/dataTables.rowReorder.min.js')}}"></script>
 <script src="{{asset('assets/js/datatable/datatable-extension/dataTables.scroller.min.js')}}"></script>
 <script src="{{asset('assets/js/datatable/datatable-extension/custom.js')}}"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/sweetalert/2.1.2/sweetalert.min.js"
+        integrity="sha512-AA1Bzp5Q0K1KanKKmvN/4d3IRKVlv9PYgwFPvm32nPO6QS8yH1HO7LbgB1pgiOxPtfeg5zEn2ba64MUcqJx6CA=="
+        crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+@if(Session::has('message'))
+    <script>
+        toastr.success("{!! Session::get('message') !!}")
+    </script>
+@endif
+@if(Session::has('message'))
+    @if (Session::get('message')=='ok1')
+
+        <script>
+            swal('Bien', "L'étudiant est bien ajouté", 'success', {
+                button: 'Continuer'
+            })
+
+        </script>
+
+    @elseif (Session::get('message')=='ko1')
+        <script>
+            swal('Oups', "L'étudiant existe déja", 'error', {
+                button: 'Reéssayer'
+            })
+        </script>
+    @elseif (Session::get('message')=='update1')
+        <script>
+            swal('Bien', "L'étudiant est bien mis à jour", 'success', {
+                button: 'Continuer'
+            })
+        </script>
+    @endif
+@endif
+<script>
+    $('.delete').click(function () {
+        var dataId = $(this).attr('data-id');
+        var dataName = $(this).attr('data-name');
+        swal({
+            title: "Êtes-vous  sûr de vouloir supprimer l'étudiant " + dataName + " ?",
+            icon: "warning",
+            buttons: true,
+            dangerMode: true,
+        })
+            .then((willDelete) => {
+                if (willDelete) {
+                    window.location = "supprimer-etudiant/" + dataId + "";
+                    swal("Poof! L'étudiant est bien supprimé!", {
+                        icon: "success",
+                    });
+                } else {
+                    swal("La suppression est annulée!");
+                }
+            })
+    });
+
+</script>
 @endpush
 
 @endsection

@@ -32,79 +32,102 @@
                         <div style="text-align: center">
                             <a href=#>
                                 <i class="text-right" aria-hidden="true">
-                                    <label class="form-label" for="message-text"><strong>Télécharger l'attrayant de chaque enseignant</strong></label>
+                                    <label class="form-label" for="message-text"><strong>Télécharger l'attrayant de
+                                            chaque enseignant</strong></label>
 
                                     <button class="btn btn-primary" type="button"
                                             data-bs-toggle="modal" data-bs-target="#import"
                                             data-whatever="@getbootstrap">
                                         Attrayant
                                     </button>
-                                    <div class="modal fade" id="import" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" style="display: none;" aria-hidden="true">
+                                    <div class="modal fade" id="import" tabindex="-1" role="dialog"
+                                         aria-labelledby="exampleModalLabel" style="display: none;" aria-hidden="true">
                                         <div class="modal-dialog" role="document">
                                             <div class="modal-content">
                                                 <div class="modal-header">
                                                     <h5 class="modal-title">Attrayant des stages par enseignant</h5>
-                                                    <button class="btn-close" type="button" data-bs-dismiss="modal" aria-label="Close"></button>
+                                                    <button class="btn-close" type="button" data-bs-dismiss="modal"
+                                                            aria-label="Close"></button>
                                                 </div>
-                                                <div class="modal-body">
-                                                    <form>
+                                                <form action="{{route('telecharger_attrayant')}}" method="POST">
+                                                @csrf
+                                                    <div class="modal-body">
                                                         <div class="card-body">
                                                             <div class="row">
                                                                 <div class="col-md-6">
                                                                     <div class="mb-4">
-                                                                        <label class="col-form-label" for="message-text">Enseignant </label>
-                                                                        <select class="js-example-basic-single col-md-5-sm-12">
-                                                                            <option value="0">Sélectionnez l'enseignant</option>
-                                                                            <option value="5">enseignant 1</option>
-                                                                            <option value="1">enseignant 2</option>
-                                                                            <option value="2">enseignant 3</option>
-                                                                            <option value="3">enseignant 4</option>
-                                                                            <option value="4">enseignant 5</option>
+                                                                        <label class="col-form-label"
+                                                                               for="message-text">Enseignant </label>
+                                                                        <select
+                                                                            class="js-example-basic-single col-sm-12"
+                                                                            id="enseignant" name="enseignant" required>
+                                                                            <option disabled="disabled"
+                                                                                    selected="selected">Séléctionnez
+                                                                                l'enseignant
+                                                                            </option>
+                                                                            @foreach (App\Models\Enseignant::all() as $enseignant )
+                                                                                <option
+                                                                                    value="{{ $enseignant->id }}"
+                                                                                    {{ old('enseignant_id') == $enseignant->id ? 'selected' : '' }}
+                                                                                >{{ ucwords($enseignant->nom) }} {{ ucwords($enseignant->prenom) }}</option>
+                                                                            @endforeach
                                                                         </select>
                                                                     </div>
                                                                 </div>
                                                                 <div class="col-md-6">
                                                                     <div class="mb-4">
-                                                                        <label class="col-form-label" for="message-text">Identifiant </label>
-                                                                        <input class="form-control" id="exampleFormControlInput1" type="text"/>
+                                                                        <label class="col-form-label"
+                                                                               for="message-text">Identifiant </label>
+                                                                        <input class="form-control" id="identif"
+                                                                               name="identif" type="text"/>
                                                                     </div>
                                                                 </div>
                                                             </div>
                                                             <div class="row">
                                                                 <div class="col-md-6">
                                                                     <div class="mb-4">
-                                                                        <label class="col-form-label" for="message-text">CIN</label>
-                                                                        <input class="form-control" id="exampleFormControlInput1" type="number"/>
+                                                                        <label class="col-form-label"
+                                                                               for="message-text">CIN</label>
+                                                                        <input class="form-control" id="numeroCIN"
+                                                                               name="numeroCIN" type="number"/>
                                                                     </div>
                                                                 </div>
                                                                 <div class="col-md-6">
                                                                     <div class="mb-4">
-                                                                        <label class="col-form-label" for="message-text">RIB </label>
-                                                                        <input class="form-control" id="exampleFormControlInput1" type="number"/>
+                                                                        <label class="col-form-label"
+                                                                               for="message-text">RIB </label>
+                                                                        <input class="form-control" id="rib" name="rib"
+                                                                               type="number"/>
                                                                     </div>
                                                                 </div>
                                                             </div>
                                                             <div class="row">
                                                                 <div class="col-md-5">
                                                                     <div class="mb-4">
-                                                                        <label class="col-form-label" for="message-text">Numéro de Téléphone</label>
-                                                                        <input class="form-control" id="exampleFormControlInput1" type="number"/>
+                                                                        <label class="col-form-label"
+                                                                               for="message-text">Numéro de
+                                                                            Téléphone</label>
+                                                                        <input class="form-control" id="numeroTel"
+                                                                               name="numeroTel" type="number"/>
                                                                     </div>
                                                                 </div>
                                                                 <div class="col-md-7">
                                                                     <div class="mb-4">
-                                                                        <label class="col-form-label" for="message-text">Établissement de nomination</label>
-                                                                        <input class="form-control" id="exampleFormControlInput1" type="text"/>
+                                                                        <label class="col-form-label"
+                                                                               for="message-text">Établissement de
+                                                                            nomination</label>
+                                                                        <input class="form-control" id="etabliss"
+                                                                               name="etabliss" type="text"/>
                                                                     </div>
                                                                 </div>
                                                             </div>
                                                         </div>
-                                                    </form>
-                                                </div>
-                                                <div class="modal-footer">
-                                                    <button class="btn btn-secondary" type="button" data-bs-dismiss="modal">Annuler</button>
-                                                    <button class="btn btn-primary" type="button">Télécharger</button>
-                                                </div>
+                                                    </div>
+                                                    <div class="modal-footer">
+                                                        <button class="btn btn-secondary" type="button" data-bs-dismiss="modal">Annuler</button>
+                                                        <button class="btn btn-primary" type="submit">Télécharger</button>
+                                                    </div>
+                                                </form>
                                             </div>
                                         </div>
                                     </div>
@@ -143,6 +166,29 @@
         <script src="{{asset('assets/js/datatable/datatable-extension/custom.js')}}"></script>
         <script src="{{ asset('assets/js/select2/select2.full.min.js') }}"></script>
         <script src="{{ asset('assets/js/select2/select2-custom.js') }}"></script>
+        <script type="text/javascript">
+            $('#enseignant').change(function () {
+                var id = $(this).val();
+                var url = '{{ route('getDetails', ':id') }}';
+                url = url.replace(':id', id);
+                $.ajax({
+                    url: url,
+                    type: 'get',
+                    dataType: 'json',
+                    success: function (response) {
+                       // console.log(response);
+                        if (response != null) {
+                            $('#identif').val(response.identifiant);
+                            $('#numeroCIN').val(response.numero_CIN);
+                            $('#numeroTel').val(response.numero_telephone);
+                            $('#etabliss').val(response.etablissement);
+                            $('#rib').val(response.rib);
+                        }
+                    }
+                });
+            });
+
+        </script>
     @endpush
 @endsection
 

@@ -56,35 +56,8 @@
                                     <div class="f1-step-icon"><i class="fa fa-calendar"></i></div>
                                     <p>Date fin de session</p>
                                 </div>
-
-
-                                <!--<div class="f1-step">
-                                     <div class="f1-step-icon"><i class="fa fa-files-o"></i></div>
-                                     <p>Fichiers nécessaires</p>
-                                 </div> -->
-
                             </div>
                             <fieldset>
-                                {{--  <div class="row">
-                                      <div class="col-sm-5 col-md-6">
-                                          <label  for="f1-date-debut" class="control-label">Date début de dépôt</label>
-                                          <div class="col-md-12 mb-2">
-                                              <input class="datepicker-here form-control digits" type="text"
-                                                     required="required" name="date_debut"
-                                                     id="f1-date-debut"
-                                                     data-language="en" data-multiple-dates-separator=", " data-position="top left" placeholder="date début" />
-                                          </div>
-                                      </div>
-                                      <div class="col-sm-5 col-md-6">
-                                          <label  for="f1-date-limite" >Date limite de dépôt</label>
-                                          <div class="col-md-12 mb-2">
-                                              <input class="datepicker-here form-control digits"
-                                                     required="required" name="date_debut"
-                                                     id="f1-date-limite"
-                                                     type="text" data-language="en" data-multiple-dates-separator=", " data-position="top right" placeholder="date limite" />
-                                          </div>
-                                      </div>
-                                  </div>--}}
                                 <div class="form-group">
                                     <label class="sr-only" for="f1-type-stage">Liste des types de stage</label>
                                     @foreach($tpStg as $ts)
@@ -104,7 +77,6 @@
                                         @endif
                                     @endforeach
                                 </div>
-
                                 <div class="f1-buttons">
                                     <button class="btn btn-primary btn-next" type="button">Suivant</button>
                                 </div>
@@ -119,7 +91,7 @@
                                            data-position="top left" placeholder="date début"/>
                                 </div>
                                 <div class="f1-buttons">
-                                    <button class="btn btn-primary btn-previous" type="button">Retour</button>
+                                    <button class="btn btn-secondary btn-previous" type="button">Retour</button>
                                     <button class="btn btn-primary btn-next" type="button">Suivant</button>
                                 </div>
                             </fieldset>
@@ -134,46 +106,10 @@
                                 </div>
 
                                 <div class="f1-buttons">
-                                    <button class="btn btn-primary btn-previous" type="button">Retour</button>
+                                    <button class="btn btn-secondary btn-previous" type="button">Retour</button>
                                     <button class="btn btn-primary btn-submit" type="submit">Valider</button>
                                 </div>
                             </fieldset>
-                            <!--   <fieldset>
-                                    <div class="form-group">
-                                         <div class="row">
-                                             <div class="col">
-                                                 <div class="mb-3 row">
-                                                         <label class="col-sm-3 col-form-label">La fiche
-                                                            technique</label>
-                                                         <input class="form-control" type="file" name="fiche_technique"
-                                                                id="fiche_technique" />
-                                                 </div>
-                                             </div>
-                                         </div>
-                                         <div class="row">
-                                             <div class="col">
-                                                 <div class="mb-3 row">
-                                                         <label class="col-sm-3 col-form-label">La fiche bibliothèque</label>
-                                                         <input class="form-control" type="file" name="fiche_biblio"
-                                                                id="fiche_biblio" />
-                                                 </div>
-                                             </div>
-                                         </div>
-                                         <div class="row">
-                                             <div class="col">
-                                                 <div class="mb-3 row">
-                                                         <label class="col-sm-3 col-form-label">La fiche plagiat</label>
-                                                         <input class="form-control" type="file" name="fiche_plagiat"
-                                                                id="fiche_plagiat" />
-                                                 </div>
-                                             </div>
-                                         </div>
-                                    </div>
-                                    <div class="f1-buttons">
-                                        <button class="btn btn-primary btn-previous" type="button">Retour</button>
-                                        <button class="btn btn-primary btn-submit" type="submit">Valider</button>
-                                    </div>
-                                </fieldset> -->
                         </form>
                     </div>
                 </div>

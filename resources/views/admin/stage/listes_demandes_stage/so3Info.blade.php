@@ -65,7 +65,7 @@
                                         <button class="buttonload" data-toggle="tooltip" title="demande en attente">
                                             <i class="fa fa-spinner fa-spin"></i>
                                         </button>
->>>>>>> 7fbe0e17b3d84e1edbde6ce8fc8d8e17981bc97c
+
                                         @endif
                                         @if ($stage->confirmation_encadrant==-1)
                                         <i data-toggle="tooltip" title="demande refusée" style="background-position: 0 -90px;
@@ -150,7 +150,6 @@
 </div>
 
 
-<<<<<<< HEAD
     @push('scripts')
         <script src="{{asset('assets/js/datatable/datatables/jquery.dataTables.min.js')}}"></script>
         <script src="{{asset('assets/js/datatable/datatable-extension/dataTables.buttons.min.js')}}"></script>

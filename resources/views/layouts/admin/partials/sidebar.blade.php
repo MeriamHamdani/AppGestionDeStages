@@ -62,14 +62,14 @@
                         </div>
                     </li>
                     <li class="dropdown">
-                        <a class="nav-link menu-title   {{ in_array(Route::currentRouteName(),
+                        <a class="nav-link menu-title  {{ in_array(Route::currentRouteName(),
                             ['demandes_stage.sv1lm','demandes_stage.so2l','demandes_stage.so3l',
                             'demandes_stage.so3Info','demandes_stage.so2m']) ? 'active' : '' }}"
                             href="javascript:void(0)">
                             <i class="icofont icofont-listing-box"></i>&nbsp&nbsp&nbsp<span>Les demandes de
                                 stages</span></a>
                         <ul class="nav-submenu menu-content"
-                            style="display: {{ prefixBlock('/admin/stage/demandes-stage') }};">
+                            style="display: {{ prefixBlock('admin/stage/demandes-stage') }};">
                             <li><a href="{{ route('demandes_stage.sv1lm') }}"
                                     class="{{ routeActive('demandes_stage.sv1lm') }}"><strong><i
                                             class="icofont icofont-pen-nib"></i>Stage Volontaire (1ère
@@ -109,19 +109,22 @@
                         </div>
                     </li>
                     <li>
-                        <a class="nav-link menu-title link-nav {{ routeActive('liste_departements') }}"
+                        <a class="nav-link menu-title link-nav {{ in_array(Route::currentRouteName(),
+                            ['create','departement.edit']) ? 'active' : '' }} {{ routeActive('liste_departements') }}"
                             href="{{ route('liste_departements') }}">
                             <i class="icofont icofont-building"></i>&nbsp<span>Gestion des départements</span></a>
                     </li>
                     <li>
-                        <a class="nav-link menu-title link-nav {{ routeActive('liste_enseignants') }} "
+                        <a class="nav-link menu-title link-nav {{ in_array(Route::currentRouteName(),
+                            ['ajouter_enseignant','modifier_enseignant']) ? 'active' : '' }} {{ routeActive('liste_enseignants') }} "
                             href="{{ route('liste_enseignants') }}">
                             <i class="icofont icofont-teacher"></i>&nbsp&nbsp&nbsp<span>Gestion des
                                 enseignants</span></a>
                     </li>
                     <li class="dropdown">
-                        <a class="nav-link menu-title link-nav {{ routeActive('liste_specialites') }}"
-                            href="{{ route('liste_specialites') }}">
+                        <a class="nav-link menu-title link-nav {{ in_array(Route::currentRouteName(),
+                            ['ajouter_specialite','modifier_specialite']) ? 'active' : '' }} {{ routeActive('liste_specialites') }}"
+                            href="{{ route('liste_specialites') }}  ">
                             <i class="icofont icofont-list"></i>&nbsp&nbsp&nbsp<span>Gestion des spécialités
                             </span></a>
                     </li>
@@ -133,18 +136,22 @@
                             <i class="icofont icofont-users-social"></i>&nbsp&nbsp&nbsp<span>Gestion des
                                 classes</span></a>
                         <ul class="nav-submenu menu-content"
-                            style="display: {{ prefixBlock('/admin/configuration/generale') }};">
-                            <li><a href="{{ route('liste_classes') }}" class="{{ routeActive('liste_classes') }}">
+                            style="display: {{ prefixBlock('admin/configuration/generale') }};">
+                            <li><a {{ in_array(Route::currentRouteName(), ['ajouter_classe','modifier_classe'])
+                                    ? 'active' : '' }} href="{{ route('liste_classes') }}"
+                                    class="{{ routeActive('liste_classes') }}">
                                     <strong><i class="icofont icofont-users-social"></i>Gérer les classes</strong></a>
                             </li>
-                            <li><a href="{{ route('typeStage.index')}}" class="{{ routeActive('typeStage.index') }}">
+                            <li><a {{ in_array(Route::currentRouteName(), ['modifier_type_stage']) ? 'active' : '' }}
+                                    href="{{ route('typeStage.index')}}" class="{{ routeActive('typeStage.index') }}">
                                     <strong><i class="icofont icofont-pen-nib"></i>Classe & Type de stage</strong></a>
                             </li>
                         </ul>
 
                     </li>
                     <li>
-                        <a class="nav-link menu-title link-nav {{ routeActive('liste_etudiants') }}"
+                        <a class="nav-link menu-title link-nav   {{ in_array(Route::currentRouteName(),
+                            ['ajouter_etudiant','modifier_etudiant']) ? 'active' : '' }} {{ routeActive('liste_etudiants') }}"
                             href="{{ route('liste_etudiants') }}">
                             <i class="icofont icofont-group-students"></i>&nbsp&nbsp&nbsp<span>Gestion des
                                 étudiants</span></a>
@@ -173,6 +180,11 @@
                         <div>
                             <h6>Dépôt</h6>
                         </div>
+                    </li>
+                    <li class="dropdown">
+                        <a class="nav-link menu-title link-nav {{ routeActive('liste_sessions_depot') }}"
+                            href="{{ route('liste_sessions_depot') }}">
+                            <i class="icofont icofont-list"></i>&nbsp&nbsp&nbsp<span>Liste sessions de dépôt</span></a>
                     </li>
                     <li class="dropdown">
                         <a class="nav-link menu-title link-nav {{ routeActive('config_session_depot') }}"
@@ -219,21 +231,23 @@
                         </div>
                     </li>
                     <li class="dropdown">
-                        <a
-                            class="nav-link menu-title {{ in_array(Route::currentRouteName(),
-                            ['coordonnees','montant_selon_grade','dates_stages','liste_grille','configurer_grille']) ? 'active' : '' }}">
+                        <a class="nav-link menu-title  {{ in_array(Route::currentRouteName(),
+                            ['coordonnees','frais_encadrement','ajouter_frais','modifier_frais','dates_stages','liste_grille','configurer_grille']) ? 'active' : '' }}"
+                            href="javascript:void(0)">
                             <i class="icofont icofont-university"></i>&nbsp&nbsp&nbsp<span>Configuration
                                 générale</span></a>
                         <ul class="nav-submenu menu-content"
-                            style="display: {{ prefixBlock('/admin/configuration/generale') }};">
+                            style="display: {{ prefixBlock('admin/configuration/generale') }};">
                             <li><a href="{{ route('coordonnees') }}" class="{{ routeActive('coordonnees') }}">
                                     <strong><i class="icofont icofont-pen-nib"></i>Cordonnées de
                                         l'établissement</strong></a> </li>
-                            <li><a href="{{ route('montant_selon_grade') }}"
-                                    class="{{ routeActive('montant_selon_grade') }}">
-                                    <strong><i class="icofont icofont-pen-nib"></i>Montant Paiement selon Grade
-                                        d'enseignant</strong></a> </li>
-                            <!--<li><a href="{{ route('dates_stages') }}" class="{{ routeActive('dates_stages') }}">
+
+                            <li><a href="{{ route('frais_encadrement') }}"
+                                    class="{{ routeActive('frais_encadrement') }}">
+                                    <strong><i class="icofont icofont-pen-nib"></i>Frais d'encadrement</strong></a>
+                            </li>
+                            <!-- <li><a href="{{ route('dates_stages') }}" class="{{ routeActive('dates_stages') }}">
+
                                     <strong><i class="icofont icofont-pen-nib"></i>Dates des stages selon
                                         Formation</strong></a> </li>-->
                             <li><a href="{{ route('liste_grille') }}" class="{{ routeActive('liste_grille') }}">
