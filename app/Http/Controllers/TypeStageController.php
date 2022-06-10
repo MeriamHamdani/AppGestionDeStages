@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Classe;
 use App\Models\Etudiant;
 use App\Models\TypeStage;
+use App\Notifications\SessionDepotModifieNotification;
 use App\Notifications\SessionDepotOuverteNotification;
 use Illuminate\Support\Arr;
 use Illuminate\Support\Facades\Response;
@@ -212,17 +213,17 @@ class TypeStageController extends Controller
                         $typeStage->update();
                     } else {
                         $error_message = array("nom" => "", "periode_stage" => "", "depot_stage" => "", "duree_max_min" => "L'erreur est dû à cause de mal correspondance entre la période de stage que vous avez saisi et la durée maximale! Verifiez!");
-                        return view('admin.configuration.generale.modifier_typeStage', ["typeStage" => $typeStage, "classe" => $classe, "error_message" => $error_message,"type"=> $type]);
+                        return view('admin.configuration.generale.modifier_typeStage', ["typeStage" => $typeStage, "classe" => $classe, "error_message" => $error_message, "type" => $type]);
                     }
                 } else {
                     $error_message = array("nom" => "", "periode_stage" => "", "depot_stage" => "", "duree_max_min" => "Le nombre de mois minimum doit être inférieur au nombre de mois maximum! Verifiez!");
                     //return view('admin.configuration.generale.modifier_typeStage', compact(["classe", "error_message","typeStage"]));
-                    return view('admin.configuration.generale.modifier_typeStage', ["typeStage" => $typeStage, "classe" => $classe, "error_message" => $error_message,"type"=> $type]);
+                    return view('admin.configuration.generale.modifier_typeStage', ["typeStage" => $typeStage, "classe" => $classe, "error_message" => $error_message, "type" => $type]);
                 }
             } else {
                 $error_message = array("nom" => "", "periode_stage" => "La date de fin doit être ultérieure à la date de début   !", "depot_stage" => "");
                 //return view('admin.configuration.generale.modifier_typeStage', compact(["classe", "error_message","typeStage"]));
-                return view('admin.configuration.generale.modifier_typeStage', ["typeStage" => $typeStage, "classe" => $classe, "error_message" => $error_message,"type"=> $type]);
+                return view('admin.configuration.generale.modifier_typeStage', ["typeStage" => $typeStage, "classe" => $classe, "error_message" => $error_message, "type" => $type]);
             }
         }
         if ($typeStage->date_debut_periode !== $request->date_debut && $typeStage->date_limite_periode == $request->date_fin) {
@@ -240,17 +241,17 @@ class TypeStageController extends Controller
                         //dd($typeStage);
                     } else {
                         $error_message = array("nom" => "", "periode_stage" => "", "depot_stage" => "", "duree_max_min" => "L'erreur est dû à cause de mal correspondance entre la période de stage que vous avez saisi et la durée maximale! Verifiez!");
-                        return view('admin.configuration.generale.modifier_typeStage', ["typeStage" => $typeStage, "classe" => $classe, "error_message" => $error_message,"type"=> $type]);
+                        return view('admin.configuration.generale.modifier_typeStage', ["typeStage" => $typeStage, "classe" => $classe, "error_message" => $error_message, "type" => $type]);
                     }
                 } else {
                     $error_message = array("nom" => "", "periode_stage" => "", "depot_stage" => "", "duree_max_min" => "Le nombre de mois minimum doit être inférieur au nombre de mois maximum! Verifiez!");
                     //return view('admin.configuration.generale.modifier_typeStage', compact(["classe", "error_message","typeStage"]));
-                    return view('admin.configuration.generale.modifier_typeStage', ["typeStage" => $typeStage, "classe" => $classe, "error_message" => $error_message,"type"=> $type]);
+                    return view('admin.configuration.generale.modifier_typeStage', ["typeStage" => $typeStage, "classe" => $classe, "error_message" => $error_message, "type" => $type]);
                 }
             } else {
                 $error_message = array("nom" => "", "periode_stage" => "La date de fin doit être ultérieure à la date de début   !", "depot_stage" => "");
                 //return view('admin.configuration.generale.modifier_typeStage', compact(["classe", "error_message","typeStage"]));
-                return view('admin.configuration.generale.modifier_typeStage', ["typeStage" => $typeStage, "classe" => $classe, "error_message" => $error_message,"type"=> $type]);
+                return view('admin.configuration.generale.modifier_typeStage', ["typeStage" => $typeStage, "classe" => $classe, "error_message" => $error_message, "type" => $type]);
             }
         }
         if ($typeStage->date_debut_periode == $request->date_debut && $typeStage->date_limite_periode !== $request->date_fin) {
@@ -267,17 +268,17 @@ class TypeStageController extends Controller
                         dd($typeStage);
                     } else {
                         $error_message = array("nom" => "", "periode_stage" => "", "depot_stage" => "", "duree_max_min" => "L'erreur est dû à cause de mal correspondance entre la période de stage que vous avez saisi et la durée maximale! Verifiez!");
-                        return view('admin.configuration.generale.modifier_typeStage', ["typeStage" => $typeStage, "classe" => $classe, "error_message" => $error_message,"type"=> $type]);
+                        return view('admin.configuration.generale.modifier_typeStage', ["typeStage" => $typeStage, "classe" => $classe, "error_message" => $error_message, "type" => $type]);
                     }
                 } else {
                     $error_message = array("nom" => "", "periode_stage" => "", "depot_stage" => "", "duree_max_min" => "Le nombre de mois minimum doit être inférieur au nombre de mois maximum! Verifiez!");
                     //return view('admin.configuration.generale.modifier_typeStage', compact(["classe", "error_message","typeStage"]));
-                    return view('admin.configuration.generale.modifier_typeStage', ["typeStage" => $typeStage, "classe" => $classe, "error_message" => $error_message,"type"=> $type]);
+                    return view('admin.configuration.generale.modifier_typeStage', ["typeStage" => $typeStage, "classe" => $classe, "error_message" => $error_message, "type" => $type]);
                 }
             } else {
                 $error_message = array("nom" => "", "periode_stage" => "La date de fin doit être ultérieure à la date de début   !", "depot_stage" => "");
                 //return view('admin.configuration.generale.modifier_typeStage', compact(["classe", "error_message","typeStage"]));
-                return view('admin.configuration.generale.modifier_typeStage', ["typeStage" => $typeStage, "classe" => $classe, "error_message" => $error_message,"type"=> $type]);
+                return view('admin.configuration.generale.modifier_typeStage', ["typeStage" => $typeStage, "classe" => $classe, "error_message" => $error_message, "type" => $type]);
             }
         }
         if ($typeStage->date_debut_periode == $request->date_debut && $typeStage->date_limite_periode == $request->date_fin) {
@@ -291,19 +292,19 @@ class TypeStageController extends Controller
                         $typeStage->update();
                     } else {
                         $error_message = array("nom" => "", "periode_stage" => "", "depot_stage" => "", "duree_max_min" => "L'erreur est dû à cause de mal correspondance entre la période de stage que vous avez saisi et la durée maximale! Verifiez!");
-                        return view('admin.configuration.generale.modifier_typeStage', ["typeStage" => $typeStage, "classe" => $classe, "error_message" => $error_message,"type"=> $type]);
+                        return view('admin.configuration.generale.modifier_typeStage', ["typeStage" => $typeStage, "classe" => $classe, "error_message" => $error_message, "type" => $type]);
                     }
                 } else {
                     $error_message = array("nom" => "", "periode_stage" => "", "depot_stage" => "", "duree_max_min" => "Le nombre de mois minimum doit être inférieur au nombre de mois maximum! Verifiez!");
-                    return view('admin.configuration.generale.modifier_typeStage', ["typeStage" => $typeStage, "classe" => $classe, "error_message" => $error_message,"type"=> $type]);
+                    return view('admin.configuration.generale.modifier_typeStage', ["typeStage" => $typeStage, "classe" => $classe, "error_message" => $error_message, "type" => $type]);
                 }
             } else {
                 $error_message = array("nom" => "", "periode_stage" => "La date de fin doit être ultérieure à la date de début   !", "depot_stage" => "");
-                return view('admin.configuration.generale.modifier_typeStage', ["typeStage" => $typeStage, "classe" => $classe, "error_message" => $error_message,"type"=> $type]);
+                return view('admin.configuration.generale.modifier_typeStage', ["typeStage" => $typeStage, "classe" => $classe, "error_message" => $error_message, "type" => $type]);
             }
         }
 
-        if (($request->fiche_demande_type == "requis") && ($typeStage->fiche_demande== null)) {
+        if (($request->fiche_demande_type == "requis") && ($typeStage->fiche_demande == null)) {
             $request->validate(['fiche_demande' => ['required']]);
             $fiche_demande_name = 'FicheDemande_' . Str::upper(str_replace(' ', '', $code_classe)) . '_' . $request->type . '.' . $request->file('fiche_demande')->extension();//dd($fiche_demande_name)
             $path = Storage::disk('public')
@@ -344,9 +345,16 @@ class TypeStageController extends Controller
         return redirect()->action([TypeStageController::class, 'index']);
     }
 
+    public function listeSessions()
+    {
+        $currentDate = Carbon::now();
+        $sessionsOuvertes = TypeStage::where('date_limite_depot', '>', $currentDate)->where('date_debut_depot', '!=', null)->get();
+        //dd($sessionsOuvertes);
+        return view('admin.configuration.generale.liste_sessions', ['sessionsOuvertes' => $sessionsOuvertes]);
+    }
+
     public function new_session_depot(Request $request)
     {
-        $error_message = array("depot_stage" => "");
         $request->validate([
             'date_debut_depot' => ['required', 'date'],
             'date_limite_depot' => ['required', 'date']
@@ -369,26 +377,23 @@ class TypeStageController extends Controller
                 $typeStage->date_debut_depot = $date_debut_depot;
                 $typeStage->date_limite_depot = $date_limite_depot;
                 $current_date = Carbon::now();
-                // dd($date_debut_depot,$date_limite_depot);
-                $data = ['date_debut_depot' => $date_debut_depot,
-                    'date_limite_depot' => $date_limite_depot,
-                    'date' => 'Le ' . $current_date->day . '-' . $current_date->month . '-' . $current_date->year . ' à ' . $current_date->hour . ':' . $current_date->minute];
-                //dd($etudiant);
                 foreach ($etudiants as $etudiant) {
-                    // dd($etudiant);
-                    $etudiant->notify(new SessionDepotOuverteNotification($data));
-                }
 
+                    $data = ['nom_etud' => ucwords($etudiant->nom . ' ' . $etudiant->prenom),
+                        'date_debut_depot' => $date_debut_depot,
+                        'date_limite_depot' => $date_limite_depot,
+                        'date' => 'Le ' . $current_date->day . '-' . $current_date->month . '-' . $current_date->year . ' à ' . $current_date->hour . ':' . $current_date->minute];
+                    $etudiant->notify(new SessionDepotOuverteNotification($data));
+
+                }
                 $typeStage->update();
             }
         }
-        return view('admin.configuration.generale.config_session_depot', ["error_message" => $error_message]);
+        return redirect()->action([TypeStageController::class, 'ts_cette_annee']);
     }
-
 
     public function ts_cette_annee()
     {
-        // $error_message = array( "depot_stage" => "");
         $tpStg = new Collection();
         $mydate = Carbon::now();
         $moisCourant = (int)$mydate->format('m');
@@ -397,7 +402,6 @@ class TypeStageController extends Controller
         } else {
             $annee = '20' . strval(((int)$mydate->format('y')) - 1) . '-20' . $mydate->format('y');
         }
-
         $types_stages = TypeStage::all();
         foreach ($types_stages as $ts) {
             $classe = Classe::findOrFail($ts->classe_id);
@@ -409,9 +413,95 @@ class TypeStageController extends Controller
             }
         }
         return view('admin.configuration.generale.config_session_depot', compact(['tpStg', 'annee']));
-
-
     }
 
+    /**
+     * Show the form for editing the specified resource.
+     *
+     * @param \App\Models\TypeStage $session
+     * @return \Illuminate\Http\Response
+     */
+    public function editSession(TypeStage $session)
+    {
+        //dd($session);
+        return view('admin.configuration.generale.modifier_session', ['session' => $session]);
+    }
+
+    /**
+     * Update the specified resource in storage.
+     *
+     * @param \Illuminate\Http\Request $request
+     * @param \App\Models\TypeStage $session
+     * @return \Illuminate\Http\Response
+     */
+    public function updateSession(Request $request, TypeStage $session)
+    {
+        //dd($request->date_debut_depot,$session->date_debut_depot);
+        $request->validate([
+            'date_debut_depot' => ['required', 'date'],
+            'date_limite_depot' => ['required', 'date']
+        ]);
+
+        if ($session->date_debut_depot !== $request->date_debut_depot && $session->date_limite_depot !== $request->date_limite_depot) {
+            $date_debut_depot = Carbon::createFromFormat('m/d/Y', $request->date_debut_depot)->format('Y-m-d');
+            $date_limite_depot = Carbon::createFromFormat('m/d/Y', $request->date_limite_depot)->format('Y-m-d');
+            if ($date_debut_depot < $date_limite_depot) {
+                $session->date_debut_depot = $date_debut_depot;
+                $session->date_limite_depot = $date_limite_depot;
+                $session->update();//dd($session);
+            } else {
+                Session::flash('message', "l'intervalle des dates est invalide");
+                return back();
+            }
+        }
+        if ($session->date_debut_depot !== $request->date_debut_depot && $session->date_limite_depot == $request->date_limite_depot) {
+            $date_debut_depot = Carbon::createFromFormat('m/d/Y', $request->date_debut_depot)->format('Y-m-d');
+            if ($date_debut_depot < $session->date_limite_depot) {
+                $session->date_debut_depot = $date_debut_depot;
+                $session->update();//dd($session);
+            } else {
+                Session::flash('message', "l'intervalle des dates est invalide");
+                return back();
+            }
+        }
+        if ($session->date_debut_depot == $request->date_debut_depot && $session->date_limite_depot !== $request->date_limite_depot) {
+            $date_limite_depot = Carbon::createFromFormat('m/d/Y', $request->date_limite_depot)->format('Y-m-d');
+            if ($session->date_debut_periode < $date_limite_depot) {
+                $session->date_limite_depot = $date_limite_depot;
+                $session->update();//dd($session);
+            } else {
+                Session::flash('message', "l'intervalle des dates est invalide");
+                return back();
+            }
+        }
+
+        if ($session->date_debut_depot !== $request->date_debut_depot || $session->date_limite_depot !== $request->date_limite_depot) {
+            $current_date = Carbon::now();
+            $typeStage = TypeStage::findOrFail($session->id);
+            $classe = Classe::where('type_stage_id', $typeStage->id)->get();
+            $etudiants = Etudiant::where('classe_id', $classe[0]->id)->get();
+            foreach ($etudiants as $etudiant) {
+                $data = ['nom_etud' => ucwords($etudiant->nom . ' ' . $etudiant->prenom),
+                    'date_debut_depot' => $session->date_debut_depot,
+                    'date_limite_depot' => $session->date_limite_depot,
+                    'date' => 'Le ' . $current_date->day . '-' . $current_date->month . '-' . $current_date->year . ' à ' . $current_date->hour . ':' . $current_date->minute];
+                $etudiant->notify(new SessionDepotModifieNotification($data));
+            }
+        }
+        return  redirect()->action([TypeStageController::class, 'listeSessions']);
+    }
+    /**
+     * Remove the specified resource from storage.
+     * @param  \App\Models\TypeStage  $session
+     * @return \Illuminate\Http\Response
+     */
+    public function destroySession(TypeStage  $session)
+    {
+        $session->date_debut_depot = null;
+        $session->date_limite_depot = null;
+        $session->update();
+        //dd($session);
+        return  redirect()->action([TypeStageController::class, 'listeSessions']);
+    }
 
 }

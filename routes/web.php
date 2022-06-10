@@ -28,7 +28,7 @@ Route::get('/',function(){
 })->name('connecter');
 //dd(Auth::user());
 
-Route::get('/connexion',[AuthenticatedSessionController::class, 'store'])->name('connexion');
+Route::post('/connexion',[AuthenticatedSessionController::class, 'store'])->name('connexion');
 
 Route::get('/deconnexion', [AuthenticatedSessionController::class, 'destroy'])
                 ->middleware('auth')

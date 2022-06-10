@@ -170,8 +170,12 @@ Route::middleware(['auth','role:admin|superadmin'])->group(function(){
             Route::view('dates-stages', 'admin.configuration.generale.dates_stages')->name('dates_stages');
             Route::view('liste-grille', 'admin.configuration.generale.liste_grille')->name('liste_grille');
             Route::view('config-grille', 'admin.configuration.generale.configuration_grille')->name('configurer_grille');
+            Route::get('liste-sessions-depot',[TypeStageController::class,'listeSessions'])->name('liste_sessions_depot');
             Route::get('session-depot',[TypeStageController::class,'ts_cette_annee'])->name('config_session_depot');
             Route::post('session-depot/creer',[TypeStageController::class,'new_session_depot'])->name('new_session_depot');
+            Route::get('session-depot/modifier/{session}',[TypeStageController::class,'editSession'])->name('modifier_session');
+            Route::patch('session-depot/modifier/{session}',[TypeStageController::class,'updateSession'])->name('update_session');
+            Route::get('session-depot/supprimer/{session}',[TypeStageController::class,'destroySession'])->name('supprimer_session');
             Route::get('typeStage-classe/ajouter/{classe}',[TypeStageController::class,'create'])->name('typeStage.create');
             Route::put('typeStage-classe/store/{classe}',[TypeStageController::class,'store'])->name('typeStage.store');
             Route::get('liste-classes-typeStages',[TypeStageController::class,'index'])->name('typeStage.index');

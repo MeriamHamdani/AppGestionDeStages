@@ -181,6 +181,11 @@
                         </div>
                     </li>
                     <li class="dropdown">
+                        <a class="nav-link menu-title link-nav {{ routeActive('liste_sessions_depot') }}"
+                           href="{{ route('liste_sessions_depot') }}">
+                            <i class="icofont icofont-list"></i>&nbsp&nbsp&nbsp<span>Liste sessions de dépôt</span></a>
+                    </li>
+                    <li class="dropdown">
                         <a class="nav-link menu-title link-nav {{ routeActive('config_session_depot') }}"
                            href="{{ route('config_session_depot') }}">
                             <i class="icofont icofont-download-alt"></i>&nbsp&nbsp&nbsp<span>Session de

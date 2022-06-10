@@ -1,6 +1,6 @@
 @extends('layouts.admin.master')
 
-@section('title')Configuration session de dépôt
+@section('title')Modification session de dépôt
 {{ $title }}
 @endsection
 
@@ -17,7 +17,7 @@
             <h3>Session de dépôt</h3>
         @endslot
         <li class="breadcrumb-item">Dépôt</li>
-        <li class="breadcrumb-item">Ouvrir Session</li>
+        <li class="breadcrumb-item">Modifier une Session</li>
     @endcomponent
 
     <div class="container-fluid">
@@ -25,13 +25,14 @@
             <div class="col-sm-12">
                 <div class="card">
                     <div class="card-header pb-0">
-                        <h5>Ouvrir et configurer une session de dépôt</h5>
+                        <h5>Modifier une session de dépôt</h5>
                     </div>
                     <div class="card-body">
                         <form class="f1" method="POST"
-                              action="{{ route('new_session_depot') }}"
+                              action="{{ route('update_session',$session->id) }}"
                               enctype="multipart/form-data">
                             @csrf
+                            @method('PATCH')
                             @if($errors->any())
                                 @foreach ($errors->all() as $err )
                                     <div class="alert alert-danger" role="alert">
@@ -60,22 +61,19 @@
                             <fieldset>
                                 <div class="form-group">
                                     <label class="sr-only" for="f1-type-stage">Liste des types de stage</label>
-                                    @foreach($tpStg as $ts)
-                                        @if(($ts->date_debut_depot == null) && ($ts->date_limite_depot == null))
                                             <div class="col-md-12">
                                                 <div class="form-group">
                                                     <label class="d-block"
                                                            for="f1-type-stage"><input
                                                             class="checkbox_animated"
                                                             id="f1-type-stage"
-                                                            type="checkbox"
+                                                            type="checkbox" disabled
                                                             name="type_stages[]"
-                                                            value={{$ts->id}}>
-                                                        {{$ts->nom}}</label>
+                                                            {{ $session->nom ? 'checked' : '' }}>
+                                                        {{$session->nom}}</label>
                                                 </div>
                                             </div>
-                                        @endif
-                                    @endforeach
+
                                 </div>
                                 <div class="f1-buttons">
                                     <button class="btn btn-primary btn-next" type="button">Suivant</button>
@@ -85,7 +83,7 @@
                                 <div class="form-group">
                                     <label for="f1-dat-debut">Date début dépôt</label>
                                     <input class="datepicker-here form-control digits date-picker"
-                                           name="date_debut_depot"
+                                           name="date_debut_depot" value="{{$session->date_debut_depot }}"
                                            id="f1-dat-debut"
                                            type="text" data-language="en" data-multiple-dates-separator=", "
                                            data-position="top left" placeholder="date début"/>
@@ -99,7 +97,7 @@
                                 <div class="form-group">
                                     <label for="f1-date-limite">Date limite dépôt</label>
                                     <input class="datepicker-here form-control digits date-picker"
-                                           name="date_limite_depot"
+                                           name="date_limite_depot" value="{{$session->date_limite_depot }}"
                                            id="f1-date-limite"
                                            type="text" data-language="en" data-multiple-dates-separator=", "
                                            data-position="top left" placeholder="date limite"/>

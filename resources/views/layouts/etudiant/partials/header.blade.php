@@ -15,11 +15,8 @@
                     <div class="notification-box"><i data-feather="bell"></i><span class="dot-animated"></span></div>
                     <ul class="notification-dropdown onhover-show-div">
                         <li>
-                            <p class="f-w-700 mb-0"> Vous avez {{
-                                App\Models\Etudiant::where('user_id',auth()->id())->first()->notifications->count()
-                                }} notifications dont {{
-                                App\Models\Etudiant::where('user_id',auth()->id())->first()->unreadNotifications->count()
-                                }} non lus
+                            <p class="f-w-700 mb-0"> Vous avez {{App\Models\Etudiant::where('user_id',auth()->id())->first()->notifications->count()}} notifications dont
+                                {{App\Models\Etudiant::where('user_id',auth()->id())->first()->unreadNotifications->count() }} non lus
                                 <!--<span class="pull-right badge badge-primary badge-pill">4</span>-->
                             </p>
                         </li>
@@ -74,6 +71,22 @@
                                     </div>
                                 </li>
                             @endif
+                                @if($notification->type=='App\Notifications\SessionDepotModifieNotification')
+                                    <li class="noti-secondary">
+                                        <div class="media">
+                                        <span class="notification-bg bg-light-secondary"><i
+                                                data-feather="activity"> </i></span>
+                                            <div class="media-body">
+                                                <p> Session dépôt est mise à jour </p>
+                                                <span style="color: #ba895d"><strong>
+                                                La session de dépôt a subit des modifications au niveau des dates, le nouvel intervalle: {{ $notification->data['date_debut_depot'] }} à
+                                          {{ $notification->data['date_limite_depot'] }}</strong> </span>
+                                                <hr>
+                                                <span>{{ $notification->data['date'] }}</span>
+                                            </div>
+                                        </div>
+                                    </li>
+                                @endif
                                 @if ($notification->type==='App\Notifications\DepotMemoireValideParEncadrantNotification')
 
                                     <li class="noti-secondary">

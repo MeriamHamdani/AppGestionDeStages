@@ -132,12 +132,12 @@
     swal({
   position: 'center',
   icon: 'success',
-  title: 'Ajout avec succée',
+  title: 'Ajout avec succées',
   showConfirmButton: false,
   timer: 2500
 })
-   
-    
+
+
 </script>
 
 @elseif (Session::get('message')=='ko')

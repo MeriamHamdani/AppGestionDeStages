@@ -2,13 +2,13 @@
 
 namespace App\Notifications;
 
-use App\Mail\SessionDepotOuverte;
+use App\Mail\SessionDepotModifie;
 use Illuminate\Bus\Queueable;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Notifications\Messages\MailMessage;
 use Illuminate\Notifications\Notification;
 
-class SessionDepotOuverteNotification extends Notification
+class SessionDepotModifieNotification extends Notification
 {
     use Queueable;
     public $data=[];
@@ -42,7 +42,7 @@ class SessionDepotOuverteNotification extends Notification
      */
     public function toMail($notifiable)
     {
-        return (new SessionDepotOuverte($this->data))
+        return (new SessionDepotModifie($this->data))
             ->to($notifiable->email);
     }
 
