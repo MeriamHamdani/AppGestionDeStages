@@ -46,6 +46,8 @@ class AnneeUniversitaireController extends Controller
                 'annee' => 'required',
                 'lettre_affectation' => 'required',
                 'lettre_affectation.*' => ['required', 'mimes:docx'],
+                'fiche_encadrement' => 'required',
+                'fiche_encadrement.*' => ['required', 'mimes:docx'],
                 'attrayant' => 'required',
                 'attrayant.*' => ['required', 'mimes:docx'],
                 /*'fiche_encadrement'=>'required',
@@ -59,11 +61,14 @@ class AnneeUniversitaireController extends Controller
         }
         $lettre_affectation = Storage::disk('public')
             ->putFileAs('models_lettre_affectation', $request->file('lettre_affectation'), 'model_lettre_affectation_' . $request->annee . '.docx');
+        $fiche_encadrement = Storage::disk('public')
+            ->putFileAs('models_fiche_encadrement', $request->file('fiche_encadrement'), 'model_fiche_encadrement_' . $request->annee . '.docx');
         $attrayant = Storage::disk('public')
             ->putFileAs('model_attrayant', $request->file('attrayant'), 'model_attrayant_' . $request->annee . '.docx');
         $annee = new AnneeUniversitaire();
         $annee->annee = $request->annee;
         $annee->lettre_affectation = $lettre_affectation;
+        $annee->fiche_encadrement = $fiche_encadrement;
         $annee->attrayant = $attrayant;
         $annee->save(); //dd($annee);
         return view('admin.etablissement.departement.ajouter_departement');

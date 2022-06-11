@@ -20,6 +20,7 @@ Route::middleware(['auth','role:enseignant'])->group(function(){
         Route::view('/encadrement/liste-stages-actifs/cahier-stage-etud','enseignant.encadrement.cahier_stage_etud' )->name('cahier_stage_etud');
         Route::get('/encadrement/liste-stages-actifs/cahier-stage-etud/{cahier}', [CahierStageController::class,'show_for_enc'])->name('detail_cahier_stage');
         Route::get('/encadrement/liste-stages-actifs/details-stage/{stage}',[EnseignantController::class,'details_stage'] )->name('details_stage');
+        Route::get('/encadrement/liste-stages-actifs/telecharge-fiche-encadrement/{stage}',[StageController::class,'download_fiche_encadrement'] )->name('telecharger_fiche_enc');
 
         Route::view('/paiement/liste-stages-paye','enseignant.paiement.liste_stages_paye' )->name('liste_stages_paye');
         Route::view('/paiement/liste-stages-non-paye','enseignant.paiement.liste_stages_non_paye' )->name('liste_stages_non_paye');

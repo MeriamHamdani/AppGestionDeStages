@@ -36,6 +36,7 @@
                                     <th>Sujet</th>
                                     <th>Date début</th>
                                     <th>Date fin</th>
+                                    <th>Fiche d'encadrement</th>
                                     <th>Actions</th>
                                 </tr>
                             </thead>
@@ -54,6 +55,10 @@
                                     @endif
                                     <td>{{ $stage_actif->date_debut }}</td>
                                     <td>{{ $stage_actif->date_fin }}</td>
+                                    <td class="text-center"><a href={{ route('telecharger_fiche_enc',['stage'=>$stage_actif]) }}>
+                                            <i style="font-size: 2em;" class="icofont icofont-file-pdf icon-large"></i>
+                                        </a>
+                                    </td>
                                     <td class="text-center">
                                         <!-- <a href="#" data-title="Télécharger la lettre d'affectation"
                                             data-toggle="tooltip"
@@ -90,6 +95,7 @@
                                     <th>Sujet</th>
                                     <th>Date début</th>
                                     <th>Date fin</th>
+                                    <th>Fiche d'encadrement</th>
                                     <th>Actions</th>
                                 </tr>
                             </tfoot>

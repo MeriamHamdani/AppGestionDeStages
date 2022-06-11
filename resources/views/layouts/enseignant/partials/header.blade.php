@@ -40,6 +40,23 @@
                                     </div>
                                 </li>
                             @endif
+                                @if ($notification->type==='App\Notifications\DownloadFicheEncadrementNotification')
+
+                                    <li class="noti-secondary">
+                                        <div class="media">
+                                        <span class="notification-bg bg-light-secondary"><i
+                                                data-feather="activity"> </i></span>
+                                            <div class="media-body">
+                                                <p> Fiche d'encadrement </p>
+                                                <a href={{ route('liste_stages_actifs') }}>
+                                        <span style="color: #ba895d"><strong>
+                                                Le stage de l'étudiant {{ $notification->data['etudiant'] }} est confirmé par l'administration, vous pouvez télécharger la fiche d'encadrement </span></a>
+                                                <hr>
+                                                <span>{{ $notification->data['date'] }}</span>
+                                            </div>
+                                        </div>
+                                    </li>
+                                @endif
                             @if ($notification->type==='App\Notifications\DemandeDepotMemoireNotification')
                                 <li class="noti-secondary">
                                     <div class="media">

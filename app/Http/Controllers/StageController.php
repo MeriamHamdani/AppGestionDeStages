@@ -6,6 +6,7 @@ use App\Models\User;
 use App\Models\Stage;
 use App\Models\Classe;
 use App\Models\Etudiant;
+use App\Notifications\DownloadFicheEncadrementNotification;
 use App\Notifications\EncadrementAccepteNotifiaction;
 use Barryvdh\DomPDF\PDF;
 use App\Models\TypeStage;
@@ -590,8 +591,8 @@ class StageController extends Controller
         $etudiant = Etudiant::findOrFail($stage->etudiant_id);
         $classe = Classe::findOrFail($etudiant->classe_id);
         $type_stage = TypeStage::findOrFail($classe->type_stage_id);
-		$annee_universitaire_id=null;
-		$annee = $this->current_annee_univ();
+        $annee_universitaire_id = null;
+        $annee = $this->current_annee_univ();
         $annees = AnneeUniversitaire::all();
         foreach ($annees as $a) {
             if ($a->annee == $annee->annee) {
@@ -600,18 +601,17 @@ class StageController extends Controller
             }
         }
         $stage->confirmation_admin = 1;
-		if(strtoupper($type_stage->cahier_stage_type) ===strtoupper('requis'))
-		{
-			$cahier_stage = new CahierStage();
-        $cahier_stage->stage_id = $stage_id;
-		$cahier_stage->annee_universitaire_id = $annee_universitaire_id;
-        $cahier_stage->save();
-        $stage->cahier_stage_id = $cahier_stage->id;
-		$stage->update();
-		}
+        if (strtoupper($type_stage->cahier_stage_type) === strtoupper('requis')) {
+            $cahier_stage = new CahierStage();
+            $cahier_stage->stage_id = $stage_id;
+            $cahier_stage->annee_universitaire_id = $annee_universitaire_id;
+            $cahier_stage->save();
+            $stage->cahier_stage_id = $cahier_stage->id;
+            $stage->update();
+        }
         $user = User::findOrFail($etudiant->user_id);
         $type_stage = TypeStage::findOrFail($classe->type_stage_id);
-        if ($stage->confirmation_encadrant == 0 && $stage->enseignant!=null) {
+        if ($stage->confirmation_encadrant == 0 && $stage->enseignant != null) {
             Session::flash('message', 'attend_encadrant');
             //dd(Session::get('message'));
             return back();
@@ -625,9 +625,8 @@ class StageController extends Controller
             $file_path = public_path() . '\storage\ ' . $annee->lettre_affectation;
             $file_path = str_replace(' ', '', $file_path);
             $file_path = str_replace('/', '\\', $file_path);
-            //dd($file_path);
             $templateProcessor = new TemplateProcessor($file_path);//dd($templateProcessor->getVariables());
-            $templateProcessor->setValue('nom', $etudiant->nom . ' ' . $etudiant->prenom);
+            $templateProcessor->setValue('nom', ucwords($etudiant->nom . ' ' . $etudiant->prenom));
             $templateProcessor->setValue('CIN', $user->numero_CIN);
             $templateProcessor->setValue('date_debut', $stage->date_debut);
             $templateProcessor->setValue('date_fin', $stage->date_fin);
@@ -637,13 +636,32 @@ class StageController extends Controller
             $stage->update();
             if (isset($stage->enseignant)) {
                 $enseignant = Enseignant::findOrFail($stage->enseignant_id);
-
+                $file_path2 = public_path() . '\storage\ ' . $annee->fiche_encadrement;
+                $file_path2 = str_replace(' ', '', $file_path2);
+                $file_path2 = str_replace('/', '\\', $file_path2);
+                $templateProcessor2 = new TemplateProcessor($file_path2);//dd($templateProcessor2->getVariables());
+                $templateProcessor2->setValue('nom_etud', ucwords($etudiant->nom . ' ' . $etudiant->prenom));
+                $templateProcessor2->setValue('nom_ens', ucwords($enseignant->nom . ' ' . $enseignant->prenom));
+                $templateProcessor2->setValue('cin', $etudiant->user->numero_CIN);
+                $templateProcessor2->setValue('date', $current_date->format('d-m-Y'));
+                $templateProcessor2->setValue('telf', $etudiant->numero_telephone);
+                $templateProcessor2->setValue('email', $etudiant->email);
+                $templateProcessor2->setValue('classe', $etudiant->classe->nom);
+                $templateProcessor2->setValue('an', $annee->annee);
+                $templateProcessor2->saveAs(public_path() . '\storage\fiches_encadrements_' . $annee->annee . '\fiche_encadrement_' . $enseignant->nom . '_' . $enseignant->prenom . '.docx');
+                $details2 = ['etudiant' => ucwords($etudiant->nom . ' ' . $etudiant->prenom),
+                    'classe'=>$etudiant->classe->nom,
+                    'annee' => $annee->annee,
+                    'encadrant' => ucwords($enseignant->nom . ' ' . $enseignant->prenom),
+                    'date' => 'Le ' . $current_date->day . '-' . $current_date->month . '-' . $current_date->year . ' à ' . $current_date->hour . ':' . $current_date->minute
+                ];
+                $enseignant->notify(new DownloadFicheEncadrementNotification($details2));
                 $details = ['etudiant' => $etudiant->nom . ' ' . $etudiant->prenom,
                     'annee' => $annee->annee_universitaire,
                     'type_stage' => $type,
                     'encadrant' => $enseignant->nom . ' ' . $enseignant->prenom,
-                    'date' => 'Le ' . $current_date->day . '-' . $current_date->month . '-' . $current_date->year . ' à ' . $current_date->hour . ':' . $current_date->minute];
-
+                    'date' => 'Le ' . $current_date->day . '-' . $current_date->month . '-' . $current_date->year . ' à ' . $current_date->hour . ':' . $current_date->minute
+                ];
                 $etudiant->notify(new DownloadLettreAffectationNotification($details));
                 return back();
             }
@@ -657,6 +675,7 @@ class StageController extends Controller
         return back();
 
     }
+
     static function current_annee_univ()
     {
 
@@ -799,6 +818,21 @@ class StageController extends Controller
         } else {
             Session::flash('message', 'lettre_aff_introuvable');
             exit('Vous n\'avez aucune lettre d\'affectation pour ce stage!');
+
+        }
+    }
+
+    public function download_fiche_encadrement(Stage $stage)
+    {
+       $enseignant = Enseignant::where('user_id',Auth::user()->id)->first();
+        $annee_univ = AnneeUniversitaire::findOrFail($stage->annee_universitaire_id)->annee;
+        $file_path = public_path('\storage\fiches_encadrements_' . $annee_univ . '\fiche_encadrement_' . $enseignant->nom . '_' . $enseignant->prenom . '.docx');
+
+        if (file_exists($file_path)) {
+            return Response::download($file_path, 'fiche d\'encadrement.docx');
+        } else {
+            Session::flash('message', 'fiche_introuvable');
+            exit('Vous n\'avez aucune fiche d\'encadrement pour ce stage!');
 
         }
     }
