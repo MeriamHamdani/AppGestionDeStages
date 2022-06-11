@@ -44,7 +44,7 @@
                     <li class="dropdown">
                         <a class="nav-link menu-title link-nav {{routeActive('liste_stages')}}"
                             href="{{ route('liste_stages') }}"><i
-                                class="icofont icofont-listine-dots"></i>&nbsp&nbsp&nbsp<span>La liste des
+                                class="icofont icofont-listine-dots"></i>&nbsp&nbsp&nbsp<span>Les
                                 stages confirmés</span></a>
                     </li>
                     <li class="dropdown">

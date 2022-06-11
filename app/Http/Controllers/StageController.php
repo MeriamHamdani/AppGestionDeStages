@@ -80,7 +80,7 @@ class StageController extends Controller
 
             //if (($dep_is_info && $is_licence && $is_1_or_2) || ($niveau == 1 && $is_master) || ($niveau == 1 && $is_licence)) {
             if (($niveau == 1 && $is_master) || ($niveau == 1 && $is_licence)) {
-
+nn
                 $fiche = substr($stage->fiche_demande, strpos($stage->fiche_demande, '/') + 1, strlen($stage->fiche_demande));
                 $stage->file = $fiche;
                 $stage->code_classe = $classe->code;

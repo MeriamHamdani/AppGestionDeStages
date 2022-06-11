@@ -29,7 +29,7 @@ public $details=[];
     public function build()
     {
         return $this->from('ihec@gmail.com')
-                    ->subject('Confirmation d\'un encadrement')
+                    ->subject('Confirmation de demande de stage')
                     ->view('emails.etudiant.downloadLettreAffectation');
     }
 }

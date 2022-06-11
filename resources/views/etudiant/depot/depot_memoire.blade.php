@@ -40,13 +40,15 @@
                                 </thead>
 
                                 <tbody>
-                                @foreach($stagesAdeposer as $stages)
-                                    @foreach($stages as $stage)
+                                @foreach($stagesAdeposer as $stage)
+                                    @if($stage->typeStage->date_limite_depot != null && $stage->typeStage->date_debut_depot <= $current_date)
                                         <tr>
                                             <td>{{$stage->type_sujet}}</td>
 
                                             <td>{{ucwords($stage->enseignant->prenom)}} {{ucwords($stage->enseignant->nom)}} </td>
-                                            @if($stage->typeStage->date_limite_depot > $current_date)
+
+                                            @if($stage->typeStage->date_limite_depot >= $current_date)
+
                                                 @if(\App\Models\DepotMemoire::where('stage_id',$stage->id)->first() == null)
                                                     <td><a class="btn btn-warning btn"
                                                            href="{{ route('deposer',['stage_id'=> $stage->id]) }}">
@@ -109,7 +111,7 @@
                                                     </td>
                                                 @endif
                                             @elseif($stage->typeStage->date_limite_depot < $current_date)
-                                                @if(\App\Models\DepotMemoire::where('stage_id',$stage->id)->first()->validation_encadrant == 1)
+                                                @if($stage->depot_memoire_id !== null && $stage->depotMemoire->validation_encadrant == 1)
                                                     <td><a class="btn btn-primary"
                                                            href="{{ route('afficher_details',['depotMemoire'=> \App\Models\DepotMemoire::where('stage_id',$stage->id)->first()]) }}">
                                                             <i class="fa fa-list">
@@ -122,7 +124,7 @@
                                                             <i class="icofont icofont-ui-check"></i>
                                                         </button>
                                                     </td>
-                                                @elseif(\App\Models\DepotMemoire::where('stage_id',$stage->id)->first()->validation_encadrant == -1 || \App\Models\DepotMemoire::where('stage_id',$stage->id)->first()->validation_encadrant == 0)
+                                                @elseif(($stage->depot_memoire_id == null) || ($stage->depot_memoire_id !== null && ($stage->depotMemoire->validation_encadrant == 0 || $stage->depotMemoire->validation_encadrant == -1)))
                                                     <td><a class="btn btn-danger" disabled=""
                                                            href="#">
                                                             <i class="fa fa-ban">
@@ -137,8 +139,9 @@
                                                     </td>
                                                 @endif
                                             @endif
+
                                         </tr>
-                                    @endforeach
+                                    @endif
                                 @endforeach
                                 </tbody>
                                 <tfoot>
@@ -153,43 +156,50 @@
                         </div>
                     </div>
 
-                        <div class="table">
-                            <table class="display" id="basic-1">
-                                <thead>
-                                <tr>
-                                    <th>Légende</th>
-                                </tr>
-                                </thead>
-                                <tbody>
-                                        <tr>
-                                            <td> <button class="btn btn-warning btn-sm" data-toggle="tooltip">
-                                                    <i class="icofont icofont-question"></i>
-                                                </button></td>
+                    <div class="table">
+                        <table class="display" id="basic-1">
+                            <thead>
+                            <tr>
+                                <th>Légende</th>
+                            </tr>
+                            </thead>
+                            <tbody>
+                            <tr>
+                                <td>
+                                    <button class="btn btn-warning btn-sm" data-toggle="tooltip">
+                                        <i class="icofont icofont-question"></i>
+                                    </button>
+                                </td>
 
-                                            <td>Pas encore déposé</td>
-                                        </tr>
-                                        <tr>
-                                            <td>  <button class="btn btn-secondary" data-toggle="tooltip">
-                                                    <i class="fa fa-spinner fa-spin"></i>
-                                                </button></td>
-                                            <td>Déposé en attente de validation</td>
-                                        </tr>
-                                        <tr>
-                                            <td>   <button class="btn btn-primary btn-sm" data-toggle="tooltip">
-                                                    <i class="icofont icofont-ui-check"></i>
-                                                </button></td>
-                                            <td>Déposé et validé</td>
-                                        </tr>
-                                        <tr>
-                                            <td> <button class="btn btn-danger btn-sm" data-toggle="tooltip">
-                                                    <i class="icofont icofont-ui-close"></i>
-                                                </button></td>
-                                            <td>Demande dépôt refusée</td>
-                                        </tr>
-                                </tbody>
-                            </table>
-                        </div>
-
+                                <td>Pas encore déposé</td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    <button class="btn btn-secondary" data-toggle="tooltip">
+                                        <i class="fa fa-spinner fa-spin"></i>
+                                    </button>
+                                </td>
+                                <td>Déposé en attente de validation</td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    <button class="btn btn-primary btn-sm" data-toggle="tooltip">
+                                        <i class="icofont icofont-ui-check"></i>
+                                    </button>
+                                </td>
+                                <td>Déposé et validé</td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    <button class="btn btn-danger btn-sm" data-toggle="tooltip">
+                                        <i class="icofont icofont-ui-close"></i>
+                                    </button>
+                                </td>
+                                <td>Demande dépôt refusée</td>
+                            </tr>
+                            </tbody>
+                        </table>
+                    </div>
 
 
                 </div>

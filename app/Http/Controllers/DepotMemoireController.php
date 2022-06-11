@@ -52,12 +52,23 @@ class DepotMemoireController extends Controller
         $stagesAdeposer = new Collection();
         $current_date = Carbon::now()->format('Y-m-d');
         foreach ($typeStagesUniq as $tsu) {
-            if ($tsu->date_debut_depot <= $current_date) {
-               $stage = Stage::where('type_stage_id', $tsu->id)->where('etudiant_id', $etudiant->id)->where('confirmation_admin', 1)->get();
-                //$stage = Stage::where('type_stage_id', $tsu->id)->where('etudiant_id', $etudiant->id)->get();
-                $stagesAdeposer->push($stage);
+            $type = Arr::last((TypeStageController::decouper_nom($tsu->nom)));
+            if ($type == 'Obligatoire') {
+                if ($tsu->date_debut_depot <= $current_date) {
+                    $stages = Stage::where('type_stage_id', $tsu->id)->where('etudiant_id', $etudiant->id)->where('confirmation_admin', 1)->get();
+                    //$stage = Stage::where('type_stage_id', $tsu->id)->where('etudiant_id', $etudiant->id)->get();
+                    foreach ($stages as $stage) {
+                        if(($stage->etudiant->classe->niveau !== 2 && $stage->etudiant->classe->cycle !== 'master') ||
+                            ($stage->etudiant->classe->niveau !== 3 && $stage->etudiant->classe->cycle !== 'licence'))
+                        {//dd(\App\Models\DepotMemoire::where('stage_id',$stage->id)->first(), $stage->typeStage->date_limite_depot);
+                            $stagesAdeposer->push($stage);
+                            //dd($stage);
+                        }//dd($stagesAdeposer);
+                    }
+                }
             }
-        }
+        }//dd($stagesAdeposer);
+
         return view('etudiant.depot.depot_memoire', ['stagesAdeposer' => $stagesAdeposer, 'current_date' => $current_date]);
     }
 
@@ -73,7 +84,7 @@ class DepotMemoireController extends Controller
         $user_id = Auth::user()->id;
         $etudiant = Etudiant::all()->where('user_id', $user_id)->first();
         $stage = Stage::findOrFail($stage_id);
-        if ($stage->etudiant->user->id == $user_id && $stage->confirmation_admin == 1 && $stage->typeStage->date_debut_depot != null && $stage->typeStage->date_limite_depot != null ) {
+        if ($stage->etudiant->user->id == $user_id && $stage->confirmation_admin == 1 && $stage->typeStage->date_debut_depot != null && $stage->typeStage->date_limite_depot != null) {
             return view('etudiant.depot.deposer', ['stage_id' => $stage_id, 'stage' => $stage, 'etudiant' => $etudiant]);
         } else {
             abort(404);
@@ -97,7 +108,7 @@ class DepotMemoireController extends Controller
         $current_date = Carbon::now();
         $classe = Classe::findOrFail($etudiant->classe_id);
         $depot_exists = DepotMemoire::where('stage_id', $stage_id)->exists();
-        if ($stage->etudiant->user->id == $user_id ) {
+        if ($stage->etudiant->user->id == $user_id) {
             if ($stage->typeStage->date_limite_depot >= $current_date && !$depot_exists) {
                 if ($stage->type_sujet == "Business Plan" || $stage->type_sujet == "Projet Tutoré") {
                     if (isset($request->fiche_plagiat)) {
@@ -138,6 +149,8 @@ class DepotMemoireController extends Controller
                     $attributs['validation_admin'] = -1;
                     $attributs['stage_id'] = $stage_id;
                     $depot = DepotMemoire::create($attributs);
+                    $stage->depot_memoire_id= $depot->id;
+                    $stage->update();
                     $enseignant = $depot->stage->enseignant;
                     $data = ['nom_etud' => ucwords($etudiant->nom . ' ' . $etudiant->prenom),
                         'nom_ens' => ucwords($enseignant->nom . ' ' . $enseignant->prenom),
@@ -209,6 +222,8 @@ class DepotMemoireController extends Controller
                     $attributs['validation_admin'] = -1;
                     $attributs['stage_id'] = $stage_id;
                     $depot = DepotMemoire::create($attributs);
+                    $stage->depot_memoire_id= $depot->id;
+                    $stage->update();
                     $enseignant = $depot->stage->enseignant;
                     $data = ['nom_etud' => ucwords($etudiant->nom . ' ' . $etudiant->prenom),
                         'nom_ens' => ucwords($enseignant->nom . ' ' . $enseignant->prenom),
@@ -273,7 +288,7 @@ class DepotMemoireController extends Controller
         $mem = Str::after($depotMemoire->memoire, '/');
         $current_date = Carbon::now()->format('Y-m-d');
         //dd($depotMemoire->stage->etudiant->user->id,Auth::user()->id);
-        if ($depotMemoire->stage->etudiant->user->id == Auth::user()->id && $depotMemoire->stage->typeStage->date_debut_depot <= $current_date ) {
+        if ($depotMemoire->stage->etudiant->user->id == Auth::user()->id && $depotMemoire->stage->typeStage->date_debut_depot <= $current_date) {
             return view('etudiant.depot.details_depot', compact('depotMemoire', 'mem'));
         } else {
             abort(404);
@@ -290,7 +305,7 @@ class DepotMemoireController extends Controller
     public function edit(DepotMemoire $depotMemoire)
     {
         $current_date = Carbon::now()->format('Y-m-d');
-        if ($depotMemoire->stage->etudiant->user->id == Auth::user()->id && $depotMemoire->stage->typeStage->date_limite_depot > $current_date ) {
+        if ($depotMemoire->stage->etudiant->user->id == Auth::user()->id && $depotMemoire->stage->typeStage->date_limite_depot > $current_date) {
             return view('etudiant.depot.redeposer', compact('depotMemoire'));
         } else {
             abort(404);
@@ -305,7 +320,7 @@ class DepotMemoireController extends Controller
     public function remarques_encadrant(DepotMemoire $depotMemoire)
     {
 
-        if ($depotMemoire->stage->etudiant->user->id == Auth::user()->id ) {
+        if ($depotMemoire->stage->etudiant->user->id == Auth::user()->id) {
             $commentaires = Commentaire::where('depot_memoire_id', $depotMemoire->id)->get();
             $encadrant = $depotMemoire->stage->enseignant;
             return view('etudiant.depot.remarques_encadrant', compact('commentaires', 'encadrant'));

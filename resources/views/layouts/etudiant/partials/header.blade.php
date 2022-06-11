@@ -31,7 +31,7 @@
                                             <p> Lettre d'affectation </p>
                                             <a href={{ route('liste_stages') }}>
                                         <span style="color: #ba895d"><strong>
-                                                Vous avez une demande de stage qui était confirmé</strong><br>
+                                                Vous avez une demande de stage qui était confirmée</strong><br>
                                             Veuillez la télécharger via la liste des stages</span></a>
                                             <hr>
                                             <span>{{ $notification->data['date'] }}</span>
