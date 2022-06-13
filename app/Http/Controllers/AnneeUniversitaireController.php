@@ -61,7 +61,7 @@ class AnneeUniversitaireController extends Controller
         if ($this->current_annee_univ() == $request->annee) {
             $an_exist = AnneeUniversitaire::where('annee', $request->annee)->first();
             if ($an_exist) {
-                return back()->with('error', 'cette année est déjà créee');
+                Session::flash("message", 'error exist');
             }
             $lettre_affectation = Storage::disk('public')
                 ->putFileAs('models_lettre_affectation', $request->file('lettre_affectation'), 'model_lettre_affectation_' . $request->annee . '.docx');
@@ -75,9 +75,9 @@ class AnneeUniversitaireController extends Controller
             $annee->fiche_encadrement = $fiche_encadrement;
             $annee->attrayant = $attrayant;
             $annee->save(); //dd($annee);
-            Session::flash("message", 'l\'annee que vous vouloir ajouter n\'est pas l\'année courante ');
+        } else {
+            Session::flash("message", 'error');
             return view('admin.configuration.config_annee_universitaire');
-
         }
     }
 
