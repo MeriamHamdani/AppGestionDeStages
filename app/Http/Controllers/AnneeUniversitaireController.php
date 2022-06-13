@@ -75,8 +75,6 @@ class AnneeUniversitaireController extends Controller
             $annee->fiche_encadrement = $fiche_encadrement;
             $annee->attrayant = $attrayant;
             $annee->save(); //dd($annee);
-            return view('admin.etablissement.departement.ajouter_departement');
-
             Session::flash("message", 'l\'annee que vous vouloir ajouter n\'est pas l\'année courante ');
             return view('admin.configuration.config_annee_universitaire');
 
