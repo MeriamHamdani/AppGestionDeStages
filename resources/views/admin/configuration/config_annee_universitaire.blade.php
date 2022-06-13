@@ -64,8 +64,8 @@
                                 <div class="mb-3">
                                     <label class="form-label" for="exampleFormControlInput1">Modèle d'attrayant
                                     </label>
-                                    <input class="form-control" id="attrayant" name="attrayant"
-                                           type="file" accept=".docx" required />
+                                    <input class="form-control" id="attrayant" name="attrayant" type="file"
+                                        accept=".docx" required />
                                 </div>
                             </div>
                         </div>
@@ -80,6 +80,25 @@
     </div>
 </div>
 @push('scripts')
+<script src="https://cdnjs.cloudflare.com/ajax/libs/sweetalert/2.1.2/sweetalert.min.js"
+    integrity="sha512-AA1Bzp5Q0K1KanKKmvN/4d3IRKVlv9PYgwFPvm32nPO6QS8yH1HO7LbgB1pgiOxPtfeg5zEn2ba64MUcqJx6CA=="
+    crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+@if(Session::has('message'))
+<script>
+    toastr.success("{!! Session::get('message') !!}")
+</script>
+@endif
+@if(Session::has('message'))
+@if (Session::get('message')=='ok1')
+
+<script>
+    swal('oups', Session::get('message'), 'error', {
+                button: 'Continuer'
+            })
+
+</script>
+@endif
+@endif
 @endpush
 
 @endsection
