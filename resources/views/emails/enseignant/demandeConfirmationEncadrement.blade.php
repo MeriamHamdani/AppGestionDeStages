@@ -49,22 +49,6 @@
                                                     <p>Cordialement</p>
                                                 </div>
                                             </div>
-
-                                            <!--<div class="emailread-group">
-                                                <div class="action-wrapper">
-                                                    <ul class="actions">
-                                                        <li>
-                                                            <a class="btn btn-primary" href="javascript:void(0)"><i
-                                                                    class="fa fa-reply me-2"></i>confirmer</a>
-                                                        </li>
-
-                                                        <li>
-                                                            <a class="btn btn-danger" href="javascript:void(0)"><i
-                                                                    class="fa fa-share me-2"></i>refuser</a>
-                                                        </li>
-                                                    </ul>
-                                                </div>
-                                            </div>-->
                                         </div>
                                     </div>
                                 </div>

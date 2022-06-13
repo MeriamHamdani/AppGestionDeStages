@@ -31,6 +31,6 @@ class ConfirmerEncadrement extends Mailable
     {
         return $this->from('ihec@gmail.com')
                     ->subject('Demande d\'encadrement')
-                    ->view('emails.demandeConfirmationEncadrement');
+                    ->view('emails.enseignant.demandeConfirmationEncadrement');
     }
 }
