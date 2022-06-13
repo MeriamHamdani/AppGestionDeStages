@@ -56,16 +56,16 @@
                             @endif
                             <div class="row">
                                 @if($etudiant->classe->niveau != 1)
-                                <div class="col">
-                                    <div class="mb-3">
-                                        <label class="form-label">Le sujet (champ non obligatoire)</label>
+                                    <div class="col">
                                         <div class="mb-3">
-                                            <input class="form-control" name="titre_sujet" id="titre_sujet"
-                                                   placeholder="Taper votre sujet..." value="{{old('titre_sujet')}}"
-                                                   type="text"/>
+                                            <label class="form-label">Le sujet (champ non obligatoire)</label>
+                                            <div class="mb-3">
+                                                <input class="form-control" name="titre_sujet" id="titre_sujet"
+                                                       placeholder="Taper votre sujet..." value="{{old('titre_sujet')}}"
+                                                       type="text"/>
+                                            </div>
                                         </div>
                                     </div>
-                                </div>
                                 @endif
                                 @if($etudiant->classe->niveau == 3 && $etudiant->classe->cycle=="licence")
                                     <div class="mb-3">
@@ -112,23 +112,23 @@
                                     </div>
                                 </div>
                             @endif
-                                <div class="row">
-                                    <div class="col">
-                                        <div class="mb-3" id="entrepriseDiv">
-                                            <label class="form-label" for="entreprise">Le nom de
-                                                l'entreprise</label>
-                                            <select class="js-example-basic-single col-sm-12" name="entreprise"
-                                                    id="entreprise" >
-                                                <option disabled="disabled" selected="selected">Choisissez l'entreprise
-                                                </option>
-                                                @foreach ($entreprises as $entreprise )
-                                                    <option value="{{ $entreprise->id }}"
-                                                        {{ old('entreprise') == $entreprise->id ? 'selected' : '' }}>{{ $entreprise->nom }}</option>
-                                                @endforeach
-                                            </select>
-                                        </div>
+                            <div class="row">
+                                <div class="col">
+                                    <div class="mb-3" id="entrepriseDiv">
+                                        <label class="form-label" for="entreprise">Le nom de
+                                            l'entreprise</label>
+                                        <select class="js-example-basic-single col-sm-12" name="entreprise"
+                                                id="entreprise">
+                                            <option disabled="disabled" selected="selected">Choisissez l'entreprise
+                                            </option>
+                                            @foreach ($entreprises as $entreprise )
+                                                <option value="{{ $entreprise->id }}"
+                                                    {{ old('entreprise') == $entreprise->id ? 'selected' : '' }}>{{ $entreprise->nom }}</option>
+                                            @endforeach
+                                        </select>
                                     </div>
                                 </div>
+                            </div>
                             <div class="row">
                                 <div class="alert alert-secondary dark round-badge-info" role="alert">
                                     <p><i class="icofont icofont-exclamation-tringle"></i>
@@ -137,8 +137,9 @@
                                     <p> entre <strong>{{$type_stage->date_debut_periode}}</strong> et
                                         <strong>{{$type_stage->date_limite_periode}} </strong></p>
                                 </div>
-                            </div> <br/>
-                        <div class="row">
+                            </div>
+                            <br/>
+                            <div class="row">
                                 <div class="col">
                                     <div class="mb-3">
                                         <label class="form-label" for="exampleFormControlSelect9">Date début de
@@ -157,30 +158,20 @@
                                                name="date_fin" id="date_fin"/>
                                     </div>
                                 </div>
-                        </div>
+                            </div>
                             @if(($etudiant->classe->typeStage->fiche_demande) != null)
                                 <div class="row">
                                     <div class="col">
                                         <div class="mb-3">
-                                            <label class="form-label">La fiche de demande de stage scannée</label>
+                                            <label class="form-label">La fiche de demande de stage scannée (Fiche d'encadrement)</label>
                                             <div class="mb-3">
                                                 <input class="form-control" type="file" name="fiche_demande"
                                                        id="fiche_demande"
-                                                       required="required"/>
+                                                       required="required" accept=".jpg,.jpeg,.png,.doc,.docx"/>
                                             </div>
                                         </div>
                                     </div>
                                     @endif
-                                    {{--     <div class="col">
-                                             <div class="mb-3">
-                                                 <label class="form-label">La fiche de reçu 2 Dinars</label>
-                                                 <div class="mb-3">
-                                                     <input class="form-control" type="file" name="fiche_2Dinars"
-                                                            id="fiche_2Dinars"/>
-                                                 </div>
-                                             </div>
-                                         </div>
-                                     </div>--}}
                                     @if(($etudiant->classe->typeStage->fiche_assurance_type== "requis"))
                                         <div class="row">
                                             <div class="col">
@@ -188,19 +179,31 @@
                                                     <label class="form-label">La fiche d'assurance</label>
                                                     <div class="mb-3">
                                                         <input class="form-control" type="file" name="fiche_assurance"
-                                                               id="fiche_assurance"/>
-
+                                                               id="fiche_assurance" required accept=".jpg,.jpeg,.png,.doc,.docx" />
                                                     </div>
                                                 </div>
                                             </div>
                                         </div>
                                 </div>
                             @endif
+                                @if(($etudiant->classe->typeStage->fiche_2Dinars_type== "requis"))
+                                    <div class="row">
+                                        <div class="col">
+                                            <div class="mb-3">
+                                                <label class="form-label">Fiche 2 Dinars</label>
+                                                <div class="mb-3">
+                                                    <input class="form-control" type="file" name="fiche_2Dinars"
+                                                           id="fiche_2Dinars" required accept=".jpg,.jpeg,.png,.doc,.docx"/>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                        </div>
+                        @endif
                             <div class="card-footer text-end">
                                 <input class="btn btn-light" type="reset" value="Annuler"/>
                                 <button class="btn btn-primary" type="submit">Envoyer</button>
                             </div>
-                        </div>
                     </form>
                 </div>
             </div>
@@ -215,7 +218,7 @@
         <script src="{{ asset('assets/js/datepicker/date-picker/datepicker.custom.js') }}"></script>
         <script src="{!!url('/js/jquery.min.js')!!}"></script>
         <script type="text/javascript">
-            $("#type_sujet").change(function() {
+            $("#type_sujet").change(function () {
                 if ($(this).val() == "PFE") {
                     $('#entrepriseDiv').show();
                 } else {

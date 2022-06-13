@@ -83,7 +83,7 @@
                                                     <i class="icofont icofont-ui-check"></i>
                                                 </button>
                                             </a>
-                                            <a href="#">
+                                            <a href="{{route('refuser_demande_enseignant',$stage)}}">
                                                 <button class="btn btn-danger btn-sm" data-toggle="tooltip"
                                                     title="refuser la demande">
                                                     <i class="icofont icofont-ui-close"></i>

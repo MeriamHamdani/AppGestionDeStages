@@ -43,66 +43,53 @@
                                 <tbody>
                                 @foreach($demandes_classes as $demande)
                                     <tr>
-                                        <td>{{$demande->type}}</td>
+                                        <td>{{$demande->typeStage->nom}}</td>
                                         <td>{{ App\Models\AnneeUniversitaire::find($demande->annee_universitaire_id)->annee}}</td>
                                         @if(isset($demande->entreprise_id))
-                                        <td>{{ App\Models\Entreprise::find($demande->entreprise_id)->nom}}</td>
+                                            <td>{{ App\Models\Entreprise::find($demande->entreprise_id)->nom}}</td>
                                         @else
                                             <td class="text-center">
-                                                <i class="icofont icofont-exclamation-tringle" style="font-size: 1.3em"></i>
+                                                <i class="icofont icofont-exclamation-tringle"
+                                                   style="font-size: 1.3em"></i>
                                             </td>
                                         @endif
                                         @if(isset($demande->enseignant->prenom))
                                             <td>{{ucwords($demande->enseignant->prenom)}} {{ucwords($demande->enseignant->nom)}}</td>
                                         @else
                                             <td class="text-center">
-                                                    <i class="icofont icofont-exclamation-tringle" style="font-size: 1.3em"></i>
+                                                <i class="icofont icofont-exclamation-tringle"
+                                                   style="font-size: 1.3em"></i>
                                             </td>
                                         @endif
                                         <td>{{ $demande->date_debut }}</td>
                                         <td>{{ $demande->date_fin }}</td>
                                         <td>
-                                            @if ($demande->confirmation_encadrant==1 )
-                                                @if ($demande->confirmation_admin==1)
-                                                    <button class="btn btn-primary btn-sm" data-toggle="tooltip"
-                                                            title="demande confirmée">
-                                                        <i class="icofont icofont-ui-check"></i>
-                                                    </button>
-                                                @elseif ($demande->confirmation_admin==0)
-                                                    <button class="btn btn-warning btn-sm" data-toggle="tooltip"
-                                                            title="demande en attente">
-                                                        <i class="fa fa-spinner fa-spin"></i>
-                                                    </button>
-                                                @else
-                                                    <button class="btn btn-danger btn-sm" data-toggle="tooltip"
-                                                            title="demande refusée">
-                                                        <i class="icofont icofont-ui-close"></i>
-                                                    </button>
-                                                @endif
-                                            @endif
-                                            @if ($demande->confirmation_encadrant==0 && isset($demande->enseignant) || ($demande->confirmation_admin==0) )
+                                            @if($demande->confirmation_admin == 0)
                                                 <button class="btn btn-warning btn-sm" data-toggle="tooltip"
                                                         title="demande en attente">
                                                     <i class="fa fa-spinner fa-spin"></i>
                                                 </button>
-                                                @elseif ($demande->confirmation_admin==1)
-                                                    <button class="btn btn-primary btn-sm" data-toggle="tooltip"
-                                                            title="demande confirmée">
-                                                        <i class="icofont icofont-ui-check"></i>
-                                                    </button>
-                                                @endif
-                                            @if ($demande->confirmation_encadrant==-1)
-                                                @if ($demande->confirmation_admin==0)
-                                                    <button class="btn btn-warning btn-sm" data-toggle="tooltip"
-                                                            title="demande en attente">
-                                                        <i class="fa fa-spinner fa-spin"></i>
-                                                    </button>
-                                                @elseif ($demande->confirmation_admin==-1)
-                                                    <button class="btn btn-danger btn-sm" data-toggle="tooltip"
-                                                            title="demande refusée">
+                                                @if($demande->confirmation_encadrant == -1)
+                                                    <button class="btn btn-outline-danger btn-sm" data-toggle="tooltip"
+                                                            title="demande encadrement refusée">
                                                         <i class="icofont icofont-ui-close"></i>
                                                     </button>
+                                                    <button class="btn btn-warning btn-sm"> <a href="{{ route('modifier_demande',['stage_id'=>$demande->id]) }}"
+                                                       data-title="Modifer" data-toggle="tooltip" title="choisir un autre encadrant"> <i class="icofont icofont-ui-edit icon-large"></i> </a></button>
                                                 @endif
+                                            @endif
+                                            @if($demande->confirmation_admin == 1)
+                                                <button class="btn btn-primary btn-sm" data-toggle="tooltip"
+                                                        title="demande confirmée">
+                                                    <i class="icofont icofont-ui-check"></i>
+                                                </button>
+                                            @endif
+                                            @if($demande->confirmation_admin == -1)
+                                            <!-- demande refusée -->
+                                                <button class="btn btn-danger btn-sm" data-toggle="tooltip"
+                                                        title="demande refusée">
+                                                    <i class="icofont icofont-ui-close"></i>
+                                                </button>
                                             @endif
                                         </td>
                                     </tr>

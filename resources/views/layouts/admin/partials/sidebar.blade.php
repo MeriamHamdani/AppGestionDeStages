@@ -66,8 +66,7 @@
                             ['demandes_stage.sv1lm','demandes_stage.so2l','demandes_stage.so3l',
                             'demandes_stage.so3Info','demandes_stage.so2m']) ? 'active' : '' }}"
                             href="javascript:void(0)">
-                            <i class="icofont icofont-listing-box"></i>&nbsp&nbsp&nbsp<span>Les demandes de
-                                stages</span></a>
+                            <i class="icofont icofont-listing-box"></i>&nbsp&nbsp<span>Les stages-Les demandes</span></a>
                         <ul class="nav-submenu menu-content"
                             style="display: {{ prefixBlock('admin/stage/demandes-stage') }};">
                             <li><a href="{{ route('demandes_stage.sv1lm') }}"

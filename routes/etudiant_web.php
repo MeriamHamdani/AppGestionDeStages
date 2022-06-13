@@ -29,6 +29,9 @@ Route::middleware(['auth', 'role:etudiant'])->group(function () {
 
         Route::get('/stage/demander-stage', [StageController::class,'create'])->name('demande_stage');
         Route::post('/stage/demander', [StageController::class,'store'])->name('demander_stage');
+        Route::get('/stage/modifier/{stage_id}', [StageController::class,'modifier_demande'])->name('modifier_demande');
+        Route::patch('/stage/modifier/{stage_id}', [StageController::class,'update_demande'])->name('update_demande');
+
         Route::get('/stage/liste-stages/{demande}', [StageController::class,'download_lettre_affect'])->name('telecharger_lettre_affect');
         Route::get('/stage/gerer-cahier-stage', [CahierStageController::class,'index'])->name('gestion_cahier_stage');
         Route::get('/stage/gerer-cahier-stage/creer/{stage}',[CahierStageController::class,'create'])->name('nouvelle_cahier_stage');

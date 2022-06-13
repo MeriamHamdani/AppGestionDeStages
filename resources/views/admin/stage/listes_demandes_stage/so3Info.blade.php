@@ -35,10 +35,11 @@
                                     <th>Nom Complet</th>
                                     <th>Classe</th>
                                     <th>Encadrant</th>
-                                    <th>La fiche de demande</th>
+                                    <th>Les fiches </th>
                                     <th>Confirmation de l'encadrant</th>
                                     <th>Confirmation de l'administration</th>
                                     <th>Actions</th>
+                                    <th>Etat</th>
                                 </tr>
                             </thead>
                             <tbody>
@@ -49,17 +50,34 @@
                                     <td>{{$stage->code_classe}}</td>
                                     <td>{{$stage->enseignant->nom }}&nbsp;{{$stage->enseignant->prenom }}</td>
                                     </td>
-                                    @if(isset($stage->fiche_demande))
-                                    <td class="text-center"><a
-                                            href="{{ route('telechargement_fiche_demande',['fiche_demande'=>$stage->file,'code_classe'=>$stage->code_classe]) }}">
-                                            <i style="font-size: 2em;" class="icofont icofont-file-pdf icon-large"></i>
+                                    <td class="text-center">
+                                        @if(isset($stage->fiche_demande))
+                                        <a href="{{ route('telechargement_fiche_demande',['fiche_demande'=>$stage->file,'code_classe'=>$stage->code_classe]) }}">
+                                            <i class="icofont icofont-papers icon-large"
+                                               style="color:#bf9168 "></i>
                                         </a>
+                                        @endif
+                                            @if(isset($stage->fiche_2Dinars))
+                                                <a href="{{route('telecharger_fiche_2Dinars',['fiche_2Dinars'=>Str::after($stage->fiche_2Dinars, '/'),
+                                                                                'code_classe'=>$stage->etudiant->classe->code])}}"
+                                                   data-toggle="tooltip" title="Télécharger la fiche 2 dinars">
+                                                    <i class="icofont icofont-ui-copy icon-large"
+                                                       style="color: #8a6d3b"></i></a>
+                                            @endif
+                                            @if(isset($stage->fiche_assurance))
+                                                <a href="{{route('telecharger_fiche_assurance',['fiche_assurance'=>Str::after($stage->fiche_assurance, '/'),
+                                                                                'code_classe'=>$stage->etudiant->classe->code])}}"
+                                                   data-toggle="tooltip" title="Télécharger la fiche assurance">
+                                                    <i class="icofont icofont-paper icon-large"
+                                                       style="color: #8a6d3b"></i></a>
+                                            @endif
+
                                     </td>
-                                    @else
+                                    <!--else
                                     <td class="text-center">
                                         <i class="icofont icofont-exclamation-tringle" style="font-size: 1.3em"></i>
                                     </td>
-                                    @endif
+                                    endif-->
                                     <td class="text-center">
                                         @if ($stage->confirmation_encadrant==null)
                                         <button class="buttonload" data-toggle="tooltip" title="demande en attente">
@@ -84,7 +102,6 @@
                                         @endif
                                     </td>
 
-
                                     <td class="text-center">
                                         @if ($stage->confirmation_admin==null)
                                         <button class="buttonload" data-toggle="tooltip" title="demande en attente">
@@ -107,23 +124,65 @@
                                         margin:0 auto; color: #4B8D5F" class="icofont icofont-ui-check icon-large"></i>
                                         @endif
                                     </td>
-
+                                    @if($stage->date_fin > $current_date)
                                     <td class="text-center">
-                                        @if ($stage->confirmation_admin!=1)
-                                        <a href="{{ route('confirmer_demande',['stage_id'=>$stage->id]) }}"> <i
-                                                data-toggle="tooltip" title="Confirmer"
-                                                class="icofont icofont-ui-check icon-large"></i></a>
-                                        @endif
-                                        @if ($stage->confirmation_admin!=-1)
-                                        <a href="{{ route('refuser_demande',['stage_id'=>$stage->id]) }}"><i
-                                                data-toggle="tooltip" title="Refuser"
-                                                class="icofont icofont-ui-close icon-large"></i></a>
-                                        @endif
-                                        <a href="{{ route('demandes_stage.modifier_demande',['stage_id'=>$stage->id]) }}"
-                                            data-title="Modifer" data-toggle="tooltip" title="Modifer"><i
-                                                class="icofont icofont-ui-edit icon-large"></i></a>
-                                    </td>
+                                        @if ($stage->confirmation_admin == 0 )
+                                            <a href="{{ route('confirmer_demande',['stage_id'=>$stage->id]) }}"> <i
+                                                    data-toggle="tooltip" title="Confirmer"
+                                                    class="icofont icofont-ui-check icon-large"></i></a>
 
+                                            <a href="{{ route('refuser_demande',['stage_id'=>$stage->id]) }}"><i
+                                                    data-toggle="tooltip" title="Refuser"
+                                                    class="icofont icofont-ui-close icon-large"></i></a>
+                                        @endif
+                                        @if($stage->confirmation_admin!= -1)
+                                            <a href="{{ route('demandes_stage.modifier_demande',['stage_id'=>$stage->id]) }}"
+                                               data-title="Modifer" data-toggle="tooltip" title="Modifer"><i
+                                                    class="icofont icofont-ui-edit icon-large"></i></a>
+                                        @elseif($stage->confirmation_admin == -1)
+                                            <button class="btn btn-danger btn-sm" data-toggle="tooltip"
+                                                    title="demande refusée">
+                                                <i class="icofont icofont-ui-close"></i>
+                                            </button>
+                                        @endif
+
+                                    </td>
+                                    @else
+                                        <td class="text-center">
+                                            <i class="icofont icofont-exclamation-tringle"
+                                               style="font-size: 1.3em"></i>
+                                        </td>
+                                    @endif
+                                    <td> @if($stage->date_fin >= $current_date)
+                                            @if($stage->confirmation_admin == 0)
+                                                <button class="btn btn-warning btn-sm" data-toggle="tooltip"
+                                                        title="demande en attente">
+                                                    <i class="fa fa-spinner fa-spin"></i>
+                                                </button>
+                                            @elseif($stage->confirmation_admin == 1)
+                                                <button class="btn btn-secondary" data-toggle="tooltip" title="Stage en cours">
+                                                    <i class="fa fa-spinner fa-spin"></i>
+                                                </button>
+                                            @elseif($stage->confirmation_admin == -1)
+                                                <button class="btn btn-danger btn-sm" data-toggle="tooltip"
+                                                        title="demande refusée">
+                                                    <i class="icofont icofont-ui-close"></i>
+                                                </button>
+                                            @endif
+                                        @elseif($stage->date_fin < $current_date)
+                                            @if($stage->validation_admin == 1)
+                                                <button class="btn btn-primary btn-sm" data-toggle="tooltip"
+                                                        title="stage valide et terminé">
+                                                    <i class="icofont icofont-ui-check"></i>
+                                                </button>
+                                            @else
+                                                <button class="btn btn-dark-gradien btn-sm" data-toggle="tooltip"
+                                                        title="stage achevé non validé">
+                                                    <i class="icofont icofont-ui-close"></i>
+                                                </button>
+                                            @endif
+                                        @endif
+                                    </td>
                                 </tr>
                                 @endforeach
 
@@ -134,15 +193,67 @@
                                     <th>Nom Complet</th>
                                     <th>Classe</th>
                                     <th>Encadrant</th>
-                                    <th>La fiche de demande</th>
+                                    <th>Les fiches</th>
                                     <th>Confirmation de l'encadrant</th>
                                     <th>Confirmation de l'administration</th>
                                     <th>Actions</th>
-
+                                    <th>Etat</th>
                                 </tr>
                             </tfoot>
                         </table>
                     </div>
+                </div>
+                <div class="table">
+                    <table class="display" id="basic-1">
+                        <thead>
+                        <tr>
+                            <th>Légende</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        <tr>
+                            <td>
+                                <button class="btn btn-warning btn-sm" data-toggle="tooltip">
+                                    <i class="fa fa-spinner fa-spin"></i>
+                                </button>
+                            </td>
+
+                            <td>Demande de stage en attente</td>
+                        </tr>
+                        <tr>
+                            <td>
+                                <button class="btn btn-danger btn-sm" data-toggle="tooltip">
+                                    <i class="icofont icofont-ui-close"></i>
+                                </button>
+                            </td>
+                            <td>Demande de stage refusée</td>
+                        </tr>
+                        <tr>
+                            <td>
+                                <button class="btn btn-secondary" data-toggle="tooltip">
+                                    <i class="fa fa-spinner fa-spin"></i>
+                                </button>
+                            </td>
+                            <td>Stage en cours/actif</td>
+                        </tr>
+                        <tr>
+                            <td>
+                                <button class="btn btn-primary btn-sm" data-toggle="tooltip">
+                                    <i class="icofont icofont-ui-check"></i>
+                                </button>
+                            </td>
+                            <td>Stage achevé et validé</td>
+                        </tr>
+                        <tr>
+                            <td>
+                                <button class="btn btn-dark-gradien btn-sm" data-toggle="tooltip">
+                                    <i class="icofont icofont-ui-close"></i>
+                                </button>
+                            </td>
+                            <td>Stage achevé et non validé</td>
+                        </tr>
+                        </tbody>
+                    </table>
                 </div>
             </div>
         </div>
@@ -184,6 +295,15 @@
 
                 <script>
                     swal('C\'est interdit', 'Il faut que l\'encadrant confirme la demande d\'abord', 'warning', {
+                        button: 'error'
+                    })
+
+                </script>
+            @endif
+            @if (Session::get('message')=='encadrant refuse')
+
+                <script>
+                    swal('Oups','Encadrement doit être accepté par  l\'encadrant ', 'error', {
                         button: 'error'
                     })
 

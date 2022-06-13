@@ -55,6 +55,36 @@
                                     </div>
                                 </li>
                             @endif
+                                @if($notification->type=='App\Notifications\EncadrementRefuseNotifiaction')
+                                    <li class="noti-secondary">
+                                        <div class="media">
+                                        <span class="notification-bg bg-light-secondary"><i
+                                                data-feather="activity"> </i></span>
+                                            <div class="media-body">
+                                                <p> Demande d'encadrement refusée </p>
+                                        <span style="color: #ba895d"><strong>
+                                                Votre demande  d'encadrment est refusée</strong> </span>
+                                                <hr>
+                                                <span>{{ $notification->data['date'] }}</span>
+                                            </div>
+                                        </div>
+                                    </li>
+                                @endif
+                                @if($notification->type=='App\Notifications\DemandeStageRefuseNotification')
+                                    <li class="noti-secondary">
+                                        <div class="media">
+                                        <span class="notification-bg bg-light-danger"><i
+                                                data-feather="activity"> </i></span>
+                                            <div class="media-body">
+                                                <p> Demande de stage refusée </p>
+                                                <span style="color: #ba895d"><strong>
+                                                Votre demande de stage est refusée de la part de l'administration</strong> </span>
+                                                <hr>
+                                                <span>{{ $notification->data['date'] }}</span>
+                                            </div>
+                                        </div>
+                                    </li>
+                                @endif
                             @if($notification->type=='App\Notifications\SessionDepotOuverteNotification')
                                 <li class="noti-secondary">
                                     <div class="media">

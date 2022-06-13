@@ -265,7 +265,6 @@ class TypeStageController extends Controller
                         $typeStage->duree_stage_min = $request->duree_stage_min;
                         $typeStage->duree_stage_max = $request->duree_stage_max;
                         $typeStage->update();
-                        dd($typeStage);
                     } else {
                         $error_message = array("nom" => "", "periode_stage" => "", "depot_stage" => "", "duree_max_min" => "L'erreur est dû à cause de mal correspondance entre la période de stage que vous avez saisi et la durée maximale! Verifiez!");
                         return view('admin.configuration.generale.modifier_typeStage', ["typeStage" => $typeStage, "classe" => $classe, "error_message" => $error_message, "type" => $type]);
@@ -479,6 +478,7 @@ class TypeStageController extends Controller
             $current_date = Carbon::now();
             $typeStage = TypeStage::findOrFail($session->id);
             $classe = Classe::where('type_stage_id', $typeStage->id)->get();
+            //ajouter where('anne_universitaire_id', $anneeActuelle)
             $etudiants = Etudiant::where('classe_id', $classe[0]->id)->get();
             foreach ($etudiants as $etudiant) {
                 $data = ['nom_etud' => ucwords($etudiant->nom . ' ' . $etudiant->prenom),
@@ -500,7 +500,6 @@ class TypeStageController extends Controller
         $session->date_debut_depot = null;
         $session->date_limite_depot = null;
         $session->update();
-        //dd($session);
         return  redirect()->action([TypeStageController::class, 'listeSessions']);
     }
 

@@ -57,6 +57,9 @@ Route::middleware(['auth','role:admin|superadmin'])->group(function(){
 			Route::patch('modifier/{stage_id}',[StageController::class,'edit'])->name('edit');
             Route::get('confirmer/{stage_id}',[StageController::class,'confirmer_demande'])->name('confirmer_demande');
             Route::get('refuser/{stage_id}',[StageController::class,'refuser_demande'])->name('refuser_demande');
+            Route::get('fiche2Dinars/{fiche_2Dinars}/{code_classe}', [StageController::class, 'telecharger_fiche_2Dinars'])->where('fiche_2Dinars', '[A-Za-z0-9\-\_\.]+')->name('telecharger_fiche_2Dinars');
+            Route::get('ficheAssurance/{fiche_assurance}/{code_classe}', [StageController::class, 'telecharger_fiche_assurance'])->where('fiche_assurance', '[A-Za-z0-9\-\_\.]+')->name('telecharger_fiche_assurance');
+
 
 
         });

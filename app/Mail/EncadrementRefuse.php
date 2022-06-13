@@ -7,7 +7,7 @@ use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Mail\Mailable;
 use Illuminate\Queue\SerializesModels;
 
-class ConfirmerEncadrement extends Mailable
+class EncadrementRefuse extends Mailable
 {
     use Queueable, SerializesModels;
     public $data=[];
@@ -30,7 +30,7 @@ class ConfirmerEncadrement extends Mailable
     public function build()
     {
         return $this->from('ihec@gmail.com')
-                    ->subject('Demande d\'encadrement')
-                    ->view('emails.demandeConfirmationEncadrement');
+                    ->subject('Refus d\'encadrement')
+                    ->view('emails.etudiant.refusEncadrement');
     }
 }

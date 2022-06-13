@@ -229,6 +229,8 @@ class EtudiantController extends Controller
     {
         $etudiant=Etudiant::where('user_id',Auth::user()->id)->get()[0];
         $mes_demandes=Stage::where('etudiant_id',$etudiant->id)->get();
+        $current_date = Carbon::now();
+
 		$demandes_classes=new Collection();
 		foreach($mes_demandes as $demande){
 			$classe=Classe::where('id',$etudiant->classe_id)
@@ -238,13 +240,14 @@ class EtudiantController extends Controller
 			$demande->type=$type;
 			$demandes_classes->push($demande);
 		}
-        return view('etudiant.stage.demandes_stages',compact('demandes_classes'));
+        return view('etudiant.stage.demandes_stages',compact('demandes_classes','current_date'));
     }
 
 	public function mes_demandes_confirmer(){
 		$etudiant=Etudiant::where('user_id',Auth::user()->id)->get()[0];
 		$demandes_confirmer=Stage::where('etudiant_id',$etudiant->id)
 									->where('confirmation_admin',1)->get();
+        $current_date = Carbon::now();
 		$demandes_classes=new Collection();
 		foreach($demandes_confirmer as $demande){
 			$classe=Classe::where('id',$etudiant->classe_id)
@@ -254,6 +257,6 @@ class EtudiantController extends Controller
 			$demande->type=$type;
 			$demandes_classes->push($demande);
 		}
-		return view('etudiant.stage.liste_stages',compact('demandes_confirmer'));
+		return view('etudiant.stage.liste_stages',compact('demandes_confirmer','current_date'));
 	}
 }

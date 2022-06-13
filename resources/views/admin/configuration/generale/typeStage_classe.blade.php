@@ -205,7 +205,7 @@
                                                     <div class="mb-3 row">
                                                         <div
                                                             class="form-group m-t-15 m-checkbox-inline mb-0 custom-radio-ml">
-                                                            <label class="col-sm-3 col-form-label">La fiche</label>
+                                                            <label class="col-sm-3 col-form-label">La fiche 2 Dinars</label>
                                                             <div class="radio radio-primary">
                                                                 <input id="radioinline5" type="radio"
                                                                        name="fiche_2Dinars_type" value="requis"  {{old('fiche_2Dinars_type') == "requis" ? 'checked' : ''}}>
@@ -302,7 +302,7 @@
                                                                                             id="chk-ani" type="checkbox"
                                                                                             name="type_sujet[]"
                                                                                             value="Projet Tutoré">
-                                                    Projet Tutore</label>
+                                                    Projet Tutoré</label>
                                             </div>
                                             <div class="form-group">
                                                 <label class="d-block" for="chk-ani"><input class="checkbox_animated"

@@ -43,7 +43,7 @@
                             <tbody>
                                 @foreach ($demandes_confirmer as $demande )
                                 <tr>
-                                    <td>{{ Str::ucfirst($demande->type) }}
+                                    <td>{{ $demande->typeStage->nom }}
                                     </td>
                                     <td>{{ App\Models\AnneeUniversitaire::find($demande->annee_universitaire_id)->annee}}</td>
                                     @if(isset($demande->entreprise))
@@ -62,15 +62,19 @@
                                     <td>
                                         @if ($demande->validation_admin==1)
                                         <button class="btn btn-primary btn-sm" data-toggle="tooltip"
-                                            title="Stage terminée">
+                                            title="Stage terminé et validé">
                                             <i class="icofont icofont-ui-check"></i>
                                         </button>
-                                        @elseif ($demande->validation_admin==0)
+                                        @elseif ($demande->validation_admin==0 && $demande->date_fin > $current_date)
                                         <button class="btn btn-secondary" data-toggle="tooltip" title="Stage en cours">
                                             <i class="fa fa-spinner fa-spin"></i>
                                         </button>
+                                        @elseif(($demande->validation_admin==0 ||$demande->validation_admin==-1) && $demande->date_fin <= $current_date)
+                                            <button class="btn btn-danger btn-sm" data-toggle="tooltip"
+                                                    title="Stage n'est pas validé">
+                                                <i class="icofont icofont-ui-close"></i>
+                                            </button>
                                         @endif
-
                                     </td>
                                 </tr>
                                 @endforeach

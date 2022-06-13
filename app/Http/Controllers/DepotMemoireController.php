@@ -418,6 +418,7 @@ class DepotMemoireController extends Controller
     public function telecharger_attestation(string $attestation, string $code_classe)
     {
         $file_path = public_path() . '/storage/attestations_' . $code_classe . '/' . $attestation;
+       // dd($file_path);
         if (file_exists($file_path)) {
             return Response::download($file_path, $attestation);
         } else {

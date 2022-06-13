@@ -6,8 +6,10 @@ use App\Models\User;
 use App\Models\Stage;
 use App\Models\Classe;
 use App\Models\Etudiant;
+use App\Notifications\DemandeStageRefuseNotification;
 use App\Notifications\DownloadFicheEncadrementNotification;
 use App\Notifications\EncadrementAccepteNotifiaction;
+use App\Notifications\EncadrementRefuseNotifiaction;
 use Barryvdh\DomPDF\PDF;
 use App\Models\TypeStage;
 use App\Models\Enseignant;
@@ -80,7 +82,7 @@ class StageController extends Controller
 
             //if (($dep_is_info && $is_licence && $is_1_or_2) || ($niveau == 1 && $is_master) || ($niveau == 1 && $is_licence)) {
             if (($niveau == 1 && $is_master) || ($niveau == 1 && $is_licence)) {
-nn
+
                 $fiche = substr($stage->fiche_demande, strpos($stage->fiche_demande, '/') + 1, strlen($stage->fiche_demande));
                 $stage->file = $fiche;
                 $stage->code_classe = $classe->code;
@@ -97,6 +99,7 @@ nn
 
         $stages = Stage::with('typeStage')->get();
         $stages_volontaires = new Collection();
+        $current_date = Carbon::now();
         foreach ($stages as $stage) {
             $ts_id = $stage->typeStage->id;
             $ts = TypeStage::findOrFail($ts_id);
@@ -109,13 +112,14 @@ nn
 
             }
         }
-        return view('admin.stage.listes_demandes_stage.sv1lm', compact(['stages_volontaires']));
+        return view('admin.stage.listes_demandes_stage.sv1lm', compact(['stages_volontaires', 'current_date']));
     }
 
     public function list_oblig_2eme_licence_info()
     {
         $stages = Stage::with('typeStage')->get();
         $stages_2lInfo = new Collection();
+        $current_date = Carbon::now();
         foreach ($stages as $stage) {
             $etudiant = $stage->etudiant;
             $departement_nom = Departement::findOrFail($etudiant->classe->specialite->departement_id)->nom;
@@ -132,7 +136,7 @@ nn
 
             }
         }
-        return view('admin.stage.listes_demandes_stage.so2lInfo', compact(['stages_2lInfo']));
+        return view('admin.stage.listes_demandes_stage.so2lInfo', compact(['stages_2lInfo', 'current_date']));
     }
 
     /**
@@ -144,7 +148,7 @@ nn
     {
         $all_stages = Stage::All();
         $stages = new Collection();
-
+        $current_date = Carbon::now();
         foreach ($all_stages as $stage) {
 
             $etudiant = Etudiant::findOrFail($stage->etudiant_id);
@@ -173,7 +177,7 @@ nn
 
         }
 
-        return view('admin.stage.listes_demandes_stage.so2l', compact(['stages']));
+        return view('admin.stage.listes_demandes_stage.so2l', compact(['stages', 'current_date']));
     }
 
     /**
@@ -185,7 +189,7 @@ nn
     {
         $all_stages = Stage::All();
         $stages = new Collection();
-
+        $current_date = Carbon::now();
         foreach ($all_stages as $stage) {
 
             $etudiant = Etudiant::findOrFail($stage->etudiant_id);
@@ -216,14 +220,14 @@ nn
         }
 
 
-        return view('admin.stage.listes_demandes_stage.so3l', compact(['stages']));
+        return view('admin.stage.listes_demandes_stage.so3l', compact(['stages', 'current_date']));
     }
 
     public function list_oblig_3eme_licence_info()
     {
         $all_stages = Stage::All();
         $stages = new Collection();
-
+        $current_date = Carbon::now();
         foreach ($all_stages as $stage) {
 
             $etudiant = Etudiant::findOrFail($stage->etudiant_id);
@@ -252,14 +256,14 @@ nn
 
         }
 
-        return view('admin.stage.listes_demandes_stage.so3Info', compact(['stages']));
+        return view('admin.stage.listes_demandes_stage.so3Info', compact(['stages', 'current_date']));
     }
 
     public function list_oblig_2eme_master()
     {
         $all_stages = Stage::All();
         $stages = new Collection();
-
+        $current_date = Carbon::now();
         foreach ($all_stages as $stage) {
 
             $etudiant = Etudiant::findOrFail($stage->etudiant_id);
@@ -288,7 +292,7 @@ nn
 
         }
 
-        return view('admin.stage.listes_demandes_stage.so2m', compact(['stages']));
+        return view('admin.stage.listes_demandes_stage.so2m', compact(['stages', 'current_date']));
     }
 
     public function liste_demandes_pour_enseignant()
@@ -316,6 +320,21 @@ nn
             'nom_ens' => ucwords($enseignant->nom . ' ' . $enseignant->prenom),
             'date' => 'Le ' . $current_date->day . '-' . $current_date->month . '-' . $current_date->year . ' à ' . $current_date->hour . ':' . $current_date->minute];
         $etudiant->notify(new EncadrementAccepteNotifiaction($data));
+
+        return back();
+    }
+
+    public function refuser_demande_enseignant(Stage $stage)
+    {
+        $stage->confirmation_encadrant = -1;
+        $enseignant = $stage->enseignant;
+        $etudiant = $stage->etudiant;
+        $stage->update();
+        $current_date = Carbon::now();
+        $data = ['nom_etud' => ucwords($etudiant->nom . ' ' . $etudiant->prenom),
+            'nom_ens' => ucwords($enseignant->nom . ' ' . $enseignant->prenom),
+            'date' => 'Le ' . $current_date->day . '-' . $current_date->month . '-' . $current_date->year . ' à ' . $current_date->hour . ':' . $current_date->minute];
+        $etudiant->notify(new EncadrementRefuseNotifiaction($data));
 
         return back();
     }
@@ -378,10 +397,17 @@ nn
         if ($etudiant->classe->niveau == 3 && $etudiant->classe->cycle == "licence") {
             $request->validate(['type_sujet' => ['required'],
                 'enseignant_id' => ['required']]);
-            //dd($request->type_sujet);
             $stage->type_sujet = $request->type_sujet;
             $stage->enseignant_id = $request->enseignant_id;
-            // $enseignant = Enseignant::findOrFail($request->enseignant_id);
+            if ($request->type_sujet == "PFE") {
+                $request->validate([
+                    'enseignant_id' => ['required'],
+                    'entreprise' => ['required']
+                ]);
+                $stage->enseignant_id = $request->enseignant_id;
+                $entreprise = Entreprise::findOrFail($request->entreprise);
+                $stage->entreprise_id = $entreprise->id;
+            }
 
         }
         if ($etudiant->classe->niveau == 2 && $etudiant->classe->cycle == "master") {
@@ -394,20 +420,6 @@ nn
             $stage->entreprise_id = $entreprise->id;
             $stage->type_sujet = "PFE";
         }
-
-
-        if ($etudiant->classe->niveau == 3 && $etudiant->classe->cycle == "licence" && $request->type_sujet == "PFE") {
-            //dd($request->type_sujet);
-            $request->validate([
-                'enseignant_id' => ['required'],
-                'entreprise' => ['required']
-            ]);
-            $stage->enseignant_id = $request->enseignant_id;
-            $entreprise = Entreprise::findOrFail($request->entreprise);
-            $stage->entreprise_id = $entreprise->id;
-        }
-
-
         $current_date = Carbon::now();
         $stage->date_demande = $current_date->format('Y-m-d');
         $moisCourant = (int)$current_date->format('m');
@@ -419,11 +431,9 @@ nn
         foreach ($annees as $a) {
             if ($a->annee == $annee) {
                 $stage->annee_universitaire_id = $a->id;
-                // dd($stage->annee_universitaire_id);
                 break;
             }
         }
-
         $classe = Classe::findOrFail($etudiant->classe_id);
         $type_stage = TypeStage::findOrFail($classe->type_stage_id);
 
@@ -450,55 +460,45 @@ nn
         if ($nbre_mois > $type_stage->duree_stage_max) {
             return Redirect::back()->withErrors(['la période de stage devrait être au maximaum de ' . $type_stage->duree_stage_max . ' mois !']);
         }
-
-
         $cin = Auth::user()->numero_CIN;
-
-        /*if (isset($etudiant->classe->typeStage->fiche_2Dinars))
-        {
-            $fiche_2Dinars_name = 'Fiche2Dinars_' . $cin . '.' . $request->file('fiche_2Dinars')->extension();
-            $path3 = Storage::disk('public')
-                ->putFileAs('fiches_2Dinars_'. $classe->code, $request->file('fiche_2Dinars'), $fiche_2Dinars_name);
-            $stage->fiche_2Dinars = $path3;
-            //dd($request->file('fiche_2Dinars'));
-        }
-        if (isset($etudiant->classe->typeStage->fiche_assurance))
-        {
-            $fiche_assurance_name = 'FicheAssurance_' . $cin . '.' . $request->file('fiche_assurance')->extension();
-            $path2 = Storage::disk('public')
-                ->putFileAs('fiches_assurances_'. $classe->code, $request->file('fiche_assurance'), $fiche_assurance_name);
-            $stage->fiche_assurance = $path2;
-           // dd($request->file('fiche_assurance'),$request->file('fiche_2Dinars'),$request->file('fiche_demande'));
-        }*/
         if ($etudiant->classe->typeStage->fiche_demande_type == "requis") {
             if (isset($request->fiche_demande)) {
                 $fiche_demande_name = 'FicheDemande_' . $cin . '.' . $request->file('fiche_demande')->extension();
-                //dd(gettype($request->file('fiche_demande')));
                 $path = Storage::disk('public')
                     ->putFileAs('fiches_demande_' . $classe->code, $request->file('fiche_demande'), $fiche_demande_name);
                 $stage->fiche_demande = $path;
-                //  dd($stage->fiche_demande);
+            }
+        }
+        if ($etudiant->classe->typeStage->fiche_2Dinars_type == "requis") {
+            if (isset($request->fiche_2Dinars)) {
+                $fiche_2Dinars_name = 'Fiche2Dinars_' . $cin . '.' . $request->file('fiche_2Dinars')->extension();
+                $path2 = Storage::disk('public')
+                    ->putFileAs('fiches_2dinars_' . $classe->code, $request->file('fiche_2Dinars'), $fiche_2Dinars_name);
+                $stage->fiche_2Dinars = $path2;
+            }
+        }
+        if ($etudiant->classe->typeStage->fiche_assurance_type == "requis") {
+            if (isset($request->fiche_assurance)) {
+                $fiche_assurance_name = 'FicheAssurance_' . $cin . '.' . $request->file('fiche_assurance')->extension();
+                $path3 = Storage::disk('public')
+                    ->putFileAs('fiches_assurances_' . $classe->code, $request->file('fiche_assurance'), $fiche_assurance_name);
+                $stage->fiche_assurance = $path3;
             }
         }
         $stage->confirmation_admin = 0;
         $stage->type_stage_id = $etudiant->classe->typeStage->id;
-        //dd($request);//
         $stage->save();
-        if (($etudiant->classe->niveau == 3 && $etudiant->classe->cycle == "licence") ||
-            ($etudiant->classe->niveau == 2 && $etudiant->classe->cycle == "master")) {
+        if (isset($request->enseignant_id)) {
             $enseignant = Enseignant::findOrFail($request->enseignant_id);
             $data = ['nom_etud' => ucwords($etudiant->nom . ' ' . $etudiant->prenom),
                 'classe_etud' => $classe->nom,
-                'nom_ens' => $enseignant->nom . ' ' . $enseignant->prenom,
+                'nom_ens' => ucwords($enseignant->nom . ' ' . $enseignant->prenom),
                 'etablissement' => Etablissement::findOrFail($enseignant->etablissement_id)->nom,
                 'date' => 'Le ' . $current_date->day . '-' . $current_date->month . '-' . $current_date->year . ' à ' . $current_date->hour . ':' . $current_date->minute];
 
             $enseignant->notify(new DemandeEncadrementNotification($data));
         }
-
         return redirect()->action([EtudiantController::class, 'mes_demandes_stages']);
-
-
     }
 
     /**
@@ -537,7 +537,12 @@ nn
         $isLicence = strtoupper($classe->cycle) === strtoupper('licence');
         $stage->isMaster = $isMaster;
         $stage->isLicence = $isLicence;
-        return view('admin.stage.listes_demandes_stage.modifier_demande_stage', compact(['stage', 'classe', 'enseignants', 'entreprises']));
+        if (Auth::user()->getRoleNames()[0] == "superadmin" && $stage->date_fin > Carbon::now()) {
+            return view('admin.stage.listes_demandes_stage.modifier_demande_stage', compact(['stage', 'classe', 'enseignants', 'entreprises']));
+        } elseif (Auth::user()->getRoleNames()[0] == "etudiant" && $stage->date_fin > Carbon::now()) {
+            return view('etudiant.stage.modifier_demande_stage', compact(['stage', 'classe', 'enseignants', 'entreprises']));
+
+        }
     }
 
     /**
@@ -549,32 +554,56 @@ nn
     public function edit(Request $request, int $stage_id)
     {
         $stage = Stage::findOrFail($stage_id);
+        if ($stage->date_fin > Carbon::now()) {
+            $stage->titre_sujet = $request->sujet;
+            if ($request->encadrant) {
+                $stage->enseignant_id = $request->encadrant;
+            }
+            if ($request->entreprise) {
+                $stage->entreprise_id = (int)$request->entreprise;
+            }
+            if ($request->fiche_demande) {
+                $etudiant = Etudiant::findOrFail($stage->etudiant_id);
+                $nom_pren = Str::upper($etudiant->nom . '_' . $etudiant->prenom);
+                $fiche_demande_name = 'FicheDemande_' . $nom_pren . '.' . $request->file('fiche_demande')->extension();
 
-        $stage->titre_sujet = $request->sujet;
+                $dossier = substr($stage->fiche_demande, 0, strpos($stage->fiche_demande, '/') - 1);
 
-        if ($request->encadrant) {
-            $stage->enseignant_id = $request->encadrant;
+                $path = Storage::disk('public')
+                    ->putFileAs($dossier, $request->file('fiche_demande'), $fiche_demande_name);
+
+                $stage->fiche_demande = $path;
+            }
+
+            $stage->update();
+            return back();
+        } else {
+            abort(404);
         }
 
-        if ($request->entreprise) {
-            $stage->entreprise_id = (int)$request->entreprise;
-        }
-        if ($request->fiche_demande) {
-            $etudiant = Etudiant::findOrFail($stage->etudiant_id);
-            $nom_pren = Str::upper($etudiant->nom . '_' . $etudiant->prenom);
-            $fiche_demande_name = 'FicheDemande_' . $nom_pren . '.' . $request->file('fiche_demande')->extension();
+    }
 
-            $dossier = substr($stage->fiche_demande, 0, strpos($stage->fiche_demande, '/') - 1);
+    public function update_demande(int $stage_id, Request $request)
+    {
+        $request->validate(['enseignant_id' => 'required']);
+        $stage = Stage::findOrFail($stage_id);
+        $etudiant = Etudiant::findOrFail($stage->etudiant_id);
+        $classe = Classe::findOrFail($etudiant->classe_id);
+        $current_date = Carbon::now();
+        if ($stage->date_fin > $current_date) {
+            $stage->enseignant_id = $request->enseignant_id;
+            $stage->confirmation_encadrant = null;
+            $stage->update();
+            $enseignant = Enseignant::findOrFail($request->enseignant_id);
+            $data = ['nom_etud' => ucwords($etudiant->nom . ' ' . $etudiant->prenom),
+                'classe_etud' => $classe->nom,
+                'nom_ens' => ucwords($enseignant->nom . ' ' . $enseignant->prenom),
+                'etablissement' => Etablissement::findOrFail($enseignant->etablissement_id)->nom,
+                'date' => 'Le ' . $current_date->day . '-' . $current_date->month . '-' . $current_date->year . ' à ' . $current_date->hour . ':' . $current_date->minute];
 
-            $path = Storage::disk('public')
-                ->putFileAs($dossier, $request->file('fiche_demande'), $fiche_demande_name);
-
-            $stage->fiche_demande = $path;
-        }
-
-        $stage->update();
-        return back();
-
+            $enseignant->notify(new DemandeEncadrementNotification($data));
+            return redirect()->action([EtudiantController::class, 'mes_demandes_stages']);
+        } else abort(404);
     }
 
     /**
@@ -588,91 +617,97 @@ nn
     {
         $current_date = Carbon::now();
         $stage = Stage::findOrFail($stage_id);
-        $etudiant = Etudiant::findOrFail($stage->etudiant_id);
-        $classe = Classe::findOrFail($etudiant->classe_id);
-        $type_stage = TypeStage::findOrFail($classe->type_stage_id);
-        $annee_universitaire_id = null;
-        $annee = $this->current_annee_univ();
-        $annees = AnneeUniversitaire::all();
-        foreach ($annees as $a) {
-            if ($a->annee == $annee->annee) {
-                $annee_universitaire_id = $annee->id;
-                break;
+        if ($stage->date_fin < Carbon::now()) {
+            $etudiant = Etudiant::findOrFail($stage->etudiant_id);
+            $classe = Classe::findOrFail($etudiant->classe_id);
+            $type_stage = TypeStage::findOrFail($classe->type_stage_id);
+            $annee_universitaire_id = null;
+            $annee = $this->current_annee_univ();
+            $annees = AnneeUniversitaire::all();
+            foreach ($annees as $a) {
+                if ($a->annee == $annee->annee) {
+                    $annee_universitaire_id = $annee->id;
+                    break;
+                }
             }
-        }
-        $stage->confirmation_admin = 1;
-        if (strtoupper($type_stage->cahier_stage_type) === strtoupper('requis')) {
-            $cahier_stage = new CahierStage();
-            $cahier_stage->stage_id = $stage_id;
-            $cahier_stage->annee_universitaire_id = $annee_universitaire_id;
-            $cahier_stage->save();
-            $stage->cahier_stage_id = $cahier_stage->id;
-            $stage->update();
-        }
-        $user = User::findOrFail($etudiant->user_id);
-        $type_stage = TypeStage::findOrFail($classe->type_stage_id);
-        if ($stage->confirmation_encadrant == 0 && $stage->enseignant != null) {
-            Session::flash('message', 'attend_encadrant');
-            //dd(Session::get('message'));
-            return back();
-        } else {
+            $stage->confirmation_admin = 1;
+            if (strtoupper($type_stage->cahier_stage_type) === strtoupper('requis')) {
+                $cahier_stage = new CahierStage();
+                $cahier_stage->stage_id = $stage_id;
+                $cahier_stage->annee_universitaire_id = $annee_universitaire_id;
+                $cahier_stage->save();
+                $stage->cahier_stage_id = $cahier_stage->id;
+                $stage->update();
+            }
+            $user = User::findOrFail($etudiant->user_id);
+            $type_stage = TypeStage::findOrFail($classe->type_stage_id);
             $type = Arr::last((TypeStageController::decouper_nom($type_stage->nom)));
-            if ($type === 'Obligatoire') {
-                $ts = 'إجباري';
-            } else {
-                $ts = 'تطوعي';
-            }
-            $file_path = public_path() . '\storage\ ' . $annee->lettre_affectation;
-            $file_path = str_replace(' ', '', $file_path);
-            $file_path = str_replace('/', '\\', $file_path);
-            $templateProcessor = new TemplateProcessor($file_path);//dd($templateProcessor->getVariables());
-            $templateProcessor->setValue('nom', ucwords($etudiant->nom . ' ' . $etudiant->prenom));
-            $templateProcessor->setValue('CIN', $user->numero_CIN);
-            $templateProcessor->setValue('date_debut', $stage->date_debut);
-            $templateProcessor->setValue('date_fin', $stage->date_fin);
-            $templateProcessor->setValue('type_stage', $ts);
-            $templateProcessor->setValue('classe', $classe->nom);
-            $templateProcessor->saveAs(public_path() . '\storage\lettres_affectation_' . $annee->annee . '\lettre_aff_' . $user->numero_CIN . '_' . $stage->id . '.docx');
-            $stage->update();
-            if (isset($stage->enseignant)) {
-                $enseignant = Enseignant::findOrFail($stage->enseignant_id);
-                $file_path2 = public_path() . '\storage\ ' . $annee->fiche_encadrement;
-                $file_path2 = str_replace(' ', '', $file_path2);
-                $file_path2 = str_replace('/', '\\', $file_path2);
-                $templateProcessor2 = new TemplateProcessor($file_path2);//dd($templateProcessor2->getVariables());
-                $templateProcessor2->setValue('nom_etud', ucwords($etudiant->nom . ' ' . $etudiant->prenom));
-                $templateProcessor2->setValue('nom_ens', ucwords($enseignant->nom . ' ' . $enseignant->prenom));
-                $templateProcessor2->setValue('cin', $etudiant->user->numero_CIN);
-                $templateProcessor2->setValue('date', $current_date->format('d-m-Y'));
-                $templateProcessor2->setValue('telf', $etudiant->numero_telephone);
-                $templateProcessor2->setValue('email', $etudiant->email);
-                $templateProcessor2->setValue('classe', $etudiant->classe->nom);
-                $templateProcessor2->setValue('an', $annee->annee);
-                $templateProcessor2->saveAs(public_path() . '\storage\fiches_encadrements_' . $annee->annee . '\fiche_encadrement_' . $enseignant->nom . '_' . $enseignant->prenom . '.docx');
-                $details2 = ['etudiant' => ucwords($etudiant->nom . ' ' . $etudiant->prenom),
-                    'classe'=>$etudiant->classe->nom,
-                    'annee' => $annee->annee,
-                    'encadrant' => ucwords($enseignant->nom . ' ' . $enseignant->prenom),
-                    'date' => 'Le ' . $current_date->day . '-' . $current_date->month . '-' . $current_date->year . ' à ' . $current_date->hour . ':' . $current_date->minute
-                ];
-                $enseignant->notify(new DownloadFicheEncadrementNotification($details2));
-                $details = ['etudiant' => $etudiant->nom . ' ' . $etudiant->prenom,
-                    'annee' => $annee->annee_universitaire,
-                    'type_stage' => $type,
-                    'encadrant' => $enseignant->nom . ' ' . $enseignant->prenom,
-                    'date' => 'Le ' . $current_date->day . '-' . $current_date->month . '-' . $current_date->year . ' à ' . $current_date->hour . ':' . $current_date->minute
-                ];
-                $etudiant->notify(new DownloadLettreAffectationNotification($details));
+            if ($stage->confirmation_encadrant == -1 && $stage->enseignant != null) {
+                Session::flash('message', 'encadrant refuse');
+            } elseif ($stage->confirmation_encadrant == 0 && $stage->enseignant != null) {
+                Session::flash('message', 'attend_encadrant');
+                //dd(Session::get('message'));
                 return back();
-            }
-        }
-        $details = ['etudiant' => $etudiant->nom . ' ' . $etudiant->prenom,
-            'annee' => $annee->annee_universitaire,
-            'type_stage' => $type,
-            'date' => 'Le ' . $current_date->day . '-' . $current_date->month . '-' . $current_date->year . ' à ' . $current_date->hour . ':' . $current_date->minute];
+            } else {
 
-        $etudiant->notify(new DownloadLettreAffectationNotification($details));
-        return back();
+                if ($type === 'Obligatoire') {
+                    $ts = 'إجباري';
+                } else {
+                    $ts = 'تطوعي';
+                }
+                if (isset($stage->enseignant)) {
+                    $enseignant = Enseignant::findOrFail($stage->enseignant_id);
+                    $file_path2 = public_path() . '\storage\ ' . $annee->fiche_encadrement;
+                    $file_path2 = str_replace(' ', '', $file_path2);
+                    $file_path2 = str_replace('/', '\\', $file_path2);
+                    $templateProcessor2 = new TemplateProcessor($file_path2);//dd($templateProcessor2->getVariables());
+                    $templateProcessor2->setValue('nom_etud', ucwords($etudiant->nom . ' ' . $etudiant->prenom));
+                    $templateProcessor2->setValue('nom_ens', ucwords($enseignant->nom . ' ' . $enseignant->prenom));
+                    $templateProcessor2->setValue('cin', $etudiant->user->numero_CIN);
+                    $templateProcessor2->setValue('date', $current_date->format('d-m-Y'));
+                    $templateProcessor2->setValue('telf', $etudiant->numero_telephone);
+                    $templateProcessor2->setValue('email', $etudiant->email);
+                    $templateProcessor2->setValue('classe', $etudiant->classe->nom);
+                    $templateProcessor2->setValue('an', $annee->annee);
+                    $templateProcessor2->saveAs(public_path() . '\storage\fiches_encadrements_' . $annee->annee . '\fiche_encadrement_' . $enseignant->nom . '_' . $enseignant->prenom . '.docx');
+                    $details2 = ['etudiant' => ucwords($etudiant->nom . ' ' . $etudiant->prenom),
+                        'classe' => $etudiant->classe->nom,
+                        'annee' => $annee->annee,
+                        'encadrant' => ucwords($enseignant->nom . ' ' . $enseignant->prenom),
+                        'date' => 'Le ' . $current_date->day . '-' . $current_date->month . '-' . $current_date->year . ' à ' . $current_date->hour . ':' . $current_date->minute
+                    ];
+                    $enseignant->notify(new DownloadFicheEncadrementNotification($details2));
+                    $details = ['etudiant' => $etudiant->nom . ' ' . $etudiant->prenom,
+                        'annee' => $annee->annee_universitaire,
+                        'type_stage' => $type,
+                        'encadrant' => $enseignant->nom . ' ' . $enseignant->prenom,
+                        'date' => 'Le ' . $current_date->day . '-' . $current_date->month . '-' . $current_date->year . ' à ' . $current_date->hour . ':' . $current_date->minute
+                    ];
+                    $etudiant->notify(new DownloadLettreAffectationNotification($details));
+                    return back();
+                }
+                $file_path = public_path() . '\storage\ ' . $annee->lettre_affectation;
+                $file_path = str_replace(' ', '', $file_path);
+                $file_path = str_replace('/', '\\', $file_path);
+                $templateProcessor = new TemplateProcessor($file_path);//dd($templateProcessor->getVariables());
+                $templateProcessor->setValue('nom', ucwords($etudiant->nom . ' ' . $etudiant->prenom));
+                $templateProcessor->setValue('CIN', $user->numero_CIN);
+                $templateProcessor->setValue('date_debut', $stage->date_debut);
+                $templateProcessor->setValue('date_fin', $stage->date_fin);
+                $templateProcessor->setValue('type_stage', $ts);
+                $templateProcessor->setValue('classe', $classe->nom);
+                $templateProcessor->saveAs(public_path() . '\storage\lettres_affectation_' . $annee->annee . '\lettre_aff_' . $user->numero_CIN . '_' . $stage->id . '.docx');
+                $stage->update();
+
+            }
+            $details = ['etudiant' => $etudiant->nom . ' ' . $etudiant->prenom,
+                'annee' => $annee->annee_universitaire,
+                'type_stage' => $type,
+                'date' => 'Le ' . $current_date->day . '-' . $current_date->month . '-' . $current_date->year . ' à ' . $current_date->hour . ':' . $current_date->minute];
+
+            $etudiant->notify(new DownloadLettreAffectationNotification($details));
+            return back();
+        } else abort(404);
 
     }
 
@@ -704,42 +739,29 @@ nn
      * @return \Illuminate\Http\Response
      */
     public function refuser_demande(int $stage_id)
-    {   //dd($stage_id);
-
-
-        $stage = Stage::findOrFail($stage_id);
-        if ($stage->confirmation_admin == 1) {
-
-            $annee_univ = AnneeUniversitaire::findOrFail($stage->annee_universitaire_id)->annee;
-            $cin = User::findOrFail(Etudiant::findOrFail($stage->etudiant_id)->user_id)->numero_CIN;
-
-            $file_path = public_path('\storage\lettres_affectation_' . $annee_univ . '\lettre_aff_' . $cin . '_' . $stage_id . '.docx');
-            //dd($file_path);
-            if (File::exists($file_path)) {
-                File::delete($file_path);
-            }
-
-        }
-        $stage->confirmation_admin = -1;
-        $stage->update();
-        return back();
-    }
-
-    public function telecharger_fiche_assurance()
     {
-        $etudiant = Etudiant::where('user_id', Auth::user()->id)->first();
-        $classe = Classe::findOrFail($etudiant->classe_id);
-        $typeStage = TypeStage::findOrFail($classe->type_stage_id);
-        $fiche_assurance = $typeStage->fiche_assurance;
-        //dd($fiche_assurance);
-        $fiche_assurance_name = substr($fiche_assurance, 18);
-        $file_path2 = public_path() . '/storage/' . $fiche_assurance;
-        // dd($file_path2,$fiche_assurance_name);
-        if (file_exists($file_path2)) {
-            return Response::download($file_path2, $fiche_assurance_name);
-        } else {
-            //Error
-            exit('fiche assurance inexistante !');
+        $stage = Stage::findOrFail($stage_id);
+        $current_date = Carbon::now();
+        if ($stage->date_fin > $current_date) {
+            if ($stage->confirmation_admin == 1) {
+
+                $annee_univ = AnneeUniversitaire::findOrFail($stage->annee_universitaire_id)->annee;
+                $cin = User::findOrFail(Etudiant::findOrFail($stage->etudiant_id)->user_id)->numero_CIN;
+
+                $file_path = public_path('\storage\lettres_affectation_' . $annee_univ . '\lettre_aff_' . $cin . '_' . $stage_id . '.docx');
+                //dd($file_path);
+                if (File::exists($file_path)) {
+                    File::delete($file_path);
+                }
+
+            }
+            $stage->confirmation_admin = -1;
+            $stage->update();
+            $etudiant = $stage->etudiant;
+            $details = ['etudiant' => ucwords($etudiant->nom . ' ' . $etudiant->prenom),
+                'date' => 'Le ' . $current_date->day . '-' . $current_date->month . '-' . $current_date->year . ' à ' . $current_date->hour . ':' . $current_date->minute];
+            $etudiant->notify(new DemandeStageRefuseNotification($details));
+            return back();
         }
     }
 
@@ -748,14 +770,10 @@ nn
 
         $etudiant = Etudiant::where('user_id', Auth::user()->id)->first();
         $classe = Classe::findOrFail($etudiant->classe_id);
-        //dd($classe);
         $typeStage = TypeStage::findOrFail($classe->type_stage_id);
-        //dd($typeStage);
         $fiche_demande = $typeStage->fiche_demande;
         $fiche_demande_name = substr($fiche_demande, 15);
-        //dd($fiche_demande);
         $file_path = public_path() . '/storage/' . $fiche_demande;
-        //dd($file_path);
         if (file_exists($file_path)) {
             return Response::download($file_path, $fiche_demande_name);
         } else {
@@ -763,20 +781,25 @@ nn
         }
     }
 
-    public function telecharger_fiche_2Dinars()
+    public function telecharger_fiche_2Dinars(string $fiche_2Dinars, string $code_classe)
     {
-        $etudiant = Etudiant::where('user_id', Auth::user()->id)->first();
-        $classe = Classe::findOrFail($etudiant->classe_id);
-        $typeStage = TypeStage::findOrFail($classe->type_stage_id);
-        $fiche_2Dinars = $typeStage->fiche_2Dinars;
-        $fiche_2Dinars_name = substr($fiche_2Dinars, 15);
-        //dd($fiche_2Dinars);
-        $file_path3 = public_path() . '/storage/' . $fiche_2Dinars;
-        //dd($file_path3,$fiche_2Dinars);
-        if (file_exists($file_path3)) {
-            return Response::download($file_path3, $fiche_2Dinars_name);
+        $fiche_2Dinars = Str::after($fiche_2Dinars, '/');
+        $file_path = public_path() . '/storage/fiches_2dinars_' . $code_classe . '/' . $fiche_2Dinars;
+        if (file_exists($file_path)) {
+            return Response::download($file_path, $fiche_2Dinars);
         } else {
             exit('fiche 2 dinars inexistante !');
+        }
+    }
+
+    public function telecharger_fiche_assurance(string $fiche_assurance, string $code_classe)
+    {
+        $fiche_assurance = Str::after($fiche_assurance, '/');
+        $file_path = public_path() . '/storage/fiches_assurances_' . $code_classe . '/' . $fiche_assurance;
+        if (file_exists($file_path)) {
+            return Response::download($file_path, $fiche_assurance);
+        } else {
+            exit('fiche assurance inexistante !');
         }
     }
 
@@ -824,7 +847,7 @@ nn
 
     public function download_fiche_encadrement(Stage $stage)
     {
-       $enseignant = Enseignant::where('user_id',Auth::user()->id)->first();
+        $enseignant = Enseignant::where('user_id', Auth::user()->id)->first();
         $annee_univ = AnneeUniversitaire::findOrFail($stage->annee_universitaire_id)->annee;
         $file_path = public_path('\storage\fiches_encadrements_' . $annee_univ . '\fiche_encadrement_' . $enseignant->nom . '_' . $enseignant->prenom . '.docx');
 

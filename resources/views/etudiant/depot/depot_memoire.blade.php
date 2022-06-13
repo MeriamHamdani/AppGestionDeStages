@@ -24,8 +24,6 @@
                 <div class="card">
                     <div class="card-header">
                         <h5>Stage & Dépôt</h5>
-                        <span>Ce table contient titre de stage et une action qui m'amène à dépôser mon mémoire s'il est
-                        possible</span>
                     </div>
                     <div class="card-body">
                         <div class="table">
@@ -34,6 +32,7 @@
                                 <tr>
                                     <th>Type</th>
                                     <th>Encadrant</th>
+                                    <th>Année universitaire</th>
                                     <th>Gérer le dépôt</th>
                                     <th>Etat</th>
                                 </tr>
@@ -46,6 +45,7 @@
                                             <td>{{$stage->type_sujet}}</td>
 
                                             <td>{{ucwords($stage->enseignant->prenom)}} {{ucwords($stage->enseignant->nom)}} </td>
+                                            <td>{{\App\Models\AnneeUniversitaire::find($stage->annee_universitaire_id)->annee}}</td>
 
                                             @if($stage->typeStage->date_limite_depot >= $current_date)
 
@@ -148,6 +148,7 @@
                                 <tr>
                                     <th>Type</th>
                                     <th>Encadrant</th>
+                                    <th>Année universitaire</th>
                                     <th>Gérer le dépôt</th>
                                     <th>Etat</th>
                                 </tr>

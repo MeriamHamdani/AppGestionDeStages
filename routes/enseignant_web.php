@@ -16,6 +16,8 @@ Route::middleware(['auth','role:enseignant'])->group(function(){
 
         Route::get('/encadrement/liste-demandes', [StageController::class,'liste_demandes_pour_enseignant'])->name('liste_demandes');
         Route::get('/encadrement/liste-demandes/accepter-demande/{stage}', [StageController::class,'confirmer_demande_enseignant'])->name('confirmer_demande_enseignant');
+        Route::get('/encadrement/liste-demandes/refuser-demande/{stage}',[StageController::class,'refuser_demande_enseignant'])->name('refuser_demande_enseignant');
+
         Route::get('/encadrement/liste-stages-actifs',[EnseignantController::class,'liste_stages_actifs'] )->name('liste_stages_actifs');
         Route::view('/encadrement/liste-stages-actifs/cahier-stage-etud','enseignant.encadrement.cahier_stage_etud' )->name('cahier_stage_etud');
         Route::get('/encadrement/liste-stages-actifs/cahier-stage-etud/{cahier}', [CahierStageController::class,'show_for_enc'])->name('detail_cahier_stage');
