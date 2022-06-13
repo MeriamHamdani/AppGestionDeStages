@@ -144,12 +144,12 @@
                             </select>
                             <div class="invalid-tooltip">Séléctionnez la spécialité svp!</div>
                         </div>
-                        <div class="col-md-6 position-relative">
+                        <!--<div class="col-md-6 position-relative">
                             <label class="form-label" for="validationTooltip01">Code classe</label>
                             <input class="form-control" id="code" name="code" type="text" value="{{old('code')}}"
                                 required="" placeholder="entrez le code du classe....." />
                             <div class="invalid-tooltip">Entrez le code du classe svp!</div>
-                        </div>
+                        </div>-->
                         <div class="card-footer text-end">
                             <a class="btn btn-light" href="{{ route('liste_classes') }}">Annuler</a>
                             <button class="btn btn-primary" type="submit">Ajouter</button>
@@ -213,3 +213,4 @@
 @endpush
 
 @endsection
+

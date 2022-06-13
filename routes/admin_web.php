@@ -23,7 +23,7 @@ use App\Http\Controllers\AnneeUniversitaireController;
 /*Route::prefix('admin')->group(function () {
 });*/
 //-------------------------------------------------------------------------------------------------
-Route::middleware(['auth','role:admin|superadmin'])->group(function(){
+Route::middleware(['auth','role:admin|superadmin','clearClasse'])->group(function(){
     Route::prefix('admin')->group(function () {
 
         Route::get('profil', [AdminController::class,'editProfil'])->name('profil');
@@ -43,10 +43,6 @@ Route::middleware(['auth','role:admin|superadmin'])->group(function(){
         // ----------------------------------STAGE-----------------------------------
 
         Route::prefix('stage/demandes-stage')->group(function () {
-
-
-
-
             Route::get('1ere-licence-master',[StageController::class,'list_vol_1ere_licence_1ere_master'])->name('demandes_stage.sv1lm');
             Route::get('2eme-licence-info',[StageController::class,'list_oblig_2eme_licence_info'])->name('demandes_stage.so2lInfo');
             Route::get('2eme-licence',[StageController::class,'list_oblig_2eme_licence_non_info'])->name('demandes_stage.so2l');
@@ -57,8 +53,6 @@ Route::middleware(['auth','role:admin|superadmin'])->group(function(){
 			Route::patch('modifier/{stage_id}',[StageController::class,'edit'])->name('edit');
             Route::get('confirmer/{stage_id}',[StageController::class,'confirmer_demande'])->name('confirmer_demande');
             Route::get('refuser/{stage_id}',[StageController::class,'refuser_demande'])->name('refuser_demande');
-
-
         });
          Route::get('stage/gerer-cahiers-stages', [CahierStageController::class,'all_cahier_stage'])->name('gerer_cahiers_stages');
         Route::get('stage/cahier-stage/{cahier}', [CahierStageController::class,'show'])->name('cahier_de_stage');
@@ -81,9 +75,9 @@ Route::middleware(['auth','role:admin|superadmin'])->group(function(){
         Route::get('etablissement/liste-etudiants', [EtudiantController::class,'index'])->name('liste_etudiants');
         Route::get('etablissement/ajouter-etudiant', [EtudiantController::class,'create'])->name('ajouter_etudiant');
         Route::post('etablissement/ajouter-etudiant', [EtudiantController::class,'store'])->name('sauvegarder_etudiant');
-        Route::get('etablissement/modifier-etudiant/{etudiant}', [EtudiantController::class,'edit'])->name('modifier_etudiant');
+        Route::get('etablissement/modifier-etudiant/{etudiant}', [EtudiantController::class,'edit'])->name('modifier_etudiant')->middleware('verifierAU');
         Route::patch('etablissement/update-etd/{etudiant}', [EtudiantController::class,'update'])->name('update_etudiant');
-        Route::get('etablissement/supprimer-etudiant/{etudiant}', [EtudiantController::class,'destroy'])->name('supprimer_etudiant');
+        Route::get('etablissement/supprimer-etudiant/{etudiant}', [EtudiantController::class,'destroy'])->name('supprimer_etudiant')->middleware('verifierAU');
         Route::post('etablissement/ajouter-etudiants', [EtudiantController::class,'importData'])->name('sauvegarder_etudiants_csv');
         Route::post('export/liste-etudiants', [EtudiantController::class, 'exportData'])->name('Etudiants-parClasse-export');
         Route::post('export/liste-etudiants_specialite', [EtudiantController::class, 'exportDataBySpec'])->name('Etudiants-parSpecialite-export');
@@ -176,8 +170,8 @@ Route::middleware(['auth','role:admin|superadmin'])->group(function(){
             Route::get('session-depot/modifier/{session}',[TypeStageController::class,'editSession'])->name('modifier_session');
             Route::patch('session-depot/modifier/{session}',[TypeStageController::class,'updateSession'])->name('update_session');
             Route::get('session-depot/supprimer/{session}',[TypeStageController::class,'destroySession'])->name('supprimer_session');
-            Route::get('typeStage-classe/ajouter/{classe}',[TypeStageController::class,'create'])->name('typeStage.create');
-            Route::put('typeStage-classe/store/{classe}',[TypeStageController::class,'store'])->name('typeStage.store');
+            //Route::get('typeStage-classe/ajouter/{classe}',[TypeStageController::class,'create'])->name('typeStage.create');
+            //Route::put('typeStage-classe/store/{classe}',[TypeStageController::class,'store'])->name('typeStage.store');
             Route::get('liste-classes-typeStages',[TypeStageController::class,'index'])->name('typeStage.index');
             Route::get('typeStage-classe/modifier-typeStage/{typeStage:id}',[TypeStageController::class,'edit'])->name('modifier_type_stage');
             Route::get('typeStage-classe/fiche_demande/{fiche_demande}', [TypeStageController::class, 'telechargement_fiche_demande'])->where('fiche_demande', '[A-Za-z0-9\-\_\.]+')->name('fiche_demande');
@@ -216,4 +210,10 @@ Route::middleware(['auth','role:admin|superadmin'])->group(function(){
         Route::view('default-dashboard', 'admin.dashboard.default')->name('default_dash');
     }
     );
+});
+Route::middleware(['auth','role:admin|superadmin'])->group(function(){
+    Route::prefix('admin/configuration/generale')->group(function () {
+Route::get('typeStage-classe/ajouter/{classe}',[TypeStageController::class,'create'])->name('typeStage.create');
+Route::put('typeStage-classe/store/{classe}',[TypeStageController::class,'store'])->name('typeStage.store');
+    });
 });

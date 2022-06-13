@@ -203,8 +203,7 @@
                                         <a href="{{ route('modifier_etudiant',$etudiant) }}"> <i
                                                 style="font-size: 1.3em;" class='fa fa-edit'></i></a>
                                         <a href="#" data-id="{{ $etudiant->id }}"
-                                           data-name="{{ $etudiant->prenom }} {{ $etudiant->nom }}"
-                                           class="delete"> <i
+                                            data-name="{{ $etudiant->prenom }} {{ $etudiant->nom }}" class="delete"> <i
                                                 style="font-size: 1.3em;" class='fa fa-trash'></i></a>
                                     </td>
 
@@ -259,36 +258,40 @@
 <script src="{{asset('assets/js/datatable/datatable-extension/dataTables.scroller.min.js')}}"></script>
 <script src="{{asset('assets/js/datatable/datatable-extension/custom.js')}}"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/sweetalert/2.1.2/sweetalert.min.js"
-        integrity="sha512-AA1Bzp5Q0K1KanKKmvN/4d3IRKVlv9PYgwFPvm32nPO6QS8yH1HO7LbgB1pgiOxPtfeg5zEn2ba64MUcqJx6CA=="
-        crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+    integrity="sha512-AA1Bzp5Q0K1KanKKmvN/4d3IRKVlv9PYgwFPvm32nPO6QS8yH1HO7LbgB1pgiOxPtfeg5zEn2ba64MUcqJx6CA=="
+    crossorigin="anonymous" referrerpolicy="no-referrer"></script>
 @if(Session::has('message'))
-    <script>
-        toastr.success("{!! Session::get('message') !!}")
-    </script>
+<script>
+    toastr.success("{!! Session::get('message') !!}")
+</script>
 @endif
 @if(Session::has('message'))
-    @if (Session::get('message')=='ok1')
+@if (Session::get('message')=='ok1')
 
-        <script>
-            swal('Bien', "L'étudiant est bien ajouté", 'success', {
+<script>
+    swal('Bien', "L'étudiant est bien ajouté", 'success', {
                 button: 'Continuer'
             })
 
-        </script>
+</script>
 
-    @elseif (Session::get('message')=='ko1')
-        <script>
-            swal('Oups', "L'étudiant existe déja", 'error', {
+@elseif (Session::get('message')=='ko1')
+<script>
+    swal('Oups', "L'étudiant existe déja", 'error', {
                 button: 'Reéssayer'
             })
-        </script>
-    @elseif (Session::get('message')=='update1')
-        <script>
-            swal('Bien', "L'étudiant est bien mis à jour", 'success', {
+</script>
+@elseif (Session::get('message')=='update1')
+<script>
+    swal('Bien', "L'étudiant est bien mis à jour", 'success', {
                 button: 'Continuer'
             })
-        </script>
-    @endif
+</script>
+@elseif(Session::get('message')=='interdit')
+<script>
+    swal('Oups', "cette action est interdite", 'error')
+</script>
+@endif
 @endif
 <script>
     $('.delete').click(function () {
@@ -316,4 +319,3 @@
 @endpush
 
 @endsection
-

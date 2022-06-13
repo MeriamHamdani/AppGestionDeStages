@@ -55,6 +55,7 @@ class Kernel extends HttpKernel
      * @var array
      */
     protected $routeMiddleware = [
+
         'auth' => \App\Http\Middleware\Authenticate::class,
         'auth.basic' => \Illuminate\Auth\Middleware\AuthenticateWithBasicAuth::class,
         'cache.headers' => \Illuminate\Http\Middleware\SetCacheHeaders::class,
@@ -67,5 +68,7 @@ class Kernel extends HttpKernel
         'ensureUserIsActive'=> \App\Http\Middleware\EnsureUserIsActive::class,
         'role' => \Spatie\Permission\Middlewares\RoleMiddleware::class,
         'superadmin' => \App\Http\Middleware\SuperadminMiddleware::class,
+        'clearClasse' => \App\Http\Middleware\ClearClasse::class,
+        'verifierAU'=> \App\Http\Middleware\VerifierAUEtudiant::class,
     ];
 }

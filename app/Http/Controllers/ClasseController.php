@@ -23,7 +23,6 @@ class ClasseController extends Controller
      */
     public function index()
     {
-//dd(Classe::with('specialite')->get());
         return view('admin.etablissement.classe.liste_classes',
             ['classes' => Classe::with('specialite')->get()]);
     }
@@ -49,12 +48,15 @@ class ClasseController extends Controller
         //$request->session()->forget('key');
         $attributs = $request->validate([
            // 'nom' => ['required', 'string', 'max:255'],
-            'code' => ['required', 'string', 'max:255'],
+            //'code' => ['required', 'string', 'max:255'],
             'niveau' => ['required', 'string', 'max:255'],
             'cycle' => ['required', 'string', 'max:255'],
             'specialite_id' => ['required', Rule::exists('specialites', 'id')],
         ]);
-        $cls_exist = Classe::where('code', $request->code)->exists();
+        $specialite=Specialite::find($request->specialite_id);
+        $code=$request->niveau.strtoupper(substr($request->cycle,0,1)).$specialite->code;
+        $attributs['code']=$code;
+        $cls_exist = Classe::where('code', $code)->exists();
         //dd( $cls_exist);
         if (!$cls_exist) {
             $mydate = Carbon::now();
@@ -100,24 +102,32 @@ class ClasseController extends Controller
                     break;
 
             }
-            //dd($cycle);
 
-            $specialite=Specialite::find($request->specialite_id);
+            //$specialite=Specialite::find($request->specialite_id);
             $sp_cycle=$specialite->cycle;
+
             if(strtoupper($sp_cycle) !== strtoupper($request->cycle)){
-
                 //Session::flash('message','notMatchCycle');
-
-
                 return Redirect::back()->withErrors(['Vous ne pouvez pas attribuer la spécialité '.$specialite->nom.' aux classes '.$request->cycle]);
             }
+
             $nom=$niveau.' '.$cycle.' '.$specialite->nom;
             $attributs=array_merge($attributs,["nom"=>$nom]);
+
             $classe=Classe::create($attributs);
+			/*$classe=new Classe();
+			$classe->code=$code;
+			$classe->niveau=$niveau;
+			$classe->cycle=$cycle;
+			$classe->specialite_id=$request->specialite_id;
+			$classe->annee_universitaire_id=$attributs['annee_universitaire_id'];*/
+//dd($classe);
             $classe_id=$classe->id;
             $classes=Classe::with('typeStage')->get();
             /*$error_message = array("nom" => "", "periode_stage" => "", "depot_stage" => "");
             return view('admin.configuration.generale.typeStage_classe', ['classe' => $classe,'classes' => $classes,'error_message'=>$error_message]);*/
+
+            //return redirect()->action([TypeStageController::class,'create'],$classe);
             return redirect()->action([TypeStageController::class,'create'],$classe_id);
 
 
@@ -161,26 +171,58 @@ class ClasseController extends Controller
     public function update(Request $request, Classe $classe)
     {
         $attributs = $request->validate([
-            'nom' => ['required', 'string', 'max:255'],
-            'code' => ['required', 'string', 'max:255',  Rule::unique('classes','code')->ignore($classe->id)],
+            //'nom' => ['required', 'string', 'max:255'],
+            //'code' => ['required', 'string', 'max:255',  Rule::unique('classes','code')->ignore($classe->id)],
             'niveau' => ['required', 'string', 'max:255'],
             'cycle' => ['required', 'string', 'max:255'],
             'specialite_id' => ['required', Rule::exists('specialites', 'id')],
         ]);
+
+        $specialite=Specialite::find($request->specialite_id);
+        $code=$request->niveau.strtoupper(substr($request->cycle,0,1)).$specialite->code;
+        $attributs['code']=$code;
         if ($classe->typeStage->fiche_demande_type =="requis") {
-            if($request->code != $classe->code)
+            if($code != $classe->code)
             {
 
                 $fiche_demande_name = $classe->typeStage->fiche_demande;
                 //dd($classe->typeStage->nom);
                 $array=$this->decouper_nom($fiche_demande_name);
-                $array[2] = str_replace(' ', '',$request->code);
+                $array[2] = str_replace(' ', '',$code);
                 $fiche_demande_name = $array[0].'_'.$array[1].'_'.$array[2].'_'.$array[3];
                 $classe->update();
                 Session::flash('message', 'update');
             }
         }
+        switch($request->niveau){
+            case 1:
+                $niveau="1ère année";
+                break;
+            case 2:
+                $niveau="2ème année";
+                break;
+            case 3:
+                $niveau="3ème année";
+                break;
 
+        }
+        switch($request->cycle){
+            case 'licence':
+                $cycle="Licence";
+                break;
+            case 'master':
+                $cycle="Mastère";
+                break;
+            case 'doctorat':
+                $cycle="Doctorat";
+                break;
+            case 'ingenierie':
+                $cycle="Ingénierie";
+                break;
+
+        }
+        $nom=$niveau.' '.$cycle.' '.$specialite->nom;
+        $attributs['nom']=$nom;
         $classe->update($attributs);
         Session::flash('message', 'update');
         return redirect()->action([ClasseController::class,'index']);
@@ -210,6 +252,19 @@ class ClasseController extends Controller
         $classe->delete();
         return redirect()->action([ClasseController::class,'index']);
     }
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 }

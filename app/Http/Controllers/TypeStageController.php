@@ -43,6 +43,7 @@ class TypeStageController extends Controller
      */
     public function create(Classe $classe)
     {
+        
         $error_message = array("nom" => "", "periode_stage" => "", "depot_stage" => "", "duree_max_min" => "");
         return view('admin.configuration.generale.typeStage_classe', ['classe' => $classe, 'error_message' => $error_message]);
     }
@@ -82,7 +83,7 @@ class TypeStageController extends Controller
         $type_stage->nom = $type_stage_nom;
         $nbre_mois = StageController::diff_date_en_mois($date_deb, $date_f);
         if ($date_deb < $date_f) {
-            if ($request->duree_stage_min < $request->duree_stage_max) {
+            if ($request->duree_stage_min <= $request->duree_stage_max) {
                 if ($nbre_mois >= $request->duree_stage_max) {
                     $type_stage->date_debut_periode = $date_deb;
                     $type_stage->date_limite_periode = $date_f;
