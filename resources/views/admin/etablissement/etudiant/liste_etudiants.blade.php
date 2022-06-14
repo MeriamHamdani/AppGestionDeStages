@@ -202,9 +202,16 @@
                                     <td class="text-center">
                                         <a href="{{ route('modifier_etudiant',$etudiant) }}"> <i
                                                 style="font-size: 1.3em;" class='fa fa-edit'></i></a>
+                                        @if(App\Models\AnneeUniversitaire::find($etudiant->annee_universitaire_id)->annee
+                                        == $year)
                                         <a href="#" data-id="{{ $etudiant->id }}"
                                             data-name="{{ $etudiant->prenom }} {{ $etudiant->nom }}" class="delete"> <i
                                                 style="font-size: 1.3em;" class='fa fa-trash'></i></a>
+                                        @else
+                                        <a href="#" class="delete2"> <i style="font-size: 1.3em;"
+                                                class='fa fa-trash'></i></a>
+                                        @endif
+
                                     </td>
 
                                 </tr>
@@ -287,10 +294,6 @@
                 button: 'Continuer'
             })
 </script>
-@elseif(Session::get('message')=='interdit')
-<script>
-    swal('Oups', "cette action est interdite", 'error')
-</script>
 @endif
 @endif
 <script>
@@ -313,6 +316,14 @@
                     swal("La suppression est annulée!");
                 }
             })
+    });
+
+</script>
+<script>
+    $('.delete2').click(function () {
+       
+        swal('Oups', "cette action est interdite", 'error')
+            
     });
 
 </script>
