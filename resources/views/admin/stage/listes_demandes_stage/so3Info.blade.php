@@ -45,10 +45,9 @@
                             <tbody>
                                 @foreach ($stages as $stage )
                                 <tr>
-                                    <td>{{ App\Models\Etudiant::find($stage->etudiant_id)->nom }}
-                                        {{ App\Models\Etudiant::find($stage->etudiant_id)->prenom }}</td>
+                                    <td>{{ucwords($stage->etudiant->prenom) }} {{ ucwords($stage->etudiant->nom) }}</td>
                                     <td>{{$stage->code_classe}}</td>
-                                    <td>{{$stage->enseignant->nom }}&nbsp;{{$stage->enseignant->prenom }}</td>
+                                    <td>{{ucwords($stage->enseignant->prenom)}}&nbsp;{{ucwords($stage->enseignant->nom)}}</td>
                                     </td>
                                     <td class="text-center">
                                         @if(isset($stage->fiche_demande))

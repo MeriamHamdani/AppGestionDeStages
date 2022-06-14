@@ -27,7 +27,7 @@
                     <div class="card-header pb-0">
                         <h5>Les demandes</h5>
                     </div>
-                    <div class="table">
+                  <!--  <div class="table">
                         <table class="display" id="basic-1">
                             <thead>
                             <tr>
@@ -73,7 +73,7 @@
 
                             </tbody>
                         </table>
-                    </div>
+                    </div> -->
                     <div class="card-body">
                         <div class="dt-ext table-responsive">
                             <table class="display" id="auto-fill">
@@ -92,11 +92,9 @@
                                 <tbody>
                                 @foreach ($stages as $stage )
                                     <tr>
-                                        <td>{{ucwords($stage->etudiant->nom) }}
-                                            {{ ucwords($stage->etudiant->prenom) }}</td>
+                                        <td>{{ucwords($stage->etudiant->prenom) }} {{ ucwords($stage->etudiant->nom) }}</td>
                                         <td>{{$stage->code_classe}}</td>
-                                        <td>{{ App\Models\Enseignant::find($stage->enseignant_id)->nom }}&nbsp;{{
-                                        App\Models\Enseignant::find($stage->enseignant_id)->prenom }}</td>
+                                        <td>{{ucwords($stage->enseignant->prenom) }} {{ ucwords($stage->enseignant->nom) }}</td>
                                         <td class="text-center">
                                             @if(isset($stage->fiche_demande))
                                                 <a href="{{ route('telechargement_fiche_demande',['fiche_demande'=>$stage->file,'code_classe'=>$stage->code_classe]) }}">
@@ -257,6 +255,58 @@
                                 </tfoot>
                             </table>
                         </div>
+                    </div>
+                    <div class="table">
+                        <table class="display" id="basic-1">
+                            <thead>
+                            <tr>
+                                <th>Légende</th>
+                            </tr>
+                            </thead>
+                            <tbody>
+                            <tr>
+                                <td>
+                                    <button class="btn btn-warning btn-sm" data-toggle="tooltip">
+                                        <i class="fa fa-spinner fa-spin"></i>
+                                    </button>
+                                </td>
+
+                                <td>Demande de stage en attente</td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    <button class="btn btn-danger btn-sm" data-toggle="tooltip">
+                                        <i class="icofont icofont-ui-close"></i>
+                                    </button>
+                                </td>
+                                <td>Demande de stage refusée</td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    <button class="btn btn-secondary" data-toggle="tooltip">
+                                        <i class="fa fa-spinner fa-spin"></i>
+                                    </button>
+                                </td>
+                                <td>Stage en cours/actif</td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    <button class="btn btn-primary btn-sm" data-toggle="tooltip">
+                                        <i class="icofont icofont-ui-check"></i>
+                                    </button>
+                                </td>
+                                <td>Stage achevé et validé</td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    <button class="btn btn-dark-gradien btn-sm" data-toggle="tooltip">
+                                        <i class="icofont icofont-ui-close"></i>
+                                    </button>
+                                </td>
+                                <td>Stage achevé et non validé</td>
+                            </tr>
+                            </tbody>
+                        </table>
                     </div>
 
                 </div>

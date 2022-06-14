@@ -46,7 +46,7 @@
                                 @foreach ($stages as $stage )
                                     <tr>
 
-                                        <td>{{ ucwords($stage->etudiant->nom)}} {{ucwords($stage->etudiant->prenom) }}</td>
+                                        <td>{{ ucwords($stage->etudiant->prenom)}} {{ucwords($stage->etudiant->nom) }}</td>
                                         <td>{{$stage->code_classe}}</td>
                                         @if(isset($stage->enseignant))
                                             <td>{{ucwords($stage->enseignant->prenom) }} {{ ucwords($stage->enseignant->nom) }}</td>

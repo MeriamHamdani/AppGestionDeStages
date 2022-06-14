@@ -13,29 +13,40 @@ class Stage extends Model
     {
         return $this->belongsTo(Etudiant::class);
     }
+
     public function entreprise()
     {
         return $this->belongsTo(Entreprise::class);
     }
+
     public function enseignant()
     {
         return $this->belongsTo(Enseignant::class);
     }
+
     public function cahierStage()
     {
         return $this->hasOne(CahierStage::class);
     }
+
     public function depotMemoire()
     {
         return $this->hasOne(DepotMemoire::class);
     }
+
     public function soutenance()
     {
         return $this->hasOne(Soutenance::class);
     }
+
     public function typeStage()
     {
         return $this->belongsTo(TypeStage::class);
+    }
+
+    public function paimentEnseignant()
+    {
+        return $this->hasOne(PaiementEnseignant::class);
     }
 
 }

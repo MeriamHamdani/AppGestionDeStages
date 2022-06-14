@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class CreateFraisEncadrementsTable extends Migration
+class CreatePaiementEnseignantsTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,11 +13,11 @@ class CreateFraisEncadrementsTable extends Migration
      */
     public function up()
     {
-        Schema::create('frais_encadrements', function (Blueprint $table) {
+        Schema::create('paiement_enseignants', function (Blueprint $table) {
             $table->id();
-            $table->string('grade');
-            $table->string('cycle');
-            $table->float('frais',10,3);
+            $table->foreignId('enseignant_id')->constrained()->cascadeOnDelete();
+            $table->foreignId('stage_id')->constrained()->cascadeOnDelete();
+            $table->float('montant',10,3);
             $table->timestamps();
         });
     }
@@ -29,6 +29,6 @@ class CreateFraisEncadrementsTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('frais_encadrements');
+        Schema::dropIfExists('paiement_enseignants');
     }
 }
