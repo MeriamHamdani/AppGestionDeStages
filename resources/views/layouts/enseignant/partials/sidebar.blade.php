@@ -87,7 +87,7 @@
 
                     <li class="sidebar-main-title">
                         <div>
-                            <h6>Paiement</h6>
+                            <h6>Payement</h6>
                         </div>
                     </li>
                     <li class="dropdown">

@@ -26,15 +26,16 @@
                     <h5>Listes des demandes de dépôt</h5>
                 </div>
                 <div class="card-body">
-                    <div class="table-responsive">
+                    <div>
                         <table class="display" id="advance-1">
                             <thead>
                                 <tr>
                                     <th>Titre de sujet</th>
                                     <th>Etudiant</th>
-                                    <th>Date d'envoi de la demande</th>
+                                    <th>Classe</th>
+                                    <th>Déposé le</th>
                                     <th>Encadrant</th>
-                                    <th>confirmation de l'encadrant</th>
+                                    <th>Confirmation de l'encadrant</th>
                                     <th>Actions</th>
                                 </tr>
                             </thead>
@@ -43,6 +44,7 @@
                                 <tr>
                                     <td>{{$demande->titre}}</td>
                                     <td>{{ucwords($demande->stage->etudiant->prenom)}} {{ucwords($demande->stage->etudiant->nom)}}</td>
+                                    <td>{{$demande->stage->etudiant->classe->code}}</td>
                                     <td>{{$demande->date_depot}}</td>
                                     <td>{{ucwords($demande->stage->enseignant->prenom)}} {{ucwords($demande->stage->enseignant->nom)}}</td>
                                     @if($demande->validation_encadrant == -1)
@@ -104,7 +106,8 @@
                                 <tr>
                                     <th>Titre de sujet</th>
                                     <th>Etudiant</th>
-                                    <th>Date d'envoi de la demande</th>
+                                    <th>Classe</th>
+                                    <th>Déposé le</th>
                                     <th>Encadrant</th>
                                     <th>Confirmation de l'encadrant</th>
                                     <th>Actions</th>

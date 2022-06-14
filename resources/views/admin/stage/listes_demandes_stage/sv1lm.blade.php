@@ -29,13 +29,15 @@
                     <h5>Les demandes</h5>
                 </div>
                 <div class="card-body">
-                    <div class="dt-ext table-responsive">
+                    <div class="dt-ext">
                         <table class="display" id="auto-fill">
                             <thead>
                                 <tr>
                                     <th>Nom Complet</th>
                                     <th>Classe</th>
-                                    <th>Les fiches </th>
+                                    <th>Les fiches</th>
+                                    <th>Date début stage</th>
+                                    <th>Date fin stage</th>
                                     <th>Confirmation de l'administration</th>
                                     <th>Actions</th>
                                     <th>Etat</th>
@@ -45,7 +47,7 @@
                                 @foreach ($stages_volontaires as $stage )
                                 <tr>
                                     <td>{{ucwords($stage->etudiant->prenom) }} {{ ucwords($stage->etudiant->nom) }}</td>
-                                    <td>{{$stage->etudiant->classe->nom}}</td>
+                                    <td>{{$stage->etudiant->classe->code}}</td>
                                     <td class="text-center">
                                         @if(isset($stage->fiche_demande))
                                         <a href="{{ route('telechargement_fiche_demande',['fiche_demande'=>$stage->file,'code_classe'=>$stage->code_classe]) }}">
@@ -69,6 +71,8 @@
                                             @endif
 
                                     </td>
+                                    <td style="font-size:13px">{{$stage->date_debut}}</td>
+                                    <td style="font-size:13px">{{$stage->date_fin}}</td>
                                     <!--else
                                         <td class="text-center">
                                             <i class="icofont icofont-exclamation-tringle" style="font-size: 1.3em"></i>
@@ -167,6 +171,8 @@
                                     <th>Nom Complet</th>
                                     <th>Classe</th>
                                     <th>Les fiches</th>
+                                    <th>Date début stage</th>
+                                    <th>Date fin stage</th>
                                     <th>Confirmation de l'administration</th>
                                     <th>Actions</th>
                                     <th>Etat</th>

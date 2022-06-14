@@ -3,7 +3,9 @@
 namespace App\Http\Controllers;
 
 use App\Models\fraisEncadrement;
+use Couchbase\SearchIndex;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Session;
 
 class FraisEncadrementController extends Controller
 {
@@ -42,8 +44,13 @@ class FraisEncadrementController extends Controller
            'cycle'=>'required',
            'frais'=>'required|numeric'
        ]);
-       $fraisEncadrement = FraisEncadrement::create($attributes);
+        $frais_exist = FraisEncadrement::where('grade', $request->grade)->where('cycle',$request->cycle)->exists();
+        if(!$frais_exist) {
+            $fraisEncadrement = FraisEncadrement::create($attributes);
+        } else
+            Session::flash('message','exist');
         return redirect()->action([FraisEncadrementController::class,'index']);
+
     }
 
     /**

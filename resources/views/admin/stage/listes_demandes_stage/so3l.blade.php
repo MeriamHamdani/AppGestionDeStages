@@ -28,7 +28,7 @@
                         <h5>Les demandes</h5>
                     </div>
                     <div class="card-body">
-                        <div class="dt-ext table-responsive">
+                        <div class="dt-ext" style="font-size: 12px">
                             <table class="display" id="auto-fill">
                                 <thead>
                                 <tr>
@@ -36,6 +36,8 @@
                                     <th>Classe</th>
                                     <th>Encadrant</th>
                                     <th>Les fiches</th>
+                                    <th>Date début stage</th>
+                                    <th>Date fin stage</th>
                                     <th>Confirmation de l'encadrant</th>
                                     <th>Confirmation de l'administration</th>
                                     <th>Actions</th>
@@ -74,6 +76,8 @@
                                                        style="color: #8a6d3b"></i></a>
                                             @endif
                                         </td>
+                                        <td style="font-size:9px">{{$stage->date_debut}}</td>
+                                        <td style="font-size:9px">{{$stage->date_fin}}</td>
                                         <!--else
                                         <td class="text-center">
                                             <i class="icofont icofont-exclamation-tringle" style="font-size: 1.3em"></i>
@@ -205,6 +209,8 @@
                                     <th>Classe</th>
                                     <th>Encadrant</th>
                                     <th>Les fiches</th>
+                                    <th>Date début stage</th>
+                                    <th>Date fin stage</th>
                                     <th>Confirmation de l'encadrant</th>
                                     <th>Confirmation de l'administration</th>
                                     <th>Actions</th>
