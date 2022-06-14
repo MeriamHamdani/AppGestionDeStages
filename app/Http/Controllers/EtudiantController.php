@@ -54,6 +54,7 @@ class EtudiantController extends Controller
      */
     public function store(Request $request)
     {
+       
         $attributs = $request->validate(
             ['numero_CIN'=>['required', 'string', 'max:8','min:8']
             ]);
@@ -69,10 +70,32 @@ class EtudiantController extends Controller
             'classe_id' => ['required', Rule::exists('classes', 'id')]
         ]);
         $attributs['email'] = $request->email;
+
         $user_exist = User::where('numero_CIN',$request->numero_CIN)->exists();
         $etd_exist = Etudiant::where('email', $request->email)->first();
-        if (!($etd_exist || $user_exist)) {
+        //--------------------------------------------------------------------------------------------
+        $etd_cette_annee=0;
+
+        if($user_exist){
+
+            $user=User::where('numero_CIN',$request->numero_CIN)->get()[0];
+
+                $etudiants=Etudiant::where('user_id',$user->id)->get();
+
+                foreach($etudiants as $etudiant){
+
+					$year=AnneeUniversitaire::findOrFail($etudiant->annee_universitaire_id);
+                   
+                    if($year->annee == $this->current_year()){
+						$etd_cette_annee=1;
+					}
+                }
+        }
+        //--------------------------------------------------------------------------------------------
+
+        if (!$user_exist ||$etd_cette_annee==0) {
             $annee=$this->current_annee_univ();
+
             $annees = AnneeUniversitaire::all();
             foreach ($annees as $a)
             {
@@ -82,13 +105,21 @@ class EtudiantController extends Controller
                     break;
                 }
             }
-            $user = User::create($attributs);
-            $user->assignRole('etudiant');
+
+            if(!$user_exist){
+                $user = User::create($attributs);
+                $user->assignRole('etudiant');
+            }else{
+                $user=User::where('numero_CIN',$request->numero_CIN)->get()[0];
+
+            }
+
             $attributs2['user_id'] = $user->id;
             $etudiant = Etudiant::create($attributs2);
             $user->email=$etudiant->email;
             Session::flash('message', 'ok1');
-        }else{
+        }
+        else{
             Session::flash('message', 'ko1');
         }
         return redirect()->action([EtudiantController::class,'index']);
@@ -167,7 +198,7 @@ class EtudiantController extends Controller
     {
         $user_id = auth()->id();
         $etudiant = Etudiant::where('user_id',$user_id)->first();
-        //dd($etudiant->user->numero_CIN);
+
         return view('etudiant.profil.editProfil',['etudiant'=>$etudiant]);
     }
     public function updateProfil (Request $request, Etudiant $etudiant)
@@ -217,6 +248,19 @@ class EtudiantController extends Controller
 
             }
         }
+
+    }
+static function current_year()
+    {
+
+        $mydate = Carbon::now();
+        $moisCourant = (int)$mydate->format('m');
+        if ((6 < $moisCourant) && ($moisCourant < 12)) {
+            $annee = '20' . $mydate->format('y') . '-20' . strval(((int)$mydate->format('y')) + 1);
+        } else {
+            $annee = '20' . strval(((int)$mydate->format('y')) - 1) . '-20' . $mydate->format('y');
+        }
+        return $annee;
 
     }
 
