@@ -162,7 +162,7 @@ Route::middleware(['auth','role:admin|superadmin','clearClasse'])->group(functio
             Route::post('ajouter-frais', [FraisEncadrementController::class, 'store'])->name('sauvegarder_frais');
             Route::get('supprimer-frais/{fraisEncadrement}', [FraisEncadrementController::class, 'destroy'])->name('supprimer_frais');
             Route::get('modifier-frais/{fraisEncadrement}', [FraisEncadrementController::class, 'edit'])->name('modifier_frais');
-            Route::post('modifier-frais/{fraisEncadrement}', [FraisEncadrementController::class, 'update'])->name('_frais');
+            Route::post('modifier-frais/{fraisEncadrement}', [FraisEncadrementController::class, 'update'])->name('update_frais');
             Route::view('dates-stages', 'admin.configuration.generale.dates_stages')->name('dates_stages');
             Route::view('liste-grille', 'admin.configuration.generale.liste_grille')->name('liste_grille');
             Route::view('config-grille', 'admin.configuration.generale.configuration_grille')->name('configurer_grille');

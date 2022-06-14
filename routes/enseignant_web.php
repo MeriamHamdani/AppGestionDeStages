@@ -3,6 +3,7 @@
 use App\Http\Controllers\CommentaireController;
 use App\Http\Controllers\DepotMemoireController;
 use App\Http\Controllers\EnseignantController;
+use App\Http\Controllers\PaiementEnseignantController;
 use App\Http\Controllers\StageController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\CahierStageController;
@@ -24,8 +25,9 @@ Route::middleware(['auth','role:enseignant'])->group(function(){
         Route::get('/encadrement/liste-stages-actifs/details-stage/{stage}',[EnseignantController::class,'details_stage'] )->name('details_stage');
         Route::get('/encadrement/liste-stages-actifs/telecharge-fiche-encadrement/{stage}',[StageController::class,'download_fiche_encadrement'] )->name('telecharger_fiche_enc');
 
-        Route::view('/paiement/liste-stages-paye','enseignant.paiement.liste_stages_paye' )->name('liste_stages_paye');
-        Route::view('/paiement/liste-stages-non-paye','enseignant.paiement.liste_stages_non_paye' )->name('liste_stages_non_paye');
+        Route::get('/paiement/stages-frais',[PaiementEnseignantController::class,'stagesEtFraisEncadrement'] )->name('liste_stages_a_paye');
+        Route::get('/paiement/stages-frais',[PaiementEnseignantController::class,'stagesEtFraisEncadrement'] )->name('liste_stages_a_paye');
+
 
 
         Route::view('/encadrement/demandes', 'enseignant.encadrement.demandes')->name('demandes');

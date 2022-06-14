@@ -43,8 +43,7 @@
                             <tbody>
                                 @foreach ($stages_2lInfo as $stage )
                                 <tr>
-                                    <td>{{$stage->etudiant->nom }}
-                                        {{$stage->etudiant->prenom }}</td>
+                                    <td>{{ucwords($stage->etudiant->prenom) }} {{ ucwords($stage->etudiant->nom) }}</td>
                                     <td>{{$stage->code_classe}}</td>
                                     <td class="text-center">
                                         @if(isset($stage->fiche_demande))

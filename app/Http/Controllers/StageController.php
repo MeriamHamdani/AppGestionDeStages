@@ -2,6 +2,8 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\FraisEncadrement;
+use App\Models\PaiementEnseignant;
 use App\Models\User;
 use App\Models\Stage;
 use App\Models\Classe;
@@ -299,44 +301,48 @@ class StageController extends Controller
     {
         $user_id = Auth::user()->id;
         $ens = Enseignant::all()->where('user_id', $user_id)->first();
-        $stages = (Stage::where('enseignant_id', $ens->id))->where('confirmation_encadrant', null)->get();
-        //dd($stages);
+        $stages = (Stage::where('enseignant_id', $ens->id))
+            ->where('confirmation_encadrant', null)
+            ->where('confirmation_admin',0)
+            ->get();
         return view('enseignant.encadrement.Liste_demandes_encadrement', compact(['stages']));
     }
 
     public function confirmer_demande_enseignant(Stage $stage)
     {
-        $stage->confirmation_encadrant = 1;
-        $user = Auth::user();
-        $user->assignRole('encadrant');
-        $etudiant = $stage->etudiant;
-        $enseignant = $stage->enseignant;
-        // dd($enseignant);
-        $stage->update();
-        $user->update();
-        $stage->save();
-        $current_date = Carbon::now();
-        $data = ['nom_etud' => ucwords($etudiant->nom . ' ' . $etudiant->prenom),
-            'nom_ens' => ucwords($enseignant->nom . ' ' . $enseignant->prenom),
-            'date' => 'Le ' . $current_date->day . '-' . $current_date->month . '-' . $current_date->year . ' à ' . $current_date->hour . ':' . $current_date->minute];
-        $etudiant->notify(new EncadrementAccepteNotifiaction($data));
-
-        return back();
+        if ($stage->confirmation_encadrant == null && $stage->date_fin > Carbon::now()) {
+            $stage->confirmation_encadrant = 1;
+            $user = Auth::user();
+            $user->assignRole('encadrant');
+            $etudiant = $stage->etudiant;
+            $enseignant = $stage->enseignant;
+            // dd($enseignant);
+            $stage->update();
+            $user->update();
+            $stage->save();
+            $current_date = Carbon::now();
+            $data = ['nom_etud' => ucwords($etudiant->nom . ' ' . $etudiant->prenom),
+                'nom_ens' => ucwords($enseignant->nom . ' ' . $enseignant->prenom),
+                'date' => 'Le ' . $current_date->day . '-' . $current_date->month . '-' . $current_date->year . ' à ' . $current_date->hour . ':' . $current_date->minute];
+            $etudiant->notify(new EncadrementAccepteNotifiaction($data));
+            return back();
+        } else abort(404);
     }
 
     public function refuser_demande_enseignant(Stage $stage)
     {
-        $stage->confirmation_encadrant = -1;
-        $enseignant = $stage->enseignant;
-        $etudiant = $stage->etudiant;
-        $stage->update();
-        $current_date = Carbon::now();
-        $data = ['nom_etud' => ucwords($etudiant->nom . ' ' . $etudiant->prenom),
-            'nom_ens' => ucwords($enseignant->nom . ' ' . $enseignant->prenom),
-            'date' => 'Le ' . $current_date->day . '-' . $current_date->month . '-' . $current_date->year . ' à ' . $current_date->hour . ':' . $current_date->minute];
-        $etudiant->notify(new EncadrementRefuseNotifiaction($data));
-
-        return back();
+        if ($stage->confirmation_encadrant == null) {
+            $stage->confirmation_encadrant = -1;
+            $enseignant = $stage->enseignant;
+            $etudiant = $stage->etudiant;
+            $stage->update();
+            $current_date = Carbon::now();
+            $data = ['nom_etud' => ucwords($etudiant->nom . ' ' . $etudiant->prenom),
+                'nom_ens' => ucwords($enseignant->nom . ' ' . $enseignant->prenom),
+                'date' => 'Le ' . $current_date->day . '-' . $current_date->month . '-' . $current_date->year . ' à ' . $current_date->hour . ':' . $current_date->minute];
+            $etudiant->notify(new EncadrementRefuseNotifiaction($data));
+            return back();
+        } else abort(404);
     }
 
 
@@ -617,10 +623,9 @@ class StageController extends Controller
     {
         $current_date = Carbon::now();
         $stage = Stage::findOrFail($stage_id);
-        if ($stage->date_fin < Carbon::now()) {
+        if ($stage->date_fin > $current_date && $stage->cofirmation_admin == 0) {
             $etudiant = Etudiant::findOrFail($stage->etudiant_id);
             $classe = Classe::findOrFail($etudiant->classe_id);
-            $type_stage = TypeStage::findOrFail($classe->type_stage_id);
             $annee_universitaire_id = null;
             $annee = $this->current_annee_univ();
             $annees = AnneeUniversitaire::all();
@@ -630,32 +635,38 @@ class StageController extends Controller
                     break;
                 }
             }
-            $stage->confirmation_admin = 1;
-            if (strtoupper($type_stage->cahier_stage_type) === strtoupper('requis')) {
-                $cahier_stage = new CahierStage();
-                $cahier_stage->stage_id = $stage_id;
-                $cahier_stage->annee_universitaire_id = $annee_universitaire_id;
-                $cahier_stage->save();
-                $stage->cahier_stage_id = $cahier_stage->id;
-                $stage->update();
-            }
             $user = User::findOrFail($etudiant->user_id);
             $type_stage = TypeStage::findOrFail($classe->type_stage_id);
             $type = Arr::last((TypeStageController::decouper_nom($type_stage->nom)));
-            if ($stage->confirmation_encadrant == -1 && $stage->enseignant != null) {
-                Session::flash('message', 'encadrant refuse');
-            } elseif ($stage->confirmation_encadrant == 0 && $stage->enseignant != null) {
-                Session::flash('message', 'attend_encadrant');
-                //dd(Session::get('message'));
-                return back();
+            if ($type === 'Obligatoire') {
+                $ts = 'إجباري';
             } else {
+                $ts = 'تطوعي';
+            }
 
-                if ($type === 'Obligatoire') {
-                    $ts = 'إجباري';
-                } else {
-                    $ts = 'تطوعي';
-                }
-                if (isset($stage->enseignant)) {
+            if (isset($stage->enseignant)) {
+                if ($stage->confirmation_encadrant == 1) {
+                    $stage->confirmation_admin = 1;
+                    $stage->update();
+                    if (strtoupper($type_stage->cahier_stage_type) === strtoupper('requis')) {
+                        $cahier_stage = new CahierStage();
+                        $cahier_stage->stage_id = $stage_id;
+                        $cahier_stage->annee_universitaire_id = $annee_universitaire_id;
+                        $cahier_stage->save();
+                        $stage->cahier_stage_id = $cahier_stage->id;
+                        $stage->update();
+                    }
+                    $grade = $stage->enseignant->grade;
+                    $cycle = $stage->etudiant->classe->cycle; //dd($grade,$cycle);
+                    $lignefrais = (FraisEncadrement::where('cycle', $cycle)->where('grade', $grade)->first());
+                    if(isset($lignefrais)) {
+                        $frais = $lignefrais->frais;
+                        $paiementEncadrement = new PaiementEnseignant();
+                        $paiementEncadrement->enseignant_id = $stage->enseignant->id;
+                        $paiementEncadrement->stage_id = $stage->id; //dd(StageController::diff_date_en_mois($stage->date_fin, $stage->date_debut));
+                        $paiementEncadrement->montant = $frais * StageController::diff_date_en_mois($stage->date_fin, $stage->date_debut);
+                        $paiementEncadrement->save();
+                    }
                     $enseignant = Enseignant::findOrFail($stage->enseignant_id);
                     $file_path2 = public_path() . '\storage\ ' . $annee->fiche_encadrement;
                     $file_path2 = str_replace(' ', '', $file_path2);
@@ -685,6 +696,22 @@ class StageController extends Controller
                     ];
                     $etudiant->notify(new DownloadLettreAffectationNotification($details));
                     return back();
+                } elseif ($stage->confirmation_encadrant == -1) {
+                    Session::flash('message', 'encadrant refuse');
+                } elseif ($stage->confirmation_encadrant == 0) {
+                    Session::flash('message', 'attend_encadrant');
+                    return back();
+                }
+            } else {
+                $stage->confirmation_admin = 1;
+                $stage->update();
+                if (strtoupper($type_stage->cahier_stage_type) === strtoupper('requis')) {
+                    $cahier_stage = new CahierStage();
+                    $cahier_stage->stage_id = $stage_id;
+                    $cahier_stage->annee_universitaire_id = $annee_universitaire_id;
+                    $cahier_stage->save();
+                    $stage->cahier_stage_id = $cahier_stage->id;
+                    $stage->update();
                 }
                 $file_path = public_path() . '\storage\ ' . $annee->lettre_affectation;
                 $file_path = str_replace(' ', '', $file_path);
@@ -698,17 +725,15 @@ class StageController extends Controller
                 $templateProcessor->setValue('classe', $classe->nom);
                 $templateProcessor->saveAs(public_path() . '\storage\lettres_affectation_' . $annee->annee . '\lettre_aff_' . $user->numero_CIN . '_' . $stage->id . '.docx');
                 $stage->update();
+                $details = ['etudiant' => $etudiant->nom . ' ' . $etudiant->prenom,
+                    'annee' => $annee->annee_universitaire,
+                    'type_stage' => $type,
+                    'date' => 'Le ' . $current_date->day . '-' . $current_date->month . '-' . $current_date->year . ' à ' . $current_date->hour . ':' . $current_date->minute];
 
+                $etudiant->notify(new DownloadLettreAffectationNotification($details));
+                return back();
             }
-            $details = ['etudiant' => $etudiant->nom . ' ' . $etudiant->prenom,
-                'annee' => $annee->annee_universitaire,
-                'type_stage' => $type,
-                'date' => 'Le ' . $current_date->day . '-' . $current_date->month . '-' . $current_date->year . ' à ' . $current_date->hour . ':' . $current_date->minute];
-
-            $etudiant->notify(new DownloadLettreAffectationNotification($details));
-            return back();
         } else abort(404);
-
     }
 
     static function current_annee_univ()

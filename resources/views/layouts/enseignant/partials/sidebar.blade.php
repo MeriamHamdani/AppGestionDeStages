@@ -45,7 +45,7 @@
                                 actifs</span></a>
 
                     </li>
-                    
+
                     <li class="sidebar-main-title">
                         <div>
                             <h6>Dépôt</h6>
@@ -91,20 +91,13 @@
                         </div>
                     </li>
                     <li class="dropdown">
-                        <a class="nav-link menu-title link-nav {{ routeActive('liste_stages_paye') }}"
-                            href="{{ route('liste_stages_paye') }}">
-                            <i class="icofont icofont-cur-dollar"></i>&nbsp&nbsp&nbsp<span>La liste des stages
-                                payés</span></a>
+                        <a class="nav-link menu-title link-nav {{ routeActive('liste_stages_a_paye') }}"
+                            href="{{ route('liste_stages_a_paye') }}">
+                            <i class="icofont icofont-cur-dollar"></i>&nbsp&nbsp&nbsp<span>Stages
+                                et Frais d'encadrement</span></a>
 
                     </li>
 
-                    <li class="dropdown">
-                        <a class="nav-link menu-title link-nav {{ routeActive('liste_stages_non_paye') }}"
-                            href="{{ route('liste_stages_non_paye') }}">
-                            <i class="icofont icofont-close-squared"></i>&nbsp&nbsp&nbsp<span>La liste des stages
-                                non-payés</span></a>
-
-                    </li>
                 </ul>
             </div>
             <div class="right-arrow" id="right-arrow"><i data-feather="arrow-right"></i></div>

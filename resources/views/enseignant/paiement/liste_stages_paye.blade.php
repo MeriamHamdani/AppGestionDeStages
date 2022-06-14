@@ -1,6 +1,6 @@
 @extends('layouts.enseignant.master')
 
-@section('title')Liste des stages payés
+@section('title')Frais d'encadrement de chaque stage
 {{ $title }}
 @endsection
 
@@ -12,10 +12,10 @@
 @section('content')
 @component('components.breadcrumb')
 @slot('breadcrumb_title')
-<h3>La liste des stages payés</h3>
+<h3>Frais d'encadrement de chaque stage</h3>
 @endslot
 <li class="breadcrumb-item">Paiement</li>
-<li class="breadcrumb-item">La liste des stages payés</li>
+<li class="breadcrumb-item">Frais d'encadrement de chaque stage</li>
 
 @endcomponent
 
@@ -24,59 +24,37 @@
         <div class="col-sm-12">
             <div class="card">
                 <div class="card-header pb-0">
-                    <h5>Mes stages payés</h5>
+                    <h5>Frais d'encadrement de chaque stage</h5>
                 </div>
                 <div class="card-body">
                     <div class="dt-ext table-responsive">
                         <table class="display" id="auto-fill">
                             <thead>
                                 <tr>
-
-                                    <th>Mon grade</th>
-                                    <th>Niveau de stagiaire</th>
+                                    <th>Stage</th>
+                                    <th>Etudiant</th>
+                                    <th>Cycle</th>
                                     <th>Mes frais (DT)</th>
-
                                 </tr>
                             </thead>
                             <tbody>
-
+                            @foreach ($stages_frais as $stage_frais)
                                 <tr>
-
-                                    <td>Professeur</td>
-                                    <td>Mastère</td>
-                                    <td>500 </td>
+                                    <td>{{$stage_frais->stage->type_sujet}}</td>
+                                    <td> {{ucwords($stage_frais->stage->etudiant->prenom)}} {{ucwords($stage_frais->stage->etudiant->nom)}}</td>
+                                    <td>{{ucwords($stage_frais->stage->etudiant->classe->cycle)}} </td>
+                                    <td>{{$stage_frais->montant}}</td>
                                 </tr>
-                                <tr>
-
-                                    <td>Maitre assistant</td>
-                                    <td>Ingénieurie</td>
-                                    <td>500 </td>
-                                </tr>
-                                <tr>
-
-                                    <td>Professeur</td>
-                                    <td>Licence</td>
-                                    <td>500 </td>
-
-                                </tr>
-
-                                <!-- <td style=" padding: 10px;
-                                    border: 2px solid #3CB371;
-                                    border-radius: 5px;
-                                    background-color: #e5e5e5;">En cours</td>-->
-                                </tr>
-
+                            @endforeach
                             </tbody>
                             <tfoot>
 
                                 <tr>
-
-                                    <th>Mon grade</th>
-                                    <th>Niveau de stagiaire</th>
+                                    <th>Stage</th>
+                                    <th>Etudiant</th>
+                                    <th>Cycle</th>
                                     <th>Mes frais (DT)</th>
-
                                 </tr>
-
                             </tfoot>
                         </table>
                     </div>

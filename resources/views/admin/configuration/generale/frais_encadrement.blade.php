@@ -49,7 +49,7 @@
                                     <td>{{ucwords($frais->grade)}}</td>
                                     <td>{{ucwords($frais->cycle)}}</td>
                                     <td>{{ucwords($frais->frais)}} DT</td>
-                                    <td> <a href="{{route('modifier_frais',$frais)}}"> <i
+                                    <td class="text-center"> <a href="{{route('modifier_frais',$frais)}}"> <i
                                                 style="font-size: 1.3em;" class='fa fa-edit'></i></a>
                                         <a href="#" data-id="{{ $frais->id }}"
                                            data-name=""
