@@ -32,8 +32,10 @@ class EtudiantController extends Controller
      */
     public function index()
     {
+        
         return view('admin.etablissement.etudiant.liste_etudiants',
-            ['etudiants' => Etudiant::with('user','classe')->get()]);//with('classe')->get()
+            ['etudiants' => Etudiant::with('user','classe')->get(),
+             'year'=>$this->current_year()]);//with('classe')->get()
     }
 
     /**
@@ -72,8 +74,6 @@ class EtudiantController extends Controller
         $attributs['email'] = $request->email;
 
         $user_exist = User::where('numero_CIN',$request->numero_CIN)->exists();
-        $etd_exist = Etudiant::where('email', $request->email)->first();
-        //--------------------------------------------------------------------------------------------
         $etd_cette_annee=0;
 
         if($user_exist){
@@ -91,9 +91,7 @@ class EtudiantController extends Controller
 					}
                 }
         }
-        //--------------------------------------------------------------------------------------------
-
-        if (!$user_exist ||$etd_cette_annee==0) {
+        if ( !$user_exist || $etd_cette_annee==0) {
             $annee=$this->current_annee_univ();
 
             $annees = AnneeUniversitaire::all();
@@ -111,7 +109,6 @@ class EtudiantController extends Controller
                 $user->assignRole('etudiant');
             }else{
                 $user=User::where('numero_CIN',$request->numero_CIN)->get()[0];
-
             }
 
             $attributs2['user_id'] = $user->id;
