@@ -25,8 +25,8 @@ Route::middleware(['auth','role:enseignant'])->group(function(){
         Route::get('/encadrement/liste-stages-actifs/details-stage/{stage}',[EnseignantController::class,'details_stage'] )->name('details_stage');
         Route::get('/encadrement/liste-stages-actifs/telecharge-fiche-encadrement/{stage}',[StageController::class,'download_fiche_encadrement'] )->name('telecharger_fiche_enc');
 
-        Route::get('/paiement/stages-frais',[PaiementEnseignantController::class,'stagesEtFraisEncadrement'] )->name('liste_stages_a_paye');
-        Route::get('/paiement/stages-frais',[PaiementEnseignantController::class,'stagesEtFraisEncadrement'] )->name('liste_stages_a_paye');
+        Route::get('/payement/stages-frais',[PaiementEnseignantController::class,'stagesEtFraisEncadrement'] )->name('liste_stages_a_paye');
+        Route::get('/payement/stages-frais',[PaiementEnseignantController::class,'stagesEtFraisEncadrement'] )->name('liste_stages_a_paye');
 
 
 

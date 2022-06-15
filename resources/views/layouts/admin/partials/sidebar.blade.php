@@ -215,13 +215,13 @@
                     </li>
                     <li class="sidebar-main-title">
                         <div>
-                            <h6>Paiement</h6>
+                            <h6>Payement</h6>
                         </div>
                     </li>
                     <li class="dropdown">
                         <a class="nav-link menu-title link-nav {{ routeActive('details_paiement_ens') }}"
                             href="{{ route('details_paiement_ens') }}">
-                            <i class="icofont icofont-cur-dollar-plus"></i>&nbsp&nbsp&nbsp<span>Détails de paiement
+                            <i class="icofont icofont-cur-dollar-plus"></i>&nbsp&nbsp&nbsp<span>Détails de payement
                                 d'un enseignant</span></a>
                     </li>
                     <li class="sidebar-main-title">

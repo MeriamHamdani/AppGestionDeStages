@@ -1,6 +1,6 @@
 @extends('layouts.admin.master')
 
-@section('title')Configuration des paiements
+@section('title')Configuration des payements
 {{ $title }}
 @endsection
 
@@ -12,7 +12,7 @@
 @section('content')
     @component('components.breadcrumb')
         @slot('breadcrumb_title')
-            <h3>Configuration des paiements</h3>
+            <h3>Configuration des payements</h3>
         @endslot
         <li class="breadcrumb-item">Configuration</li>
         <li class="breadcrumb-item">Frais d'encadrement</li>
@@ -121,7 +121,15 @@
             });
 
         </script>
-    @endpush
+        @if (Session::get('message')=='exist')
+            <script>
+                swal('Oups', 'Cette ligne existe déjà dans la table', 'error', {
+                    button: 'OK'
+                })
+
+            </script>
+        @endif
+            @endpush
 
 @endsection
 

@@ -15,7 +15,7 @@
         @slot('breadcrumb_title')
             <h3>Attrayant de chaque enseignant</h3>
         @endslot
-        <li class="breadcrumb-item">Paiement</li>
+        <li class="breadcrumb-item">Payement</li>
         <li class="breadcrumb-item">Attrayant de chaque enseignant</li>
 
     @endcomponent
