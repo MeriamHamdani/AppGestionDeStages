@@ -44,10 +44,12 @@ Route::middleware(['auth','role:admin|superadmin','clearClasse'])->group(functio
 
         Route::prefix('stage/demandes-stage')->group(function () {
             Route::get('1ere-licence-master',[StageController::class,'list_vol_1ere_licence_1ere_master'])->name('demandes_stage.sv1lm');
+            Route::post('paiement/details-paie/telecharger-attrayant', [EnseignantController::class, 'telecharger_attrayant'])->name('telecharger_attrayant');
             Route::get('2eme-licence-info',[StageController::class,'list_oblig_2eme_licence_info'])->name('demandes_stage.so2lInfo');
             Route::get('2eme-licence',[StageController::class,'list_oblig_2eme_licence_non_info'])->name('demandes_stage.so2l');
             Route::get('3eme-licence',[StageController::class,'list_oblig_3eme_licence_non_info'])->name('demandes_stage.so3l');
             Route::get('3eme-licence-info', [StageController::class,'list_oblig_3eme_licence_info'])->name('demandes_stage.so3Info');
+            Route::get('3eme-licence-info/liste-par-annee/{id}', [StageController::class, 'getListeParAn'])->name('getListeParAn');
             Route::get('2eme-master', [StageController::class,'list_oblig_2eme_master'])->name('demandes_stage.so2m');
             Route::get('modifier/{stage_id}', [StageController::class,'modifier_demande'])->name('demandes_stage.modifier_demande');
 			Route::patch('modifier/{stage_id}',[StageController::class,'edit'])->name('edit');

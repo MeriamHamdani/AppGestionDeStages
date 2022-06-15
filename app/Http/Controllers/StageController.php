@@ -193,71 +193,62 @@ class StageController extends Controller
         $stages = new Collection();
         $current_date = Carbon::now();
         foreach ($all_stages as $stage) {
-
             $etudiant = Etudiant::findOrFail($stage->etudiant_id);
             $classe = Classe::findOrFail($etudiant->classe_id);
             $niveau = $classe->niveau;
             $cycle = $classe->cycle;
-
             $specialite = Specialite::findOrFail($classe->specialite_id);
             $departement_nom = Departement::findOrFail($specialite->departement_id)->nom;
-
-
             $is_licence = (strtoupper($cycle) === strtoupper('licence'));
-            $is_master = (strtoupper($cycle) === strtoupper('master'));
-            $is_1_or_2 = ($niveau == 1 || $niveau == 2);
             $dep_is_info = strpos('departement ' . strtoupper($departement_nom), strtoupper('informatique')) > 0;
-
             if ((!$dep_is_info && $is_licence && $niveau == 3)) {
-
                 $fiche = substr($stage->fiche_demande, strpos($stage->fiche_demande, '/') + 1, strlen($stage->fiche_demande));
-
                 $stage->file = $fiche;
                 $stage->code_classe = $classe->code;
                 $stages->push($stage);
-
-
             }
-
         }
-
-
         return view('admin.stage.listes_demandes_stage.so3l', compact(['stages', 'current_date']));
     }
+    public function getListeParAn($id = 0) {
+        $an= AnneeUniversitaire::find($id);
+        $stages = $this->stages3emeLicInfo();
+        $stgesParAn = new Collection();
+        foreach ($stages as $stage) {
+            if($stage->annee_universitaire_id == $id) {
+                $stgesParAn->push($stage);
+            }
+        }
+        echo json_encode($stgesParAn);
+        exit;
 
-    public function list_oblig_3eme_licence_info()
-    {
+    }
+    public function stages3emeLicInfo() {
         $all_stages = Stage::All();
         $stages = new Collection();
         $current_date = Carbon::now();
         foreach ($all_stages as $stage) {
-
             $etudiant = Etudiant::findOrFail($stage->etudiant_id);
             $classe = Classe::findOrFail($etudiant->classe_id);
             $niveau = $classe->niveau;
             $cycle = $classe->cycle;
-
             $specialite = Specialite::findOrFail($classe->specialite_id);
             $departement_nom = Departement::findOrFail($specialite->departement_id)->nom;
-
-
             $is_licence = (strtoupper($cycle) === strtoupper('licence'));
-            $is_master = (strtoupper($cycle) === strtoupper('master'));
-            $is_1_or_2 = ($niveau == 1 || $niveau == 2);
             $dep_is_info = strpos('departement ' . strtoupper($departement_nom), strtoupper('informatique')) > 0;
-
             if (($dep_is_info && $is_licence && $niveau == 3)) {
-
                 $fiche = substr($stage->fiche_demande, strpos($stage->fiche_demande, '/') + 1, strlen($stage->fiche_demande));
-
                 $stage->file = $fiche;
                 $stage->code_classe = $classe->code;
                 $stages->push($stage);
-
             }
-
         }
-
+        return $stages;
+    }
+    public function list_oblig_3eme_licence_info(Request $request)
+    {
+       $stages = $this->stages3emeLicInfo(); //dd($stages);
+       $current_date = Carbon::now();
         return view('admin.stage.listes_demandes_stage.so3Info', compact(['stages', 'current_date']));
     }
 

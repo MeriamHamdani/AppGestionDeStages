@@ -7,6 +7,8 @@
 @push('css')
 <link rel="stylesheet" type="text/css" href="{{asset('assets/css/datatables.css')}}">
 <link rel="stylesheet" type="text/css" href="{{asset('assets/css/datatable-extension.css')}}">
+<link rel="stylesheet" type="text/css" href="{{ asset('assets/css/select2.css') }}">
+
 @endpush
 
 @section('content')
@@ -25,7 +27,17 @@
         <div class="col-sm-12">
             <div class="card">
                 <div class="card-header pb-0">
-                    <h5>Les demandes</h5>
+                    <h5>Les demandes</h5> <br/>
+                    <div style="width: 200px">
+                                <select class="js-example-basic-single col-sm-4" id="annee_universitaire" name="annee_universitaire"
+                                        required>
+                                    <option disabled="disabled" selected="selected">Année Universitaire
+                                    </option>
+                                    @foreach (\App\Models\AnneeUniversitaire::all() as $anneeUniv)
+                                        <option value="{{ $anneeUniv->id }}">{{ ucwords($anneeUniv->annee) }}</option>
+                                    @endforeach
+                                </select>
+                    </div>
                 </div>
                 <div class="card-body">
                     <div class="dt-ext" style="font-size: 12px">
@@ -46,11 +58,10 @@
                             </thead>
                             <tbody>
                                 @foreach ($stages as $stage )
-                                <tr>
+                                <tr class="{{$stage->annee_universitaire_id}}">
                                     <td>{{ucwords($stage->etudiant->prenom) }} {{ ucwords($stage->etudiant->nom) }}</td>
                                     <td>{{$stage->code_classe}}</td>
                                     <td>{{ucwords($stage->enseignant->prenom)}}&nbsp;{{ucwords($stage->enseignant->nom)}}</td>
-                                    </td>
                                     <td class="text-center">
                                         @if(isset($stage->fiche_demande))
                                         <a href="{{ route('telechargement_fiche_demande',['fiche_demande'=>$stage->file,'code_classe'=>$stage->code_classe]) }}">
@@ -267,6 +278,8 @@
 
 
     @push('scripts')
+        <script src="{{ asset('assets/js/select2/select2.full.min.js') }}"></script>
+        <script src="{{ asset('assets/js/select2/select2-custom.js') }}"></script>
         <script src="{{asset('assets/js/datatable/datatables/jquery.dataTables.min.js')}}"></script>
         <script src="{{asset('assets/js/datatable/datatable-extension/dataTables.buttons.min.js')}}"></script>
         <script src="{{asset('assets/js/datatable/datatable-extension/jszip.min.js')}}"></script>
@@ -315,6 +328,26 @@
                 </script>
             @endif
         @endif
+        <script type="text/javascript">
+             $('#annee_universitaire').change(function () {
+                 var id = $(this).val();
+                 var url = '{{route('getListeParAn', ':id')}}';
+                url = url.replace(':id', id);
+                $.ajax({
+                    url: url,
+                    type: 'get',
+                    dataType: 'json',
+                    success: function (response) {
+                         console.log(response);
+                        if (response != null) {
+
+                        }
+                    }
+                });
+            });
+
+
+        </script>
     @endpush
 
 @endsection
