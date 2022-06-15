@@ -108,8 +108,8 @@ $semaine=1;
 $l=1;
        //dd($tcs=Tache::where('cahier_stage_id',$cahier->id)->exists());
        if (! Tache::where('cahier_stage_id', $cahier->id)->exists()) {
-           foreach ($period as $key => $value) {
 
+           foreach ($period as $key => $value) {
                $tache=new Tache();
                $tache->cahier_stage_id=$cahier->id;
                $tache->date=$value->format('Y-m-d');
@@ -155,10 +155,13 @@ public function all_cahier_stage(){
      */
     public function show(CahierStage $cahier)
     {
-        //dd($cahier);
-		$stage=Stage::findOrFail($cahier->stage_id);
+        $taches=Tache::where('cahier_stage_id',$cahier->id)->get();
+        //dd(Tache::where('contenu',!null)->exists());
+        if($taches->count() > 0 && Tache::where('contenu','!=',null)->exists()){
+            $stage=Stage::findOrFail($cahier->stage_id);
 		$date_debut=$stage->date_debut;
-$etudiant=Etudiant::findOrFail($stage->etudiant_id);
+
+        $etudiant=Etudiant::findOrFail($stage->etudiant_id);
         $date_fin=$stage->date_fin;
         $jrs_date_debut=(int)substr($date_debut,8,10);
         $jrs_date_fin=(int)substr($date_fin,8,10);
@@ -192,13 +195,17 @@ $etudiant=Etudiant::findOrFail($stage->etudiant_id);
             }
 
         }
-       
-        //dd($nb_days);
-        $nbr_semaines=(int)round($nb_days/7);
-        
 
-		$taches=Tache::where('cahier_stage_id',$cahier->id)->get();
-	return view('admin.stage.cahier_de_stage',compact('taches','nbr_semaines','etudiant'));
+        $nbr_semaines=(int)round($nb_days/7);
+	    return view('admin.stage.cahier_de_stage',compact('taches','nbr_semaines','etudiant'));
+
+        }
+        else
+        {
+            //dd('ggg');
+            return view('admin.stage.cahier_stage_pas_encore');
+        }
+
     }
 public function show_for_enc(CahierStage $cahier)
     {
