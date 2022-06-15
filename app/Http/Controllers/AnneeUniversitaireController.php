@@ -75,6 +75,7 @@ class AnneeUniversitaireController extends Controller
             $annee->fiche_encadrement = $fiche_encadrement;
             $annee->attrayant = $attrayant;
             $annee->save(); //dd($annee);
+            return back();
         } else {
             Session::flash("message", 'error');
             return view('admin.configuration.config_annee_universitaire');

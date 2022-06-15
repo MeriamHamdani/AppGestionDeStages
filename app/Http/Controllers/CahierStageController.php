@@ -90,9 +90,13 @@ class CahierStageController extends Controller
             }
 
         }
-        //dd($nb_days);
-        $nbr_semaines=(int)round($nb_days/7);
-//dd($nbr_semaines);
+        $nbr_semaines=(int)($nb_days/7);
+        $r_nbr_semaines=(int)($nb_days%7);
+        if($r_nbr_semaines>0){
+            $nbr_semaines++;
+        }
+        //$nbr_semaines=(int)round($nb_days/7);
+        //dd($nbr_semaines);
         $taches=new Collection();
         $period = new DatePeriod(
             new DateTime($date_debut),
@@ -124,7 +128,7 @@ $l=1;
        }
        //dd($period);
       //dd($taches);
-       return view('etudiant.stage.cahier_stage',compact(['nbr_semaines','taches']));
+       return view('etudiant.stage.cahier_stage',compact(['nbr_semaines','taches','r_nbr_semaines']));
 
     }
 
@@ -188,9 +192,10 @@ $etudiant=Etudiant::findOrFail($stage->etudiant_id);
             }
 
         }
+       
         //dd($nb_days);
         $nbr_semaines=(int)round($nb_days/7);
-
+        
 
 		$taches=Tache::where('cahier_stage_id',$cahier->id)->get();
 	return view('admin.stage.cahier_de_stage',compact('taches','nbr_semaines','etudiant'));
