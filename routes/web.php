@@ -23,11 +23,19 @@ use App\Http\Controllers\Auth\AuthenticatedSessionController;
     return view('welcome');
 });*/
 Auth::routes(['verify'=>true]);
+
 Route::get('/',function(){
     return view('login.login');
 })->name('connecter');
-//dd(Auth::user());
 
+
+Route::get('/mot-de-passe-oublie',function(){
+    return view('login.mot_de_passe_oublie');
+})->name('mot_de_passe_oublie');
+
+
+Route::post('mdp-oublie',[UserController::class,'mdp_oublie'])->name('mdp_oublie');
+Route::patch('mdp-oublie/modifier',[UserController::class,'modifier_mdp_oublie'])->name('modifier_mdp_oublie');
 Route::post('/connexion',[AuthenticatedSessionController::class, 'store'])->name('connexion');
 
 Route::get('/deconnexion', [AuthenticatedSessionController::class, 'destroy'])
