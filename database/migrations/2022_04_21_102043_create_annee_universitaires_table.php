@@ -19,6 +19,11 @@ class CreateAnneeUniversitairesTable extends Migration
             $table->string('lettre_affectation')->nullable();
             $table->string('fiche_encadrement')->nullable();
             $table->string('attrayant')->nullable();
+            $table->string('grille_evaluation_licence')->nullable();
+            $table->string('grille_evaluation_info')->nullable();
+            $table->string('grille_evaluation_master')->nullable();
+            $table->string('pv_individuel')->nullable();
+            $table->string('pv_global')->nullable();
             $table->timestamps();
         });
     }

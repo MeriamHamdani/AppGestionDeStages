@@ -43,7 +43,7 @@ class TypeStageController extends Controller
      */
     public function create(Classe $classe)
     {
-        
+
         $error_message = array("nom" => "", "periode_stage" => "", "depot_stage" => "", "duree_max_min" => "");
         return view('admin.configuration.generale.typeStage_classe', ['classe' => $classe, 'error_message' => $error_message]);
     }
@@ -102,7 +102,7 @@ class TypeStageController extends Controller
             return view('admin.configuration.generale.typeStage_classe', compact(["classe", "error_message"]));
         }
         if (($request->fiche_demande_type == "requis")) {
-            $request->validate(['fiche_demande' => ['required']]);
+            $request->validate(['fiche_demande' => ['required', 'mimes:docx,jpg,jpeg,png,doc']]);
             if (isset($request->fiche_demande)) {
                 $fiche_demande_name = 'FicheDemande_' . Str::upper(str_replace(' ', '', $code_classe)) . '_' . $request->type . '.' . $request->file('fiche_demande')->extension();//dd($fiche_demande_name)
                 $path = Storage::disk('public')
@@ -305,7 +305,7 @@ class TypeStageController extends Controller
         }
 
         if (($request->fiche_demande_type == "requis") && ($typeStage->fiche_demande == null)) {
-            $request->validate(['fiche_demande' => ['required']]);
+            $request->validate(['fiche_demande' => ['required', 'mimes:docx,jpg,jpeg,png,doc']]);
             $fiche_demande_name = 'FicheDemande_' . Str::upper(str_replace(' ', '', $code_classe)) . '_' . $request->type . '.' . $request->file('fiche_demande')->extension();//dd($fiche_demande_name)
             $path = Storage::disk('public')
                 ->putFileAs('fiches_demande', $request->file('fiche_demande'), $fiche_demande_name);
@@ -313,6 +313,7 @@ class TypeStageController extends Controller
             $typeStage->update();
         }
         if (isset($request->fiche_demande)) {
+            $request->validate(['fiche_demande' => ['required', 'mimes:docx,jpg,jpeg,png,doc']]);
             $fiche_demande_name = 'FicheDemande_' . Str::upper(str_replace(' ', '', $code_classe)) . '_' . $request->type . '.' . $request->file('fiche_demande')->extension();//dd($fiche_demande_name)
             $path = Storage::disk('public')
                 ->putFileAs('fiches_demande', $request->file('fiche_demande'), $fiche_demande_name);

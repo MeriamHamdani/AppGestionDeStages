@@ -71,7 +71,7 @@
                                         @else
                                             <td>{{ucwords($specialite->departement->nom)}}</td>
                                         @endif
-                                        <td>{{$specialite->cycle}}</td>
+                                        <td>{{ucwords($specialite->cycle)}}</td>
                                         <td class="text-center">
                                             @if(isset($specialite->enseignant_id)){{ucwords($specialite->enseignant->nom)}}
                                             {{ucwords($specialite->enseignant->prenom)}}
