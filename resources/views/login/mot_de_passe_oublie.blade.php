@@ -14,10 +14,10 @@
                 alt="looginpage" /></div>
         <div class="col-xl-7 p-0">
             <div class="login-card">
-                <form class="theme-form login-form needs-validation" novalidate="" method="POST"
-                    action="{{ route('connexion') }}">
+                <form class="theme-form login-form needs-validation" novalidate="" method="POST" action={{
+                    route('mdp_oublie') }}>
                     @csrf
-                    <h4 style="text-align: center;color: #24695c">Connexion</h4>
+                    <h4 style="text-align: center;color: #24695c">Mot de passe oublié</h4>
                     <div class="form-group">
                         <label>Numéro de CIN</label>
                         <div class="input-group">
@@ -27,18 +27,11 @@
                             <div class="invalid-tooltip">Entrez votre N°CIN svp!</div>
                         </div>
                     </div>
+
                     <div class="form-group">
-                        <label>Mot de passe</label>
-                        <div class="input-group">
-                            <span class="input-group-text"><i class="icon-lock"></i></span>
-                            <input class="form-control" type="password" name="password" required="" id="password" />
-                            <div class="invalid-tooltip">Entrez le mot de passe svp!</div>
-                        </div>
+                        <button class="btn btn-primary btn-block" type="submit">Envoyer un code</button>
                     </div>
-                    <div class="form-group">
-                        <button class="btn btn-primary btn-block" type="submit">Se connecter</button>
-                    </div>
-                    <a href={{ route('mot_de_passe_oublie') }}>mot de passe oublié ?</a>
+                    <a href={{ route('connecter') }}>Se connecter</a>
                 </form>
             </div>
         </div>
@@ -89,7 +82,6 @@
 
 </script>
 
-</script>
 @endif
 @if (Session::get('message')=='mdp icorrect')
 <script>
@@ -102,6 +94,18 @@
             })
 
 </script>
+
+
+@endif
+@if(Session::get('message')=='CIN introuvable')
+<script>
+    swal({
+                position: 'center',
+                icon: 'error',
+                title: 'N°CIN introuvable!',
+                button: 'Ok',
+                timer: 2500
+            })
 
 </script>
 @endif
