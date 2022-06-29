@@ -67,7 +67,8 @@
                                         </div>
                                     </div>
                                 @endif
-                                @if($etudiant->classe->niveau == 3 && $etudiant->classe->cycle=="licence")
+                                @if(($etudiant->classe->niveau == 3 && $etudiant->classe->cycle=="licence") ||
+                                    ($etudiant->classe->niveau == 2 && $etudiant->classe->cycle=="master"))
                                     <div class="mb-3">
                                         <label class="form-label" for="type_sujet">Type de sujet</label>
                                         <select class="js-example-basic-single col-sm-12" name="type_sujet"
@@ -75,16 +76,12 @@
                                             <option disabled="disabled" selected="selected">Choisissez le type de
                                                 sujet
                                             </option>
-                                            <option value="PFE" {{ old('type_sujet') == "PFE" ? 'selected' : '' }}>PFE
-                                            </option>
-                                            <option
-                                                value="Business Plan" {{ old('type_sujet') == "Business Plan" ? 'selected' : '' }}>
-                                                Business Plan
-                                            </option>
-                                            <option
-                                                value="Projet Tutoré" {{ old('type_sujet') == "Projet Tutoré" ? 'selected' : '' }}>
-                                                Projet Tutoré
-                                            </option>
+                                            @foreach ($typesSujet as $ts)
+                                                <option
+                                                    value="{{$ts}}"
+                                                    {{ old('type_sujet') == $ts ? 'selected' : '' }}>{{$ts}}</option>
+                                            @endforeach
+
                                         </select>
                                     </div>
                                 @endif

@@ -15,7 +15,7 @@ use Illuminate\Support\File;
 use App\Rules\dateDebFinRule;
 use Illuminate\Support\Carbon;
 use App\Models\AnneeUniversitaire;
-use Illuminate\Support\Collection;
+use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Support\Facades\Session;
 use Illuminate\Support\Facades\Storage;
 
@@ -111,6 +111,12 @@ class TypeStageController extends Controller
             }
         }
         $type_stage->type_sujet = $request->type_sujet;
+        $typesSujet = new Collection();
+        foreach ($type_stage->type_sujet as $ts) {
+           // dd($ts);
+            $typesSujet->push($ts);
+        }//dd($typesSujet);
+        //dd($request->type_sujet, $type_stage->type_sujet);
         $type_stage->fiche_demande_type = $request->fiche_demande_type;
         $type_stage->fiche_assurance_type = $request->fiche_assurance_type;
         $type_stage->fiche_2Dinars_type = $request->fiche_2Dinars_type;
@@ -121,7 +127,10 @@ class TypeStageController extends Controller
         Session::flash('message', 'ok');
         return redirect()->action([ClasseController::class, 'index']);
     }
+    /**static function typesSujet(TypeStage $typeStage)
+    {
 
+    }**/
 
     /**
      * Display the specified resource.

@@ -75,12 +75,13 @@
                         </table>
                     </div> -->
                     <div class="card-body">
-                        <div class="dt-ext" style="font-size: 12px">
+                        <div class="dt-ext" style="font-size: 10.75px">
                             <table class="display" id="auto-fill">
                                 <thead>
                                 <tr>
                                     <th>Nom Complet</th>
                                     <th>Classe</th>
+                                    <th>Type Sujet</th>
                                     <th>Encadrant</th>
                                     <th>Les fiches</th>
                                     <th>Date début stage</th>
@@ -96,6 +97,7 @@
                                     <tr>
                                         <td>{{ucwords($stage->etudiant->prenom) }} {{ ucwords($stage->etudiant->nom) }}</td>
                                         <td>{{$stage->code_classe}}</td>
+                                        <td>{{$stage->type_sujet}}</td>
                                         <td>{{ucwords($stage->enseignant->prenom) }} {{ ucwords($stage->enseignant->nom) }}</td>
                                         <td class="text-center">
                                             @if(isset($stage->fiche_demande))
@@ -119,8 +121,8 @@
                                                        style="color: #8a6d3b"></i></a>
                                             @endif
                                         </td>
-                                        <td style="font-size:9px">{{$stage->date_debut}}</td>
-                                        <td style="font-size:9px">{{$stage->date_fin}}</td>
+                                        <td style="font-size:8.5px">{{$stage->date_debut}}</td>
+                                        <td style="font-size:8.5px">{{$stage->date_fin}}</td>
                                         <!--else
                                             <td class="text-center">
                                                 <i class="icofont icofont-exclamation-tringle" style="font-size: 1.3em"></i>
@@ -249,6 +251,7 @@
                                 <tr>
                                     <th>Nom Complet</th>
                                     <th>Classe</th>
+                                    <th>Type Sujet</th>
                                     <th>Encadrant</th>
                                     <th>Les fiches</th>
                                     <th>Date début stage</th>

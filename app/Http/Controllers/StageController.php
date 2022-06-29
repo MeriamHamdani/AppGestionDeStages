@@ -362,10 +362,15 @@ class StageController extends Controller
         $classe = Classe::findOrFail($etudiant->classe_id);
 
         $type_stage = TypeStage::findOrFail($classe->type_stage_id);
+        $typesSujet = new Collection();
+        foreach ($type_stage->type_sujet as $ts) {
+            // dd($ts);
+            $typesSujet->push($ts);
+        }//dd($typesSujet);
         $fiche_demande = substr($type_stage->fiche_demande, 15);
         $fiche_assurance = substr($type_stage->fiche_assurance, 18);
         $fiche_2Dinars = substr($type_stage->fiche_2Dinars, 15);
-        return view('etudiant.stage.demander_stage', compact(['enseignants', 'entreprises', 'etudiant', 'fiche_demande', 'fiche_assurance', 'fiche_2Dinars', 'type_stage']));
+        return view('etudiant.stage.demander_stage', compact(['enseignants', 'entreprises', 'etudiant', 'fiche_demande', 'fiche_assurance', 'fiche_2Dinars', 'type_stage','typesSujet']));
 
     }
 
@@ -395,7 +400,7 @@ class StageController extends Controller
         }
 
 
-        if ($etudiant->classe->niveau == 3 && $etudiant->classe->cycle == "licence") {
+        if (($etudiant->classe->niveau == 3 && $etudiant->classe->cycle == "licence") || ($etudiant->classe->niveau == 2 && $etudiant->classe->cycle == "master")) {
             $request->validate(['type_sujet' => ['required'],
                 'enseignant_id' => ['required']]);
             $stage->type_sujet = $request->type_sujet;
@@ -409,9 +414,8 @@ class StageController extends Controller
                 $entreprise = Entreprise::findOrFail($request->entreprise);
                 $stage->entreprise_id = $entreprise->id;
             }
-
         }
-        if ($etudiant->classe->niveau == 2 && $etudiant->classe->cycle == "master") {
+        /*if ($etudiant->classe->niveau == 2 && $etudiant->classe->cycle == "master") {
             $request->validate([
                 'enseignant_id' => ['required'],
                 'entreprise' => ['required']
@@ -420,7 +424,7 @@ class StageController extends Controller
             $entreprise = Entreprise::findOrFail($request->entreprise);
             $stage->entreprise_id = $entreprise->id;
             $stage->type_sujet = "PFE";
-        }
+        }*/
         $current_date = Carbon::now();
         $stage->date_demande = $current_date->format('Y-m-d');
         $moisCourant = (int)$current_date->format('m');
