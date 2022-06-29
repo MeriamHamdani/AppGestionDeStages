@@ -58,9 +58,6 @@
                                             <div class="taskadd">
                                                 <div class="table-responsive">
                                                     <table class="table">
-
-
-
                                                         @foreach ($taches as $tache )
                                                         @if($d<=$tache->rang && $tache->rang<=$f) <tr>
                                                                 <td>
@@ -100,6 +97,8 @@
                         </div>
                     </div>
                 </div>
+
+
         </div>
         @endfor
     </div>
@@ -123,4 +122,3 @@
 @endpush
 
 @endsection
-

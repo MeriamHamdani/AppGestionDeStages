@@ -42,12 +42,13 @@
                                                     data-bs-target="#exampleModal"><i class="me-2"
                                                         data-feather="check-circle"></i>Nouvelle tâche</button>-->
                                                 @php
+
                                                 $tcs='';
                                                 foreach($taches as $t){
                                                 if($t->semaine==$i)
                                                 {$tcs=$tcs.'-'.$t->id;}
                                                 }
-
+                                               // dd($tcs);
                                                 @endphp
                                                 <a class="f-w-600" href={{
                                                     route('telecharger_cahier',['semaine'=>$i,'taches'=>$tcs])
@@ -115,4 +116,3 @@
     @endpush
 
     @endsection
-

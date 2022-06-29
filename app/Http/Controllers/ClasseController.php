@@ -126,7 +126,6 @@ class ClasseController extends Controller
             $classes=Classe::with('typeStage')->get();
             /*$error_message = array("nom" => "", "periode_stage" => "", "depot_stage" => "");
             return view('admin.configuration.generale.typeStage_classe', ['classe' => $classe,'classes' => $classes,'error_message'=>$error_message]);*/
-
             //return redirect()->action([TypeStageController::class,'create'],$classe);
             return redirect()->action([TypeStageController::class,'create'],$classe_id);
 

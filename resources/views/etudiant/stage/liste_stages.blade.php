@@ -56,7 +56,7 @@
                                     <td>{{ $demande->date_debut }}</td>
                                     <td>{{ $demande->date_fin }}</td>
                                     <td class="text-center"><a href={{ route('telecharger_lettre_affect',['demande'=>$demande]) }}>
-                                            <i style="font-size: 2em;" class="icofont icofont-file-pdf icon-large"></i>
+                                            <i style="font-size: 2em;" class="icofont icofont-file-word icon-large"></i>
                                         </a>
                                     </td>
                                     <td>

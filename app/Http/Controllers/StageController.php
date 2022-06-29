@@ -372,17 +372,12 @@ class StageController extends Controller
         $request->validate([
             'date_debut' => ['required', 'date'],
             'date_fin' => ['required', 'date'],
-            /*'fiche_demande' => ['required'],
-            'fiche_demande.*' => ['required', 'mimes:pdf,jpg,png,jpeg'],
-            'fiche_assurance.*' => ['mimes:pdf,jpg,png,jpeg'],
-            'fiche_2Dinars.*' => ['mimes:pdf,jpg,png,jpeg']*/
         ]);
 
         $stage = new Stage();
         $stage->titre_sujet = $request->titre_sujet;
         $etudiant = Etudiant::where('user_id', Auth::user()->id)->first();
         $stage->etudiant_id = $etudiant->id;
-        //dd($etudiant->classe->typeStage->fiche_2Dinars);
         if (($etudiant->classe->niveau == 1) || ($etudiant->classe->niveau == 2 && $etudiant->classe->cycle == "licence")) {
             // dd($etudiant->classe->niveau == 2 && $etudiant->classe->cycle == "licence");
             $request->validate(['entreprise' => ['required']]);
@@ -437,8 +432,6 @@ class StageController extends Controller
         $date_debut = Carbon::createFromFormat('m/d/Y', $request->date_debut)->format('Y-m-d');
         $date_fin = Carbon::createFromFormat('m/d/Y', $request->date_fin)->format('Y-m-d');
         $nbre_mois = $this->diff_date_en_mois($date_debut, $date_fin);
-        //dd($nbre_mois);
-        //dd($nbre_mois<$type_stage->duree_stage_min);
         if ($request->date_debut < $request->date_fin) {
 
             if ($date_debut < $type_stage->date_debut_periode || $date_fin > $type_stage->date_limite_periode) {
@@ -459,7 +452,8 @@ class StageController extends Controller
         }
         $cin = Auth::user()->numero_CIN;
         if ($etudiant->classe->typeStage->fiche_demande_type == "requis") {
-            if (isset($request->fiche_demande)) {
+            if (isset($request->fiche_demande )) {
+                $request->validate(['fiche_demande' => ['required', 'mimes:docx,jpg,jpeg,png,doc']]);
                 $fiche_demande_name = 'FicheDemande_' . $cin . '.' . $request->file('fiche_demande')->extension();
                 $path = Storage::disk('public')
                     ->putFileAs('fiches_demande_' . $classe->code, $request->file('fiche_demande'), $fiche_demande_name);
@@ -468,6 +462,7 @@ class StageController extends Controller
         }
         if ($etudiant->classe->typeStage->fiche_2Dinars_type == "requis") {
             if (isset($request->fiche_2Dinars)) {
+                $request->validate(['fiche_2Dinars' => ['required', 'mimes:docx,jpg,jpeg,png,doc']]);
                 $fiche_2Dinars_name = 'Fiche2Dinars_' . $cin . '.' . $request->file('fiche_2Dinars')->extension();
                 $path2 = Storage::disk('public')
                     ->putFileAs('fiches_2dinars_' . $classe->code, $request->file('fiche_2Dinars'), $fiche_2Dinars_name);
@@ -476,6 +471,7 @@ class StageController extends Controller
         }
         if ($etudiant->classe->typeStage->fiche_assurance_type == "requis") {
             if (isset($request->fiche_assurance)) {
+                $request->validate(['fiche_assurance' => ['required', 'mimes:docx,jpg,jpeg,png,doc']]);
                 $fiche_assurance_name = 'FicheAssurance_' . $cin . '.' . $request->file('fiche_assurance')->extension();
                 $path3 = Storage::disk('public')
                     ->putFileAs('fiches_assurances_' . $classe->code, $request->file('fiche_assurance'), $fiche_assurance_name);
@@ -560,6 +556,7 @@ class StageController extends Controller
                 $stage->entreprise_id = (int)$request->entreprise;
             }
             if ($request->fiche_demande) {
+                $request->validate(['fiche_demande' => ['required', 'mimes:docx,jpg,jpeg,png,doc']]);
                 $etudiant = Etudiant::findOrFail($stage->etudiant_id);
                 $nom_pren = Str::upper($etudiant->nom . '_' . $etudiant->prenom);
                 $fiche_demande_name = 'FicheDemande_' . $nom_pren . '.' . $request->file('fiche_demande')->extension();

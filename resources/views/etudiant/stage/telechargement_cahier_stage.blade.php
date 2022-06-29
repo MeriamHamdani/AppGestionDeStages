@@ -8,7 +8,10 @@
 <body>
     <h1 style="text-align: center;">{{ $data['titre'] }}</h1>
     <hr>
-    @foreach ($data['taches'] as $tache )
+
+
+    @foreach($data['taches'] as $tache )
+
     @if($tache->titre)<h2>{{ $tache->titre }} </h2>
     @else<h2>Sans titre </h2>
     @endif
@@ -19,4 +22,3 @@
 </body>
 
 </html>
-

@@ -249,15 +249,12 @@
 
                                     <strong><i class="icofont icofont-pen-nib"></i>Dates des stages selon
                                         Formation</strong></a> </li>-->
-                            <li><a href="{{ route('liste_grille') }}" class="{{ routeActive('liste_grille') }}">
-                                    <strong><i class="icofont icofont-pen-nib"></i>Configurer la grille
-                                        d'évaluation</strong></a> </li>
-
                         </ul>
                     </li>
                     <li class="dropdown">
-                        <a class="nav-link menu-title link-nav {{ routeActive('config_annee_universitaire') }}"
-                            href="{{ route('config_annee_universitaire') }}">
+                        <a class="nav-link menu-title link-nav  {{ in_array(Route::currentRouteName(),
+                            ['config_annee_universitaire','modifier_annee_universitaire']) ? 'active' : '' }}" {{ routeActive('liste_annee_universitaire') }}"
+                            href="{{ route('liste_annee_universitaire') }}">
                             <i class="icofont icofont-settings"></i>&nbsp&nbsp&nbsp<span>Configuration
                                 des années universitaires</span></a>
                     </li>

@@ -17,7 +17,7 @@ class CreateTachesTable extends Migration
             $table->id();
             $table->foreignId('cahier_stage_id')->constrained()->cascadeOnDelete();
             $table->string('titre')->nullable();
-            $table->string('contenu')->nullable();
+            $table->longText('contenu')->nullable();
             $table->date('date');
             $table->integer('rang');
             $table->integer('semaine');

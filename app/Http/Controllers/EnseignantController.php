@@ -224,12 +224,12 @@ class EnseignantController extends Controller
 
     static function liste_stages_actifs()
     {
-
         $enseignant = Enseignant::where('user_id', Auth::user()->id)->get()[0];
         $stages_actifs = Stage::where('enseignant_id', $enseignant->id)
             ->where('confirmation_admin', 1)
             ->where('confirmation_encadrant', 1)
             ->get();
+
         foreach ($stages_actifs as $sa) {
             $etudiant = Etudiant::findOrFail($sa->etudiant_id);
             $classe = Classe::find($etudiant->classe_id);
@@ -266,22 +266,28 @@ class EnseignantController extends Controller
 
     {
         $enseignant = Enseignant::findOrFail($request->enseignant);
+        $stages_actifs = Stage::where('enseignant_id', $enseignant->id)
+            ->where('confirmation_admin', 1)
+            ->where('confirmation_encadrant', 1)
+            ->get();// dd($stages_actifs);
         $annee = StageController::current_annee_univ();
         $file_path = public_path() . '\storage\ ' . $annee->attrayant;//dd($file_path);
         $file_path = str_replace(' ', '', $file_path);//dd($file_path);
         $file_path = str_replace('/', '\\', $file_path);//dd($file_path);
         $templateProcessor = new TemplateProcessor($file_path);
         //dd($templateProcessor->getVariables());
-        $templateProcessor->setValue('stages_oblig', $enseignant->user->numero_CIN);
         $templateProcessor->setValue('anne_univ', $annee->annee);
-        $templateProcessor->setValue('nom_pren', $enseignant->nom . ' ' . $enseignant->prenom);//dd($templateProcessor->getVariables());
+        $templateProcessor->setValue('nom_pren', ucwords($enseignant->nom) . ' ' . ucwords($enseignant->prenom));//dd($templateProcessor->getVariables());
         $templateProcessor->setValue('cin', $enseignant->user->numero_CIN);
         $templateProcessor->setValue('telf', $enseignant->numero_telephone);
         $templateProcessor->setValue('id', $enseignant->identifiant);
         $templateProcessor->setValue('email', $enseignant->email);
-        $templateProcessor->setValue('grade', $enseignant->grade);
+        $templateProcessor->setValue('grade', ucwords($enseignant->grade));
         $templateProcessor->setValue('etabliss', $enseignant->etablissement->nom);
         $templateProcessor->setValue('rib', $enseignant->rib);
+        foreach ($stages_actifs as $stage) {
+            $templateProcessor->setValue('stages_oblig', ucwords($stage->typeStage->nom));
+        }
 
         //$templateProcessor = Storage::disk('public')
                   // ->putFileAs('attrayants_' . $annee->annee ,$file_path, 'attrayant_' . $enseignant->nom .'_'.  $enseignant->prenom . '.docx');
