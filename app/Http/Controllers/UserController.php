@@ -70,7 +70,16 @@ class UserController extends Controller
             $user->password=bcrypt($request->new_password);
             $user->is_active=1;
             $user->update();
-            return redirect('deconnexion');
+            if($user->hasRole('superadmin')||$user->hasRole('admin')){
+                return redirect('admin/administration/liste-admin');
+
+            }elseif ($user->hasRole('etudiant')) {
+                return redirect('etudiant/stage/demandes-stages');
+
+            }else {
+                return redirect('enseignant/encadrement/liste-demandes');
+            }
+            //return redirect('deconnexion');
         }
         else  {
             Session::flash('message', 'no-change');

@@ -45,7 +45,6 @@ class EtudiantsImport implements ToModel, WithStartRow, WithCustomCsvSettings
     */
     public function model(array $row)
     {
-        //dd($row);
         $classe_id = request()->classe_id;
         $numCinExcel = $row[3];
         $length = Str::length($numCinExcel);
@@ -75,7 +74,9 @@ class EtudiantsImport implements ToModel, WithStartRow, WithCustomCsvSettings
         ];
         $user_exist = User::where('numero_CIN',$row[3])->exists();
         $etd_cette_annee=0;
+
         if($user_exist){
+
             $user=User::where('numero_CIN',$row[3])->get()[0];
 
                 $etudiants=Etudiant::where('user_id',$user->id)->get();
@@ -83,13 +84,14 @@ class EtudiantsImport implements ToModel, WithStartRow, WithCustomCsvSettings
                 foreach($etudiants as $etudiant){
 
 					$year=AnneeUniversitaire::findOrFail($etudiant->annee_universitaire_id);
-                   
+
                     if($year->annee == $this->current_year()){
 						$etd_cette_annee=1;
 					}
                 }
         }
         if ( !$user_exist || $etd_cette_annee==0) {
+            
             $annee=$this->current_annee_univ();
 
             $annees = AnneeUniversitaire::all();
@@ -113,8 +115,8 @@ class EtudiantsImport implements ToModel, WithStartRow, WithCustomCsvSettings
             $attributs2['classe_id']=$classe_id;
             Session::flash('message', 'ok1');
                 return Etudiant::create($attributs2);
-            
-        }   
+
+        }
     }
     public function current_annee_univ(){
 
