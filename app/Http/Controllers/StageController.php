@@ -19,6 +19,7 @@ use App\Models\Entreprise;
 use App\Models\Specialite;
 use App\Models\CahierStage;
 use App\Models\Departement;
+use App\Models\AnneeUniversitaire;
 use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Support\Arr;
 use Illuminate\Support\Facades\Date;
@@ -28,7 +29,6 @@ use App\Models\Etablissement;
 use Illuminate\Support\Carbon;
 use PhpParser\Node\Stmt\ElseIf_;
 use App\Mail\ConfirmerEncadrement;
-use App\Models\AnneeUniversitaire;
 
 use Illuminate\Support\Facades\File;
 use Illuminate\Support\Facades\Mail;
@@ -221,7 +221,6 @@ class StageController extends Controller
         }
         echo json_encode($stgesParAn);
         exit;
-
     }
     public function stages3emeLicInfo() {
         $all_stages = Stage::All();

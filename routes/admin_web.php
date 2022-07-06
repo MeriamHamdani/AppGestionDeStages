@@ -49,6 +49,7 @@ Route::middleware(['auth','role:admin|superadmin','clearClasse'])->group(functio
             Route::get('2eme-licence',[StageController::class,'list_oblig_2eme_licence_non_info'])->name('demandes_stage.so2l');
             Route::get('3eme-licence',[StageController::class,'list_oblig_3eme_licence_non_info'])->name('demandes_stage.so3l');
             Route::get('3eme-licence-info', [StageController::class,'list_oblig_3eme_licence_info'])->name('demandes_stage.so3Info');
+            Route::post('3eme-licence-info/', [StageController::class,'stages3emeInfo'])->name('stages3emeInfo');
             Route::get('3eme-licence-info/liste-par-annee/{id}', [StageController::class, 'getListeParAn'])->name('getListeParAn');
             Route::get('2eme-master', [StageController::class,'list_oblig_2eme_master'])->name('demandes_stage.so2m');
             Route::get('modifier/{stage_id}', [StageController::class,'modifier_demande'])->name('demandes_stage.modifier_demande');
