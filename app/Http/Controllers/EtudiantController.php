@@ -202,6 +202,7 @@ class EtudiantController extends Controller
     {
         $user_id = auth()->id();
         $etudiant = Etudiant::where('user_id',$user_id)->first();
+        
         $attributs = $request->validate([
             'nom' => 'required|max:255',
             'prenom' => 'required|max:255',
@@ -212,12 +213,16 @@ class EtudiantController extends Controller
         return redirect()->action([EtudiantController::class,'editProfil']);
     }
 
+    
     public function importData ()
     {
+
         Excel::import(new EtudiantsImport, request()->file('liste_etudiants')->store('temp'));
-        //dd(request());
+ 
         return redirect()->action([EtudiantController::class,'index']);
     }
+    
+    
     public function exportData()
     {
         return Excel::download(new EtudiantsExport, 'liste-etudiants.xlsx');
