@@ -89,7 +89,7 @@ class AnneeUniversitaireController extends Controller
                 $annee->pv_global = $pv_global;
                // dd($annee);
                 $annee->save();
-                return back();
+                return redirect()->action([AnneeUniversitaireController::class, 'index']);
             } else
                 Session::flash("message", 'error exist');
         } else {

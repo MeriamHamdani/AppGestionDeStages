@@ -19,7 +19,7 @@
                     @csrf
                     <h4 style="text-align: center;color: #24695c">Connexion</h4>
                     <div class="form-group">
-                        <!--<label>Numéro de CIN</label>-->
+                       <label>Numéro de CIN</label>
                         <div class="input-group">
                             <span class="input-group-text"><i class="icofont icofont-id-card"></i></span>
                             <input class="form-control" type="text" required="" id="numero_CIN" name="numero_CIN"
@@ -28,7 +28,7 @@
                         </div>
                     </div>
                     <div class="form-group">
-                        <!--<label>Mot de passe</label>-->
+                        <label>Mot de passe</label>
                         <div class="input-group">
                             <span class="input-group-text"><i class="icon-lock"></i></span>
                             <input class="form-control" type="password" name="password" required="" id="password"
