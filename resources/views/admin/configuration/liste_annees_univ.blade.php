@@ -42,7 +42,7 @@
                             <table class="display" id="auto-fill">
                                 <thead>
                                 <tr>
-                                    <th>Année Universiatire </th>
+                                    <th>Année Universitaire </th>
                                     <th>Lettre d'affectation</th>
                                     <th>Fiche d'encadrement</th>
                                     <th>Les grilles</th>
@@ -51,8 +51,8 @@
                                 </tr>
                                 </thead>
                                 <tbody>
+                                @foreach ($annees as $annee)
                                 <tr>
-                                    @foreach ($annees as $annee)
                                     <td class="text-center">{{$annee->annee}}</td>
                                     <td class="text-center">
                                         <a href="{{ route('telecharger_lettre_affectation',Str::after($annee->lettre_affectation, '/')) }}"
@@ -88,13 +88,12 @@
                                             <a href={{route('modifier_annee_universitaire',$annee)}}> <i style="font-size: 1.3em;" class='icofont icofont-edit icon-large'
                                                           data-toggle="tooltip" title="Editer"></i></a>
                                         </td>
-                                    @endforeach
-
                                 </tr>
+                                @endforeach
                                 </tbody>
                                 <tfoot>
                                 <tr>
-                                    <th>Année Universiatire </th>
+                                    <th>Année Universitaire </th>
                                     <th>Lettre d'affectation</th>
                                     <th>Fiche d'encadrement</th>
                                     <th>Les grilles</th>

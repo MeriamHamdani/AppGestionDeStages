@@ -268,19 +268,36 @@ class DepotMemoireController extends Controller
 
     public function liste_demandes_depot_admin()
     {
-        $demandesDepot = DepotMemoire::with('stage')->get();
-        $demandesDepotC = new Collection();
-        foreach ($demandesDepot as $d) {
-            $d->memoire = Str::after($d->memoire, '/');
-            $d->fiche_plagiat = Str::after($d->fiche_plagiat, '/');
-            $d->fiche_biblio = Str::after($d->fiche_biblio, '/');
-            if (isset($d->attestation) && isset($d->fiche_tech)) {
-                $d->attestation = Str::after($d->attestation, '/');
-                $d->fiche_tech = Str::after($d->fiche_tech, '/');
+        $current_date = Carbon::now();
+        $ann = Session::get('annee');
+        if (isset($ann)) {
+            $demandesDepot = DepotMemoire::with('stage')->where('annee_universitaire_id', $ann->id)->get();
+            $demandesDepotC = new Collection();
+            foreach ($demandesDepot as $d) {
+                $d->memoire = Str::after($d->memoire, '/');
+                $d->fiche_plagiat = Str::after($d->fiche_plagiat, '/');
+                $d->fiche_biblio = Str::after($d->fiche_biblio, '/');
+                if (isset($d->attestation) && isset($d->fiche_tech)) {
+                    $d->attestation = Str::after($d->attestation, '/');
+                    $d->fiche_tech = Str::after($d->fiche_tech, '/');
+                }
+                $demandesDepotC->push($d);
             }
-            $demandesDepotC->push($d);
+            $an = AnneeUniversitaire::where('annee', StageController::current_annee_univ()->annee)->first(); //dd($an);
+            $demandesDepot = DepotMemoire::with('stage')->where('annee_universitaire_id', $an->id)->get();
+            $demandesDepotC = new Collection();
+            foreach ($demandesDepot as $d) {
+                $d->memoire = Str::after($d->memoire, '/');
+                $d->fiche_plagiat = Str::after($d->fiche_plagiat, '/');
+                $d->fiche_biblio = Str::after($d->fiche_biblio, '/');
+                if (isset($d->attestation) && isset($d->fiche_tech)) {
+                    $d->attestation = Str::after($d->attestation, '/');
+                    $d->fiche_tech = Str::after($d->fiche_tech, '/');
+                }
+                $demandesDepotC->push($d);
+            }
+            return view('admin.depot.gerer_depot', compact('demandesDepotC'));
         }
-        return view('admin.depot.gerer_depot', compact('demandesDepotC'));
     }
 
     public function show(DepotMemoire $depotMemoire)
