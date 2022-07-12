@@ -28,34 +28,6 @@
                     <div class="card-header pb-0">
                         <h5>Les demandes</h5>
                     </div>
-                    <div class="card-header pb-0">
-                        <form class="row g-3 needs-validation" novalidate="" method="POST"
-                              action="">
-                            @csrf
-                            @if($errors->any())
-                                @foreach ($errors->all() as $err )
-                                    <div class="alert alert-danger" role="alert">
-                                        {{ $err }}
-                                    </div>
-                                @endforeach
-                            @endif
-                            <div style="width: 200px" class="col-md-6 position-relative">
-                                <select class="js-example-basic-single col-sm-4" id="annee_universitaire"
-                                        name="annee_universitaire"
-                                        required>
-                                    <option disabled="disabled" selected="selected">Année Universitaire
-                                    </option>
-                                    @foreach (\App\Models\AnneeUniversitaire::all() as $anneeUniv)
-                                        <option value="{{ $anneeUniv->id }}"> {{ ucwords($anneeUniv->annee) }}</option>
-                                    @endforeach
-                                </select>
-                            </div>
-                            <div class="col-md-6 position-relative">
-                                <button class="btn btn-primary" type="submit">OK</button>
-                            </div>
-                        </form>
-                    </div>
-
                     <div class="card-body">
                         <div class="dt-ext" style="font-size: 10.75px">
                             <table class="display" id="auto-fill">
@@ -348,6 +320,15 @@
 
                 <script>
                     swal('Oups', 'Encadrement doit être accepté par  l\'encadrant ', 'error', {
+                        button: 'error'
+                    })
+
+                </script>
+            @endif
+            @if (Session::get('message')=='select year')
+
+                <script>
+                    swal('Oups', 'Vous devez sélectionnez l\'année universitaire tout d\'abord', 'error', {
                         button: 'error'
                     })
 

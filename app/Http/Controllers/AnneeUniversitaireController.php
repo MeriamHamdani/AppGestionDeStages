@@ -286,4 +286,11 @@ class AnneeUniversitaireController extends Controller
             exit('pv global inexistante !');
         }
     }
+    public function filtre_par_an (Request $request) {
+        if(isset($request->annee_universitaire)) {
+        $annee = AnneeUniversitaire::find($request->annee_universitaire);
+        session(['annee' =>$annee ]); //dd(Session::get('annee'));
+        }
+        return back();
+    }
 }

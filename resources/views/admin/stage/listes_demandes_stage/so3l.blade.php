@@ -7,6 +7,8 @@
 @push('css')
     <link rel="stylesheet" type="text/css" href="{{asset('assets/css/datatables.css')}}">
     <link rel="stylesheet" type="text/css" href="{{asset('assets/css/datatable-extension.css')}}">
+    <link rel="stylesheet" type="text/css" href="{{ asset('assets/css/select2.css') }}">
+
 @endpush
 
 @section('content')
@@ -287,7 +289,8 @@
         <script src="{{ asset('assets/js/notify/bootstrap-notify.min.js') }}"></script>
         <script src="{{ asset('assets/js/icons/icons-notify.js') }}"></script>
         <script src="{{ asset('assets/js/icons/feather-icon/feather-icon-clipart.js') }}"></script>
-
+        <script src="{{ asset('assets/js/select2/select2.full.min.js') }}"></script>
+        <script src="{{ asset('assets/js/select2/select2-custom.js') }}"></script>
         <script src="{{asset('assets/js/datatable/datatables/jquery.dataTables.min.js')}}"></script>
         <script src="{{asset('assets/js/datatable/datatable-extension/dataTables.buttons.min.js')}}"></script>
         <script src="{{asset('assets/js/datatable/datatable-extension/jszip.min.js')}}"></script>
@@ -327,6 +330,15 @@
 
                 <script>
                     swal('Oups', 'Encadrement doit être accepté par  l\'encadrant ', 'error', {
+                        button: 'error'
+                    })
+
+                </script>
+            @endif
+            @if (Session::get('message')=='select year')
+
+                <script>
+                    swal('Oups', 'Vous devez sélectionnez l\'année universitaire tout d\'abord', 'error', {
                         button: 'error'
                     })
 

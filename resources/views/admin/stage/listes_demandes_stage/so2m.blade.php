@@ -7,6 +7,7 @@
 @push('css')
     <link rel="stylesheet" type="text/css" href="{{asset('assets/css/datatables.css')}}">
     <link rel="stylesheet" type="text/css" href="{{asset('assets/css/datatable-extension.css')}}">
+    <link rel="stylesheet" type="text/css" href="{{ asset('assets/css/select2.css') }}">
 @endpush
 
 @section('content')
@@ -27,53 +28,6 @@
                     <div class="card-header pb-0">
                         <h5>Les demandes</h5>
                     </div>
-                  <!--  <div class="table">
-                        <table class="display" id="basic-1">
-                            <thead>
-                            <tr>
-                                <th class="text-center">Légende</th>
-                            </tr>
-                            </thead>
-                            <tbody>
-                            <tr>
-                                <td>
-                                    <button class="btn btn-warning btn-sm" data-toggle="tooltip">
-                                        <i class="fa fa-spinner fa-spin"></i>
-                                    </button>
-                                </td>
-
-                                <td>Demande de stage en attente</td>
-                                <td>
-                                    <button class="btn btn-danger btn-sm" data-toggle="tooltip">
-                                        <i class="icofont icofont-ui-close"></i>
-                                    </button>
-                                </td>
-                                <td>Demande de stage refusée</td>
-                                <td>
-                                    <button class="btn btn-secondary" data-toggle="tooltip">
-                                        <i class="fa fa-spinner fa-spin"></i>
-                                    </button>
-                                </td>
-                                <td>Stage en cours/actif</td>
-                            </tr>
-                            <tr>
-                                <td>
-                                    <button class="btn btn-primary btn-sm" data-toggle="tooltip">
-                                        <i class="icofont icofont-ui-check"></i>
-                                    </button>
-                                </td>
-                                <td>Stage achevé et validé</td>
-                                <td>
-                                    <button class="btn btn-dark-gradien btn-sm" data-toggle="tooltip">
-                                        <i class="icofont icofont-ui-close"></i>
-                                    </button>
-                                </td>
-                                <td>Stage achevé et non validé</td>
-                            </tr>
-
-                            </tbody>
-                        </table>
-                    </div> -->
                     <div class="card-body">
                         <div class="dt-ext" style="font-size: 10.75px">
                             <table class="display" id="auto-fill">
@@ -331,7 +285,8 @@
         <script src="{{ asset('assets/js/notify/bootstrap-notify.min.js') }}"></script>
         <script src="{{ asset('assets/js/icons/icons-notify.js') }}"></script>
         <script src="{{ asset('assets/js/icons/feather-icon/feather-icon-clipart.js') }}"></script>
-
+        <script src="{{ asset('assets/js/select2/select2.full.min.js') }}"></script>
+        <script src="{{ asset('assets/js/select2/select2-custom.js') }}"></script>
         <script src="{{asset('assets/js/datatable/datatables/jquery.dataTables.min.js')}}"></script>
         <script src="{{asset('assets/js/datatable/datatable-extension/dataTables.buttons.min.js')}}"></script>
         <script src="{{asset('assets/js/datatable/datatable-extension/jszip.min.js')}}"></script>
@@ -367,22 +322,6 @@
                 <script>
                     swal('C\'est interdit', 'Il faut que l\'encadrant confirme la demande d\'abord', 'warning', {
                         button: 'error'
-                    })
-
-                </script>
-            @endif
-        @endif
-        =======
-        @if(Session::has('message'))
-            @if (Session::get('message')=='attend_encadrant')
-
-                <script>
-                    swal({
-                        position: 'center',
-                        icon: 'info',
-                        title: 'Enacdrant doit confirmer avant!!',
-                        showConfirmButton: false,
-                        timer: 3000
                     })
                 </script>
             @endif

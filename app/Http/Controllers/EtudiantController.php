@@ -32,10 +32,18 @@ class EtudiantController extends Controller
      */
     public function index()
     {
-        
+   $ann = Session::get('annee'); //dd($ann->id);
+        if(isset($ann)) {
+            $etudiants = Etudiant::with('user','classe')->where('annee_universitaire_id',$ann->id)->get();
+            return view('admin.etablissement.etudiant.liste_etudiants',
+                ['etudiants' => $etudiants,
+                    'year'=>$this->current_year()]);
+        }
+        $an = AnneeUniversitaire::where('annee',$this->current_year())->first();
+        $etudiants = Etudiant::with('user','classe')->where('annee_universitaire_id',$an->id)->get();
         return view('admin.etablissement.etudiant.liste_etudiants',
-            ['etudiants' => Etudiant::with('user','classe')->get(),
-             'year'=>$this->current_year()]);//with('classe')->get()
+            ['etudiants' => $etudiants,
+                'year'=>$this->current_year()]);
     }
 
     /**
@@ -56,7 +64,7 @@ class EtudiantController extends Controller
      */
     public function store(Request $request)
     {
-       
+
         $attributs = $request->validate(
             ['numero_CIN'=>['required', 'string', 'max:8','min:8']
             ]);
@@ -85,7 +93,7 @@ class EtudiantController extends Controller
                 foreach($etudiants as $etudiant){
 
 					$year=AnneeUniversitaire::findOrFail($etudiant->annee_universitaire_id);
-                   
+
                     if($year->annee == $this->current_year()){
 						$etd_cette_annee=1;
 					}
@@ -202,7 +210,7 @@ class EtudiantController extends Controller
     {
         $user_id = auth()->id();
         $etudiant = Etudiant::where('user_id',$user_id)->first();
-        
+
         $attributs = $request->validate([
             'nom' => 'required|max:255',
             'prenom' => 'required|max:255',
@@ -213,16 +221,16 @@ class EtudiantController extends Controller
         return redirect()->action([EtudiantController::class,'editProfil']);
     }
 
-    
+
     public function importData ()
     {
 
         Excel::import(new EtudiantsImport, request()->file('liste_etudiants')->store('temp'));
- 
+
         return redirect()->action([EtudiantController::class,'index']);
     }
-    
-    
+
+
     public function exportData()
     {
         return Excel::download(new EtudiantsExport, 'liste-etudiants.xlsx');
@@ -273,14 +281,16 @@ static function current_year()
 
     public function mes_demandes_stages()
     {
-        $etudiant=Etudiant::where('user_id',Auth::user()->id)->get()[0];
+        $etudiant=Etudiant::where('user_id',Auth::user()->id)->first();
         $mes_demandes=Stage::where('etudiant_id',$etudiant->id)->get();
+        //dd($mes_demandes);
         $current_date = Carbon::now();
 
 		$demandes_classes=new Collection();
 		foreach($mes_demandes as $demande){
-			$classe=Classe::where('id',$etudiant->classe_id)
-						  ->where('annee_universitaire_id',$demande->annee_universitaire_id)->get()[0];
+			$classe=Classe::where('id',$etudiant->classe_id)->first();
+						 // ->where('annee_universitaire_id',$demande->annee_universitaire_id)
+          //  dd($classe);
 		    $typeStage=TypeStage::find($classe->typeStage->id);
             $type = $typeStage->nom;
 			$demande->type=$type;

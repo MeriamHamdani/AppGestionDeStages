@@ -4,9 +4,11 @@ use App\Http\Controllers\DepotMemoireController;
 use App\Http\Controllers\FraisEncadrementController;
 use App\Imports\EnseignantsImport;
 use App\Imports\UsersImport;
+
 use Maatwebsite\Excel\Facades\Excel;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\AdminController;
+use App\Http\Controllers\AnneeUniversitaireController;
 use App\Http\Controllers\StageController;
 use App\Http\Controllers\TacheController;
 use App\Http\Controllers\ClasseController;
@@ -18,7 +20,6 @@ use App\Http\Controllers\SpecialiteController;
 use App\Http\Controllers\CahierStageController;
 use App\Http\Controllers\DepartementController;
 use App\Http\Controllers\EtablissementController;
-use App\Http\Controllers\AnneeUniversitaireController;
 
 /*Route::prefix('admin')->group(function () {
 });*/
@@ -43,6 +44,7 @@ Route::middleware(['auth','role:admin|superadmin','clearClasse'])->group(functio
         // ----------------------------------STAGE-----------------------------------
 
         Route::prefix('stage/demandes-stage')->group(function () {
+            Route::post('filtre',[AnneeUniversitaireController::class,'filtre_par_an'])->name('filtre_par_an');
             Route::get('1ere-licence-master',[StageController::class,'list_vol_1ere_licence_1ere_master'])->name('demandes_stage.sv1lm');
             Route::get('2eme-licence-info',[StageController::class,'list_oblig_2eme_licence_info'])->name('demandes_stage.so2lInfo');
             Route::get('2eme-licence',[StageController::class,'list_oblig_2eme_licence_non_info'])->name('demandes_stage.so2l');

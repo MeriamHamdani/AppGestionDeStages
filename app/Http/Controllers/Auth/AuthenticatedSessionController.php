@@ -30,7 +30,7 @@ class AuthenticatedSessionController extends Controller
      * @param \App\Http\Requests\Auth\LoginRequest $request
      * @return \Illuminate\Http\RedirectResponse
      */
-    public function store()
+    public function store(Request $request)
     {
 
         $attributes = request()->validate([
@@ -51,7 +51,6 @@ class AuthenticatedSessionController extends Controller
         } else {
             session()->regenerate();
             $user = Auth::user();
-
             if ($user['is_active'] == 0) {
                 $code = random_int(100000, 999999);
                 session(['code' => $code]);
@@ -60,8 +59,6 @@ class AuthenticatedSessionController extends Controller
                 return redirect()->intended('connexion/modifier_coordonnes');
             }
             return redirect()->intended($this->accueil());
-
-
         }
 
         //$user['is_active'] = 1;

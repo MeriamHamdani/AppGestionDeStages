@@ -112,10 +112,13 @@ class TypeStageController extends Controller
         }
         $type_stage->type_sujet = $request->type_sujet;
         $typesSujet = new Collection();
-        foreach ($type_stage->type_sujet as $ts) {
-           // dd($ts);
-            $typesSujet->push($ts);
-        }//dd($typesSujet);
+        if( isset($type_stage->type_sujet)) {
+            foreach ($type_stage->type_sujet as $ts) {
+                // dd($ts);
+                $typesSujet->push($ts);
+            }
+        }
+        //dd($typesSujet);
         //dd($request->type_sujet, $type_stage->type_sujet);
         $type_stage->fiche_demande_type = $request->fiche_demande_type;
         $type_stage->fiche_assurance_type = $request->fiche_assurance_type;
