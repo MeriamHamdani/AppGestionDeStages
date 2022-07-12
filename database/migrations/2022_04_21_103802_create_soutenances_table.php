@@ -19,8 +19,9 @@ class CreateSoutenancesTable extends Migration
             $table->foreignId('annee_universitaire_id')->constrained();
             $table->dateTime('date');
             $table->string('salle');
-            $table->float('note');
-            $table->string('mention');
+            $table->time('start_time');
+            $table->float('note')->nullable();
+            $table->string('mention')->nullable();
             $table->timestamps();
         });
     }

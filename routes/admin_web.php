@@ -1,9 +1,7 @@
 <?php
 
-use App\Http\Controllers\DepotMemoireController;
-use App\Http\Controllers\FraisEncadrementController;
-use App\Imports\EnseignantsImport;
 use App\Imports\UsersImport;
+use App\Imports\EnseignantsImport;
 use Maatwebsite\Excel\Facades\Excel;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\AdminController;
@@ -14,10 +12,13 @@ use App\Http\Controllers\EtudiantController;
 use App\Http\Controllers\TypeStageController;
 use App\Http\Controllers\EnseignantController;
 use App\Http\Controllers\EntrepriseController;
+use App\Http\Controllers\SoutenanceController;
 use App\Http\Controllers\SpecialiteController;
 use App\Http\Controllers\CahierStageController;
 use App\Http\Controllers\DepartementController;
+use App\Http\Controllers\DepotMemoireController;
 use App\Http\Controllers\EtablissementController;
+use App\Http\Controllers\FraisEncadrementController;
 use App\Http\Controllers\AnneeUniversitaireController;
 
 /*Route::prefix('admin')->group(function () {
@@ -141,10 +142,14 @@ Route::middleware(['auth','role:admin|superadmin','clearClasse'])->group(functio
 
         //-----------------------------------------SOUTENANCE----------------------------
 
-        Route::view('soutenance/planifier', 'admin.soutenance.planifier_soutenance')->name('planifier_soutenance');
+        //Route::view('soutenance/planifier', 'admin.soutenance.planifier_soutenance')->name('planifier_soutenance');
         Route::view('soutenance/liste', 'admin.soutenance.liste_soutenances')->name('list_soutenances');
         Route::view('soutenance/evaluer', 'admin.soutenance.evaluer_soutenance')->name('evaluer_soutenance');
-
+        Route::get('soutenance/planifier', [SoutenanceController::class, 'index'])->name('planifier_soutenance');
+        Route::post('soutenance/create', [SoutenanceController::class, 'create']);
+        Route::post('soutenance/update', [SoutenanceController::class, 'update']);
+        Route::post('soutenance/delete', [SoutenanceController::class, 'destroy']);
+        
         //---------------------------------------PAIEMENT-------------------------------------
 
         Route::view('paiement/details-paiement-ens', 'admin.paiement.details_paiement_ens')->name('details_paiement_ens');

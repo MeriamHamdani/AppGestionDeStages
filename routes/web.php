@@ -4,6 +4,7 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\UserController;
 use App\Http\Middleware\EnsureUserIsActive;
 use App\Http\Controllers\Auth\AuthenticatedSessionController;
+use App\Http\Controllers\SoutenanceController;
 
 /*
 |--------------------------------------------------------------------------
@@ -22,7 +23,7 @@ use App\Http\Controllers\Auth\AuthenticatedSessionController;
 /*Route::get('/', function () {
     return view('welcome');
 });*/
-Auth::routes(['verify'=>true]);
+
 
 Route::get('/',function(){
     return view('login.login');
