@@ -7,7 +7,7 @@
             <h6 class="mt-3 f-14 f-w-600">{{ucwords(App\Models\Etudiant::where('user_id',auth()->id())->first()->prenom)}}
                 {{ucwords(App\Models\Etudiant::where('user_id',auth()->id())->first()->nom)}}</h6>
         </a>
-        <p class="mb-0 font-roboto" style="color: #ba895d"><strong>{{ucwords(App\Models\Etudiant::where('user_id',auth()->id())->first()->classe->code)}}</strong> </p>
+        <p class="mb-0 font-roboto" style="color: #ba895d"><strong>{{ucwords(App\Models\Etudiant::where('user_id',auth()->id())->latest()->first()->classe->code)}}</strong> </p>
         {{-- <ul>
             <li>
                 <span><span class="counter">2</span>

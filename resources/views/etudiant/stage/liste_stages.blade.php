@@ -41,7 +41,7 @@
                                 </tr>
                             </thead>
                             <tbody>
-                                @foreach ($demandes_confirmer as $demande )
+                                @foreach ($demandes_confirmes as $demande )
                                 <tr>
                                     <td>{{ $demande->typeStage->nom }}
                                     </td>

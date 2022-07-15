@@ -46,7 +46,6 @@
                                         Prière de télécharger la fiche de demande de stage, la remplir,
                                         la signer avec le responsable de l entreprise ( avec cachet )
                                         et la scanner puis la dépôser dans ce formulaire.</p>
-
                                     <p><a href="{{ route('telecharger_fiche_demande',$fiche_demande) }}">
                                             <u style="color:rgb(255, 255, 255)"><i class="icofont icofont-download-alt">Télécharger
                                                     la fiche de demande de stage</i></u>

@@ -43,9 +43,15 @@
 
                             </form>
                 </li>
+                @if(session()->get('annee'))
+                <li>
+                    <div class="onhover-dropdown p-0"><button class="btn-sm btn-secondary disabled:opacity-0">{{session()->get('annee')->annee}}</button></div>
+                </li>
+            @endif
                 <li>
                     <div class="mode"><i class="fa fa-moon-o"></i></div>
                 </li>
+
 
                 <li class="onhover-dropdown p-0" style="margin-right: 8px">
 

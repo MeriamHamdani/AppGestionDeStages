@@ -31,8 +31,8 @@
                         </div>
                     </li>
                     <li class="dropdown">
-                        <a class="nav-link menu-title {{ prefixActive('/dashboard') }}"
-                            href="{{ route('dashboard-02') }}" class="{{ routeActive('dashboard-02') }}"><i
+                        <a class="nav-link menu-title link-nav {{ routeActive('dashboard') }}"
+                            href="{{ route('dashboard') }}" ><i
                                 data-feather="home"></i><span>Dashboard</span></a>
                     </li>
                     <li class="sidebar-main-title">

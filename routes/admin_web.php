@@ -26,7 +26,7 @@ use App\Http\Controllers\EtablissementController;
 //-------------------------------------------------------------------------------------------------
 Route::middleware(['auth','role:admin|superadmin','clearClasse'])->group(function(){
     Route::prefix('admin')->group(function () {
-
+       Route::view('dashboard-02', 'admin.dashboard.dashboard-02')->name('dashboard');
         Route::get('profil', [AdminController::class,'editProfil'])->name('profil');
         Route::patch('coordonnees', [AdminController::class,'updateProfil'])->name('update_profil');
         // -----------------------------------ADMINISTRATION-------------------------------------
@@ -218,12 +218,12 @@ Route::middleware(['auth','role:admin|superadmin','clearClasse'])->group(functio
     //--------------------------------------------------------------------------------------------
 
 
-    Route::prefix('dashboard')->group(
+    /*Route::prefix('dashboard')->group(
         function () {
         Route::view('dashboard-02', 'admin.dashboard.dashboard-02')->name('dashboard-02');
         Route::view('default-dashboard', 'admin.dashboard.default')->name('default_dash');
     }
-    );
+    );*/
 });
 Route::middleware(['auth','role:admin|superadmin'])->group(function(){
     Route::prefix('admin/configuration/generale')->group(function () {
