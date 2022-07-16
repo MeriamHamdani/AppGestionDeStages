@@ -51,7 +51,7 @@
                             <br/>
                             <ul class="target-list">
                                 <li class="bg-primary">
-                                    <i class="icofont icofont-group-students icon-4x"></i>
+                                    <i class="icofont icofont-company icon-4x"></i>
                                     <h3>20</h3>
                                     <h4>Stages</h4>
                                 </li>
