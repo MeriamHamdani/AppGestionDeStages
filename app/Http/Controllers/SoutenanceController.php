@@ -67,13 +67,21 @@ class SoutenanceController extends Controller
     {
         //return $request->all();
 
-            /*$request->validate([
+            $request->validate([
             'salle'=>"required",
               'heure'=>"required",
                'president'=>"required",
                 'membresJury'=>"required",
                 'stage'=>"required",
-                ]);*/
+                ]);
+
+
+
+        for($i=0;$i<count($request->membresJury);$i++){
+            if($request->president==(int)$request->membresJury[$i]){
+                return response()->json(["err"=>"veuillez selectionner des membres de jury autres que le président "]);
+            }
+        }
 
         $stnc=new Soutenance();
         $stnc->salle=$request->salle;
@@ -89,7 +97,7 @@ class SoutenanceController extends Controller
             array_push($ids,(int)$request->membresJury[$i]);
         }
 
-        $stnc->membres()->sync($ids);
+        //$stnc->membres()->sync($ids);
 
         return response()->json($stnc);
     }
