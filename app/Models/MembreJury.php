@@ -10,6 +10,6 @@ class MembreJury extends Model
     use HasFactory;
     public function soutenances()
     {
-        return $this->belongsToMany(Soutenance::class, 'membre_soutenances');
+        return $this->belongsToMany(Soutenance::class, 'membres_soutenances');
     }
 }

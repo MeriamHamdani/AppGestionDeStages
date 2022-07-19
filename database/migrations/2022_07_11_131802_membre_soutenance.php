@@ -13,22 +13,14 @@ class MembreSoutenance extends Migration
      */
     public function up()
     {
-        Schema::create('membre_soutenances', function (Blueprint $table) {
+        Schema::create('membres_soutenances', function (Blueprint $table) {
 
-           // $table->integer('membreJury_id')->unsigned();
-        
-            //$table->integer('soutenance_id')->unsigned();
-            
+            $table->id();
             $table->foreignId('soutenance_id')->constrained();
-            $table->foreignId('membre_jury_id')->constrained();
-            
-            //$table->foreign('soutenance_id')->references('id')->on('soutenances')->onDelete('cascade');
-            
-            //$table->foreign('membreJury_id')->references('id')->on('membre_juries')->onDelete('cascade');
-        
-            
-        
-        });//
+            //$table->foreignId('enseignant_id')->constrained();
+            $table->unsignedBigInteger('membre_id');
+            $table->foreign('membre_id')->references('id')->on('enseignants');
+        });
     }
 
     /**

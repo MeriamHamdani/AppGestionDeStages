@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class MmebreEnseignantFk extends Migration
+class AddPresidentJuryForeignKey extends Migration
 {
     /**
      * Run the migrations.
@@ -13,8 +13,11 @@ class MmebreEnseignantFk extends Migration
      */
     public function up()
     {
-        Schema::table('membre_juries', function (Blueprint $table) {
-            $table->foreignId('enseignant_id')->constrained()->cascadeOnDelete(); 
+        Schema::table('soutenances', function (Blueprint $table) {
+
+            $table->unsignedBigInteger('president_id');
+            $table->foreign('president_id')->references('id')->on('enseignants');
+
         });
     }
 
@@ -25,7 +28,7 @@ class MmebreEnseignantFk extends Migration
      */
     public function down()
     {
-        Schema::table('membre_jury', function (Blueprint $table) {
+        Schema::table('soutenances', function (Blueprint $table) {
             //
         });
     }

@@ -149,7 +149,7 @@ Route::middleware(['auth','role:admin|superadmin','clearClasse'])->group(functio
         Route::view('soutenance/liste', 'admin.soutenance.liste_soutenances')->name('list_soutenances');
         Route::view('soutenance/evaluer', 'admin.soutenance.evaluer_soutenance')->name('evaluer_soutenance');
         Route::get('soutenance/planifier', [SoutenanceController::class, 'index'])->name('planifier_soutenance');
-        Route::post('soutenance/create', [SoutenanceController::class, 'create']);
+        Route::post('soutenance/store', [SoutenanceController::class, 'store'])->name('creer_soutenance');
         Route::post('soutenance/update', [SoutenanceController::class, 'update']);
         Route::post('soutenance/delete', [SoutenanceController::class, 'destroy']);
 

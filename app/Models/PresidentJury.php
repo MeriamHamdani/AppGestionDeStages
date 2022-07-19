@@ -8,4 +8,8 @@ use Illuminate\Database\Eloquent\Model;
 class PresidentJury extends Model
 {
     use HasFactory;
+    public function soutenances()
+    {
+        return $this->hasMany(Soutenance::class);
+    }
 }
