@@ -97,7 +97,7 @@ class StageController extends Controller
         return view('admin.stage.listes_demandes_stage.sv1lm', compact(['stages_volontaires']));
     } */
 ///////1 ere master & licence volontaire
-    public function stages1ereLicMaster()
+    static function stages1ereLicMaster()
     {
         $stages = Stage::with('typeStage')->get();
         $stages_volontaires = new Collection();
@@ -211,7 +211,7 @@ class StageController extends Controller
     }
 
 ///////////3 eme licence non info
-    public function stages3emeLic()
+    static function stages3emeLic()
     {
         $all_stages = Stage::All();
         $stages = new Collection();
