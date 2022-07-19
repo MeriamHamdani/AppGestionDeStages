@@ -164,11 +164,12 @@
                 success:function(response){
 
                     //console.log(response.etudiant)
-                    $('#stncModal').hide();
+                    $('#stncModal').modal('hide')
                    $('#calendar').fullCalendar('renderEvent',{
-                    title: response.etudiant
-                   }
-                   );
+                    'title': response.start_time + " - " +response.etudiant,
+                    'start': response.date,
+                    'end': response.date
+                   });
                 },
                 error:function(error){
                     if(error.responseJSON.errors){
