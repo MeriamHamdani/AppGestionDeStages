@@ -21,6 +21,7 @@
         "tailwindcss": "^3.0.18"
     },
     "dependencies": {
+        "fullcalendar": "^5.11.0",
         "sweetalert": "^2.1.2"
     }
 }

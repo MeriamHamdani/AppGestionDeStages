@@ -123,8 +123,12 @@ class StageController extends Controller
             $stages_volontaires = $this->stages1ereLicMaster()->where('annee_universitaire_id', $ann->id);
             return view('admin.stage.listes_demandes_stage.sv1lm', compact(['stages_volontaires', 'current_date']));
         }
-        $an = AnneeUniversitaire::where('annee', $this->current_annee_univ()->annee)->first();
+
+        //$an = AnneeUniversitaire::where('annee', $this->current_annee_univ())->first();
+        $an=$this->current_annee_univ()->first();
         $stages_volontaires = $this->stages1ereLicMaster()->where('annee_universitaire_id', $an->id);
+        //dd($stages_volontaires);
+
         return view('admin.stage.listes_demandes_stage.sv1lm', compact(['stages_volontaires', 'current_date']));
     }
 ///////
@@ -158,8 +162,10 @@ class StageController extends Controller
             $stages_2lInfo = $this->stages2emeLicInfo()->where('annee_universitaire_id', $ann->id);
             return view('admin.stage.listes_demandes_stage.so2lInfo', compact(['stages_2lInfo', 'current_date']));
         }
-        $an = AnneeUniversitaire::where('annee', $this->current_annee_univ()->annee)->first();
-        $stages_2lInfo = $this->stages2emeLicInfo()->where('annee_universitaire_id', $an->id);
+
+        $an =$this->current_annee_univ();
+        $stages_2lInfo = $this->stages2emeLicInfo()->where('annee_universitaire_id', $an->id)->get();
+
         return view('admin.stage.listes_demandes_stage.so2lInfo', compact(['stages_2lInfo', 'current_date']));
     }
 //////////
@@ -197,7 +203,9 @@ class StageController extends Controller
             $stages = $this->stages2emeLic()->where('annee_universitaire_id', $ann->id);
             return view('admin.stage.listes_demandes_stage.so2l', compact(['stages', 'current_date']));
         }
-        $an = AnneeUniversitaire::where('annee', $this->current_annee_univ()->annee)->first();
+
+        $an =  $this->current_annee_univ()->first();
+
         $stages = $this->stages2emeLic()->where('annee_universitaire_id', $an->id);
         return view('admin.stage.listes_demandes_stage.so2l', compact(['stages', 'current_date']));
     }
@@ -234,7 +242,8 @@ class StageController extends Controller
             $stages = $this->stages3emeLic()->where('annee_universitaire_id', $ann->id);
             return view('admin.stage.listes_demandes_stage.so3l', compact(['stages', 'current_date']));
         }
-        $an = AnneeUniversitaire::where('annee', $this->current_annee_univ()->annee)->first();
+
+        $an = $this->current_annee_univ()->first();
         $stages = $this->stages3emeLic()->where('annee_universitaire_id', $an->id);
         return view('admin.stage.listes_demandes_stage.so3l', compact(['stages', 'current_date']));
     }
@@ -273,7 +282,9 @@ class StageController extends Controller
             $stages = $this->stages3emeLicInfo()->where('annee_universitaire_id', $ann->id);
             return view('admin.stage.listes_demandes_stage.so3Info', compact(['stages', 'current_date']));
         }
-        $an = AnneeUniversitaire::where('annee', $this->current_annee_univ()->annee)->first();
+
+        $an =$this->current_annee_univ()->first();
+
         $stages = $this->stages3emeLicInfo()->where('annee_universitaire_id', $an->id);
         return view('admin.stage.listes_demandes_stage.so3Info', compact(['stages', 'current_date']));
     }
@@ -307,7 +318,9 @@ class StageController extends Controller
             $stages = $this->stages2emeMaster()->where('annee_universitaire_id', $ann->id);
             return view('admin.stage.listes_demandes_stage.so2m', compact(['stages', 'current_date']));
         }
-        $an = AnneeUniversitaire::where('annee', $this->current_annee_univ()->annee)->first();
+
+        $an = $this->current_annee_univ()->first();
+
         $stages = $this->stages2emeMaster()->where('annee_universitaire_id', $an->id);
         return view('admin.stage.listes_demandes_stage.so2m', compact(['stages', 'current_date']));
     }
