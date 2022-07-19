@@ -162,7 +162,13 @@
 
                 data: {salle, date, heure, president, membresJury, stage, },
                 success:function(response){
-                    console.log(response)
+
+                    //console.log(response.etudiant)
+                    $('#stncModal').hide();
+                   $('#calendar').fullCalendar('renderEvent',{
+                    title: response.etudiant
+                   }
+                   );
                 },
                 error:function(error){
                     if(error.responseJSON.errors){

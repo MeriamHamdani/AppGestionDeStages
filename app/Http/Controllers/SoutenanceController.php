@@ -96,7 +96,9 @@ class SoutenanceController extends Controller
         for($i=0;$i<count($request->membresJury);$i++){
             array_push($ids,(int)$request->membresJury[$i]);
         }
-
+        $stage=Stage::find($request->stage);
+        $etd=Etudiant::find($stage->etudiant_id);
+        $stnc->etudiant=$etd->nom .' '. $etd->prenom;
         //$stnc->membres()->sync($ids);
 
         return response()->json($stnc);
