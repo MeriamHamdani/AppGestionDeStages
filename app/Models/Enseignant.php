@@ -37,10 +37,13 @@ class Enseignant extends Model
     {
         return $this->belongsTo(User::class);
     }
-    public function soutenances()
+   /* public function soutenances()
     {
         return $this->belongsToMany(Soutenance::class, 'membres_soutenances');
+    }*/
+    public function soutenances()
+    {
+        return $this->hasMany(Soutenance::class);
     }
-
 
 }

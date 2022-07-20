@@ -75,15 +75,30 @@
                         <br>
                     </div>
                     <div class="col-md-16 position-relative">
-                        <label class="form-label" for="validationTooltip01">Membres de jury </label>
-                        <select class="js-example-basic-single col-sm-12" name="mbrJury" id="mbrJury" multiple>
+
+                        <label class="form-label" for="validationTooltip01">Rapporteur </label>
+                        <select class="js-example-basic-single col-sm-12" name="rapporteur" id="rapporteur">
+
 
                             @foreach ($enseignants as $ens )
                             <option value={{ $ens->id }}>{{ ucwords($ens->nom) }}&nbsp;{{ ucwords($ens->prenom) }}
                             </option>
                             @endforeach
                         </select>
-                        <div id="mbrJuryError" class="invalid-tooltip">Sélèctionnez les membres de jury svp!</div>
+                        <div id="rapporteurError" class="invalid-tooltip">Sélèctionnez les membres de jury svp!
+                        </div>
+
+                        <label class="form-label" for="validationTooltip01">2éme membre de jury </label>
+                        <select class="js-example-basic-single col-sm-12" name="2eme_membre" id="2eme_membre">
+
+                            @foreach ($enseignants as $ens )
+                            <option value={{ $ens->id }}>{{ ucwords($ens->nom) }}&nbsp;{{ ucwords($ens->prenom) }}
+                            </option>
+                            @endforeach
+                        </select>
+                        <div id="2eme_membreError" class="invalid-tooltip">Sélèctionnez les membres de jury svp!
+                        </div>
+
                     </div>
                 </form>
             </div>
@@ -132,7 +147,8 @@
     header:{
      left:'prev,next today',
      center:'title',
-     right:'month,agendaWeek,agendaDay'
+     right:'month,agendaWeek,agendaDay',
+
     },
     events: soutenances,
     selectable: true,
@@ -144,23 +160,17 @@
             var salle= $('#salle').val();
             var heure =$('#heure').val();
             var president =$('#president').val();
-            var membresJury =$('#mbrJury').val();
+            var rapporteur=$('#rapporteur').val();
+            var deuxieme_membre=$('#2eme_membre').val();
             var date=moment(start).format('DD-MM-YYYY');
             var stage=$('#stage').val();
-
-            /*console.log(typeof(heure));
-            console.log(typeof(salle));
-            console.log(typeof(membreJury));
-            console.log(typeof(stage));
-            console.log(typeof(date));*/
-            //console.log(typeof(president));
 
             $.ajax({
                 url: "{{ route('creer_soutenance') }}",
                 type: "POST",
                 dataType: "JSON",
 
-                data: {salle, date, heure, president, membresJury, stage, },
+                data: {salle, date, heure, president, deuxieme_membre, stage, rapporteur },
                 success:function(response){
 
                     //console.log(response.etudiant)
@@ -168,8 +178,12 @@
                    $('#calendar').fullCalendar('renderEvent',{
                     'title': response.start_time + " - " +response.etudiant,
                     'start': response.date,
-                    'end': response.date
+                    'end': response.date,
+                    'color' : response.color
                    });
+                   window.location.reload();
+
+
                 },
                 error:function(error){
                     if(error.responseJSON.errors){
@@ -182,7 +196,48 @@
                 }
             });
         });
-    }
+    },
+    editable: true,
+    eventDrop: function(event){
+        var id= event.id;
+        var date=moment(event.start).format('DD-MM-YYYY');
+        $.ajax({
+
+                url: "{{ route('dragNdDrop','') }}"+'/'+id,
+                type: "PATCH",
+                dataType: "JSON",
+                data: {date },
+
+                success:function(response){
+
+                    swal("Bien!", "Soutenance mis a jour avec succée!", "success");
+
+                },
+                error:function(error){
+                    console.log(error)
+                }
+            });
+    },
+    eventClick: function(event){
+                    var id = event.id;
+                    if(confirm('Êtes-vous sur de vouloir supprimer cette soutenance !')){
+                        $.ajax({
+                            url:"{{ route('supprimer_soutenance', '') }}" +'/'+ id,
+                            type:"DELETE",
+                            dataType:'json',
+                            success:function(response)
+                            {
+                                $('#calendar').fullCalendar('removeEvents', response);
+                                // swal("Good job!", "Event Deleted!", "success");
+                            },
+                            error:function(error)
+                            {
+                                console.log(error)
+                            },
+                        });
+                    }
+                },
+
 
    });
   });
@@ -191,4 +246,3 @@
 @endpush
 
 @endsection
-

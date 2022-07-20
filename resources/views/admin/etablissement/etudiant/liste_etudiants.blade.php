@@ -277,7 +277,9 @@
 
 <script>
     swal('Bien', "L'étudiant est bien ajouté", 'success', {
-                button: 'Continuer'
+                //button: 'Continuer'
+                showConfirmButton: false,
+  timer: 2500
             })
 
 </script>
@@ -321,12 +323,13 @@
 </script>
 <script>
     $('.delete2').click(function () {
-       
+
         swal('Oups', "cette action est interdite", 'error')
-            
+
     });
 
 </script>
 @endpush
 
 @endsection
+

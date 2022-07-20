@@ -275,7 +275,9 @@
 
                 <script>
                     swal('Bien', "L'enseignant est bien ajouté", 'success', {
-                        button: 'Continuer'
+                        //button: 'Continuer',
+                        showConfirmButton: false,
+                        timer: 2500
                     })
 
                 </script>

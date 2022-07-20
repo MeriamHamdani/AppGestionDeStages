@@ -20,31 +20,26 @@ class SoutenanceController extends Controller
     public function index()
     {
         $etudiants=array();
-        /*$etds=Etudiant::all();
-        foreach($etds as $etd){
-            $classe=Classe::find($etd->classe_id);
-            if((strtoupper($classe->cycle)===strtoupper('licence') && $classe->cycle==3) || (strtoupper($classe->cycle)===strtoupper('mastere') && $classe->cycle==2)){
-                array_push($etudiants,$etd);
-            }
-        }*/
         $stages=Stage::all();
 
         foreach($stages as $stage){
             $tps=TypeStage::find($stage->type_stage_id);
             $cls=Classe::find($tps->classe_id);
-
+            $color = null;
             if($stage->confirmation_admin==1 && $stage->confirmation_encadrant==1){
 
                 if(((strtoupper($cls->cycle)==strtoupper('licence') && $cls->niveau==3)) || ((strtoupper($cls->cycle)==strtoupper('master') && $cls->niveau==2))){
                     $etd=Etudiant::find($stage->etudiant_id);
                     $etd->stage_id=$stage->id;
-
+                    if(strtoupper($cls->cycle)==strtoupper('licence')){
+                        $c='2';
+                    }elseif(strtoupper($cls->cycle)==strtoupper('master')){$c='3';}
+                    $color="#8A08".$c."B";
                     array_push($etudiants,$etd);
                 }
             }
 
         }
-//dd($etudiants);
 
 
         $enseignants=Enseignant::all();
@@ -55,7 +50,9 @@ class SoutenanceController extends Controller
             $stnc[]=[
                 'date'=>$soutenance->date,
                 'start'=>$soutenance->start,
-                'salle'=>$soutenance->salle
+                'salle'=>$soutenance->salle,
+                'id'=>$soutenance->id,
+                'color'=>$color
             ];
         }
 
@@ -71,33 +68,40 @@ class SoutenanceController extends Controller
             'salle'=>"required",
               'heure'=>"required",
                'president'=>"required",
-                'membresJury'=>"required",
+                'deuxieme_membre'=>"required",
+                'rapporteur'=>"required",
                 'stage'=>"required",
                 ]);
 
+                $stage=Stage::find($request->stage);
+                $etd=Etudiant::find($stage->etudiant_id);
 
 
-        for($i=0;$i<count($request->membresJury);$i++){
-            if($request->president==(int)$request->membresJury[$i]){
-                return response()->json(["err"=>"veuillez selectionner des membres de jury autres que le président "]);
-            }
-        }
+        $error=array();
+        $un=$request->rapporteur==$request->deuxieme_membre;
+        $deux=$request->rapporteur==$stage->enseignant_id;
+        $trois=$request->rapporteur==$stage->president;
 
+        $quatre=$request->deuxieme_membre==$stage->enseignant_id;
+        $cinq=$request->deuxieme_membre==$stage->president;
+
+        $six=$request->president==$stage->enseignant_id;
+
+       /* if($un || $deux || $trois || $quatre || $cinq || $six){
+            array_push($error,"jkhkukh");
+        }*/
         $stnc=new Soutenance();
         $stnc->salle=$request->salle;
         $stnc->start_time=$request->heure;
         $stnc->date=DateTime::createFromFormat('d-m-Y', $request->date)->format('Y-m-d');
         $stnc->stage_id=(int)$request->stage;
         $stnc->president_id=$request->president;
+        $stnc->deuxieme_membre_id=$request->deuxieme_membre;
+        $stnc->rapporteur_id=$request->rapporteur;
         $stnc->annee_universitaire_id=$this->current_annee_univ()->id;
         $stnc->save();
 
-        $ids=array();
-        for($i=0;$i<count($request->membresJury);$i++){
-            array_push($ids,(int)$request->membresJury[$i]);
-        }
-        $stage=Stage::find($request->stage);
-        $etd=Etudiant::find($stage->etudiant_id);
+
         $stnc->etudiant=$etd->nom .' '. $etd->prenom;
         //$stnc->membres()->sync($ids);
 
@@ -134,21 +138,32 @@ class SoutenanceController extends Controller
     }
 
 
-    public function update(Request $request)
+    public function update($id,Request $request)
     {
-        $where = array('id' => $request->id);
-        $updateArr = ['title' => $request->title,'start' => $request->start, 'end' => $request->end];
-        $event  = Soutenance::where($where)->update($updateArr);
-
-        return Response::json($event);
+        $soutenance = Soutenance::find($id);
+        if(! $soutenance) {
+            return response()->json([
+                'error' => 'Unable to locate the event'
+            ], 404);
+        }
+        $soutenance->update([
+            'date' =>DateTime::createFromFormat('d-m-Y', $request->date)->format('Y-m-d'),
+        ]);
+        return response()->json('Event updated');
     }
 
 
-    public function destroy(Request $request)
+    public function destroy($id)
     {
-        $event = Soutenance::where('id',$request->id)->delete();
 
-        return Response::json($event);
+        $stnc = Soutenance::find($id);
+        if(! $stnc) {
+            return response()->json([
+                'error' => 'Soutenance introuvable'
+            ], 404);
+        }
+        $stnc->delete();
+        return $id;
     }
 
 

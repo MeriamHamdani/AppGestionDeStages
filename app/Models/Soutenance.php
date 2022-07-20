@@ -22,4 +22,10 @@ class Soutenance extends Model
     public function president(){
         return $this->belongsTo(Enseignant::class);
     }
+    public function rapporteur(){
+        return $this->belongsTo(Enseignant::class);
+    }
+    public function deuxiemeMembre(){
+        return $this->belongsTo(Enseignant::class);
+    }
 }
