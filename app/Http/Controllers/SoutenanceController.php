@@ -25,17 +25,14 @@ class SoutenanceController extends Controller
         foreach($stages as $stage){
             $tps=TypeStage::find($stage->type_stage_id);
             $cls=Classe::find($tps->classe_id);
-            $color = null;
+
             if($stage->confirmation_admin==1 && $stage->confirmation_encadrant==1){
 
                 if(((strtoupper($cls->cycle)==strtoupper('licence') && $cls->niveau==3)) || ((strtoupper($cls->cycle)==strtoupper('master') && $cls->niveau==2))){
                     $etd=Etudiant::find($stage->etudiant_id);
                     $etd->stage_id=$stage->id;
-                    if(strtoupper($cls->cycle)==strtoupper('licence')){
-                        $c='2';
-                    }elseif(strtoupper($cls->cycle)==strtoupper('master')){$c='3';}
-                    //$color="#8A08".$c."B";
-                    $color='#'.$c.'0BFFF';
+
+
                     array_push($etudiants,$etd);
                 }
             }
@@ -48,8 +45,17 @@ class SoutenanceController extends Controller
         $stnc=array();
 
         foreach($soutenances as $soutenance){
+            $color=null;
             $ts=TypeStage::find(Stage::find($soutenance->stage_id)->type_stage_id);
-            $classe=Classe::find($ts->classe_id)->code;
+            $classe=Classe::find($ts->classe_id);
+            if(strtoupper($classe->cycle)==strtoupper('master')){
+
+                $color='#00BFFF';
+            }
+            else{
+
+                $color='#FA58AC';
+            }
             $etdNP=Etudiant::find(Stage::find($soutenance->stage_id)->etudiant_id)->nom.' '.Etudiant::find(Stage::find($soutenance->stage_id)->etudiant_id)->prenom;
             $stnc[]=[
                 'date'=>$soutenance->date,
@@ -57,7 +63,7 @@ class SoutenanceController extends Controller
                 'salle'=>$soutenance->salle,
                 'id'=>$soutenance->id,
                 'color'=>$color,
-                'title'=>$etdNP.' : '.$classe
+                'title'=>$etdNP.' : '.$classe->code
             ];
         }
 
@@ -78,11 +84,13 @@ class SoutenanceController extends Controller
                 'stage'=>"required",
                 ]);
 
-                $stage=Stage::find($request->stage);
-                $etd=Etudiant::find($stage->etudiant_id);
+                $soutenances=Soutenance::all();
+
+        $stage=Stage::find($request->stage);
+        $etd=Etudiant::find($stage->etudiant_id);
 
 
-        $error=array();
+       /* $error=array();
         $un=$request->rapporteur==$request->deuxieme_membre;
         $deux=$request->rapporteur==$stage->enseignant_id;
         $trois=$request->rapporteur==$stage->president;
@@ -90,7 +98,7 @@ class SoutenanceController extends Controller
         $quatre=$request->deuxieme_membre==$stage->enseignant_id;
         $cinq=$request->deuxieme_membre==$stage->president;
 
-        $six=$request->president==$stage->enseignant_id;
+        $six=$request->president==$stage->enseignant_id;*/
 
        /* if($un || $deux || $trois || $quatre || $cinq || $six){
             array_push($error,"jkhkukh");
