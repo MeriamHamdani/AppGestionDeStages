@@ -34,7 +34,8 @@ class SoutenanceController extends Controller
                     if(strtoupper($cls->cycle)==strtoupper('licence')){
                         $c='2';
                     }elseif(strtoupper($cls->cycle)==strtoupper('master')){$c='3';}
-                    $color="#8A08".$c."B";
+                    //$color="#8A08".$c."B";
+                    $color='#'.$c.'0BFFF';
                     array_push($etudiants,$etd);
                 }
             }
@@ -47,12 +48,16 @@ class SoutenanceController extends Controller
         $stnc=array();
 
         foreach($soutenances as $soutenance){
+            $ts=TypeStage::find(Stage::find($soutenance->stage_id)->type_stage_id);
+            $classe=Classe::find($ts->classe_id)->code;
+            $etdNP=Etudiant::find(Stage::find($soutenance->stage_id)->etudiant_id)->nom.' '.Etudiant::find(Stage::find($soutenance->stage_id)->etudiant_id)->prenom;
             $stnc[]=[
                 'date'=>$soutenance->date,
                 'start'=>$soutenance->start,
                 'salle'=>$soutenance->salle,
                 'id'=>$soutenance->id,
-                'color'=>$color
+                'color'=>$color,
+                'title'=>$etdNP.' : '.$classe
             ];
         }
 
