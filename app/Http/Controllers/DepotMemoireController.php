@@ -39,7 +39,7 @@ class DepotMemoireController extends Controller
     public function index()
     {
         $user_id = Auth::user()->id;
-        $etudiant = Etudiant::all()->where('user_id', $user_id)->first();
+        $etudiant = Etudiant::where('user_id', Auth::user()->id)->latest()->first();
         $stages = (Stage::where('etudiant_id', $etudiant->id))->where('confirmation_admin', 1)->get();
         //dd($stages);
         $typeStages = new Collection();
@@ -82,7 +82,7 @@ class DepotMemoireController extends Controller
     {
         $stage_id = request()->get('stage_id');
         $user_id = Auth::user()->id;
-        $etudiant = Etudiant::all()->where('user_id', $user_id)->first();
+        $etudiant = Etudiant::where('user_id', Auth::user()->id)->latest()->first();
         $stage = Stage::findOrFail($stage_id);
         if ($stage->etudiant->user->id == $user_id && $stage->confirmation_admin == 1 && $stage->typeStage->date_debut_depot != null && $stage->typeStage->date_limite_depot != null) {
             return view('etudiant.depot.deposer', ['stage_id' => $stage_id, 'stage' => $stage, 'etudiant' => $etudiant]);
@@ -102,7 +102,7 @@ class DepotMemoireController extends Controller
         $stage_id = request()->get('stage_id');
         $stage = Stage::findOrFail($stage_id);
         $user_id = Auth::user()->id;
-        $etudiant = Etudiant::all()->where('user_id', $user_id)->first();
+        $etudiant = Etudiant::where('user_id', Auth::user()->id)->latest()->first();
         $nomComplet = ucwords($etudiant->nom) . ucwords($etudiant->prenom);
         //$current_date = Carbon::now()->format('Y-m-d');
         $current_date = Carbon::now();
@@ -283,7 +283,9 @@ class DepotMemoireController extends Controller
                 }
                 $demandesDepotC->push($d);
             }
-            $an = AnneeUniversitaire::where('annee', StageController::current_annee_univ()->annee)->first(); //dd($an);
+            return view('admin.depot.gerer_depot', compact('demandesDepotC'));
+        }else {
+            $an = StageController::current_annee_univ(); //dd($an);
             $demandesDepot = DepotMemoire::with('stage')->where('annee_universitaire_id', $an->id)->get();
             $demandesDepotC = new Collection();
             foreach ($demandesDepot as $d) {
@@ -356,7 +358,7 @@ class DepotMemoireController extends Controller
     public function update(Request $request, DepotMemoire $depotMemoire)
     {
         $user_id = Auth::user()->id;
-        $etudiant = Etudiant::all()->where('user_id', $user_id)->first();
+        $etudiant = Etudiant::where('user_id', Auth::user()->id)->latest()->first();
         $nomComplet = ucwords($etudiant->nom) . ucwords($etudiant->prenom);
         $classe = Classe::findOrFail($etudiant->classe_id);
         $current_date = Carbon::now();
