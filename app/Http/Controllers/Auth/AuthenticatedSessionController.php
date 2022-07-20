@@ -76,7 +76,7 @@ class AuthenticatedSessionController extends Controller
                 switch ($r) {
                     case 'admin':
                         //$role='admin';
-                        return ('admin/administration/liste-admin');
+                        return ('admin/dashboard');
                         break;
                     case 'enseignant':
                         //$role='enseignant';
@@ -88,7 +88,7 @@ class AuthenticatedSessionController extends Controller
                         break;
                     case 'superadmin':
                         // $role='etudiant';
-                        return ('admin/administration/liste-admin');
+                        return ('admin/dashboard');
                         break;
 
 

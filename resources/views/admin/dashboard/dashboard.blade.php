@@ -74,28 +74,39 @@
                 </div>
             </div>
             <div class="row">
-            <div class="item active">
-                <div class="card"  style="width: 400px" >
-                    <div class="card-header">
-                        <div class="header-top d-sm-flex justify-content-between align-items-center">
-                            <h5 class="m-0">Statistiques des encadrements</h5>
+                <div class="item active">
+                    <div class="card" style="width: 1100px">
+                        <div class="card-header">
+                            <div class="header-top d-sm-flex justify-content-between align-items-center">
+                                <h5 class="m-0">Autres Statistiques</h5>
+                            </div>
+                            <div class="card-body" style="width:1000px;height:350px">
+                                <table class="columns">
+                                    <tr>
+                                        <td>
+                                            <canvas id="myChartDoughnut" width="300" height="200"
+                                                    style="border: 2px solid #ccc;padding-right: 2px; padding-bottom:6px"></canvas>
+                                        </td>
+                                        <td>
+                                            <canvas id="myChart" width="300" height="200"
+                                                    style="border: 2px solid #ccc;padding-right: 2px; padding-bottom:6px"></canvas>
+                                        </td>
+                                    </tr>
+                                </table>
+                            </div>
                         </div>
-                        <div class="card-body" style="width:350px;height:300px">
-                            <canvas id="myChartDoughnut" width="200" height="100"></canvas>
+                    </div>
+                    <div class="card" style="width: 1000px">
+                        <div class="card-header">
+                            <div class="header-top d-sm-flex justify-content-between align-items-center">
+                                <h5 class="m-0">Statistiques des types des sujets</h5>
+                            </div>
+                            <div>
+                                <div id="piechart" style="width: 900px; height: 400px;"></div>
+                            </div>
                         </div>
                     </div>
                 </div>
-                <div class="card"  style="width: 1000px" >
-                    <div class="card-header">
-                        <div class="header-top d-sm-flex justify-content-between align-items-center">
-                            <h5 class="m-0">Statistiques des types des sujets</h5>
-                        </div>
-                        <div>
-                            <div id="piechart" style="width: 900px; height: 400px;"></div>
-                        </div>
-                    </div>
-                </div>
-            </div>
             </div>
 
             <div class="col-xl-12 des-xl-50 yearly-growth-sec">
@@ -215,7 +226,7 @@
             const myChart = new Chart(ctx, {
                 type: 'doughnut',
                 data: {
-                    labels: ['Nombre des enseignants Encadrants', 'Nombre des enseignants Non Encadrants'],
+                    labels: ['Enseignants Encadrants', 'Enseignants Non Encadrants'],
                     datasets: [{
                         data: data,
                         backgroundColor: [
@@ -223,12 +234,56 @@
                             'rgb(186, 137, 93)',
                         ],
                         hoverOffset: 4
-                }]
-            }});
+                    }]
+                },
+                options: {
+                    plugins: {
+                        title: {
+                            display: true,
+                            text: 'Statistiques des encadrements',
+                            padding: {
+                                top: 10,
+                                bottom: 20
+                            }
+                        }
+                    }
+                }
+            });
         </script>
         <script type="text/javascript">
-            google.charts.load('current', {'packages':['corechart']});
+            var data2 = {!! json_encode($statVol)  !!};
+            const ctx2 = document.getElementById('myChart');
+            const myChart2 = new Chart(ctx2, {
+                type: 'pie',
+                data: {
+                    labels: ['Etudiants ayant un stage volontaire', 'Etudiants n\'ayant pas un stage volontaire'],
+                    datasets: [{
+                        data: data2,
+                        backgroundColor: [
+                            'rgb(36, 105, 92)',
+                            'rgb(186, 137, 93)',
+                        ],
+                        hoverOffset: 4
+                    }]
+                },
+                options: {
+                    plugins: {
+                        title: {
+                            display: true,
+                            text: 'Statistiques des stages volontaires',
+                            padding: {
+                                top: 10,
+                                bottom: 20
+                            }
+                        }
+                    }
+                }
+            });
+        </script>
+        <script type="text/javascript">
+            google.charts.load('current', {'packages': ['corechart']});
             google.charts.setOnLoadCallback(drawChart);
+
             function drawChart() {
                 var data = google.visualization.arrayToDataTable([
                     ['Type sujet', 'Stages'],
@@ -236,7 +291,7 @@
                 ]);
                 var options = {
                     is3D: true,
-            };
+                };
                 var chart = new google.visualization.PieChart(document.getElementById('piechart'));
                 chart.draw(data, options);
             }

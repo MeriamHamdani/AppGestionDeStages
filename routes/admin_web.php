@@ -33,6 +33,7 @@ Route::middleware(['auth', 'role:admin|superadmin', 'clearClasse'])->group(funct
         Route::get('dashboard', [DashboardController::class, 'index'])->name('dashboard');
         Route::get('dashboard/encad', [DashboardController::class, 'encadrementChart'])->name('encadrementChart');
         Route::get('dashboard/ts', [DashboardController::class, 'typeSujetChart'])->name('typeSujetChart');
+        Route::get('dashboard/sv', [DashboardController::class, 'stagesVolontairesChart'])->name('stagesVolontairesChart');
         Route::get('profil', [AdminController::class, 'editProfil'])->name('profil');
         Route::patch('coordonnees', [AdminController::class, 'updateProfil'])->name('update_profil');
         // -----------------------------------ADMINISTRATION-------------------------------------

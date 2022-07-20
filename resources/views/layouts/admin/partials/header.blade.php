@@ -18,13 +18,6 @@
                             <form class="g-6 needs-validation" novalidate="" method="POST"
                                   action="{{ route('filtre_par_an') }}">
                                 @csrf
-                                @if($errors->any())
-                                    @foreach ($errors->all() as $err )
-                                        <div class="alert alert-danger" role="alert">
-                                            {{ $err }}
-                                        </div>
-                                    @endforeach
-                                @endif
                                 <div style="width: 200px" class="col-md-6 position-relative">
                                     <select class="js-example-basic-single col-sm-4" id="annee_universitaire"
                                             name="annee_universitaire"
@@ -45,7 +38,7 @@
                 </li>
                 @if(session()->get('annee'))
                 <li>
-                    <div class="onhover-dropdown p-0"><button class="btn-sm btn-secondary disabled:opacity-0">{{session()->get('annee')->annee}}</button></div>
+                    <div class="onhover-dropdown p-0"><button class="btn-sm btn-secondary disabled:opacity-0"><strong>{{session()->get('annee')->annee}}</strong></button></div>
                 </li>
             @endif
                 <li>
@@ -53,7 +46,7 @@
                 </li>
 
 
-                <li class="onhover-dropdown p-0" style="margin-right: 8px">
+                <li class="onhover-dropdown p-0" style="margin-right: 15px">
 
                     <form method="GET" action="{{ route('deconnexion') }}">
                         @csrf
