@@ -55,10 +55,10 @@
                     </div>
                     <div class="col-md-16 position-relative">
                         <label class="form-label" for="validationTooltip01">Etudiant</label>
-                        <select class="js-example-basic-single col-sm-12">
+                        <select class="js-example-basic-single col-sm-12" id="stage" name="stage">
                             @foreach ($etudiants as $etd )
-                            <option value={{ $etd->stage_id }} id="stage">{{ ucwords($etd->nom) }}&nbsp;{{
-                                ucwords($etd->prenom) }}</option>
+                            <option value={{ $etd->stage_id }} ><i>{{ ucwords($etd->nom) }}&nbsp;{{
+                                    ucwords($etd->prenom) }}&nbsp; :</i> {{ ucwords($etd->sujet) }}</option>
                             @endforeach
                         </select>
                         <div id="etudiantError" class="invalid-tooltip">Sélectionnez l'étudiant svp!</div><br>
@@ -78,8 +78,6 @@
 
                         <label class="form-label" for="validationTooltip01">Rapporteur </label>
                         <select class="js-example-basic-single col-sm-12" name="rapporteur" id="rapporteur">
-
-
                             @foreach ($enseignants as $ens )
                             <option value={{ $ens->id }}>{{ ucwords($ens->nom) }}&nbsp;{{ ucwords($ens->prenom) }}
                             </option>
@@ -100,6 +98,8 @@
                         </div>
 
                     </div>
+                    <div id="selectionError" class="invalid-tooltip"></div>
+
                 </form>
             </div>
             <div class="modal-footer">
@@ -172,11 +172,28 @@
 
                 data: {salle, date, heure, president, deuxieme_membre, stage, rapporteur },
                 success:function(response){
+                    //console.log(response);
+                    if(response.error=='soutenance exist'){
+                        swal("oups!", "vous avez déja programmer une soutenance pour ce stage!", "error");
+                    }
+                    if(response.error=='udt'){
+                        swal("Echec", "Le rapporteur ne peut pas être ni le président de jury ni le 2éme membre de jury ni l'encadrant de l'étudiant", "error",{
+                            button: "réessayer"
+                        });
+                    }
+                    if(response.error=='qc'){
+                        swal("Echec","Le deuxieme membre de jury ne peut pas être ni le président de jury ni l'encadrant de l'étudiant","error");
+                    }
+                    if(response.error=='six'){
+                        swal("Echec","Le président de jury ne peut pas être l'encadrant de l'étudiant","error",{
+                            button: "réessayer"
+                        });
+                    }
 
                     //console.log(response.etudiant)
                     $('#stncModal').modal('hide')
                    $('#calendar').fullCalendar('renderEvent',{
-                    'title': response.start_time + " - " +response.etudiant,
+                    'title': response.title,
                     'start': response.date,
                     'end': response.date,
                     'color' : response.color

@@ -31,7 +31,8 @@
                 <div style="padding-bottom: 16px; padding-right: 30px;">
                     <a href={{ route('planifier_soutenance') }}>
                         <i class="text-right" aria-hidden="true">
-                            <button class="btn btn-pill btn-success pull-right" type="button">
+                            <button class="btn btn-pill btn-success pull-right" type="button" href={{
+                                route('planifier_soutenance') }}>
                                 Planifier une soutenance
                             </button>
                         </i>
@@ -55,62 +56,42 @@
                                     <th>Classe</th>
                                     <th>Sujet</th>
                                     <th>Date</th>
+                                    <th>Heure</th>
                                     <th>Salle</th>
                                     <th>Actions</th>
                                 </tr>
                             </thead>
+                            @php
+                            $soutenances=App\Models\Soutenance::all();
+                            @endphp
                             <tbody>
+                                @foreach ($soutenances as $soutenance )
                                 <tr>
-                                    <td>Flen ben foulene</td>
-                                    <td>LF3I</td>
-                                    <td>application de gestion des stages</td>
-                                    <td>06-06-2022</td>
-                                    <td>amphi 2</td>
+                                    @php
+                                    $stage=App\Models\Stage::find($soutenance->stage_id);
+                                    $etudiant=App\Models\Etudiant::find($stage->etudiant_id);
+                                    $classe=App\Models\Classe::find($etudiant->classe_id);
+                                    @endphp
+                                    <td>{{ $etudiant->nom }}&nbsp;{{ $etudiant->prenom }}</td>
+                                    <td>{{ $classe->code }}</td>
+                                    <td>{{ $stage->titre_sujet }}</td>
+                                    <td>{{ $soutenance->date }}</td>
+                                    <td>{{ $soutenance->start_time }}</td>
+                                    <td>{{ $soutenance->salle }}</td>
                                     <td class="text-center">
                                         <a href="pv-soutenance.txt" download="PV-soutenance.txt"
                                             data-title="télécharger le pv de soutenance" data-toggle="tooltip"> <i
                                                 class="icofont icofont-file-text icon-large"></i></a>
                                         <a href="{{ route('evaluer_soutenance') }}" data-title="évaluer le soutenance"
-                                            data-toggle="tooltip"> <i class="icofont icofont-tick-mark icon-large"></i></a>
+                                            data-toggle="tooltip"> <i
+                                                class="icofont icofont-tick-mark icon-large"></i></a>
                                         <a href="evaluation.pdf" download="evaluation-soutenance.pdf"
                                             data-title="télécharger le fichier d'évaluation de soutenance"
-                                            data-toggle="tooltip"> <i class="icofont icofont-file-pdf icon-large"></i></a>
+                                            data-toggle="tooltip"> <i
+                                                class="icofont icofont-file-pdf icon-large"></i></a>
                                     </td>
                                 </tr>
-                                <tr>
-                                    <td>Flen ben foulene</td>
-                                    <td>LF3I</td>
-                                    <td>application de gestion des stages</td>
-                                    <td>06-06-2022</td>
-                                    <td>amphi 2</td>
-                                    <td class="text-center">
-                                        <a href="pv-soutenance.txt" download="PV-soutenance.txt"
-                                            data-title="télécharger le pv de soutenance" data-toggle="tooltip"> <i
-                                                class="icofont icofont-file-text icon-large"></i></a>
-                                        <a href="{{ route('evaluer_soutenance') }}" data-title="évaluer le soutenance"
-                                            data-toggle="tooltip"> <i class="icofont icofont-tick-mark icon-large"></i></a>
-                                        <a href="evaluation.pdf" download="evaluation-soutenance.pdf"
-                                            data-title="télécharger le fichier d'évaluation de soutenance"
-                                            data-toggle="tooltip"> <i class="icofont icofont-file-pdf icon-large"></i></a>
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <td>Flen ben foulene</td>
-                                    <td>LF3I</td>
-                                    <td>application de gestion des stages</td>
-                                    <td>06-06-2022</td>
-                                    <td>amphi 2</td>
-                                    <td class="text-center">
-                                        <a href="pv-soutenance.txt" download="PV-soutenance.txt"
-                                            data-title="télécharger le pv de soutenance" data-toggle="tooltip"> <i
-                                                class="icofont icofont-file-text icon-large"></i></a>
-                                        <a href="{{ route('evaluer_soutenance') }}" data-title="évaluer le soutenance"
-                                            data-toggle="tooltip"> <i class="icofont icofont-tick-mark icon-large"></i></a>
-                                        <a href="evaluation.pdf" download="evaluation-soutenance.pdf"
-                                            data-title="télécharger le fichier d'évaluation de soutenance"
-                                            data-toggle="tooltip"> <i class="icofont icofont-file-pdf icon-large"></i></a>
-                                    </td>
-                                </tr>
+                                @endforeach
                             </tbody>
                             <tfoot>
                                 <tr>
@@ -119,6 +100,7 @@
                                     <th>Classe</th>
                                     <th>Sujet</th>
                                     <th>Date</th>
+                                    <th>Heure</th>
                                     <th>Salle</th>
                                     <th>Actions</th>
                                 </tr>

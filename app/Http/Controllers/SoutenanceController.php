@@ -25,17 +25,13 @@ class SoutenanceController extends Controller
         foreach($stages as $stage){
             $tps=TypeStage::find($stage->type_stage_id);
             $cls=Classe::find($tps->classe_id);
-            $color = null;
+
             if($stage->confirmation_admin==1 && $stage->confirmation_encadrant==1){
 
                 if(((strtoupper($cls->cycle)==strtoupper('licence') && $cls->niveau==3)) || ((strtoupper($cls->cycle)==strtoupper('master') && $cls->niveau==2))){
                     $etd=Etudiant::find($stage->etudiant_id);
                     $etd->stage_id=$stage->id;
-                    if(strtoupper($cls->cycle)==strtoupper('licence')){
-                        $c='2';
-                    }elseif(strtoupper($cls->cycle)==strtoupper('master')){$c='3';}
-                    //$color="#8A08".$c."B";
-                    $color='#'.$c.'0BFFF';
+                    $etd->sujet=$stage->titre_sujet;
                     array_push($etudiants,$etd);
                 }
             }
@@ -48,8 +44,17 @@ class SoutenanceController extends Controller
         $stnc=array();
 
         foreach($soutenances as $soutenance){
+            $color=null;
             $ts=TypeStage::find(Stage::find($soutenance->stage_id)->type_stage_id);
-            $classe=Classe::find($ts->classe_id)->code;
+            $classe=Classe::find($ts->classe_id);
+            if(strtoupper($classe->cycle)==strtoupper('master')){
+
+                $color='#00BFFF';
+            }
+            else{
+
+                $color='#FA58AC';
+            }
             $etdNP=Etudiant::find(Stage::find($soutenance->stage_id)->etudiant_id)->nom.' '.Etudiant::find(Stage::find($soutenance->stage_id)->etudiant_id)->prenom;
             $stnc[]=[
                 'date'=>$soutenance->date,
@@ -57,7 +62,7 @@ class SoutenanceController extends Controller
                 'salle'=>$soutenance->salle,
                 'id'=>$soutenance->id,
                 'color'=>$color,
-                'title'=>$etdNP.' : '.$classe
+                'title'=>$etdNP.' : '.$classe->code
             ];
         }
 
@@ -78,23 +83,38 @@ class SoutenanceController extends Controller
                 'stage'=>"required",
                 ]);
 
-                $stage=Stage::find($request->stage);
-                $etd=Etudiant::find($stage->etudiant_id);
+                $s=Soutenance::where('stage_id',$request->stage)->exists();
+                //return response()->json(['error'=>$s]);
+                if($s){
+                    return response()->json(['error'=>'soutenance exist']);
+                }
 
 
-        $error=array();
+        $stage=Stage::find($request->stage);
+        $etd=Etudiant::find($stage->etudiant_id);
+
+
+
         $un=$request->rapporteur==$request->deuxieme_membre;
         $deux=$request->rapporteur==$stage->enseignant_id;
         $trois=$request->rapporteur==$stage->president;
-
         $quatre=$request->deuxieme_membre==$stage->enseignant_id;
         $cinq=$request->deuxieme_membre==$stage->president;
-
         $six=$request->president==$stage->enseignant_id;
+        if($un||$deux||$trois){
+            return response()->json(['error'=>"udt"]);
+            //Le rapporteur ne peut pas etre ni le président de jury ni le 2éme membre de jury ni l'encadrant de l'étudiant
+        }
+        if($quatre || $cinq){
+            return response()->json(['error'=>"qc"]);
+             //Le deuxieme membre de jury ne peut pas etre ni le président de jury ni l'encadrant de l'étudiant'
+        }
+        if($six){
+            return response()->json(['error'=>"six"]);
+             //Le président de jury ne peut pas etre  l'encadrant de l'étudiant'
+        }
 
-       /* if($un || $deux || $trois || $quatre || $cinq || $six){
-            array_push($error,"jkhkukh");
-        }*/
+
         $stnc=new Soutenance();
         $stnc->salle=$request->salle;
         $stnc->start_time=$request->heure;
@@ -132,7 +152,8 @@ class SoutenanceController extends Controller
         }
 
     }
-    public function create(Request $request)
+
+    /*public function create(Request $request)
     {
         $insertArr = [ 'title' => $request->title,
                        'start' => $request->start,
@@ -140,7 +161,7 @@ class SoutenanceController extends Controller
                     ];
         $event = Soutenance::insert($insertArr);
         return Response::json($event);
-    }
+    }*/
 
 
     public function update($id,Request $request)
@@ -171,7 +192,9 @@ class SoutenanceController extends Controller
         return $id;
     }
 
+public function list_stnc(){
 
+}
 
 
 }
