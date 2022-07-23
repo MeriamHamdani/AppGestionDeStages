@@ -19,7 +19,7 @@
                 <div class="col-xl-12 box-col-12">
                     <div class="card target-sec" style="width: 1000px">
                         <div class="card-header pb-0">
-                            <h6 style="color: #8a6d3b"><i class="icofont icofont-dashboard icon-4x"> Statistiques </i>
+                            <h6 style="color: #8a6d3b"><i class="icofont icofont-dashboard icon-4x"> Statistiques en "{{$annee->annee}}" </i>
                             </h6>
                             <br>
                             <ul class="target-list">
@@ -80,15 +80,28 @@
                             <div class="header-top d-sm-flex justify-content-between align-items-center">
                                 <h5 class="m-0">Autres Statistiques</h5>
                             </div>
-                            <div class="card-body" style="width:1000px;height:350px">
+                            <div class="card-body" style="width:1000px;height:700px">
                                 <table class="columns">
                                     <tr>
+                                        <td>
+                                            <canvas id="myChart" width="300" height="200"
+                                                    style="border: 2px solid #ccc;padding-right: 2px; padding-bottom:6px"></canvas>
+                                        </td>
                                         <td>
                                             <canvas id="myChartDoughnut" width="300" height="200"
                                                     style="border: 2px solid #ccc;padding-right: 2px; padding-bottom:6px"></canvas>
                                         </td>
                                         <td>
-                                            <canvas id="myChart" width="300" height="200"
+                                            <canvas id="myChartTousEtds" width="300" height="200"
+                                                    style="border: 2px solid #ccc;padding-right: 2px; padding-bottom:6px"></canvas>
+                                        </td>
+                                    </tr>
+                                        <tr>
+                                        <td>
+                                            <canvas id="myChartLicence" width="300" height="200"
+                                                    style="border: 2px solid #ccc;padding-right: 2px; padding-bottom:6px"></canvas>
+                                        </td> <td>
+                                            <canvas id="myChartMaster" width="300" height="200"
                                                     style="border: 2px solid #ccc;padding-right: 2px; padding-bottom:6px"></canvas>
                                         </td>
                                     </tr>
@@ -295,6 +308,97 @@
                 var chart = new google.visualization.PieChart(document.getElementById('piechart'));
                 chart.draw(data, options);
             }
+        </script>
+        <script type="text/javascript">
+            var donnee = {!! json_encode($etdsLic)  !!};
+            const ctxa = document.getElementById('myChartLicence');
+            const myChart3 = new Chart(ctxa, {
+                type: 'pie',
+                data: {
+                    labels: ['1ère Année ', '2ème Année','3ème Année'],
+                    datasets: [{
+                        data: donnee,
+                        backgroundColor: [
+                            'rgb(36, 105, 92)',
+                            'rgb(186, 137, 93)',
+                            'rgb(216, 227, 229)'
+                        ],
+                        hoverOffset: 4
+                    }]
+                },
+                options: {
+                    plugins: {
+                        title: {
+                            display: true,
+                            text: 'Statistiques des niveaux en LICENCE',
+                            padding: {
+                                top: 10,
+                                bottom: 20
+                            }
+                        }
+                    }
+                }
+            });
+        </script>
+        <script type="text/javascript">
+            var donnee2 = {!! json_encode($etdsMas)  !!};
+            const cons = document.getElementById('myChartMaster');
+            const myChart4 = new Chart(cons, {
+                type: 'pie',
+                data: {
+                    labels: ['1ère Année', '2ème Année'],
+                    datasets: [{
+                        data: donnee2,
+                        backgroundColor: [
+                            'rgb(186, 137, 93)',
+                            'rgb(216, 227, 229)'
+                        ],
+                        hoverOffset: 4
+                    }]
+                },
+                options: {
+                    plugins: {
+                        title: {
+                            display: true,
+                            text: 'Statistiques des niveaux en MASTERE',
+                            padding: {
+                                top: 10,
+                                bottom: 20
+                            }
+                        }
+                    }
+                }
+            });
+        </script>
+        <script type="text/javascript">
+            var donn = {!! json_encode($tousEtds)  !!};
+            const con = document.getElementById('myChartTousEtds');
+            const chart1 = new Chart(con, {
+                type: 'pie',
+                data: {
+                    labels: ['LICENCE', 'MASTERE'],
+                    datasets: [{
+                        data: donn,
+                        backgroundColor: [
+                            'rgb(36, 105, 92)',
+                            'rgb(216, 227, 229)'
+                        ],
+                        hoverOffset: 4
+                    }]
+                },
+                options: {
+                    plugins: {
+                        title: {
+                            display: true,
+                            text: 'Statistiques des cycles',
+                            padding: {
+                                top: 10,
+                                bottom: 20
+                            }
+                        }
+                    }
+                }
+            });
         </script>
 
 
