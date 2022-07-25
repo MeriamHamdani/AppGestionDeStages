@@ -33,8 +33,12 @@ class DashboardController extends Controller
         $data = DashboardController::encadrementChart(); //dd($ids);
         $dataset = DashboardController::typeSujetChart(); //dd($dataset);
         $statVol = DashboardController::stagesVolontairesChart(); //dd($statVol);
-        return view('admin.dashboard.dashboard', compact('nbre_etudiants', 'nbre_enseignants',
-            'nbre_departements', 'nbre_specialites', 'nbre_classes', 'nbre_entreprises', 'nbre_stages', 'data', 'dataset', 'statVol'));
+        $etdsLic = DashboardController::etdsVsNiveauChart()[0];
+        $etdsMas = DashboardController::etdsVsNiveauChart()[1];
+        $tousEtds = DashboardController::etdsVsNiveauChart()[2];
+        return view('admin.dashboard.dashboard', compact('annee','nbre_etudiants', 'nbre_enseignants',
+            'nbre_departements', 'nbre_specialites', 'nbre_classes', 'nbre_entreprises',
+            'nbre_stages', 'data', 'dataset', 'statVol','etdsLic','etdsMas','tousEtds'));
     }
 
     public function encadrementChart()
@@ -112,6 +116,57 @@ class DashboardController extends Controller
         $statVol = [$nbreEtdStgVolantaires, $nbreEtdNonStgVolantaires]; //dd($statVol);
         return $statVol;
 
+    }
+    public function etdsVsNiveauChart()
+    {
+        $an = StageController::current_annee_univ();
+        $etds= Etudiant::with('user', 'classe')->where('annee_universitaire_id', $an->id)->get();
+        $etds1anneeLic = new Collection();
+        $etds2anneeLic = new Collection();
+        $etds3anneeLic = new Collection();
+        foreach ($etds as $etd) {
+            if($etd->classe->niveau == 1 and  $etd->classe->cycle == "licence") {
+                $etds1anneeLic->push($etd);
+            }
+        }
+        foreach ($etds as $etd) {
+            if($etd->classe->niveau == 2 and  $etd->classe->cycle == "licence") {
+                $etds2anneeLic->push($etd);
+            }
+        }
+        foreach ($etds as $etd) {
+            if($etd->classe->niveau == 3 and  $etd->classe->cycle == "licence") {
+                $etds3anneeLic->push($etd);
+            }
+        }
+        $etdsLic = [$etds1anneeLic->count(), $etds2anneeLic->count(),$etds3anneeLic->count()];
+        $etds1anneeMas = new Collection();
+        $etds2anneeMas = new Collection();
+        foreach ($etds as $etd) {
+            if($etd->classe->niveau == 1 and  $etd->classe->cycle == "master") {
+                $etds1anneeMas->push($etd);
+            }
+        }
+        foreach ($etds as $etd) {
+            if($etd->classe->niveau == 2 and  $etd->classe->cycle == "master") {
+                $etds2anneeMas->push($etd);
+            }
+        }
+        $etdsMas = [$etds1anneeMas->count(),$etds2anneeMas->count()];
+        $etdsNivLic = new Collection();
+        $etdsNivMast = new Collection();
+        foreach ($etds as $etd) {
+            if( $etd->classe->cycle == "master") {
+                $etdsNivMast->push($etd);
+            }
+        }
+        foreach ($etds as $etd) {
+            if( $etd->classe->cycle == "licence") {
+                $etdsNivLic->push($etd);
+            }
+        }
+       $tousEtds = [$etdsNivLic->count(),$etdsNivMast->count()];
+        return [$etdsLic,$etdsMas,$tousEtds];
     }
 
 }
