@@ -86,7 +86,8 @@ class EnseignantController extends Controller
             'departement_id' => ['required', Rule::exists('departements', 'id')]
         ]);
         $attributs['email'] = $request->email;
-
+        
+        
         $ens_exist = Enseignant::where('email', $request->email)->exists();
         $user_exist = User::where('numero_CIN', $request->numero_CIN)->exists();
         if (!($ens_exist || $user_exist)) {
@@ -181,6 +182,7 @@ class EnseignantController extends Controller
         $user_id = $enseignant->user_id;
         $user = User::findOrFail($user_id);
         $user->delete();
+        $enseignant->delete();
         return redirect()->action([EnseignantController::class, 'index']);
     }
 

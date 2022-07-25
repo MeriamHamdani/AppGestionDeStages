@@ -15,7 +15,7 @@ class AddPresidentJuryForeignKey extends Migration
     {
         Schema::table('soutenances', function (Blueprint $table) {
 
-            $table->unsignedBigInteger('president_id');
+            $table->unsignedBigInteger('president_id')->nullable();
             $table->foreign('president_id')->references('id')->on('enseignants');
 
         });

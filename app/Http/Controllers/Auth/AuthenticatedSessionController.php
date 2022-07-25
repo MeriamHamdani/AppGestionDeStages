@@ -4,12 +4,14 @@ namespace App\Http\Controllers\Auth;
 
 use App\Models\User;
 use Illuminate\Http\Request;
+use Illuminate\Support\Carbon;
+use App\Models\AnneeUniversitaire;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Auth;
 use App\Providers\RouteServiceProvider;
+use Illuminate\Support\Facades\Session;
 use App\Http\Requests\Auth\LoginRequest;
 use App\Notifications\FirstLoginNotification;
-use Illuminate\Support\Facades\Session;
 use Illuminate\Validation\ValidationException;
 
 class AuthenticatedSessionController extends Controller
@@ -50,6 +52,7 @@ class AuthenticatedSessionController extends Controller
             return back();
         } else {
             session()->regenerate();
+            session(['annee'=> $this->current_annee_univ()]);
             $user = Auth::user();
             if ($user['is_active'] == 0) {
                 $code = random_int(100000, 999999);
@@ -117,6 +120,25 @@ class AuthenticatedSessionController extends Controller
 
         return redirect('/');
 
+
+    }
+    static function current_annee_univ()
+    {
+
+        $mydate = Carbon::now();
+        $moisCourant = (int)$mydate->format('m');
+        if ((6 < $moisCourant) && ($moisCourant < 12)) {
+            $annee = '20' . $mydate->format('y') . '-20' . strval(((int)$mydate->format('y')) + 1);
+        } else {
+            $annee = '20' . strval(((int)$mydate->format('y')) - 1) . '-20' . $mydate->format('y');
+        }
+        $annees = AnneeUniversitaire::all();
+        foreach ($annees as $a) {
+            if ($a->annee == $annee) {
+                return $a;
+
+            }
+        }
 
     }
 }

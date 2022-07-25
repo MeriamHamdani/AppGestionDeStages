@@ -13,6 +13,9 @@ use Illuminate\Http\Request;
 use Illuminate\Http\Response;
 use Illuminate\Support\Carbon;
 use App\Models\AnneeUniversitaire;
+use Maatwebsite\Excel\Facades\Excel;
+use Illuminate\Support\Facades\Session;
+use App\Exports\SoutenanceParSpecExport;
 
 
 class SoutenanceController extends Controller
@@ -26,7 +29,7 @@ class SoutenanceController extends Controller
             $tps=TypeStage::find($stage->type_stage_id);
             $cls=Classe::find($tps->classe_id);
 
-            if($stage->confirmation_admin==1 && $stage->confirmation_encadrant==1){
+            if($stage->confirmation_admin==1 && $stage->confirmation_encadrant==1 && AnneeUniversitaire::find($stage->annee_universitaire_id)==$this->current_annee_univ()){
 
                 if(((strtoupper($cls->cycle)==strtoupper('licence') && $cls->niveau==3)) || ((strtoupper($cls->cycle)==strtoupper('master') && $cls->niveau==2))){
                     $etd=Etudiant::find($stage->etudiant_id);
@@ -194,7 +197,22 @@ class SoutenanceController extends Controller
 
 public function list_stnc(){
 
+    $ann=Session::get('annee');
+    if (isset($ann)) {
+        $soutenances = Soutenance::where('annee_universitaire_id', $ann->id)->get();
+        //dd($soutenances);
+        return view('admin.soutenance.liste_soutenances', compact(['soutenances']));
+    }
 }
 
+public function telecharger_pv_stnc(Request $request){
+    dd($request->specialite_id);
+}
+
+public function telecharger_liste_stnc(Request $request){
+    //dd($request->specialite_id);
+    return Excel::download(new SoutenanceParSpecExport, 'liste_soutenances_par_specia.xlsx');
+ 
+}
 
 }

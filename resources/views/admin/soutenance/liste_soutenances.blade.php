@@ -28,23 +28,122 @@
                     <h5>Les soutenances</h5>
 
                 </div>
+
                 <div style="padding-bottom: 16px; padding-right: 30px;">
+                    <!--------------------------------------------------------------------------------->
+                    <a href="#">
+                        <i class="text-right" aria-hidden="true">
+                            <button class="btn btn-pill btn-success pull-right" type="button"
+                                style="margin-right: 0.5cm" data-bs-toggle="modal" data-bs-target="#pv"
+                                data-whatever="@getbootstrap">
+                                Télécharger le PV de soutenance
+                            </button>
+                            <div class="modal fade" id="pv" tabindex="-1" role="dialog"
+                                aria-labelledby="exampleModalLabel" style="display: none;" aria-hidden="true">
+                                <div class="modal-dialog" role="document">
+                                    <div class="modal-content">
+                                        <div class="modal-header">
+                                            <h5 class="modal-title">Télécharger le PV de soutenance</h5>
+                                            <button class="btn-close" type="button" data-bs-dismiss="modal"
+                                                aria-label="Fermez"></button>
+                                        </div>
+                                        <div class="modal-body">
+                                            <form method="POST" action="{{ route('telecharger_pv_stnc') }}">
+                                                @csrf
+
+                                                <div class="mb-3">
+                                                    <label class="col-form-label" for="recipient-name">Selon la
+                                                        Spécialité</label>
+                                                    <div class="mb-2">
+                                                        <select class="js-example-basic-single col-sm-12"
+                                                            id="specialite_id" name="specialite_id" required>
+                                                            <option disabled="disabled" selected="selected">
+                                                                Sélectionnez la spécialité</option>
+                                                            @foreach (\App\Models\Specialite::all() as $specialite)
+                                                            <option value="{{ $specialite->id }}" {{
+                                                                old('specialite_id')==$specialite->id ? 'selected' :
+                                                                '' }}
+                                                                >{{ ucwords($specialite->nom) }}</option>
+                                                            @endforeach
+                                                        </select>
+                                                    </div>
+                                                    <button type="submit" class="btn btn-primary"
+                                                        type="button">Télécharger</button>
+                                                </div>
+                                            </form>
+                                        </div>
+                                        <div class="modal-footer">
+                                            <button class="btn btn-secondary" type="button"
+                                                data-bs-dismiss="modal">Annuler</button>
+
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </i>
+                    </a>
+
                     <a href={{ route('planifier_soutenance') }}>
                         <i class="text-right" aria-hidden="true">
-                            <button class="btn btn-pill btn-success pull-right" type="button" href={{
-                                route('planifier_soutenance') }}>
+                            <button class="btn btn-pill btn-success pull-right" type="button"
+                                style="margin-right: 0.5cm" href={{ route('planifier_soutenance') }}>
                                 Planifier une soutenance
                             </button>
                         </i>
                     </a>
+
                     <a href="#">
                         <i class="text-right" aria-hidden="true">
                             <button class="btn btn-pill btn-success pull-right" type="button"
-                                style="margin-right: 0.5cm">
-                                PV de soutenance
+                                style="margin-right: 0.5cm" data-bs-toggle="modal" data-bs-target="#liste_stnc"
+                                data-whatever="@getbootstrap">
+                                Télécharger la liste de soutenances
                             </button>
+                            <div class="modal fade" id="liste_stnc" tabindex="-1" role="dialog"
+                                aria-labelledby="exampleModalLabel" style="display: none;" aria-hidden="true">
+                                <div class="modal-dialog" role="document">
+                                    <div class="modal-content">
+                                        <div class="modal-header">
+                                            <h5 class="modal-title">Télécharger la liste de soutenances</h5>
+                                            <button class="btn-close" type="button" data-bs-dismiss="modal"
+                                                aria-label="Fermez"></button>
+                                        </div>
+                                        <div class="modal-body">
+                                            <form method="POST" action="{{ route('telecharger_liste_stnc') }}">
+                                                @csrf
+
+                                                <div class="mb-3">
+                                                    <label class="col-form-label" for="recipient-name">Selon la
+                                                        Spécialité</label>
+                                                    <div class="mb-2">
+                                                        <select class="js-example-basic-single col-sm-12"
+                                                            id="specialite_id" name="specialite_id" required>
+                                                            <option disabled="disabled" selected="selected">
+                                                                Sélectionnez la spécialité</option>
+                                                            @foreach (\App\Models\Specialite::all() as $specialite)
+                                                            <option value="{{ $specialite->id }}" {{
+                                                                old('specialite_id')==$specialite->id ? 'selected' :
+                                                                '' }}
+                                                                >{{ ucwords($specialite->nom) }}</option>
+                                                            @endforeach
+                                                        </select>
+                                                    </div>
+                                                    <button type="submit" class="btn btn-primary"
+                                                        type="button">Télécharger</button>
+                                                </div>
+                                            </form>
+                                        </div>
+                                        <div class="modal-footer">
+                                            <button class="btn btn-secondary" type="button"
+                                                data-bs-dismiss="modal">Annuler</button>
+
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
                         </i>
                     </a>
+
                 </div>
                 <div class="card-body">
                     <div class="dt-ext table-responsive">
@@ -61,9 +160,7 @@
                                     <th>Actions</th>
                                 </tr>
                             </thead>
-                            @php
-                            $soutenances=App\Models\Soutenance::all();
-                            @endphp
+
                             <tbody>
                                 @foreach ($soutenances as $soutenance )
                                 <tr>
@@ -144,4 +241,3 @@
 @endpush
 
 @endsection
-

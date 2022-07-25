@@ -14,9 +14,9 @@ class AddRapporteurEtMembreJFkToSoutenance extends Migration
     public function up()
     {
         Schema::table('soutenances', function (Blueprint $table) {
-            $table->unsignedBigInteger('rapporteur_id');
+            $table->unsignedBigInteger('rapporteur_id')->nullable();
             $table->foreign('rapporteur_id')->references('id')->on('enseignants');
-            $table->unsignedBigInteger('deuxieme_membre_id');
+            $table->unsignedBigInteger('deuxieme_membre_id')->nullable();
             $table->foreign('deuxieme_membre_id')->references('id')->on('enseignants');
         });
     }
