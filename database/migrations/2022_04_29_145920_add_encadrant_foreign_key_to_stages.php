@@ -14,7 +14,7 @@ class AddEncadrantForeignKeyToStages extends Migration
     public function up()
     {
         Schema::table('stages', function (Blueprint $table) {
-            $table->foreignId('enseignant_id')->nullable()->constrained();
+            $table->foreignId('enseignant_id')->nullable()->constrained()->nullOnDelete();
         });
     }
 

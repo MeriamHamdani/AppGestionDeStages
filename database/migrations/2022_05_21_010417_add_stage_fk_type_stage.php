@@ -15,7 +15,7 @@ class AddStageFkTypeStage extends Migration
     {
         Schema::table('stages', function (Blueprint $table) {
 
-            $table->foreignId('type_stage_id')->constrained();
+            $table->foreignId('type_stage_id')->nullable()->constrained()->nullOnDelete();
         });
     }
 

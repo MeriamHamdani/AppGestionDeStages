@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\TypeStage;
 use Illuminate\Support\Str;
 use Response;
 use Illuminate\Http\Request;
@@ -33,8 +34,8 @@ class AnneeUniversitaireController extends Controller
      */
     public function create()
     {
-        return view('admin.configuration.config_annee_universitaire');
 
+        return view('admin.configuration.config_annee_universitaire');
     }
 
     /**
@@ -88,6 +89,12 @@ class AnneeUniversitaireController extends Controller
                 $annee->pv_individuel = $pv_individuel;
                 $annee->pv_global = $pv_global;
                // dd($annee);
+                $typesStage = TypeStage::whereNotNull('date_debut_depot')->whereNotNull('date_limite_depot')->get();
+                foreach ($typesStage as $ts) {
+                    $ts->date_debut_depot = null;
+                    $ts->date_limite_depot = null;
+                    $ts->update();
+                }
                 $annee->save();
                 return redirect()->action([AnneeUniversitaireController::class, 'index']);
             } else

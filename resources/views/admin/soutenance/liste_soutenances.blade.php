@@ -53,17 +53,17 @@
 
                                                 <div class="mb-3">
                                                     <label class="col-form-label" for="recipient-name">Selon la
-                                                        Spécialité</label>
+                                                        Classe-Spécialité</label>
                                                     <div class="mb-2">
                                                         <select class="js-example-basic-single col-sm-12"
-                                                            id="specialite_id" name="specialite_id" required>
+                                                            id="classe_id" name="classe_id" required>
                                                             <option disabled="disabled" selected="selected">
-                                                                Sélectionnez la spécialité</option>
-                                                            @foreach (\App\Models\Specialite::all() as $specialite)
-                                                            <option value="{{ $specialite->id }}" {{
-                                                                old('specialite_id')==$specialite->id ? 'selected' :
+                                                                Sélectionnez la classe-spécialité</option>
+                                                            @foreach($classes as $classe)
+                                                            <option value="{{ $classe->id }}" {{
+                                                                old('classe_id')==$classe->id ? 'selected' :
                                                                 '' }}
-                                                                >{{ ucwords($specialite->nom) }}</option>
+                                                                >{{ ucwords($classe->nom) }} </option>
                                                             @endforeach
                                                         </select>
                                                     </div>
@@ -169,7 +169,7 @@
                                     $etudiant=App\Models\Etudiant::find($stage->etudiant_id);
                                     $classe=App\Models\Classe::find($etudiant->classe_id);
                                     @endphp
-                                    <td>{{ $etudiant->nom }}&nbsp;{{ $etudiant->prenom }}</td>
+                                    <td>{{ ucwords($etudiant->nom) }}&nbsp;{{ ucwords($etudiant->prenom) }}</td>
                                     <td>{{ $classe->code }}</td>
                                     <td>{{ $stage->titre_sujet }}</td>
                                     <td>{{ $soutenance->date }}</td>

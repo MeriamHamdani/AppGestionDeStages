@@ -44,7 +44,7 @@
                                             d'affectation
                                         </label>
                                         <input class="form-control" id="lettre_affectation" name="lettre_affectation"
-                                               type="file" required accept=".docx"/>
+                                               type="file"  accept=".docx"/>
                                     </div>
                                 </div>
                                 <div class="col">
@@ -53,7 +53,7 @@
                                             d'encadrement
                                         </label>
                                         <input class="form-control" id="fiche_encadrement" name="fiche_encadrement"
-                                               type="file" accept=".docx" required/>
+                                               type="file" accept=".docx" />
                                     </div>
                                 </div>
                             </div>
@@ -63,7 +63,7 @@
                                         <label class="form-label" for="exampleFormControlInput1">Modèle d'attrayant
                                         </label>
                                         <input class="form-control" id="attrayant" name="attrayant" type="file"
-                                               accept=".docx" required/>
+                                               accept=".docx" />
                                     </div>
                                 </div>
                             </div>
@@ -73,7 +73,7 @@
                                         <label class="form-label" for="exampleFormControlInput1">Modèle de grille d'évaluation licence
                                         </label>
                                         <input class="form-control" id="grille_evaluation_licence" name="grille_evaluation_licence" type="file"
-                                               accept=".docx" required/>
+                                               accept=".docx" />
                                     </div>
                                 </div>
                                 <div class="col">
@@ -81,7 +81,7 @@
                                         <label class="form-label" for="exampleFormControlInput1">Modèle de grille d'évaluation licence informatique
                                         </label>
                                         <input class="form-control" id="grille_evaluation_info" name="grille_evaluation_info" type="file"
-                                               accept=".docx" required/>
+                                               accept=".docx" />
                                     </div>
                                 </div>
                             </div>
@@ -91,7 +91,7 @@
                                         <label class="form-label" for="exampleFormControlInput1">Modèle de grille d'évaluation mastère
                                         </label>
                                         <input class="form-control" id="grille_evaluation_master" name="grille_evaluation_master" type="file"
-                                               accept=".docx" required/>
+                                               accept=".docx" />
                                     </div>
                                 </div>
                             </div>
@@ -101,7 +101,7 @@
                                         <label class="form-label" for="exampleFormControlInput1">Modèle de PV individuel
                                         </label>
                                         <input class="form-control" id="pv_individuel" name="pv_individuel" type="file"
-                                               accept=".docx" required/>
+                                               accept=".docx"/>
                                     </div>
                                 </div>
                                 <div class="col">
@@ -109,7 +109,7 @@
                                         <label class="form-label" for="exampleFormControlInput1">Modèle de PV global
                                         </label>
                                         <input class="form-control" id="pv_global" name="pv_global" type="file"
-                                               accept=".docx" required/>
+                                               accept=".docx" />
                                     </div>
                                 </div>
                             </div>

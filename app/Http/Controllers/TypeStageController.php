@@ -418,10 +418,13 @@ class TypeStageController extends Controller
         $types_stages = TypeStage::all();
         foreach ($types_stages as $ts) {
             $classe = Classe::findOrFail($ts->classe_id);
-            $anneeUni = AnneeUniversitaire::findOrFail($classe->annee_universitaire_id);
+            //$anneeUni = AnneeUniversitaire::findOrFail($classe->annee_universitaire_id);
             $isMaster_term = ((strtoupper($classe->cycle) === strtoupper('master')) && ($classe->niveau == 2));
             $isLicence_term = ((strtoupper($classe->cycle) === strtoupper('licence')) && ($classe->niveau == 3));
-            if ($anneeUni->annee === $annee && ($isMaster_term || $isLicence_term)) {
+            /*if ($anneeUni->annee === $annee && ($isMaster_term || $isLicence_term)) {
+                $tpStg->push($ts);
+            } */
+            if ($isMaster_term || $isLicence_term) {
                 $tpStg->push($ts);
             }
         }
