@@ -639,6 +639,7 @@ class StageController extends Controller
      */
     public function confirmer_demande(int $stage_id)
     {
+
         $current_date = Carbon::now();
         $stage = Stage::findOrFail($stage_id);
         if ($stage->date_fin > $current_date && $stage->cofirmation_admin == 0) {
@@ -661,9 +662,12 @@ class StageController extends Controller
             } else {
                 $ts = 'تطوعي';
             }
+            //dd($stage->enseignant);
             if (isset($stage->enseignant)) {
                 if ($stage->confirmation_encadrant == 1) {
+
                     $stage->confirmation_admin = 1;
+                    User::find($stage->enseignant->user_id)->assignRole('encadrant');
                     $stage->update();
                     if (strtoupper($type_stage->cahier_stage_type) === strtoupper('requis')) {
                         $cahier_stage = new CahierStage();
@@ -697,7 +701,11 @@ class StageController extends Controller
                     $templateProcessor2->setValue('email', $etudiant->email);
                     $templateProcessor2->setValue('classe', $etudiant->classe->nom);
                     $templateProcessor2->setValue('an', $annee->annee);
-                    $templateProcessor2->saveAs(public_path() . '\storage\fiches_encadrements_' . $annee->annee . '\fiche_encadrement_' . $enseignant->nom . '_' . $enseignant->prenom . '.docx');
+                    $pth=public_path() . '\storage\fiches_encadrements_' . $annee->annee ;
+                        if(!File::isDirectory($pth)){
+                          File::makeDirectory($pth, 0777, true, true);
+                        }
+                    $templateProcessor2->saveAs($pth. '\fiche_encadrement_' . $enseignant->nom . '_' . $enseignant->prenom . '.docx');
                     $details2 = ['etudiant' => ucwords($etudiant->nom . ' ' . $etudiant->prenom),
                         'classe' => $etudiant->classe->nom,
                         'annee' => $annee->annee,
@@ -721,7 +729,11 @@ class StageController extends Controller
                     $templateProcessor->setValue('date_fin', $stage->date_fin);
                     $templateProcessor->setValue('type_stage', $ts);
                     $templateProcessor->setValue('classe', $classe->nom);
-                    $templateProcessor->saveAs(public_path() . '\storage\lettres_affectation_' . $annee->annee . '\lettre_aff_' . $user->numero_CIN . '_' . $stage->id . '.docx');
+                    $p=public_path() . '\storage\lettres_affectation_' . $annee->annee ;
+                        if(!File::isDirectory($p)){
+                          File::makeDirectory($p, 0777, true, true);
+                        }
+                    $templateProcessor->saveAs($p. '\lettre_aff_' . $user->numero_CIN . '_' . $stage->id . '.docx');
                     $etudiant->notify(new DownloadLettreAffectationNotification($details));
                     return back();
                 } elseif ($stage->confirmation_encadrant == -1) {
@@ -751,7 +763,13 @@ class StageController extends Controller
                 $templateProcessor->setValue('date_fin', $stage->date_fin);
                 $templateProcessor->setValue('type_stage', $ts);
                 $templateProcessor->setValue('classe', $classe->nom);
-                $templateProcessor->saveAs(public_path() . '\storage\lettres_affectation_' . $annee->annee . '\lettre_aff_' . $user->numero_CIN . '_' . $stage->id . '.docx');
+
+                $path=public_path().'\storage\lettres_affectation_'.$annee->annee;//.'\lettre_aff_'.$user->numero_CIN.'_'.$stage->id.'.docx';
+                if(!File::isDirectory($path)){
+                    File::makeDirectory($path, 0777, true, true);
+                }
+                  //dd($path);
+                $templateProcessor->saveAs($path.'\lettre_aff_'.$user->numero_CIN.'_'.$stage->id.'.docx');
                 $stage->update();
                 $details = ['etudiant' => $etudiant->nom . ' ' . $etudiant->prenom,
                     'annee' => $annee->annee_universitaire,

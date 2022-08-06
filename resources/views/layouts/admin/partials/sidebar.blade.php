@@ -32,8 +32,7 @@
                     </li>
                     <li class="dropdown">
                         <a class="nav-link menu-title link-nav {{ routeActive('dashboard') }}"
-                            href="{{ route('dashboard') }}" ><i
-                                data-feather="home"></i><span>Dashboard</span></a>
+                            href="{{ route('dashboard') }}"><i data-feather="home"></i><span>Dashboard</span></a>
                     </li>
                     <li class="sidebar-main-title">
                         <div>
@@ -66,7 +65,8 @@
                             ['demandes_stage.sv1lm','demandes_stage.so2l','demandes_stage.so3l',
                             'demandes_stage.so3Info','demandes_stage.so2m']) ? 'active' : '' }}"
                             href="javascript:void(0)">
-                            <i class="icofont icofont-listing-box"></i>&nbsp&nbsp<span>Les stages-Les demandes</span></a>
+                            <i class="icofont icofont-listing-box"></i>&nbsp&nbsp<span>Les stages-Les
+                                demandes</span></a>
                         <ul class="nav-submenu menu-content"
                             style="display: {{ prefixBlock('admin/stage/demandes-stage') }};">
                             <li><a href="{{ route('demandes_stage.sv1lm') }}"
@@ -188,7 +188,8 @@
                     <li class="dropdown">
                         <a class="nav-link menu-title link-nav {{ routeActive('config_session_depot') }}"
                             href="{{ route('config_session_depot') }}">
-                            <i class="icofont icofont-download-alt"></i>&nbsp&nbsp&nbsp<span>   Ouvrir une Session </span></a>
+                            <i class="icofont icofont-download-alt"></i>&nbsp&nbsp&nbsp<span> Ouvrir une Session
+                            </span></a>
                     </li>
                     <li class="dropdown">
                         <a class="nav-link menu-title link-nav {{ routeActive('demande_depots') }}"
@@ -214,7 +215,7 @@
                     </li>
                     <li class="sidebar-main-title">
                         <div>
-                            <h6>Payement</h6>
+                            <h6>Paiement</h6>
                         </div>
                     </li>
                     <li class="dropdown">
@@ -252,7 +253,8 @@
                     </li>
                     <li class="dropdown">
                         <a class="nav-link menu-title link-nav  {{ in_array(Route::currentRouteName(),
-                            ['config_annee_universitaire','modifier_annee_universitaire']) ? 'active' : '' }}" {{ routeActive('liste_annee_universitaire') }}"
+                            ['config_annee_universitaire','modifier_annee_universitaire']) ? 'active' : '' }}" {{
+                            routeActive('liste_annee_universitaire') }}"
                             href="{{ route('liste_annee_universitaire') }}">
                             <i class="icofont icofont-settings"></i>&nbsp&nbsp&nbsp<span>Configuration
                                 des années universitaires</span></a>
@@ -264,4 +266,3 @@
         </div>
     </nav>
 </header>
-
