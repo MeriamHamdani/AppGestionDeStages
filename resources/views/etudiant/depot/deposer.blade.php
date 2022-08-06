@@ -79,7 +79,7 @@
                                                     </div>
                                                 </div>
                                                 <div class="mb-3 row">
-                                                    <label class="col-sm-3 col-form-label">Fiche plagiat</label>
+                                                    <label class="col-sm-3 col-form-label">Rapport de plagiat</label>
                                                     <div class="col-sm-9">
                                                         <input class="form-control" type="file" name="fiche_plagiat"
                                                                id="fiche_plagiat"
