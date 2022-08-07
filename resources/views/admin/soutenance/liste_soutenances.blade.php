@@ -47,10 +47,16 @@
                                             <button class="btn-close" type="button" data-bs-dismiss="modal"
                                                 aria-label="Fermez"></button>
                                         </div>
+                                        <form method="POST" action="{{ route('telecharger_pv_stnc') }}">
+                                            @csrf
+                                            @if($errors->any())
+                                                @foreach ($errors->all() as $err )
+                                                    <div class="alert alert-danger" role="alert">
+                                                        {{ $err }}
+                                                    </div>
+                                                @endforeach
+                                            @endif
                                         <div class="modal-body">
-                                            <form method="POST" action="{{ route('telecharger_pv_stnc') }}">
-                                                @csrf
-
                                                 <div class="mb-3">
                                                     <label class="col-form-label" for="recipient-name">Selon la
                                                         Classe-Spécialité</label>
@@ -67,17 +73,18 @@
                                                             @endforeach
                                                         </select>
                                                     </div>
-                                                    <button type="submit" class="btn btn-primary"
-                                                        type="button">Télécharger</button>
                                                 </div>
-                                            </form>
                                         </div>
                                         <div class="modal-footer">
+
                                             <button class="btn btn-secondary" type="button"
                                                 data-bs-dismiss="modal">Annuler</button>
-
+                                            <button type="submit" class="btn btn-primary"
+                                                    type="button">Télécharger</button>
                                         </div>
+                                        </form>
                                     </div>
+
                                 </div>
                             </div>
                         </i>
@@ -108,10 +115,9 @@
                                             <button class="btn-close" type="button" data-bs-dismiss="modal"
                                                 aria-label="Fermez"></button>
                                         </div>
+                                        <form method="POST" action="{{ route('telecharger_liste_stnc') }}">
+                                            @csrf
                                         <div class="modal-body">
-                                            <form method="POST" action="{{ route('telecharger_liste_stnc') }}">
-                                                @csrf
-
                                                 <div class="mb-3">
                                                     <label class="col-form-label" for="recipient-name">Selon la
                                                         Spécialité</label>
@@ -128,16 +134,18 @@
                                                             @endforeach
                                                         </select>
                                                     </div>
-                                                    <button type="submit" class="btn btn-primary"
-                                                        type="button">Télécharger</button>
+
                                                 </div>
-                                            </form>
+
                                         </div>
                                         <div class="modal-footer">
                                             <button class="btn btn-secondary" type="button"
                                                 data-bs-dismiss="modal">Annuler</button>
+                                            <button type="submit" class="btn btn-primary"
+                                                    type="button">Télécharger</button>
 
                                         </div>
+                                        </form>
                                     </div>
                                 </div>
                             </div>
@@ -172,20 +180,34 @@
                                     <td>{{ ucwords($etudiant->nom) }}&nbsp;{{ ucwords($etudiant->prenom) }}</td>
                                     <td>{{ $classe->code }}</td>
                                     <td>{{ $stage->titre_sujet }}</td>
-                                    <td>{{ $soutenance->date }}</td>
+                                    <td>{{Arr::first((App\Http\Controllers\TypeStageController::decouper_nom($soutenance->date))) }}</td>
                                     <td>{{ $soutenance->start_time }}</td>
                                     <td>{{ $soutenance->salle }}</td>
                                     <td class="text-center">
-                                        <a href="pv-soutenance.txt" download="PV-soutenance.txt"
-                                            data-title="télécharger le pv de soutenance" data-toggle="tooltip"> <i
+                                        <a href={{route('telecharger_pv_indiv',$soutenance)}}> <i
                                                 class="icofont icofont-file-text icon-large"></i></a>
-                                        <a href="{{ route('evaluer_soutenance') }}" data-title="évaluer le soutenance"
-                                            data-toggle="tooltip"> <i
-                                                class="icofont icofont-tick-mark icon-large"></i></a>
-                                        <a href="evaluation.pdf" download="evaluation-soutenance.pdf"
-                                            data-title="télécharger le fichier d'évaluation de soutenance"
+                                        @if($soutenance->stage->etudiant->classe->cycle == "licence" && !(App\Http\Controllers\SoutenanceController::isInfo($soutenance->stage->etudiant->classe)) )
+                                        <a href="{{route('telecharger_grille_lic_non_info',$soutenance)}}"
+                                            data-title="télécharger la fiche d'évaluation de la soutenance"
                                             data-toggle="tooltip"> <i
                                                 class="icofont icofont-file-pdf icon-large"></i></a>
+                                        @elseif($soutenance->stage->etudiant->classe->cycle == "licence" && (App\Http\Controllers\SoutenanceController::isInfo($soutenance->stage->etudiant->classe)))
+                                        <a href="{{route('telecharger_grille_lic_info',$soutenance)}}"
+                                            data-title="télécharger la fiche d'évaluation de la soutenance"
+                                            data-toggle="tooltip"> <i
+                                                class="icofont icofont-file-pdf icon-large"></i></a>
+                                        @elseif($soutenance->stage->etudiant->classe->cycle == "master")
+                                        <a href="{{route('telecharger_grille_mastere',$soutenance)}}"
+                                            data-title="télécharger la fiche d'évaluation de la soutenance"
+                                            data-toggle="tooltip"> <i
+                                                class="icofont icofont-file-pdf icon-large"></i></a>
+                                        @endif
+                                        @if($soutenance->stage->validation_admin == null)
+                                        <a href="{{ route('evaluer_soutenance',$soutenance) }}" data-title="évaluer la soutenance"
+                                           data-toggle="tooltip"> <i
+                                                class="icofont icofont-tick-mark icon-large"></i></a>
+                                        @endif
+
                                     </td>
                                 </tr>
                                 @endforeach
@@ -238,6 +260,20 @@
 <script src="{{asset('assets/js/datatable/datatable-extension/dataTables.rowReorder.min.js')}}"></script>
 <script src="{{asset('assets/js/datatable/datatable-extension/dataTables.scroller.min.js')}}"></script>
 <script src="{{asset('assets/js/datatable/datatable-extension/custom.js')}}"></script>
-@endpush
+<script src="https://cdnjs.cloudflare.com/ajax/libs/sweetalert/2.1.2/sweetalert.min.js"
+        integrity="sha512-AA1Bzp5Q0K1KanKKmvN/4d3IRKVlv9PYgwFPvm32nPO6QS8yH1HO7LbgB1pgiOxPtfeg5zEn2ba64MUcqJx6CA=="
+        crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+
+@if (Session::get('message')=='valid_stnc')
+    <script>
+        swal('Bien', "Le stage est bien validé", 'success', {
+            //button: 'Continuer'
+            showConfirmButton: false,
+            timer: 2500
+        })
+
+    </script>
+@endif
+    @endpush
 
 @endsection

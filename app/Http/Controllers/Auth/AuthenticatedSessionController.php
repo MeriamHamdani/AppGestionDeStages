@@ -44,7 +44,7 @@ class AuthenticatedSessionController extends Controller
             //dd(!User::where('numero_CIN', request()->numero_CIN)->exists());
             if (!User::where('numero_CIN', request()->numero_CIN)->exists()) {
                 //dd('tre');
-               // Session::flash('message', 'pas de cin');
+                // Session::flash('message', 'pas de cin');
                 Session::flash('message', 'pas de cin');
                 return back();
             } else
@@ -52,7 +52,7 @@ class AuthenticatedSessionController extends Controller
             return back();
         } else {
             session()->regenerate();
-            session(['annee'=> $this->current_annee_univ()]);
+            session(['annee' => $this->current_annee_univ()]);
             $user = Auth::user();
             if ($user['is_active'] == 0) {
                 $code = random_int(100000, 999999);
@@ -122,6 +122,7 @@ class AuthenticatedSessionController extends Controller
 
 
     }
+
     static function current_annee_univ()
     {
 

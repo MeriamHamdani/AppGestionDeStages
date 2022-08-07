@@ -156,6 +156,11 @@ Route::middleware(['auth', 'role:admin|superadmin', 'clearClasse'])->group(funct
         Route::delete('soutenance/delete/{id}', [SoutenanceController::class, 'destroy'])->name('supprimer_soutenance');
         Route::post('soutenance/PV',[SoutenanceController::class,'telecharger_pv_stnc'])->name('telecharger_pv_stnc');
         Route::post('soutenance/liste',[SoutenanceController::class,'telecharger_liste_stnc'])->name('telecharger_liste_stnc');
+        Route::get('soutenance/liste/pvIndiv/{pvIndiv}',[SoutenanceController::class,'telecharger_pv_indiv'])->name('telecharger_pv_indiv');
+        Route::get('soutenance/liste/grilleEvalNonInfo/{grilleLicNonInfo}',[SoutenanceController::class,'telecharger_grille_lic_non_info'])->name('telecharger_grille_lic_non_info');
+        Route::get('soutenance/liste/grilleEvalInfo/{grilleLicInfo}',[SoutenanceController::class,'telecharger_grille_lic_info'])->name('telecharger_grille_lic_info');
+        Route::get('soutenance/liste/grilleEvalMaster/{grilleMas}',[SoutenanceController::class,'telecharger_grille_mastere'])->name('telecharger_grille_mastere');
+        Route::get('soutenance/liste/evaluerSoutenance/{soutenance}',[SoutenanceController::class,'evaluer_soutenance'])->name('evaluer_soutenance');
         //---------------------------------------PAIEMENT-------------------------------------
 
         Route::view('paiement/details-paiement-ens', 'admin.paiement.details_paiement_ens')->name('details_paiement_ens');

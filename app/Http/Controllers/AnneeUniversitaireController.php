@@ -197,6 +197,7 @@ class AnneeUniversitaireController extends Controller
         if (isset($request->pv_individuel)) {
             $anneeUniversitaire->pv_individuel = Storage::disk('public')
                 ->putFileAs('models_pvs', $request->file('pv_individuel'), 'model_pv_individuel_' . $annee . '.docx');
+            //dd($anneeUniversitaire->pv_individuel);
             $anneeUniversitaire->update();
         }
         if (isset($request->pv_global)) {
@@ -275,7 +276,6 @@ class AnneeUniversitaireController extends Controller
     public function telecharger_pv_individuel(string $pv_individuel)
     {
         $file_path = public_path() . '/storage/models_pvs' . '/' . $pv_individuel;
-        //dd($file_path);
         if (file_exists($file_path)) {
             return Response::download($file_path, $pv_individuel);
         } else {
