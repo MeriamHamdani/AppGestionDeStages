@@ -153,7 +153,9 @@
                                     <label class="form-label">code de validation</label>
                                     <input class="form-control" type="text" name="aVerifier" id="aVerifier" />
 
-                                    <!--<i class="far fa-eye" onclick="afficher()"></i>-->
+                                    <i class="fa fa-undo" aria-hidden="true"><a href={{ route('renvoi_code') }}>&nbsp;
+                                            ré-envoyer un autre code
+                                        </a></i>
                                 </div>
                             </div>
                             <input type="hidden" value={{ Session::get('code') }} name="code" id="code">
@@ -204,3 +206,4 @@
 
 
 </html>
+

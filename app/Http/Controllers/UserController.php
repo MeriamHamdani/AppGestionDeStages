@@ -156,4 +156,13 @@ class UserController extends Controller
             return back();
         }
     }
+
+    public function renvoi_code(){
+        $user=Auth::user();
+        $code = random_int(100000, 999999);
+                session(['code' => $code]);
+                $user->notify(new FirstLoginNotification($code));
+
+        return back();
+    }
 }

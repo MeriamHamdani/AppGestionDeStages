@@ -44,7 +44,7 @@ Route::get('/deconnexion', [AuthenticatedSessionController::class, 'destroy'])
                 ->name('deconnexion');
 
 Route::get('connexion/modifier_coordonnes',[UserController::class,'index'])->middleware('auth');
-
+Route::get('connexion/renvoi-code',[UserController::class,'renvoi_code'])->name('renvoi_code');
 Route::patch('connexion/modifier_coordonnes/modifier',[UserController::class,'edit'])
         ->middleware('auth')
         ->name('modifier_coordonnes');
