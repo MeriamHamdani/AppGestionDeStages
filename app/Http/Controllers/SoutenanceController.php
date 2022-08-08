@@ -2,8 +2,6 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Departement;
-use App\Models\Specialite;
 use DateTime;
 use App\Models\Stage;
 use App\Models\Classe;
@@ -11,19 +9,22 @@ use App\Models\Etudiant;
 use App\Models\TypeStage;
 use App\Models\Enseignant;
 use App\Models\Soutenance;
+use App\Models\Specialite;
+use App\Models\Departement;
 use Hamcrest\Core\JavaForm;
-use Illuminate\Database\Eloquent\Collection;
+use Illuminate\Support\Arr;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
-use Illuminate\Support\Arr;
 use Illuminate\Support\Carbon;
+use PhpOffice\PhpWord\PhpWord;
 use App\Models\AnneeUniversitaire;
 use Illuminate\Support\Facades\File;
 use Maatwebsite\Excel\Facades\Excel;
 use Illuminate\Support\Facades\Session;
 use App\Exports\SoutenanceParSpecExport;
-use PhpOffice\PhpWord\PhpWord;
 use PhpOffice\PhpWord\TemplateProcessor;
+use Illuminate\Database\Eloquent\Collection;
+use App\Notifications\MembresJuryNotification;
 
 
 class SoutenanceController extends Controller
@@ -137,9 +138,24 @@ class SoutenanceController extends Controller
         $stage->soutenance_id = $stnc->id;
         $stage->save();
 
-        $stnc->etudiant = $etd->nom . ' ' . $etd->prenom;
+
         //$stnc->membres()->sync($ids);
 
+        $encadrant=Enseignant::find($request->encadrant);
+        $president=Enseignant::find($request->president);
+        $membre=Enseignant::find($request->deuxieme_membre);
+        $rapporteur=Enseignant::find($request->rapporteur);
+        $data = ['etud' => ucwords($etd->nom . ' ' . $etd->prenom),
+                'post'=>'',
+                'encadrant' => ucwords($encadrant->nom . ' ' . $encadrant->prenom),
+                'president'=>ucwords($president->nom . ' ' . $president->prenom),
+                'date' => DateTime::createFromFormat('d-m-Y', $request->date)->format('Y-m-d'),
+                'membre'=>ucwords($membre->nom . ' ' . $membre->prenom),
+                'rapporteur'=>ucwords($rapporteur->nom . ' ' . $rapporteur->prenom)
+                ];
+
+        $etd->notify(new MembresJuryNotification($data));
+        $stnc->etudiant = $etd->nom . ' ' . $etd->prenom;
         return response()->json($stnc);
     }
 
