@@ -25,6 +25,57 @@
                 <div class="card-header pb-0">
                     <h5>Listes des demandes de dépôt</h5>
                 </div>
+                <a href="#">
+                    <i class="text-right" aria-hidden="true">
+                        <button class="btn btn-pill btn-success pull-right" type="button"
+                                style="margin-right: 0.5cm" data-bs-toggle="modal" data-bs-target="#liste_stnc"
+                                data-whatever="@getbootstrap">
+                           Exporter la liste des mémoires déposés
+                        </button>
+                        <div class="modal fade" id="liste_stnc" tabindex="-1" role="dialog"
+                             aria-labelledby="exampleModalLabel" style="display: none;" aria-hidden="true">
+                            <div class="modal-dialog" role="document">
+                                <div class="modal-content">
+                                    <div class="modal-header">
+                                        <h5 class="modal-title"> Exporter la liste des mémoires déposés</h5>
+                                        <button class="btn-close" type="button" data-bs-dismiss="modal"
+                                                aria-label="Fermez"></button>
+                                    </div>
+                                    <form method="POST" action="{{ route('exporter_liste_depots') }}">
+                                        @csrf
+                                        <div class="modal-body">
+                                            <div class="mb-3">
+                                                <label class="col-form-label" for="recipient-name">Selon la
+                                                    Classe-Spécialité</label>
+                                                <div class="mb-2">
+                                                        <select class="js-example-basic-single col-sm-12"
+                                                                id="classe_id" name="classe_id" required>
+                                                            <option value="tous" selected="selected">
+                                                                Exportez tous
+                                                            </option>
+                                                        @foreach($classes as $classe)
+                                                            <option value="{{ $classe->id }}" {{
+                                                                old('classe_id')==$classe->id ? 'selected' :
+                                                                '' }}
+                                                            >{{ ucwords($classe->nom) }} </option>
+                                                        @endforeach
+                                                    </select>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="modal-footer">
+                                            <button class="btn btn-secondary" type="button"
+                                                    data-bs-dismiss="modal">Annuler</button>
+                                            <button type="submit" class="btn btn-primary"
+                                                    type="button">Télécharger</button>
+
+                                        </div>
+                                    </form>
+                                </div>
+                            </div>
+                        </div>
+                    </i>
+                </a>
                 <div class="card-body">
                     <div>
                         <table class="display" id="advance-1">

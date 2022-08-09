@@ -117,27 +117,23 @@
                                         </div>
                                         <form method="POST" action="{{ route('telecharger_liste_stnc') }}">
                                             @csrf
-                                        <div class="modal-body">
+                                            <div class="modal-body">
                                                 <div class="mb-3">
                                                     <label class="col-form-label" for="recipient-name">Selon la
-                                                        Spécialité</label>
+                                                        Classe-Spécialité</label>
                                                     <div class="mb-2">
                                                         <select class="js-example-basic-single col-sm-12"
-                                                            id="specialite_id" name="specialite_id" required>
-                                                            <option disabled="disabled" selected="selected">
-                                                                Sélectionnez la spécialité</option>
-                                                            @foreach (\App\Models\Specialite::all() as $specialite)
-                                                            <option value="{{ $specialite->id }}" {{
-                                                                old('specialite_id')==$specialite->id ? 'selected' :
+                                                                id="classe_id" name="classe_id" required>
+                                                            @foreach($classes as $classe)
+                                                                <option value="{{ $classe->id }}" {{
+                                                                old('classe_id')==$classe->id ? 'selected' :
                                                                 '' }}
-                                                                >{{ ucwords($specialite->nom) }}</option>
+                                                                >{{ ucwords($classe->nom) }} </option>
                                                             @endforeach
                                                         </select>
                                                     </div>
-
                                                 </div>
-
-                                        </div>
+                                            </div>
                                         <div class="modal-footer">
                                             <button class="btn btn-secondary" type="button"
                                                 data-bs-dismiss="modal">Annuler</button>
@@ -184,26 +180,27 @@
                                     <td>{{ $soutenance->start_time }}</td>
                                     <td>{{ $soutenance->salle }}</td>
                                     <td class="text-center">
-                                        <a href={{route('telecharger_pv_indiv',$soutenance)}}> <i
+                                        <a href="{{route('telecharger_pv_indiv',$soutenance)}}" data-title="télécharger le pv de la soutenance" title="Télécharger le pv de la soutenance"
+                                        data-toggle="tooltip"> <i
                                                 class="icofont icofont-file-text icon-large"></i></a>
                                         @if($soutenance->stage->etudiant->classe->cycle == "licence" && !(App\Http\Controllers\SoutenanceController::isInfo($soutenance->stage->etudiant->classe)) )
                                         <a href="{{route('telecharger_grille_lic_non_info',$soutenance)}}"
-                                            data-title="télécharger la fiche d'évaluation de la soutenance"
+                                            data-title="télécharger la fiche d'évaluation de la soutenance" title="Télécharger la grille d'évaluation de la soutenance"
                                             data-toggle="tooltip"> <i
-                                                class="icofont icofont-file-pdf icon-large"></i></a>
+                                                class="icofont icofont-file-word icon-large"></i></a>
                                         @elseif($soutenance->stage->etudiant->classe->cycle == "licence" && (App\Http\Controllers\SoutenanceController::isInfo($soutenance->stage->etudiant->classe)))
                                         <a href="{{route('telecharger_grille_lic_info',$soutenance)}}"
-                                            data-title="télécharger la fiche d'évaluation de la soutenance"
+                                            data-title="télécharger la fiche d'évaluation de la soutenance"  title="Télécharger la grille d'évaluation de la soutenance"
                                             data-toggle="tooltip"> <i
-                                                class="icofont icofont-file-pdf icon-large"></i></a>
+                                                class="icofont icofont-file-word icon-large"></i></a>
                                         @elseif($soutenance->stage->etudiant->classe->cycle == "master")
                                         <a href="{{route('telecharger_grille_mastere',$soutenance)}}"
-                                            data-title="télécharger la fiche d'évaluation de la soutenance"
+                                            data-title="télécharger la fiche d'évaluation de la soutenance"  title="Télécharger la grille d'évaluation de la soutenance"
                                             data-toggle="tooltip"> <i
-                                                class="icofont icofont-file-pdf icon-large"></i></a>
+                                                class="icofont icofont-file-word icon-large"></i></a>
                                         @endif
                                         @if($soutenance->stage->validation_admin == null)
-                                        <a href="{{ route('evaluer_soutenance',$soutenance) }}" data-title="évaluer la soutenance"
+                                        <a href="{{ route('evaluer_soutenance',$soutenance) }}" data-title="évaluer la soutenance" title="Valider la soutenance"
                                            data-toggle="tooltip"> <i
                                                 class="icofont icofont-tick-mark icon-large"></i></a>
                                         @endif

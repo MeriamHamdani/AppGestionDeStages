@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Specialite;
 use App\Models\User;
 use App\Models\Stage;
 use App\Models\Classe;
@@ -231,12 +232,18 @@ class EtudiantController extends Controller
 
     public function exportData()
     {
-        return Excel::download(new EtudiantsExport, 'liste-etudiants.xlsx');
+        if (isset(request()->classe_id)){
+            $cls = Classe::find(request()->classe_id)->code;
+            return Excel::download(new EtudiantsExport, 'liste-etudiants-'.$cls.'.xlsx');
+        }
     }
 
-    public function exportDataBySpec(Request $request)
+    public function exportDataBySpec()
     {
-        return Excel::download(new EtudiantsParSpecialiteExport, 'liste-etudiants_par_spec.xlsx');
+        if (isset(request()->specialite_id)) {
+            $spec = Specialite::find(request()->specialite_id)->code;
+            return Excel::download(new EtudiantsParSpecialiteExport, 'liste-etudiants-'.$spec.'.xlsx');
+        }
     }
 
     public function current_annee_univ()

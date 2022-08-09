@@ -312,8 +312,8 @@ class SoutenanceController extends Controller
 
     public function telecharger_liste_stnc(Request $request)
     {
-        //dd($request->specialite_id);
-        return Excel::download(new SoutenanceParSpecExport, 'liste_soutenances_par_specia.xlsx');
+        $cls = str_replace(" ","",Classe::find($request->classe_id)->code); //dd($cls);
+        return Excel::download(new SoutenanceParSpecExport, 'liste_soutenances_'.$cls.'.xlsx');
 
     }
 

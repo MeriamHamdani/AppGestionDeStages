@@ -1,10 +1,11 @@
 <?php
 
 namespace App\Exports;
-
-use App\Models\Departement;
+use App\Http\Controllers\StageController;
+use App\Models\DepotMemoire;
 use App\Models\Enseignant;
 use Illuminate\Database\Eloquent\Collection;
+use Illuminate\Support\Facades\Session;
 use Maatwebsite\Excel\Concerns\FromCollection;
 use Maatwebsite\Excel\Concerns\WithColumnWidths;
 use Maatwebsite\Excel\Concerns\WithCustomCsvSettings;
@@ -15,19 +16,19 @@ use Maatwebsite\Excel\Concerns\WithStyles;
 use Maatwebsite\Excel\Events\AfterSheet;
 use PhpOffice\PhpSpreadsheet\Worksheet\Worksheet;
 
-class EnseignantExport implements FromCollection,WithCustomCsvSettings, WithHeadings, WithEvents,
+class DepotsToutExport implements FromCollection,WithCustomCsvSettings, WithHeadings, WithEvents,
     WithColumnWidths,
     WithStyles
 {
     public function headings(): array
     {
         return [
-            ["Liste des enseignants du département ". Departement::find(request()->departement_id)->nom],
-            ["Nom",
-                "Prénom" ,
-                "Email",
-                "Grade",
-                "Téléphone"]
+            ["Liste des Mémoires déposés "],
+            ["Titre de sujet",
+                "Etudiant" ,
+                "Classe",
+                "Encadrant",
+                "Date de dépôt"]
             ];
     }
     public function registerEvents(): array
@@ -43,11 +44,11 @@ class EnseignantExport implements FromCollection,WithCustomCsvSettings, WithHead
     public function columnWidths(): array
     {
         return [
-            'A' => 20,
-            'B' => 20,
-            'C'=>25,
-            'D'=>18,
-            'E'=>20,
+            'A' => 60,
+            'B' => 30,
+            'C'=>18,
+            'D'=>30,
+            'E'=>30,
         ];
     }
     public function styles(Worksheet $sheet)
@@ -68,21 +69,26 @@ class EnseignantExport implements FromCollection,WithCustomCsvSettings, WithHead
     */
     public function collection()
     {
-       // dd(request());
-        $ens = Enseignant::where('departement_id', request()->departement_id)
-            ->select('nom','prenom','email','grade','numero_telephone')
-            ->get();
-            $enseignants = new Collection();
-            foreach ($ens as $e) {
-                $details = array();
-                $details['Nom'] = ucwords($e->nom);
-                $details['Prénom'] = ucwords($e->prenom);
-                $details['Email'] = $e->email;
-                $details['Grade'] = ucwords($e->grade);
-                $details['Téléphone'] = $e->numero_telephone;
-                $enseignants->push($details);
+        $ann = Session::get('annee');
+        if (isset($ann)) {
+            $annee = $ann;
+        } else {
+            $annee = StageController::current_annee_univ();
+        }
+        $demandesDepot = DepotMemoire::with('stage')->where('annee_universitaire_id', $annee->id)->get();
+           // dd($demandesDepot);
+            $memoires = new Collection();
+            foreach ($demandesDepot as $dem) {
+                $d = array();
+                $d['Titre de sujet'] = $dem->stage->titre_sujet;
+                $d['Etudiant'] = ucwords($dem->stage->etudiant->nom.' '.$dem->stage->etudiant->prenom);
+                $d['Classe'] = $dem->stage->etudiant->classe->code;
+                $d['Encadrant'] =ucwords($dem->stage->enseignant->nom.' '.$dem->stage->enseignant->prenom);
+                $d['Date de dépôt'] = $dem->date_depot;
+                $memoires->push($d);
             }
-        return $enseignants;
+        return $memoires;
+
     }
 
     public function getCsvSettings(): array
