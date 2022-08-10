@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use DateTime;
+use App\Models\User;
 use App\Models\Stage;
 use App\Models\Classe;
 use App\Models\Etudiant;
@@ -18,6 +19,7 @@ use Illuminate\Http\Response;
 use Illuminate\Support\Carbon;
 use Illuminate\Support\Facades\Auth;
 use PhpOffice\PhpWord\PhpWord;
+use PhpOffice\PhpWord\IOFactory;
 use App\Models\AnneeUniversitaire;
 use Illuminate\Support\Facades\File;
 use Maatwebsite\Excel\Facades\Excel;
@@ -25,7 +27,9 @@ use Illuminate\Support\Facades\Session;
 use App\Exports\SoutenanceParSpecExport;
 use PhpOffice\PhpWord\TemplateProcessor;
 use Illuminate\Database\Eloquent\Collection;
-use App\Notifications\MembresJuryNotification;
+use App\Notifications\SoutenanceNotification;
+
+
 
 
 class SoutenanceController extends Controller
@@ -112,6 +116,17 @@ class SoutenanceController extends Controller
         $quatre = $request->deuxieme_membre == $stage->enseignant_id;
         $cinq = $request->deuxieme_membre == $stage->president;
         $six = $request->president == $stage->enseignant_id;
+        $soutenances=Soutenance::where(['salle'=>$request->salle,'date'=>DateTime::createFromFormat('d-m-Y', $request->date)->format('Y-m-d')])->get();
+       // return($soutenances->count());
+        if($soutenances->count()>0)
+        {
+            foreach($soutenances as $st){
+                if($this->occupee($st->start_time,$request->heure)){
+                    //return $st->start_time;
+                    return response()->json(['error'=>'so']);
+                }
+            }
+        }
         if ($un || $deux || $trois) {
             return response()->json(['error' => "udt"]);
             //Le rapporteur ne peut pas etre ni le président de jury ni le 2éme membre de jury ni l'encadrant de l'étudiant
@@ -124,7 +139,7 @@ class SoutenanceController extends Controller
             return response()->json(['error' => "six"]);
             //Le président de jury ne peut pas etre  l'encadrant de l'étudiant'
         }
-
+        $encadrant=Enseignant::find($stage->enseignant_id);
 
         $stnc = new Soutenance();
         $stnc->salle = $request->salle;
@@ -139,8 +154,8 @@ class SoutenanceController extends Controller
         $stage->soutenance_id = $stnc->id;
         $stage->save();
 
-
         //$stnc->membres()->sync($ids);
+
 
         $encadrant = Enseignant::find($request->encadrant);
         $president = Enseignant::find($request->president);
@@ -155,9 +170,49 @@ class SoutenanceController extends Controller
             'rapporteur' => ucwords($rapporteur->nom . ' ' . $rapporteur->prenom)
         ];
 
-        $etd->notify(new MembresJuryNotification($data));
-        $stnc->etudiant = $etd->nom . ' ' . $etd->prenom;
+         //$president->notify(new SoutenanceNotification($data) );
+         //$etd->notify(new SoutenanceNotification($data));
         return response()->json($stnc);
+    }
+
+    public function occupee(String  $t1, String $t2)
+    {
+        if($t1===$t2){
+            return true;
+        }
+        $hm1=explode(':',$t1);
+        $hm2=explode(':',$t2);
+        if($hm1[0]==$hm2[0]){
+            if((int)$hm1[1]<(int)$hm2[1]){
+                if((int)$hm1[1]+30 > (int)$hm2[1]){
+                    return true;
+                }
+            }else{
+                if((int)$hm1[1]-30 < (int)$hm2[1]){
+                    return true;
+                }
+            }
+        }elseif($hm1[0]-$hm2[0]==1 || $hm1[0]-$hm2[0]==-1){
+            if((int)$hm1[0]<(int)$hm2[0]){
+                if((int)$hm1[1]+30 <= 59){
+                        return false;
+                }else{
+                    if((int)$hm1[1]-30 < $hm2[1] ){
+                        return true;
+                    }
+                }
+
+            }else{
+                if((int)$hm2[1]-30 <= 1){
+                    return false;
+                }else{
+                    if((int)$hm1[1]+30 > $hm2[1]){
+                        return true;
+                    }
+                }
+            }
+        }
+            return false;
     }
 
     static function current_annee_univ()
@@ -255,17 +310,11 @@ class SoutenanceController extends Controller
             if ($stnc->stage->etudiant->classe->id == $request->classe_id) {
                 $soutenacnes->push($stnc);
             }
-        }//dd($soutenacnes);
+        }
         $templateProcessor = new TemplateProcessor($file_path);
-        //
-        $templateProcessor->setValue('classe', $classe->nom);
-        //$templateProcessor->setValue('specialite',$classe->specialite->nom );//dd($templateProcessor->getVariables());
 
-        /*foreach ($stages_actifs as $stage) {
-            $templateProcessor->setValues(array('nom' => ucwords($stage->etudiant->nom), 'prenom'=> ucwords($stage->etudiant->nom),
-                'societe' => $stage->etudiant->nom ,'sujet' => $stage->etudiant->nom ));
-        }*/
-        //dd($templateProcessor->getVariables());
+        $templateProcessor->setValue('classe', $classe->nom);
+
         $document_with_table = new PhpWord();
         $tableStyle = array(
             'borderColor' => 'black',
@@ -290,7 +339,7 @@ class SoutenanceController extends Controller
 
         }
         // Create writer to convert document to xml
-        $objWriter = \PhpOffice\PhpWord\IOFactory::createWriter($document_with_table, 'Word2007');
+        $objWriter = IOFactory::createWriter($document_with_table, 'Word2007');
         // Get all document xml code
         $fullxml = $objWriter->getWriterPart('Document')->write();
         // Get only table xml code
@@ -472,6 +521,8 @@ class SoutenanceController extends Controller
         Session::flash('message', 'valid_stnc');
         return back();
     }
+
+
 
     public function soutenance_etudiant()
     {

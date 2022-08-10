@@ -172,7 +172,10 @@
 
                 data: {salle, date, heure, president, deuxieme_membre, stage, rapporteur },
                 success:function(response){
-                    //console.log(response);
+                console.log(response);
+                if(response.error=='so'){
+                    swal("oups!", "La salle entrée est occupée pour une autre soutenance .", "error");
+                }
                     if(response.error=='soutenance exist'){
                         swal("oups!", "vous avez déja programmer une soutenance pour ce stage!", "error");
                     }
@@ -190,9 +193,9 @@
                         });
                     }
 
-                    //console.log(response.etudiant)
-                    $('#stncModal').modal('hide')
-                   $('#calendar').fullCalendar('renderEvent',{
+                    $('#stncModal').modal('hide');
+
+                    $('#calendar').fullCalendar('renderEvent',{
                     'title': response.title,
                     'start': response.date,
                     'end': response.date,
@@ -200,8 +203,8 @@
                    });
                    window.location.reload();
 
-
                 },
+
                 error:function(error){
                     if(error.responseJSON.errors){
                         $("#salleError").html(error.responseJSON.errors.salle);
@@ -246,6 +249,7 @@
                             {
                                 $('#calendar').fullCalendar('removeEvents', response);
                                 // swal("Good job!", "Event Deleted!", "success");
+                                window.location.reload();
                             },
                             error:function(error)
                             {
