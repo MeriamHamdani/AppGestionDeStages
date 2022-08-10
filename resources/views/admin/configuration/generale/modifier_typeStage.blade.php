@@ -220,7 +220,7 @@
                                                     <div class="mb-3 row">
                                                         <div
                                                             class="form-group m-t-15 m-checkbox-inline mb-0 custom-radio-ml">
-                                                            <label class="col-sm-3 col-form-label">La fiche</label>
+                                                            <label class="col-sm-3 col-form-label">La fiche 2 Dinars</label>
                                                             <div class="radio radio-primary">
                                                                 <input id="radioinline5" type="radio"
                                                                        name="fiche_2Dinars_type" value="requis"  value="requis" {{$typeStage->fiche_2Dinars_type == "requis" ? 'checked' : ''}}>

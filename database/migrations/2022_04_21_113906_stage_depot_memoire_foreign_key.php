@@ -14,7 +14,7 @@ class StageDepotMemoireForeignKey extends Migration
     public function up()
     {
         Schema::table('stages', function (Blueprint $table) {
-            $table->foreignId('depot_memoire_id')->nullable()->constrained();
+            $table->foreignId('depot_memoire_id')->nullable()->constrained()->nullOnDelete();
         });
         Schema::table('depot_memoires', function (Blueprint $table) {
             $table->foreignId('stage_id')->constrained()->cascadeOnDelete();

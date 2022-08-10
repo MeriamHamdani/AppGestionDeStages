@@ -77,7 +77,7 @@ class EnseignantController extends Controller
             ]);
 
         $attributs['password'] = bcrypt($attributs['numero_CIN']);
-        $attributs['is_active'] = 0;
+        $attributs['is_active'] = 1;
 
         /* $user = User::create($attributs);
          $user->assignRole('enseignant');*/

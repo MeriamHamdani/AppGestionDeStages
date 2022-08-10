@@ -14,7 +14,7 @@ class StageCahierStageForeignKey extends Migration
     public function up()
     {
         Schema::table('stages', function (Blueprint $table) {
-            $table->foreignId('cahier_stage_id')->nullable()->constrained();
+            $table->foreignId('cahier_stage_id')->nullable()->constrained()->nullOnDelete();
         });
         Schema::table('cahier_stages', function (Blueprint $table) {
             $table->foreignId('stage_id')->constrained()->cascadeOnDelete();
