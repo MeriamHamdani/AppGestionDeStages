@@ -60,8 +60,6 @@
                                                         <div class="mb-2">
                                                             <select class="js-example-basic-single col-sm-12"
                                                                 id="classe_id" name="classe_id" required>
-                                                                <option disabled="disabled" selected="selected">
-                                                                    Sélectionnez la classe</option>
                                                                 @foreach(\App\Models\Classe::all() as $classe)
                                                                 <option value="{{ $classe->id }}" {{
                                                                     old('classe_id')==$classe->id ? 'selected' : '' }}>
@@ -77,8 +75,6 @@
                                                         <div class="mb-2">
                                                             <select class="js-example-basic-single col-sm-12"
                                                                 id="specialite_id" name="specialite_id" required>
-                                                                <option disabled="disabled" selected="selected">
-                                                                    Sélectionnez la spécialité</option>
                                                                 @foreach (\App\Models\Specialite::all() as $specialite)
                                                                 <option value="{{ $specialite->id }}" {{
                                                                     old('specialite_id')==$specialite->id ? 'selected' :
@@ -164,7 +160,7 @@
 
                 <div class="card-body">
 
-                    <div class="dt-ext table-responsive">
+                    <div class="dt-ext table">
 
                         <table class="display" id="auto-fill">
                             <thead>

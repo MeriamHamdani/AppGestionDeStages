@@ -1,8 +1,6 @@
 <?php
 
 namespace App\Exports;
-
-use App\Models\Departement;
 use App\Models\Enseignant;
 use Illuminate\Database\Eloquent\Collection;
 use Maatwebsite\Excel\Concerns\FromCollection;
@@ -15,14 +13,14 @@ use Maatwebsite\Excel\Concerns\WithStyles;
 use Maatwebsite\Excel\Events\AfterSheet;
 use PhpOffice\PhpSpreadsheet\Worksheet\Worksheet;
 
-class EnseignantExport implements FromCollection,WithCustomCsvSettings, WithHeadings, WithEvents,
+class EnseignantToutExport implements FromCollection,WithCustomCsvSettings, WithHeadings, WithEvents,
     WithColumnWidths,
     WithStyles
 {
     public function headings(): array
     {
         return [
-            ["Liste des enseignants du département ". Departement::find(request()->departement_id)->nom],
+            ["Liste des enseignants "],
             ["Nom",
                 "Prénom" ,
                 "Email",
@@ -46,7 +44,7 @@ class EnseignantExport implements FromCollection,WithCustomCsvSettings, WithHead
             'A' => 20,
             'B' => 20,
             'C'=>25,
-            'D'=>18,
+            'D'=>25,
             'E'=>20,
         ];
     }
@@ -69,9 +67,7 @@ class EnseignantExport implements FromCollection,WithCustomCsvSettings, WithHead
     public function collection()
     {
        // dd(request());
-        $ens = Enseignant::where('departement_id', request()->departement_id)
-            ->select('nom','prenom','email','grade','numero_telephone')
-            ->get();
+        $ens = Enseignant::all();
             $enseignants = new Collection();
             foreach ($ens as $e) {
                 $details = array();

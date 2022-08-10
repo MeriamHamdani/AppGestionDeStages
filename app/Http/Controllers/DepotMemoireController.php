@@ -2,6 +2,8 @@
 
 namespace App\Http\Controllers;
 
+use App\Exports\DepotsExport;
+use App\Exports\DepotsToutExport;
 use App\Models\AnneeUniversitaire;
 use App\Models\Classe;
 use App\Models\Commentaire;
@@ -27,6 +29,7 @@ use Illuminate\Support\Facades\Response;
 use Illuminate\Support\Facades\Session;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Str;
+use Maatwebsite\Excel\Facades\Excel;
 use phpDocumentor\Reflection\Types\Integer;
 
 class DepotMemoireController extends Controller
@@ -58,9 +61,8 @@ class DepotMemoireController extends Controller
                     $stages = Stage::where('type_stage_id', $tsu->id)->where('etudiant_id', $etudiant->id)->where('confirmation_admin', 1)->get();
                     //$stage = Stage::where('type_stage_id', $tsu->id)->where('etudiant_id', $etudiant->id)->get();
                     foreach ($stages as $stage) {
-                        if(($stage->etudiant->classe->niveau !== 2 && $stage->etudiant->classe->cycle !== 'master') ||
-                            ($stage->etudiant->classe->niveau !== 3 && $stage->etudiant->classe->cycle !== 'licence'))
-                        {//dd(\App\Models\DepotMemoire::where('stage_id',$stage->id)->first(), $stage->typeStage->date_limite_depot);
+                        if (($stage->etudiant->classe->niveau !== 2 && $stage->etudiant->classe->cycle !== 'master') ||
+                            ($stage->etudiant->classe->niveau !== 3 && $stage->etudiant->classe->cycle !== 'licence')) {//dd(\App\Models\DepotMemoire::where('stage_id',$stage->id)->first(), $stage->typeStage->date_limite_depot);
                             $stagesAdeposer->push($stage);
                             //dd($stage);
                         }//dd($stagesAdeposer);
@@ -99,6 +101,15 @@ class DepotMemoireController extends Controller
      */
     public function store(Request $request)
     {
+        $request->validate(
+            [
+                'fiche_plagiat' => ['mimes:docx,jpeg,jpg,png'],
+                'fiche_biblio' => ['mimes:docx,jpeg,jpg,png'],
+                'memoire' => ['mimes:docx'],
+                'fiche_tech' => [ 'mimes:docx,jpeg,jpg,png'],
+                'attestation' => [ 'mimes:docx,jpeg,jpg,png'],
+            ]
+        );
         $stage_id = request()->get('stage_id');
         $stage = Stage::findOrFail($stage_id);
         $user_id = Auth::user()->id;
@@ -149,7 +160,7 @@ class DepotMemoireController extends Controller
                     $attributs['validation_admin'] = -1;
                     $attributs['stage_id'] = $stage_id;
                     $depot = DepotMemoire::create($attributs);
-                    $stage->depot_memoire_id= $depot->id;
+                    $stage->depot_memoire_id = $depot->id;
                     $stage->update();
                     $enseignant = $depot->stage->enseignant;
                     $data = ['nom_etud' => ucwords($etudiant->nom . ' ' . $etudiant->prenom),
@@ -222,7 +233,7 @@ class DepotMemoireController extends Controller
                     $attributs['validation_admin'] = -1;
                     $attributs['stage_id'] = $stage_id;
                     $depot = DepotMemoire::create($attributs);
-                    $stage->depot_memoire_id= $depot->id;
+                    $stage->depot_memoire_id = $depot->id;
                     $stage->update();
                     $enseignant = $depot->stage->enseignant;
                     $data = ['nom_etud' => ucwords($etudiant->nom . ' ' . $etudiant->prenom),
@@ -268,7 +279,6 @@ class DepotMemoireController extends Controller
 
     public function liste_demandes_depot_admin()
     {
-        $current_date = Carbon::now();
         $ann = Session::get('annee');
         if (isset($ann)) {
             $demandesDepot = DepotMemoire::with('stage')->where('annee_universitaire_id', $ann->id)->get();
@@ -283,8 +293,17 @@ class DepotMemoireController extends Controller
                 }
                 $demandesDepotC->push($d);
             }
-            return view('admin.depot.gerer_depot', compact('demandesDepotC'));
-        }else {
+            $cls = Classe::all();
+            $classes = new Collection();
+            foreach ($cls as $cl) {
+                $isMaster = strtoupper($cl->cycle) === strtoupper('master');
+                $isLicence = strtoupper($cl->cycle) === strtoupper('licence');
+                if ($isLicence && $cl->niveau == 3 || $isMaster && $cl->niveau == 2) {
+                    $classes->push($cl);
+                }
+            }//dd($classes);
+            return view('admin.depot.gerer_depot', compact('demandesDepotC', 'classes'));
+        } else {
             $an = StageController::current_annee_univ(); //dd($an);
             $demandesDepot = DepotMemoire::with('stage')->where('annee_universitaire_id', $an->id)->get();
             $demandesDepotC = new Collection();
@@ -298,7 +317,26 @@ class DepotMemoireController extends Controller
                 }
                 $demandesDepotC->push($d);
             }
-            return view('admin.depot.gerer_depot', compact('demandesDepotC'));
+            $cls = Classe::all();
+            $classes = new Collection();
+            foreach ($cls as $cl) {
+                $isMaster = strtoupper($cl->cycle) === strtoupper('master');
+                $isLicence = strtoupper($cl->cycle) === strtoupper('licence');
+                if ($isLicence && $cl->niveau == 3 || $isMaster && $cl->niveau == 2) {
+                    $classes->push($cl);
+                }
+            }//dd($classes);
+            return view('admin.depot.gerer_depot', compact('demandesDepotC', 'classes'));
+        }
+    }
+
+    public function exporter_liste_depots(Request $request)
+    {
+        if(($request->classe_id)=="tous") {
+            return Excel::download(new DepotsToutExport, 'liste-memoires.xlsx');
+        } else {
+            $cls = Classe::find($request->classe_id)->code;
+            return Excel::download(new DepotsExport, 'liste-memoires'.'-'.$cls.'.xlsx');
         }
     }
 
@@ -357,6 +395,11 @@ class DepotMemoireController extends Controller
      */
     public function update(Request $request, DepotMemoire $depotMemoire)
     {
+        $request->validate(
+            [
+                'memoire' => ['mimes:docx'],
+            ]
+        );
         $user_id = Auth::user()->id;
         $etudiant = Etudiant::where('user_id', Auth::user()->id)->latest()->first();
         $nomComplet = ucwords($etudiant->nom) . ucwords($etudiant->prenom);
@@ -437,7 +480,7 @@ class DepotMemoireController extends Controller
     public function telecharger_attestation(string $attestation, string $code_classe)
     {
         $file_path = public_path() . '/storage/attestations_' . $code_classe . '/' . $attestation;
-       // dd($file_path);
+        // dd($file_path);
         if (file_exists($file_path)) {
             return Response::download($file_path, $attestation);
         } else {

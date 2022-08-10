@@ -39,16 +39,16 @@
                                 <div class="card-body">
                                     <ul>
                                         <li>
-                                            Nom : <strong>Hamdani</strong>
+                                            Nom : <strong>{{ucwords($soutenance->stage->etudiant->nom)}}</strong>
                                         </li>
                                         <li>
-                                            Prénom : <strong>Meriam</strong>
+                                            Prénom : <strong>{{ucwords($soutenance->stage->etudiant->prenom)}}</strong>
                                         </li>
                                         <li>
-                                            classe: <strong>3eme genie info</strong>
+                                            Classe: <strong>{{ucwords($soutenance->stage->etudiant->classe->nom)}}</strong>
                                         </li>
                                         <li>
-                                            Titre de sujet : <strong>dev app stage</strong>
+                                            Titre de sujet : <strong>{{ucwords($soutenance->stage->titre_sujet)}}</strong>
                                         </li>
                                     </ul>
                                 </div>
@@ -68,13 +68,13 @@
                                 <div class="card-body">
                                     <ul>
                                         <li>
-                                            Président : <strong>Slim Kenoun</strong>
+                                            Président : <strong>{{ucwords($soutenance->president->nom)}} {{ucwords($soutenance->president->prenom)}} </strong>
                                         </li>
                                         <li>
-                                            Rapporteur : <strong>Slim Kenoun</strong>
+                                            Rapporteur : <strong>{{ucwords($soutenance->rapporteur->nom)}} {{ucwords($soutenance->rapporteur->prenom)}}</strong>
                                         </li>
                                         <li>
-                                            Encadrant: <strong>Slim Kenoun</strong>
+                                            Encadrant: <strong>{{ucwords($soutenance->stage->enseignant->nom)}} {{ucwords($soutenance->stage->enseignant->prenom)}}</strong>
                                         </li>
 
                                     </ul>
@@ -87,7 +87,7 @@
                                     <button class="btn btn-link collapsed text-white" data-bs-toggle="collapse"
                                         data-bs-target="#collapseicon2" aria-expanded="false"
                                         aria-controls="collapseicon2">
-                                        <i class="icofont icofont-tasks-alt"></i> Date et Lieu
+                                        <i class="icofont icofont-tasks-alt"></i> Date et Salle
                                     </button>
                                 </h5>
                             </div>
@@ -95,13 +95,13 @@
                                 <div class="card-body">
                                     <ul>
                                         <li>
-                                            Date : <strong>30 juin 2022</strong>
+                                            Date : <strong>{{$date}}</strong>
                                         </li>
                                         <li>
-                                            Heure : <strong>09:00 am</strong>
+                                            Heure : <strong>{{$soutenance->start_time}}</strong>
                                         </li>
                                         <li>
-                                            Lieu :<strong> Amphi 6</strong>
+                                            Salle :<strong> {{$soutenance->salle}}</strong>
                                         </li>
                                     </ul>
                                 </div>

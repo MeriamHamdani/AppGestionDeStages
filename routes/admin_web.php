@@ -143,6 +143,7 @@ Route::middleware(['auth', 'role:admin|superadmin', 'clearClasse'])->group(funct
         Route::get('/depot/gerer-depots/fiche_biblio/{fiche_biblio}/{code_classe}', [DepotMemoireController::class, 'telecharger_fiche_biblio'])->where('fiche_biblio', '[A-Za-z0-9\-\_\.]+')->name('telecharger_fiche_biblio');
         Route::get('/depot/gerer-depots/fiche_tech/{fiche_tech}/{code_classe}', [DepotMemoireController::class, 'telecharger_fiche_tech'])->where('fiche_tech', '[A-Za-z0-9\-\_\.]+')->name('telecharger_fiche_tech');
         Route::get('/depot/gerer-depots/attestation/{attestation}/{code_classe}', [DepotMemoireController::class, 'telecharger_attestation'])->where('attestation', '[A-Za-z0-9\-\_\.]+')->name('telecharger_attestation');
+        Route::post('s/depot/gerer-depots/exporter-liste',[DepotMemoireController::class,'exporter_liste_depots'])->name('exporter_liste_depots');
 
 
         //-----------------------------------------SOUTENANCE----------------------------

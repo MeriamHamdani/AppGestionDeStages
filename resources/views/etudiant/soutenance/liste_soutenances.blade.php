@@ -26,7 +26,7 @@
                         <h5>Mes soutenances</h5>
                     </div>
                     <div class="card-body">
-                        <div class="table-responsive">
+                        <div class="table">
                             <table class="display" id="basic-1">
                                 <thead>
                                 <tr>
@@ -35,35 +35,19 @@
                                     <th>Informations sur ma soutenance</th>
                                 </tr>
                                 </thead>
-
+                                @foreach($soutenances as $st)
                                 <tbody>
-
                                 <tr>
-                                    <td>Dai Rios</td>
-                                    <td>Personnel Lead</td>
-                                    <td><a class="btn btn-primary" href={{ Route('info_soutenance') }}
+                                    <td>{{$st->stage->titre_sujet}}</td>
+                                    <td>{{$st->stage->type_sujet}}</td>
+                                    <td><a class="btn btn-primary" href={{ Route('info_soutenance',$st) }}
                                             class="{{ routeActive('info_soutenance') }}">
                                             <i class="icofont icofont-hat-alt">
                                                 Infos sur ma soutenance
                                             </i></a></td>
                                 </tr>
-                                <tr>
-                                    <td>Gavin Cortez</td>
-                                    <td>Team Leader</td>
-                                    <td><a class="btn btn-primary" href="/depot/gerer_depot/{stage}">
-                                            <i class="icofont icofont-hat-alt">
-                                                Infos sur ma soutenance
-                                            </i></a></td>
-                                </tr>
-                                <tr>
-                                    <td>Martena Mccray</td>
-                                    <td>Post-Sales support</td>
-                                    <td><a class="btn btn-primary" href="/depot/gerer_depot/{stage}">
-                                            <i class="icofont icofont-hat-alt">
-                                                Infos sur ma soutenance
-                                            </i></a></td>
-                                </tr>
                                 </tbody>
+                                @endforeach
                                 <tfoot>
                                 <tr>
                                     <th>Titre</th>

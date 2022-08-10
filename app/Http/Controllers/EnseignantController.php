@@ -3,6 +3,8 @@
 namespace App\Http\Controllers;
 
 
+use App\Exports\EnseignantToutExport;
+use App\Models\Departement;
 use App\Models\User;
 use App\Models\Stage;
 use App\Models\Classe;
@@ -224,9 +226,15 @@ class EnseignantController extends Controller
         return redirect()->back();
     }
 
-    public function exportData()
+    public function exportData(Request $request)
     {
-        return Excel::download(new EnseignantExport, 'liste-enseignants.xlsx');
+        if(($request->departement_id)=="tous") {
+            return Excel::download(new EnseignantToutExport, 'liste-enseignants.xlsx');
+        } else {
+            $dep = Departement::find($request->departement_id)->code;
+            return Excel::download(new EnseignantExport, 'liste-enseignants'.'-'.$dep.'.xlsx');
+        }
+
     }
 
     static function liste_stages_actifs()

@@ -59,8 +59,8 @@
                                                         <div class="mb-2">
                                                             <select class="js-example-basic-single col-sm-12"
                                                                 id="departement_id" name="departement_id" required>
-                                                                <option disabled="disabled" selected="selected">
-                                                                    Sélectionnez le département
+                                                                <option value="tous" selected="selected">
+                                                                    Exportez tous
                                                                 </option>
                                                                 @foreach (\App\Models\Departement::all() as
                                                                 $departement)
@@ -157,7 +157,7 @@
                     </div>
                 </div>
                 <div class="card-body">
-                    <div class="dt-ext table-responsive">
+                    <div class="dt-ext table">
                         <table class="display" id="auto-fill">
                             <thead>
                                 <tr>

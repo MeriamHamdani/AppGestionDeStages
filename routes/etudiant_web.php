@@ -7,6 +7,7 @@ use App\Http\Controllers\EntrepriseController;
 
 use App\Http\Controllers\EtudiantController;
 
+use App\Http\Controllers\SoutenanceController;
 use App\Http\Controllers\StageController;
 use App\Http\Controllers\TacheController;
 use App\Models\Etudiant;
@@ -60,8 +61,8 @@ Route::middleware(['auth', 'role:etudiant'])->group(function () {
         Route::get('/depot/gerer-depot/remarques-encadrant/memoire/{depotMemoire}', [DepotMemoireController::class, 'remarques_encadrant'])->name('remarques_encadrant');
 
 
-        Route::view('/soutenance/liste_soutenances', 'etudiant.soutenance.liste_soutenances')->name('liste_soutenances');
-        Route::view('/soutenance/info', 'etudiant.soutenance.info_soutenance')->name('info_soutenance');
+        Route::get('/soutenance/liste-soutenances', [SoutenanceController::class,'soutenance_etudiant'])->name('soutenance_etudiant');
+        Route::get('/soutenance/info/{soutenance}', [SoutenanceController::class,'details_soutenance_etudiant'])->name('info_soutenance');
 
         Route::get('/stage/fiche_demande/{fiche_demande}', [StageController::class, 'telecharger_fiche_demande'])->where('fiche_demande', '[A-Za-z0-9\-\_\.]+')->name('telecharger_fiche_demande');
       /*  Route::get('/stage/fiche_assurance/{fiche_assurance}', [StageController::class, 'telecharger_fiche_assurance'])->where('fiche_assurance', '[A-Za-z0-9\-\_\.]+')->name('telecharger_fiche_assurance');

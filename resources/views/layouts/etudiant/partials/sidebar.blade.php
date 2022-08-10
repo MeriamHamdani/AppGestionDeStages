@@ -87,10 +87,12 @@
                         </div>
                     </li>
                     <li class="dropdown">
-                        <a class="nav-link menu-title link-nav {{ routeActive('liste_soutenances') }}"
-                            href="{{ route('liste_soutenances') }}"><i
-                                class="icofont icofont-graduate-alt"></i>&nbsp&nbsp&nbsp<span>Mes
-                                soutenances </span></a>
+                        <a class="nav-link menu-title link-nav  {{ in_array(Route::currentRouteName(),
+                            ['info_soutenance']) ? 'active' : '' }}
+                        {{ routeActive('soutenance_etudiant') }}"
+                            href="{{ route('soutenance_etudiant') }}"><i
+                                class="icofont icofont-graduate-alt"></i>&nbsp&nbsp&nbsp<span>Ma/Mes
+                                soutenance(s) </span></a>
                     </li>
                 </ul>
             </div>
