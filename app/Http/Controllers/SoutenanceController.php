@@ -522,10 +522,8 @@ class SoutenanceController extends Controller
         return back();
     }
 
-<<<<<<< HEAD
 
-}
-=======
+
     public function soutenance_etudiant()
     {
         $etudiants = Etudiant::where('user_id', Auth::user()->id)->get(); //dd($etudiants);
@@ -549,4 +547,3 @@ class SoutenanceController extends Controller
     }
 
 }
->>>>>>> b443596ae92a47029eedd5081fb87342e6cbcb43
