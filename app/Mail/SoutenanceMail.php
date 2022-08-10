@@ -7,7 +7,7 @@ use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Mail\Mailable;
 use Illuminate\Queue\SerializesModels;
 
-class MembreJury extends Mailable
+class SoutenanceMail extends Mailable
 {
     use Queueable, SerializesModels;
     public $data=[];
@@ -29,7 +29,7 @@ class MembreJury extends Mailable
     public function build()
     {
         return $this->from('ihec@gmail.com')
-        ->subject('Info soutenance')
-        ->view('emails.enseignant.demandeConfirmationEncadrement');
+                    ->subject('Planning de soutenance')
+                    ->view('emails.soutenance');
     }
 }

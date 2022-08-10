@@ -32,16 +32,17 @@
                                                     <p>Bonjour Mme/Mr</p>
 
                                                 </div>
+
                                                 @if($data['post']!='')
                                                 <div class="read-group">
 
                                                     <p>
-                                                        @if ($date['post']!='encadrant')
+
                                                         Vous etes affecté(e) comme {{ $data['post'] }} <br>
                                                         Planning de soutenance : <br>
-                                                        @else
+
                                                         Le planning de soutenance de l'étudiant {{ $data['etud'] }}
-                                                        @endif
+
 
                                                         Date : {{ $data['date'] }} <br>
                                                         Salle : {{ $data['salle'] }}<br>

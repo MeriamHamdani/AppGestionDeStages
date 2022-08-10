@@ -2,13 +2,13 @@
 
 namespace App\Notifications;
 
-use App\Mail\MembreJury;
+use App\Mail\SoutenanceMail;
 use Illuminate\Bus\Queueable;
-use Illuminate\Notifications\Notification;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Notifications\Messages\MailMessage;
+use Illuminate\Notifications\Notification;
 
-class MembresJuryNotification extends Notification
+class SoutenanceNotification extends Notification
 {
     use Queueable;
     public $data=[];
@@ -41,9 +41,8 @@ class MembresJuryNotification extends Notification
      */
     public function toMail($notifiable)
     {
-        return (new MembreJury($this->data))
+        return (new SoutenanceMail($this->data))
                     ->to($notifiable->email);
-
     }
 
     /**
@@ -54,6 +53,6 @@ class MembresJuryNotification extends Notification
      */
     public function toArray($notifiable)
     {
-        return $this->data;
+        return $this->data ;
     }
 }
