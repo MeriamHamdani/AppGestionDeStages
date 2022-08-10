@@ -2,6 +2,7 @@
 
 namespace App\Exports;
 
+use App\Http\Controllers\StageController;
 use App\Http\Controllers\TypeStageController;
 use App\Models\User;
 use App\Models\Stage;
@@ -60,28 +61,30 @@ class SoutenanceParSpecExport implements FromCollection,
             },
         ];
     }
+
     public function columnWidths(): array
     {
         return [
             'A' => 20,
             'B' => 20,
-            'C'=>20,
-            'D'=>60,
-            'E'=>25,
-            'F'=> 15
+            'C' => 20,
+            'D' => 60,
+            'E' => 25,
+            'F' => 15
         ];
     }
+
     public function styles(Worksheet $sheet)
     {
         return [
             // Style the first row as bold text.
-            1    => ['font' => ['bold' => true]],
+            1 => ['font' => ['bold' => true]],
 
             // Styling a specific cell by coordinate.
             2 => ['font' => ['italic' => true, 'bold' => true]],
 
             // Styling an entire column.
-            'A:F'  => ['font' => ['size' => 13]],
+            'A:F' => ['font' => ['size' => 13]],
         ];
     }
 
@@ -92,22 +95,25 @@ class SoutenanceParSpecExport implements FromCollection,
     {
         $soutenances = Soutenance::all();
         $stnc = new Collection();
-
+        if (isset($ann)) {
+            $annee = $ann;
+        } else {
+            $annee = StageController::current_annee_univ();
+        }
         foreach ($soutenances as $soutenance) {
             $s = array();
             $stage = Stage::find($soutenance->stage_id);
             $type_stage = TypeStage::find($stage->type_stage_id);
             $classe = Classe::find($type_stage->classe_id);
-
             if ($classe->id == request()->classe_id) {
                 $date = Arr::first((TypeStageController::decouper_nom($soutenance->date)));
-                $etudiant = Etudiant::find($stage->etudiant_id)->latest()->first();
+                $etudiant = Etudiant::find($stage->etudiant_id);
                 $user = User::find($etudiant->user_id);
                 $s['CIN'] = $user->numero_CIN;
                 $s['Nom'] = ucwords($etudiant->nom);
                 $s['Prenom'] = ucwords($etudiant->prenom);
                 $s['classe'] = $classe->nom;
-                $s['date'] = $date.' à '.$soutenance->start_time;
+                $s['date'] = $date . ' à ' . $soutenance->start_time;
                 $s['note'] = $soutenance->note;
                 $stnc->push($s);
             }

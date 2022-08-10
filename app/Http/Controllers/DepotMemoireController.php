@@ -101,6 +101,15 @@ class DepotMemoireController extends Controller
      */
     public function store(Request $request)
     {
+        $request->validate(
+            [
+                'fiche_plagiat' => ['mimes:docx,jpeg,jpg,png'],
+                'fiche_biblio' => ['mimes:docx,jpeg,jpg,png'],
+                'memoire' => ['mimes:docx'],
+                'fiche_tech' => [ 'mimes:docx,jpeg,jpg,png'],
+                'attestation' => [ 'mimes:docx,jpeg,jpg,png'],
+            ]
+        );
         $stage_id = request()->get('stage_id');
         $stage = Stage::findOrFail($stage_id);
         $user_id = Auth::user()->id;
@@ -386,6 +395,11 @@ class DepotMemoireController extends Controller
      */
     public function update(Request $request, DepotMemoire $depotMemoire)
     {
+        $request->validate(
+            [
+                'memoire' => ['mimes:docx'],
+            ]
+        );
         $user_id = Auth::user()->id;
         $etudiant = Etudiant::where('user_id', Auth::user()->id)->latest()->first();
         $nomComplet = ucwords($etudiant->nom) . ucwords($etudiant->prenom);

@@ -26,7 +26,7 @@
                     <span>Ce tableau illustre la liste des stages avec chacun son cahier de stage s'il existe </span>
                 </div>
                 <div class="card-body">
-                    <div class="table-responsive">
+                    <div class="table">
                         <table class="display" id="basic-1">
                             <thead>
                                 <tr>

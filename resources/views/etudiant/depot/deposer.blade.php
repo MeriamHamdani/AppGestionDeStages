@@ -74,7 +74,7 @@
                                                     <label class="col-sm-3 col-form-label">Fiche de bibliothèque</label>
                                                     <div class="col-sm-9">
                                                         <input class="form-control" type="file" name="fiche_biblio"
-                                                               id="fiche_biblio"
+                                                               id="fiche_biblio" accept=".docx,.jpeg,.jpg,.png"
                                                                required="required"/>
                                                     </div>
                                                 </div>
@@ -82,7 +82,7 @@
                                                     <label class="col-sm-3 col-form-label">Rapport de plagiat</label>
                                                     <div class="col-sm-9">
                                                         <input class="form-control" type="file" name="fiche_plagiat"
-                                                               id="fiche_plagiat"
+                                                               id="fiche_plagiat" accept=".docx,.jpeg,.jpg,.png"
                                                                required="required" />
                                                     </div>
                                                 </div>
@@ -102,7 +102,7 @@
                                                 <div class="mb-3 row">
                                                     <label class="col-sm-3 col-form-label">Le mémoire</label>
                                                     <div class="col-sm-9">
-                                                        <input class="form-control" type="file" name="memoire" id="memoire" required />
+                                                        <input class="form-control" type="file" name="memoire" id="memoire" accept=".docx" required />
                                                     </div>
                                                 </div>
                                             </div>
@@ -131,13 +131,13 @@
                                                 <div class="mb-3 row">
                                                     <label class="col-sm-3 col-form-label">Attestation</label>
                                                     <div class="col-sm-9">
-                                                        <input class="form-control" type="file" name="attestation" id="attestation"/>
+                                                        <input class="form-control" type="file" name="attestation" id="attestation" accept=".docx,.jpeg,.jpg,.png"/>
                                                     </div>
                                                 </div>
                                                 <div class="mb-3 row">
                                                     <label class="col-sm-3 col-form-label">Fiche technique</label>
                                                     <div class="col-sm-9">
-                                                        <input class="form-control" type="file" name="fiche_tech" id="fiche_tech" required/>
+                                                        <input class="form-control" type="file" name="fiche_tech" id="fiche_tech" accept=".docx,.jpeg,.jpg,.png" required/>
                                                     </div>
                                                 </div>
                                             </div>

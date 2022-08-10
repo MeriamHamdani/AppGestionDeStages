@@ -145,9 +145,9 @@
                                             title="Valider le dépôt du mémoire">
                                             <i class="icofont icofont-checked icon-large"></i></a>
 
-                                        <a href="#" data-title="Refuser le dépôt du mémoire" data-toggle="tooltip"
+                                       <!-- <a href="#" data-title="Refuser le dépôt du mémoire" data-toggle="tooltip"
                                             title="Refuser le dépôt du mémoire" style="color: darkred">
-                                            <i class="icofont icofont-close-squared icon-large"></i></a>
+                                            <i class="icofont icofont-close-squared icon-large"></i></a> -->
                                         @endif
                                     </td>
                                 </tr>

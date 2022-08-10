@@ -16,6 +16,7 @@ use Illuminate\Support\Arr;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
 use Illuminate\Support\Carbon;
+use Illuminate\Support\Facades\Auth;
 use PhpOffice\PhpWord\PhpWord;
 use App\Models\AnneeUniversitaire;
 use Illuminate\Support\Facades\File;
@@ -141,18 +142,18 @@ class SoutenanceController extends Controller
 
         //$stnc->membres()->sync($ids);
 
-        $encadrant=Enseignant::find($request->encadrant);
-        $president=Enseignant::find($request->president);
-        $membre=Enseignant::find($request->deuxieme_membre);
-        $rapporteur=Enseignant::find($request->rapporteur);
+        $encadrant = Enseignant::find($request->encadrant);
+        $president = Enseignant::find($request->president);
+        $membre = Enseignant::find($request->deuxieme_membre);
+        $rapporteur = Enseignant::find($request->rapporteur);
         $data = ['etud' => ucwords($etd->nom . ' ' . $etd->prenom),
-                'post'=>'',
-                'encadrant' => ucwords($encadrant->nom . ' ' . $encadrant->prenom),
-                'president'=>ucwords($president->nom . ' ' . $president->prenom),
-                'date' => DateTime::createFromFormat('d-m-Y', $request->date)->format('Y-m-d'),
-                'membre'=>ucwords($membre->nom . ' ' . $membre->prenom),
-                'rapporteur'=>ucwords($rapporteur->nom . ' ' . $rapporteur->prenom)
-                ];
+            'post' => '',
+            'encadrant' => ucwords($encadrant->nom . ' ' . $encadrant->prenom),
+            'president' => ucwords($president->nom . ' ' . $president->prenom),
+            'date' => DateTime::createFromFormat('d-m-Y', $request->date)->format('Y-m-d'),
+            'membre' => ucwords($membre->nom . ' ' . $membre->prenom),
+            'rapporteur' => ucwords($rapporteur->nom . ' ' . $rapporteur->prenom)
+        ];
 
         $etd->notify(new MembresJuryNotification($data));
         $stnc->etudiant = $etd->nom . ' ' . $etd->prenom;
@@ -312,8 +313,8 @@ class SoutenanceController extends Controller
 
     public function telecharger_liste_stnc(Request $request)
     {
-        $cls = str_replace(" ","",Classe::find($request->classe_id)->code); //dd($cls);
-        return Excel::download(new SoutenanceParSpecExport, 'liste_soutenances_'.$cls.'.xlsx');
+        $cls = str_replace(" ", "", Classe::find($request->classe_id)->code); //dd($cls);
+        return Excel::download(new SoutenanceParSpecExport, 'liste_soutenances_' . $cls . '.xlsx');
 
     }
 
@@ -325,23 +326,23 @@ class SoutenanceController extends Controller
         $file_path = str_replace('/', '\\', $file_path);//dd($file_path);
         $templateProcessor = new TemplateProcessor($file_path);
         $stnc = Soutenance::find($soutenance); //dd($stnc);
-       //dd(today()->toDate()->setDate(2010,01,10));
+        //dd(today()->toDate()->setDate(2010,01,10));
         $templateProcessor->setValue('date', today()->format('Y-m-d'));
         $templateProcessor->setValue('etudiant', ucwords($stnc->stage->etudiant->nom . ' ' . $stnc->stage->etudiant->prenom));
         $templateProcessor->setValue('classe', $stnc->stage->etudiant->classe->nom);
         $templateProcessor->setValue('sujet', $stnc->stage->titre_sujet);
         $templateProcessor->setValue('presJury', ucwords($stnc->president->nom . ' ' . $stnc->president->prenom));
-        $templateProcessor->setValue('membre', ucwords(Enseignant::find($stnc->deuxieme_membre_id)->nom . ' ' .Enseignant::find($stnc->deuxieme_membre_id)->prenom));
+        $templateProcessor->setValue('membre', ucwords(Enseignant::find($stnc->deuxieme_membre_id)->nom . ' ' . Enseignant::find($stnc->deuxieme_membre_id)->prenom));
         $templateProcessor->setValue('encadrant', ucwords($stnc->stage->enseignant->nom . ' ' . $stnc->stage->enseignant->prenom));
         $templateProcessor->setValue('gradeP', ucwords($stnc->president->grade));
-        $templateProcessor->setValue('gradeM', ucwords(Enseignant::find($stnc->deuxieme_membre_id)->grade)) ;
+        $templateProcessor->setValue('gradeM', ucwords(Enseignant::find($stnc->deuxieme_membre_id)->grade));
         $templateProcessor->setValue('gradeE', ucwords($stnc->stage->enseignant->grade));
-        $templateProcessor->saveAs(public_path() . '\storage\pvs_indiv_' . $annee->annee . '\pv_indiv_'.$stnc->stage->etudiant->nom .'-'. $stnc->stage->etudiant->prenom.'-'. $stnc->stage->etudiant->classe->code.'.docx');
-        $file_path2 = public_path() . '\storage\pvs_indiv_' . $annee->annee .'\pv_indiv_'.$stnc->stage->etudiant->nom .'-'. $stnc->stage->etudiant->prenom.'-'. $stnc->stage->etudiant->classe->code.'.docx';
+        $templateProcessor->saveAs(public_path() . '\storage\pvs_indiv_' . $annee->annee . '\pv_indiv_' . $stnc->stage->etudiant->nom . '-' . $stnc->stage->etudiant->prenom . '-' . $stnc->stage->etudiant->classe->code . '.docx');
+        $file_path2 = public_path() . '\storage\pvs_indiv_' . $annee->annee . '\pv_indiv_' . $stnc->stage->etudiant->nom . '-' . $stnc->stage->etudiant->prenom . '-' . $stnc->stage->etudiant->classe->code . '.docx';
         //dd($file_path2);
         if (file_exists($file_path2)) {
             Session::flash('message', 'download_OK');//dd($file_path2);
-            return \Illuminate\Support\Facades\Response::download($file_path2, 'pvIndiv_' . $stnc->stage->etudiant->nom .'-'. $stnc->stage->etudiant->prenom.'-'. $stnc->stage->etudiant->classe->code. '.docx');
+            return \Illuminate\Support\Facades\Response::download($file_path2, 'pvIndiv_' . $stnc->stage->etudiant->nom . '-' . $stnc->stage->etudiant->prenom . '-' . $stnc->stage->etudiant->classe->code . '.docx');
         } else {
             Session::flash('message', 'pv_indiv_introuvable');
             exit('Pas de pv indiv!');
@@ -349,13 +350,16 @@ class SoutenanceController extends Controller
         }
         //dd(Soutenance::find($soutenance));
     }
-   static function isInfo (Classe $classe){
+
+    static function isInfo(Classe $classe)
+    {
         $departement_nom = Departement::findOrFail($classe->specialite->departement_id)->nom;
         $dep_is_info = strpos('departement ' . strtoupper($departement_nom), strtoupper('informatique')) > 0;
-        if($dep_is_info) {
+        if ($dep_is_info) {
             return true;
         } else return false;
     }
+
     public function telecharger_grille_lic_non_info($soutenance)
     {
         $stnc = Soutenance::find($soutenance);
@@ -372,18 +376,18 @@ class SoutenanceController extends Controller
         $templateProcessor->setValue('heure_soutenance', $stnc->start_time);
         $templateProcessor->setValue('sujet', ucwords($stnc->stage->titre_sujet));
         $templateProcessor->setValue('president', ucwords($stnc->president->nom . ' ' . $stnc->president->prenom));
-        $templateProcessor->setValue('membre_jury', ucwords(Enseignant::find($stnc->deuxieme_membre_id)->nom . ' ' .Enseignant::find($stnc->deuxieme_membre_id)->prenom));
+        $templateProcessor->setValue('membre_jury', ucwords(Enseignant::find($stnc->deuxieme_membre_id)->nom . ' ' . Enseignant::find($stnc->deuxieme_membre_id)->prenom));
         $templateProcessor->setValue('encadrant', ucwords($stnc->stage->enseignant->nom . ' ' . $stnc->stage->enseignant->prenom));
-        $path=public_path() . '\storage\grilles_evaluations_' . $annee->annee.'\grilles_'. $stnc->stage->etudiant->classe->code;  //dd($path);
-        if(!File::isDirectory($path)){
+        $path = public_path() . '\storage\grilles_evaluations_' . $annee->annee . '\grilles_' . $stnc->stage->etudiant->classe->code;  //dd($path);
+        if (!File::isDirectory($path)) {
             File::makeDirectory($path, 0777, true, true);
         }
-        $templateProcessor->saveAs($path. '\grilleEvalLic_' . $stnc->stage->etudiant->nom .'-'. $stnc->stage->etudiant->prenom. '.docx');
-        $file_path2 =$path. '\grilleEvalLic_' . $stnc->stage->etudiant->nom .'-'. $stnc->stage->etudiant->prenom. '.docx';
+        $templateProcessor->saveAs($path . '\grilleEvalLic_' . $stnc->stage->etudiant->nom . '-' . $stnc->stage->etudiant->prenom . '.docx');
+        $file_path2 = $path . '\grilleEvalLic_' . $stnc->stage->etudiant->nom . '-' . $stnc->stage->etudiant->prenom . '.docx';
         //dd($file_path2);
         if (file_exists($file_path2)) {
             Session::flash('message', 'download_OK');//dd($file_path2);
-            return \Illuminate\Support\Facades\Response::download($file_path2, 'grille_evaluation_' . $stnc->stage->etudiant->nom .'-'. $stnc->stage->etudiant->prenom.'.docx');
+            return \Illuminate\Support\Facades\Response::download($file_path2, 'grille_evaluation_' . $stnc->stage->etudiant->nom . '-' . $stnc->stage->etudiant->prenom . '.docx');
         } else {
             Session::flash('message', 'pv_indiv_introuvable');
             exit('Pas de grille!');
@@ -391,6 +395,7 @@ class SoutenanceController extends Controller
         }
 
     }
+
     public function telecharger_grille_lic_info($soutenance)
     {
         $stnc = Soutenance::find($soutenance);
@@ -405,18 +410,18 @@ class SoutenanceController extends Controller
         $templateProcessor->setValue('heure_soutenance', $stnc->start_time);
         $templateProcessor->setValue('sujet', ucwords($stnc->stage->titre_sujet));
         $templateProcessor->setValue('president', ucwords($stnc->president->nom . ' ' . $stnc->president->prenom));
-        $templateProcessor->setValue('membre_jury', ucwords(Enseignant::find($stnc->deuxieme_membre_id)->nom . ' ' .Enseignant::find($stnc->deuxieme_membre_id)->prenom));
+        $templateProcessor->setValue('membre_jury', ucwords(Enseignant::find($stnc->deuxieme_membre_id)->nom . ' ' . Enseignant::find($stnc->deuxieme_membre_id)->prenom));
         $templateProcessor->setValue('encadrant', ucwords($stnc->stage->enseignant->nom . ' ' . $stnc->stage->enseignant->prenom));
-        $path=public_path() . '\storage\grilles_evaluations_' . $annee->annee.'\grilles_'. $stnc->stage->etudiant->classe->code;  //dd($path);
-        if(!File::isDirectory($path)){
+        $path = public_path() . '\storage\grilles_evaluations_' . $annee->annee . '\grilles_' . $stnc->stage->etudiant->classe->code;  //dd($path);
+        if (!File::isDirectory($path)) {
             File::makeDirectory($path, 0777, true, true);
         }
-        $templateProcessor->saveAs($path. '\grilleEvalLicInfo_' . $stnc->stage->etudiant->nom .'-'. $stnc->stage->etudiant->prenom. '.docx');
-        $file_path2 =$path. '\grilleEvalLicInfo_' . $stnc->stage->etudiant->nom .'-'. $stnc->stage->etudiant->prenom. '.docx';
+        $templateProcessor->saveAs($path . '\grilleEvalLicInfo_' . $stnc->stage->etudiant->nom . '-' . $stnc->stage->etudiant->prenom . '.docx');
+        $file_path2 = $path . '\grilleEvalLicInfo_' . $stnc->stage->etudiant->nom . '-' . $stnc->stage->etudiant->prenom . '.docx';
         //dd($file_path2);
         if (file_exists($file_path2)) {
             Session::flash('message', 'download_OK');//dd($file_path2);
-            return \Illuminate\Support\Facades\Response::download($file_path2, 'grille_evaluation_' . $stnc->stage->etudiant->nom .'-'. $stnc->stage->etudiant->prenom.'.docx');
+            return \Illuminate\Support\Facades\Response::download($file_path2, 'grille_evaluation_' . $stnc->stage->etudiant->nom . '-' . $stnc->stage->etudiant->prenom . '.docx');
         } else {
             Session::flash('message', 'pv_indiv_introuvable');
             exit('Pas de grille!');
@@ -424,6 +429,7 @@ class SoutenanceController extends Controller
         }
 
     }
+
     public function telecharger_grille_mastere($soutenance)
     {
         $stnc = Soutenance::find($soutenance);
@@ -440,29 +446,53 @@ class SoutenanceController extends Controller
         $templateProcessor->setValue('heure_soutenance', $stnc->start_time);
         $templateProcessor->setValue('sujet', ucwords($stnc->stage->titre_sujet));
         $templateProcessor->setValue('president', ucwords($stnc->president->nom . ' ' . $stnc->president->prenom));
-        $templateProcessor->setValue('membre_jury', ucwords(Enseignant::find($stnc->deuxieme_membre_id)->nom . ' ' .Enseignant::find($stnc->deuxieme_membre_id)->prenom));
+        $templateProcessor->setValue('membre_jury', ucwords(Enseignant::find($stnc->deuxieme_membre_id)->nom . ' ' . Enseignant::find($stnc->deuxieme_membre_id)->prenom));
         $templateProcessor->setValue('encadrant', ucwords($stnc->stage->enseignant->nom . ' ' . $stnc->stage->enseignant->prenom));
-        $path=public_path() . '\storage\grilles_evaluations_' . $annee->annee.'\grilles_'. $stnc->stage->etudiant->classe->code;  //dd($path);
-        if(!File::isDirectory($path)){
+        $path = public_path() . '\storage\grilles_evaluations_' . $annee->annee . '\grilles_' . $stnc->stage->etudiant->classe->code;  //dd($path);
+        if (!File::isDirectory($path)) {
             File::makeDirectory($path, 0777, true, true);
         }
-        $templateProcessor->saveAs($path. '\grilleEvalMaster_' . $stnc->stage->etudiant->nom .'-'. $stnc->stage->etudiant->prenom. '.docx');
-        $file_path2 =$path. '\grilleEvalMaster_' . $stnc->stage->etudiant->nom .'-'. $stnc->stage->etudiant->prenom. '.docx';
+        $templateProcessor->saveAs($path . '\grilleEvalMaster_' . $stnc->stage->etudiant->nom . '-' . $stnc->stage->etudiant->prenom . '.docx');
+        $file_path2 = $path . '\grilleEvalMaster_' . $stnc->stage->etudiant->nom . '-' . $stnc->stage->etudiant->prenom . '.docx';
         //dd($file_path2);
         if (file_exists($file_path2)) {
             Session::flash('message', 'download_OK');//dd($file_path2);
-            return \Illuminate\Support\Facades\Response::download($file_path2, 'grille_evaluation_' . $stnc->stage->etudiant->nom .'-'. $stnc->stage->etudiant->prenom.'.docx');
+            return \Illuminate\Support\Facades\Response::download($file_path2, 'grille_evaluation_' . $stnc->stage->etudiant->nom . '-' . $stnc->stage->etudiant->prenom . '.docx');
         } else {
             Session::flash('message', 'pv_indiv_introuvable');
             exit('Pas de grille!');
 
         }
     }
-    public function evaluer_soutenance(Soutenance $soutenance) {
+
+    public function evaluer_soutenance(Soutenance $soutenance)
+    {
         $soutenance->stage->validation_admin = 1; //dd($soutenance->stage);
         $soutenance->stage->update();
         Session::flash('message', 'valid_stnc');
-        return back() ;
+        return back();
+    }
+
+    public function soutenance_etudiant()
+    {
+        $etudiants = Etudiant::where('user_id', Auth::user()->id)->get(); //dd($etudiants);
+        $soutenances = new Collection();
+        foreach ($etudiants as $etudiant) {
+            $stages = Stage::where('etudiant_id', $etudiant->id)->get();
+            foreach ($stages as $s) {
+                $stncs = Soutenance::where('stage_id',$s->id)->get();
+                foreach ($stncs as $stnc) {
+                    $soutenances->push($stnc);
+                }
+            }
+        }
+       // dd($soutenances);
+        return view('etudiant.soutenance.liste_soutenances',compact('soutenances'));
+    }
+    public function details_soutenance_etudiant(Soutenance $soutenance)
+    {
+        $date = Arr::first((TypeStageController::decouper_nom($soutenance->date)));
+        return view('etudiant.soutenance.info_soutenance',compact('soutenance','date'));
     }
 
 }

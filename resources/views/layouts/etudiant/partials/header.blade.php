@@ -1,4 +1,4 @@
-<div class="page-main-header">
+fd<div class="page-main-header">
     <div class="main-header-right row m-0">
         <div class="main-header-left">
             <div class="logo-wrapper"><a href=""><img class="img-fluid" src="{{asset('assets/images/logo/logo.png')}}"
@@ -15,12 +15,13 @@
                     <div class="notification-box"><i data-feather="bell"></i><span class="dot-animated"></span></div>
                     <ul class="notification-dropdown onhover-show-div">
                         <li>
-                            <p class="f-w-700 mb-0"> Vous avez {{App\Models\Etudiant::where('user_id',auth()->id())->first()->notifications->count()}} notifications dont
+                            <p class="f-w-700 mb-0"> Vous avez {{App\Models\Etudiant::where('user_id',auth()->id())->latest()->first()->notifications->count()}} notifications dont
                                 {{App\Models\Etudiant::where('user_id',auth()->id())->first()->unreadNotifications->count() }} non lus
+
                                 <!--<span class="pull-right badge badge-primary badge-pill">4</span>-->
                             </p>
                         </li>
-                        @foreach (App\Models\Etudiant::where('user_id',auth()->id())->first()->notifications as $notification )
+                        @foreach (App\Models\Etudiant::where('user_id',auth()->id())->latest()->first()->notifications as $notification )
                             @if ($notification->type==='App\Notifications\DownloadLettreAffectationNotification')
 
                                 <li class="noti-secondary">
