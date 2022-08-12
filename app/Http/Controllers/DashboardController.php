@@ -22,23 +22,25 @@ class DashboardController extends Controller
     public function index()
     {
         $annee = StageController::current_annee_univ();
-        $nbre_etudiants = (Etudiant::where('annee_universitaire_id', $annee->id))->count();
-        $nbre_enseignants = (Enseignant::all())->count();
-        $nbre_departements = (Departement::all())->count();
-        $nbre_specialites = (Specialite::all())->count();
-        $nbre_classes = (Classe::all())->count();
-        $nbre_entreprises = (Entreprise::all())->count();
-        $nbre_stages = (Stage::where('annee_universitaire_id', $annee->id))->count();
-        $stages = (StageController::stages1ereLicMaster())->count(); //dd($stages);
-        $data = DashboardController::encadrementChart(); //dd($ids);
-        $dataset = DashboardController::typeSujetChart(); //dd($dataset);
-        $statVol = DashboardController::stagesVolontairesChart(); //dd($statVol);
-        $etdsLic = DashboardController::etdsVsNiveauChart()[0];
-        $etdsMas = DashboardController::etdsVsNiveauChart()[1];
-        $tousEtds = DashboardController::etdsVsNiveauChart()[2];
-        return view('admin.dashboard.dashboard', compact('annee','nbre_etudiants', 'nbre_enseignants',
-            'nbre_departements', 'nbre_specialites', 'nbre_classes', 'nbre_entreprises',
-            'nbre_stages', 'data', 'dataset', 'statVol','etdsLic','etdsMas','tousEtds'));
+        if (isset ($annee)) {
+            $nbre_etudiants = (Etudiant::where('annee_universitaire_id', $annee->id))->count();
+            $nbre_enseignants = (Enseignant::all())->count();
+            $nbre_departements = (Departement::all())->count();
+            $nbre_specialites = (Specialite::all())->count();
+            $nbre_classes = (Classe::all())->count();
+            $nbre_entreprises = (Entreprise::all())->count();
+            $nbre_stages = (Stage::where('annee_universitaire_id', $annee->id))->count();
+            $stages = (StageController::stages1ereLicMaster())->count(); //dd($stages);
+            $data = DashboardController::encadrementChart(); //dd($ids);
+            $dataset = DashboardController::typeSujetChart(); //dd($dataset);
+            $statVol = DashboardController::stagesVolontairesChart(); //dd($statVol);
+            $etdsLic = DashboardController::etdsVsNiveauChart()[0];
+            $etdsMas = DashboardController::etdsVsNiveauChart()[1];
+            $tousEtds = DashboardController::etdsVsNiveauChart()[2];
+            return view('admin.dashboard.dashboard', compact('annee', 'nbre_etudiants', 'nbre_enseignants',
+                'nbre_departements', 'nbre_specialites', 'nbre_classes', 'nbre_entreprises',
+                'nbre_stages', 'data', 'dataset', 'statVol', 'etdsLic', 'etdsMas', 'tousEtds'));
+        } else return redirect()->action([AdminController::class, 'index']);
     }
 
     public function encadrementChart()

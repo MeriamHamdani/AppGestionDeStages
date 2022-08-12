@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Etablissement;
 use App\Models\TypeStage;
+use Illuminate\Support\Facades\File;
 use Illuminate\Support\Str;
 
 use Illuminate\Http\Request;
@@ -159,9 +160,14 @@ class AnneeUniversitaireController extends Controller
                 'pv_global' => ['mimes:docx'],
             ]
         );
-        $annee = $this->current_annee_univ();
+        $ann = $this->current_annee_univ();
         $etablissement = Etablissement::all()->first()->nom;
-        $path=$etablissement.'-'.$request->annee.'/fiches_modèles';
+        if(isset($request->annee)) {
+            $an = $request->annee;
+        }else {
+            $an= $anneeUniversitaire->annee;
+        }
+        $path=$etablissement.'-'.$an.'/fiches_modèles';
         if (isset($request->lettre_affectation)) {
             $anneeUniversitaire->lettre_affectation = Storage::disk('public')
                 ->putFileAs($path, $request->file('lettre_affectation'), 'modèle_lettre_affectation'. '.docx');
@@ -193,12 +199,20 @@ class AnneeUniversitaireController extends Controller
             $anneeUniversitaire->update();
         }
         if (isset($request->pv_individuel)) {
+            $file_path = public_path() . '/storage/'.$anneeUniversitaire->pv_individuel; //dd($file_path,File::exists($file_path),$anneeUniversitaire->pv_individuel);
+            if (File::exists($file_path)) {
+                File::delete($file_path);
+            } //dd($anneeUniversitaire->pv_individuel);
             $anneeUniversitaire->pv_individuel = Storage::disk('public')
                 ->putFileAs($path.'\models_pvs', $request->file('pv_individuel'), 'modèle_pv_individuel'  . '.docx');
             //dd($anneeUniversitaire->pv_individuel);
             $anneeUniversitaire->update();
         }
         if (isset($request->pv_global)) {
+            $file_path = public_path() . '/storage/'.$anneeUniversitaire->pv_global; //dd($file_path,File::exists($file_path),$anneeUniversitaire->pv_global,$request->pv_global);
+            if (File::exists($file_path)) {
+                File::delete($file_path);
+            } //dd($anneeUniversitaire->pv_individuel);
             $anneeUniversitaire->pv_global = Storage::disk('public')
                 ->putFileAs($path.'\models_pvs', $request->file('pv_global'), 'modèle_pv_global'. '.docx');
             $anneeUniversitaire->update();
@@ -218,13 +232,16 @@ class AnneeUniversitaireController extends Controller
         //
     }
 
-    public function telecharger_lettre_affectation(string $lettre_affectation, AnneeUniversitaire $annee)
+  /*  public function telecharger_lettre_affectation( AnneeUniversitaire $annee,string $lettre_affectation)
     {
+        //dd(file_exists(public_path().'/storage/'.$annee->lettre_affectation);
         $etablissement = Etablissement::all()->first()->nom;
-        //$path=$etablissement.'-'.$annee->annee.'/fiches_modèles';
-        $file_path = public_path() . '/storage/'.$etablissement.'-'.$annee->annee.'/fiches_modèles/' . $lettre_affectation;
-        dd(file_exists($file_path));
-        //$file_path =  public_path() . '/storage/'.$path  . $lettre_affectation;
+        $path=$etablissement.'-'.$annee->annee.'/fiches_modèles/';
+       //$file_path = public_path() . '/storage/'.$etablissement.'-'.$annee->annee.'/fiches_modèles/' . $lettre_affectation;
+        //dd(file_exists($file_path));
+        $file_path = public_path() .  '/storage/'.$etablissement.'-'.$annee->annee.'/fiches_modèles/'. $lettre_affectation;
+
+        //$file_path =  public_path() . '/storage/'.$path . $lettre_affectation;
          //$file_path =   public_path() . '/storage/'. $annee->lettre_affectation;
        // $file_path = public_path() . '/storage/models_lettre_affectation' . '/' . $lettre_affectation;
         if (file_exists($file_path)) {
@@ -232,21 +249,43 @@ class AnneeUniversitaireController extends Controller
         } else {
             exit('lettre inexistante !');
         }
+    }*/
+    public function telecharger_lettre_affectation(AnneeUniversitaire $annee, string $lettre_affectation)
+    {
+        $etablissement = Etablissement::all()->first()->nom;
+        $file_path = public_path() . '/storage/'.$etablissement.'-'.$annee->annee.'/fiches_modèles/' . $lettre_affectation;
+        if (file_exists($file_path)) {
+            return Response::download($file_path, $lettre_affectation);
+        } else {
+            exit('lettre inexistante !');
+        }
     }
 
-    public function telecharger_fiche_encadrement(string $fiche_encadrement)
+    public function telecharger_fiche_encadrement(AnneeUniversitaire $annee,string $fiche_encadrement)
     {
-        $file_path = public_path() . '/storage/models_fiche_encadrement' . '/' . $fiche_encadrement;
+        $etablissement = Etablissement::all()->first()->nom;
+        $file_path = public_path() . '/storage/'.$etablissement.'-'.$annee->annee.'/fiches_modèles/' . $fiche_encadrement;
         if (file_exists($file_path)) {
             return Response::download($file_path, $fiche_encadrement);
         } else {
             exit('fiche inexistante !');
         }
     }
-
-    public function telecharger_grille_licence(string $grille_evaluation_licence)
+    public function telecharger_attrayant(AnneeUniversitaire $annee,string $attrayant)
     {
-        $file_path = public_path() . '/storage/models_grilles_evaluations' . '/' . $grille_evaluation_licence;
+        $etablissement = Etablissement::all()->first()->nom;
+        $file_path = public_path() . '/storage/'.$etablissement.'-'.$annee->annee.'/fiches_modèles/' . $attrayant;
+        if (file_exists($file_path)) {
+            return Response::download($file_path, $attrayant);
+        } else {
+            exit('attrayant inexistant !');
+        }
+    }
+
+    public function telecharger_grille_licence(AnneeUniversitaire $annee,string $grille_evaluation_licence)
+    {
+        $etablissement = Etablissement::all()->first()->nom;
+        $file_path = public_path() . '/storage/'.$etablissement.'-'.$annee->annee.'/fiches_modèles/modèles_grilles_évaluations/' . $grille_evaluation_licence;
         //dd($file_path);
         if (file_exists($file_path)) {
             return Response::download($file_path, $grille_evaluation_licence);
@@ -255,9 +294,10 @@ class AnneeUniversitaireController extends Controller
         }
     }
 
-    public function telecharger_grille_info(string $grille_evaluation_info)
+    public function telecharger_grille_info(AnneeUniversitaire $annee,string $grille_evaluation_info)
     {
-        $file_path = public_path() . '/storage/models_grilles_evaluations' . '/' . $grille_evaluation_info;
+        $etablissement = Etablissement::all()->first()->nom;
+        $file_path = public_path() . '/storage/'.$etablissement.'-'.$annee->annee.'/fiches_modèles/modèles_grilles_évaluations/' . $grille_evaluation_info;
         //dd($file_path);
         if (file_exists($file_path)) {
             return Response::download($file_path, $grille_evaluation_info);
@@ -266,9 +306,10 @@ class AnneeUniversitaireController extends Controller
         }
     }
 
-    public function telecharger_grille_master(string $grille_evaluation_master)
+    public function telecharger_grille_master(AnneeUniversitaire $annee,string $grille_evaluation_master)
     {
-        $file_path = public_path() . '/storage/models_grilles_evaluations' . '/' . $grille_evaluation_master;
+        $etablissement = Etablissement::all()->first()->nom;
+        $file_path = public_path() . '/storage/'.$etablissement.'-'.$annee->annee.'/fiches_modèles/modèles_grilles_évaluations/' . $grille_evaluation_master;
         //dd($file_path);
         if (file_exists($file_path)) {
             return Response::download($file_path, $grille_evaluation_master);
@@ -277,9 +318,10 @@ class AnneeUniversitaireController extends Controller
         }
     }
 
-    public function telecharger_pv_individuel(string $pv_individuel)
+    public function telecharger_pv_individuel(AnneeUniversitaire $annee,string $pv_individuel)
     {
-        $file_path = public_path() . '/storage/models_pvs' . '/' . $pv_individuel;
+        $etablissement = Etablissement::all()->first()->nom;
+        $file_path = public_path() . '/storage/'.$etablissement.'-'.$annee->annee.'/fiches_modèles/models_pvs/' . $pv_individuel;
         if (file_exists($file_path)) {
             return Response::download($file_path, $pv_individuel);
         } else {
@@ -287,10 +329,10 @@ class AnneeUniversitaireController extends Controller
         }
     }
 
-    public function telecharger_pv_global(string $pv_global)
+    public function telecharger_pv_global(AnneeUniversitaire $annee,string $pv_global)
     {
-        $file_path = public_path() . '/storage/models_pvs' . '/' . $pv_global;
-        //dd($file_path);
+        $etablissement = Etablissement::all()->first()->nom;
+        $file_path = public_path() . '/storage/'.$etablissement.'-'.$annee->annee.'/fiches_modèles/models_pvs/' . $pv_global;
         if (file_exists($file_path)) {
             return Response::download($file_path, $pv_global);
         } else {

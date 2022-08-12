@@ -45,6 +45,7 @@
                                     <th>Année Universitaire </th>
                                     <th>Lettre d'affectation</th>
                                     <th>Fiche d'encadrement</th>
+                                    <th>Attrayant</th>
                                     <th>Les grilles</th>
                                     <th>Les Pvs</th>
                                     <th>Actions</th>
@@ -54,33 +55,37 @@
                                 @foreach ($annees as $annee)
                                 <tr>
                                     <td class="text-center">{{$annee->annee}}</td>
-                                    <td class="text-center">
-                                        <a href="{{ route('telecharger_lettre_affectation',['lettre_affectation'=>Str::afterLast($annee->lettre_affectation, '/'),'annee'=>$annee]) }}"
+                                    <td class="text-center"> <!--dd($annee->lettre_affectation,Str::afterLast($annee->lettre_affectation, '/'),file_exists(public_path().'/storage/'.$annee->lettre_affectation))-->
+                                        <a href="{{ route('telecharger_lettre_affectation',['lettre_affectation'=>Str::afterLast($annee->lettre_affectation, '/'), 'annee'=>$annee]) }}"
                                                                 data-toggle="tooltip" title="Télécharger le model de la lettre d'affectation">
                                             <i style="font-size: 2em;color:#bf9168" class="icofont icofont-file-word icon-large"></i>
                                         </a></td>
                                     <!--dd(public_path() . '/storage/'. $annee->lettre_affectation)-->
-                                    <td class="text-center"> <a href="{{ route('telecharger_fiche_encadrement',Str::after($annee->fiche_encadrement, '/')) }}"
+                                    <td class="text-center"> <a href="{{ route('telecharger_fiche_encadrement',['fiche_encadrement'=>Str::afterLast($annee->fiche_encadrement, '/'), 'annee'=>$annee]) }}"
                                                                 data-toggle="tooltip" title="Télécharger le model de la fiche d'encadrement">
                                             <i style="font-size: 2em;color:#bf9168" class="icofont icofont-file-word icon-large"></i></i>
                                         </a></td>
-                                    <td class="text-center"> <a href="{{ route('telecharger_grille_licence',Str::after($annee->grille_evaluation_licence, '/')) }}"
+                                    <td class="text-center"> <a href="{{ route('telecharger_attrayant',['attrayant'=>Str::afterLast($annee->attrayant, '/'), 'annee'=>$annee]) }}"
+                                                                data-toggle="tooltip" title="Télécharger le model de l'attrayant">
+                                            <i style="font-size: 2em;color:#bf9168" class="icofont icofont-file-word icon-large"></i></i>
+                                        </a></td>
+                                    <td class="text-center"> <a href="{{ route('telecharger_grille_licence',['grille_evaluation_licence'=>Str::afterLast($annee->grille_evaluation_licence, '/'), 'annee'=>$annee]) }}"
                                                                 data-toggle="tooltip" title="Télécharger le model de la grille d'évaluation licence">
                                             <i style="font-size: 2em;color:#bf9168" class="icofont icofont-file-word icon-large"></i></i>
                                         </a>
-                                      <a href="{{ route('telecharger_grille_info',Str::after($annee->grille_evaluation_info, '/')) }}"
+                                      <a href="{{ route('telecharger_grille_info',['grille_evaluation_info'=>Str::afterLast($annee->grille_evaluation_info, '/'), 'annee'=>$annee]) }}"
                                          data-toggle="tooltip" title="Télécharger le model de la grille d'évaluation licence informatique">
                                           <i style="font-size: 2em;color:#bf9168" class="icofont icofont-file-word icon-large"></i></i>
                                         </a>
-                                        <a href="{{ route('telecharger_grille_master',Str::after($annee->grille_evaluation_master, '/')) }}"
+                                        <a href="{{ route('telecharger_grille_master',['grille_evaluation_master'=>Str::afterLast($annee->grille_evaluation_master, '/'), 'annee'=>$annee])  }}"
                                          data-toggle="tooltip" title="Télécharger le model de la grille d'évaluation mastère">
                                             <i style="font-size: 2em;color:#bf9168" class="icofont icofont-file-word icon-large"></i>
                                         </a></td>
                                         <td class="text-center">
-                                            <a href="{{ route('telecharger_pv_individuel',Str::after($annee->pv_individuel, '/')) }}"
+                                            <a href="{{ route('telecharger_pv_individuel',['pv_individuel'=>Str::afterLast($annee->pv_individuel, '/'), 'annee'=>$annee]) }}"
                                                                     data-toggle="tooltip" title="Télécharger le model de PV individuel">
                                                 <i style="font-size: 2em;color:#bf9168" class="icofont icofont-file-word icon-large"></i></i> </a>
-                                            <a href="{{ route('telecharger_pv_global',Str::after($annee->pv_global, '/')) }}"
+                                            <a href="{{ route('telecharger_pv_global',['pv_global'=>Str::afterLast($annee->pv_global, '/'), 'annee'=>$annee]) }}"
                                                                     data-toggle="tooltip" title="Télécharger le model de PV global">
                                                 <i style="font-size: 2em;color:#bf9168" class="icofont icofont-file-word icon-large"></i></a>
                                         </td>
@@ -97,6 +102,7 @@
                                     <th>Année Universitaire </th>
                                     <th>Lettre d'affectation</th>
                                     <th>Fiche d'encadrement</th>
+                                    <th>Attrayant</th>
                                     <th>Les grilles</th>
                                     <th>Les Pvs</th>
                                     <th>Actions</th>

@@ -144,7 +144,7 @@ Route::middleware(['auth', 'role:admin|superadmin', 'clearClasse'])->group(funct
         Route::get('/depot/gerer-depots/fiche_biblio/{stage}/{fiche_biblio}/{code_classe}', [DepotMemoireController::class, 'telecharger_fiche_biblio'])->where('fiche_biblio', '[A-Za-z0-9\-\_\.]+')->name('telecharger_fiche_biblio');
         Route::get('/depot/gerer-depots/fiche_tech/{stage}/{fiche_tech}/{code_classe}', [DepotMemoireController::class, 'telecharger_fiche_tech'])->where('fiche_tech', '[A-Za-z0-9\-\_\.]+')->name('telecharger_fiche_tech');
         Route::get('/depot/gerer-depots/attestation/{stage}/{attestation}/{code_classe}', [DepotMemoireController::class, 'telecharger_attestation'])->where('attestation', '[A-Za-z0-9\-\_\.]+')->name('telecharger_attestation');
-        Route::post('s/depot/gerer-depots/exporter-liste',[DepotMemoireController::class,'exporter_liste_depots'])->name('exporter_liste_depots');
+        Route::post('/depot/gerer-depots/exporter-liste',[DepotMemoireController::class,'exporter_liste_depots'])->name('exporter_liste_depots');
 
 
         //-----------------------------------------SOUTENANCE----------------------------
@@ -206,13 +206,14 @@ Route::middleware(['auth', 'role:admin|superadmin', 'clearClasse'])->group(funct
         Route::post('configuration/ajouter-annee-universitaire', [AnneeUniversitaireController::class, 'store'])->name('ajouter_annee_universitaire');
         Route::get('configuration/modifier-annee-universitaire/{anneeUniversitaire}', [AnneeUniversitaireController::class, 'edit'])->name('modifier_annee_universitaire');
         Route::patch('configuration/modifier-annee-universitaire/{anneeUniversitaire}', [AnneeUniversitaireController::class, 'update'])->name('update_annee_universitaire');
-        Route::get('configuration/lettre-affectation/{lettre_affectation}/{annee}', [AnneeUniversitaireController::class, 'telecharger_lettre_affectation'])->where('lettre_affectation', '[A-Za-z0-9\-\_\.]+')->name('telecharger_lettre_affectation');
-        Route::get('configuration/fiche-encadrement/{fiche_encadrement}', [AnneeUniversitaireController::class, 'telecharger_fiche_encadrement'])->where('fiche_encadrement', '[A-Za-z0-9\-\_\.]+')->name('telecharger_fiche_encadrement');
-        Route::get('configuration/grille-evaluation-licence/{grille_evaluation_licence}', [AnneeUniversitaireController::class, 'telecharger_grille_licence'])->where('grille_evaluation_licence', '[A-Za-z0-9\-\_\.]+')->name('telecharger_grille_licence');
-        Route::get('configuration/grille-evaluation-info/{grille_evaluation_info}', [AnneeUniversitaireController::class, 'telecharger_grille_info'])->where('grille_evaluation_info', '[A-Za-z0-9\-\_\.]+')->name('telecharger_grille_info');
-        Route::get('configuration/grille-evaluation-master/{grille_evaluation_master}', [AnneeUniversitaireController::class, 'telecharger_grille_master'])->where('grille_evaluation_master', '[A-Za-z0-9\-\_\.]+')->name('telecharger_grille_master');
-        Route::get('configuration/pv-individuel/{pv_individuel}', [AnneeUniversitaireController::class, 'telecharger_pv_individuel'])->where('pv_individuel', '[A-Za-z0-9\-\_\.]+')->name('telecharger_pv_individuel');
-        Route::get('configuration/pv-global/{pv_global}', [AnneeUniversitaireController::class, 'telecharger_pv_global'])->where('pv_global', '[A-Za-z0-9\-\_\.]+')->name('telecharger_pv_global');
+        Route::get('configuration/lettre-affectation/{annee}/{lettre_affectation}', [AnneeUniversitaireController::class, 'telecharger_lettre_affectation'])->name('telecharger_lettre_affectation');
+        Route::get('configuration/fiche-encadrement/{annee}/{fiche_encadrement}', [AnneeUniversitaireController::class, 'telecharger_fiche_encadrement'])->name('telecharger_fiche_encadrement');
+        Route::get('configuration/attrayant/{annee}/{attrayant}', [AnneeUniversitaireController::class, 'telecharger_attrayant'])->name('telecharger_attrayant');
+        Route::get('configuration/grille-evaluation-licence/{annee}/{grille_evaluation_licence}', [AnneeUniversitaireController::class, 'telecharger_grille_licence'])->name('telecharger_grille_licence');
+        Route::get('configuration/grille-evaluation-info/{annee}/{grille_evaluation_info}', [AnneeUniversitaireController::class, 'telecharger_grille_info'])->name('telecharger_grille_info');
+        Route::get('configuration/grille-evaluation-master/{annee}/{grille_evaluation_master}', [AnneeUniversitaireController::class, 'telecharger_grille_master'])->name('telecharger_grille_master');
+        Route::get('configuration/pv-individuel/{annee}/{pv_individuel}', [AnneeUniversitaireController::class, 'telecharger_pv_individuel'])->name('telecharger_pv_individuel');
+        Route::get('configuration/pv-global/{annee}/{pv_global}', [AnneeUniversitaireController::class, 'telecharger_pv_global'])->name('telecharger_pv_global');
 
     });
     //--------------------------------------------------------------------------------------------
