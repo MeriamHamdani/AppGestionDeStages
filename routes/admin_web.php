@@ -167,7 +167,7 @@ Route::middleware(['auth', 'role:admin|superadmin', 'clearClasse'])->group(funct
 
         Route::view('paiement/details-paiement-ens', 'admin.paiement.details_paiement_ens')->name('details_paiement_ens');
         Route::get('paiement/details/{id}', [EnseignantController::class, 'getDetails'])->name('getDetails');
-        Route::post('paiement/details-paie/telecharger-attrayant', [EnseignantController::class, 'telecharger_attrayant'])->name('telecharger_attrayant');
+        Route::post('paiement/details-paie/telecharger-attrayant', [EnseignantController::class, 'telecharger_attrayant_ens'])->name('telecharger_attrayant_ens');
 
 
         //-----------------------------------------CONFIGURATION---------------------------------

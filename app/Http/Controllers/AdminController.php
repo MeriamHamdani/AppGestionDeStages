@@ -166,8 +166,6 @@ class AdminController extends Controller
         $admin->update();
         return redirect()->action([AdminController::class,'index']);
 
-
-
     }
     /**
      * Show the form for editing the specified resource.
@@ -196,7 +194,7 @@ class AdminController extends Controller
         //dd($attributs);
         //dd($admin);
         $admin->update($attributs);
-        return redirect()->action([AdminController::class,'editProfil']);
+        return redirect()->action([DashboardController::class,'index']);
     }
 
 

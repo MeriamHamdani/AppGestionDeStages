@@ -267,7 +267,7 @@ class EnseignantController extends Controller
         exit;
     }
 
-    public function telecharger_attrayant(Request $request)
+    public function telecharger_attrayant_ens(Request $request)
 
     {
         $enseignant = Enseignant::findOrFail($request->enseignant);

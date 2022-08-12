@@ -122,7 +122,7 @@
                 </div>
             </div>
 
-            <div class="col-xl-12 des-xl-50 yearly-growth-sec">
+         <!--   <div class="col-xl-12 des-xl-50 yearly-growth-sec">
                 <div class="card">
                     <div class="card-header">
                         <div class="header-top d-sm-flex justify-content-between align-items-center">
@@ -185,7 +185,7 @@
                         </div>
                     </div>
                 </div>
-            </div>
+            </div> -->
         </div>
     </div>
 

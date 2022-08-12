@@ -837,7 +837,8 @@ class StageController extends Controller
         $classe = Classe::findOrFail($etudiant->classe_id);
         $typeStage = TypeStage::findOrFail($classe->type_stage_id);
         $fiche_demande = $typeStage->fiche_demande;
-        $fiche_demande_name = substr($fiche_demande, 15);
+        //$fiche_demande_name = substr($fiche_demande, 15);
+        $fiche_demande_name = Str::afterLast($fiche_demande, '/');
         $file_path = public_path() . '/storage/'  . $fiche_demande;
         if (file_exists($file_path)) {
             return Response::download($file_path, $fiche_demande_name);

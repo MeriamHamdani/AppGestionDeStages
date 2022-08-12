@@ -49,7 +49,7 @@
                                                     <button class="btn-close" type="button" data-bs-dismiss="modal"
                                                             aria-label="Close"></button>
                                                 </div>
-                                                <form action="{{route('telecharger_attrayant')}}" method="POST">
+                                                <form action="{{route('telecharger_attrayant_ens')}}" method="POST">
                                                 @csrf
                                                     <div class="modal-body">
                                                         <div class="card-body">

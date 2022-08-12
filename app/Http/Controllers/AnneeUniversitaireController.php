@@ -275,12 +275,14 @@ class AnneeUniversitaireController extends Controller
     {
         $etablissement = Etablissement::all()->first()->nom;
         $file_path = public_path() . '/storage/'.$etablissement.'-'.$annee->annee.'/fiches_modèles/' . $attrayant;
+        //dd($file_path,file_exists($file_path));
         if (file_exists($file_path)) {
             return Response::download($file_path, $attrayant);
         } else {
             exit('attrayant inexistant !');
         }
     }
+
 
     public function telecharger_grille_licence(AnneeUniversitaire $annee,string $grille_evaluation_licence)
     {

@@ -151,7 +151,7 @@ class TypeStageController extends Controller
 
         $fiche_demande = $request->fiche_demande;
         $fiche_demande2 = 'fiches_demande/' . $fiche_demande;
-        $file_path = public_path() . '/storage/' . $fiche_demande2; dd($fiche_demande2,$file_path);
+        $file_path = public_path() . '/storage/' . $fiche_demande2; //dd($fiche_demande2,$file_path);
 
         if (file_exists($file_path)) {
             return Response::download($file_path, $fiche_demande);

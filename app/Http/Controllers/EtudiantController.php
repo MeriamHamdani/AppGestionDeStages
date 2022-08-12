@@ -217,7 +217,7 @@ class EtudiantController extends Controller
             'email' => ['required', 'email', 'max:255', Rule::unique('etudiants', 'email')->ignore($etudiant->id)]
         ]);
         $etudiant->update($attributs);
-        return redirect()->action([EtudiantController::class, 'editProfil']);
+        return redirect()->action([EtudiantController::class, 'mes_demandes_stages']);
     }
 
 
