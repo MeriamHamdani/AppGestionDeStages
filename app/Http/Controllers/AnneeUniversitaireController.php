@@ -2,15 +2,17 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Etablissement;
 use App\Models\TypeStage;
 use Illuminate\Support\Str;
-use Response;
+
 use Illuminate\Http\Request;
 use Illuminate\Support\Carbon;
 use PhpOffice\PhpWord\PhpWord;
 use App\Models\AnneeUniversitaire;
 use Illuminate\Support\Facades\Session;
 use Illuminate\Support\Facades\Storage;
+use Illuminate\Support\Facades\Response;
 use PhpOffice\PhpWord\TemplateProcessor;
 use Illuminate\Validation\ValidationException;
 
@@ -46,7 +48,7 @@ class AnneeUniversitaireController extends Controller
      */
     public function store(Request $request)
     {
-        $attributs = $request->validate(
+       /*$request->validate(
             [
                 'annee' => 'required',
                 'lettre_affectation' => ['required', 'mimes:docx'],
@@ -58,26 +60,31 @@ class AnneeUniversitaireController extends Controller
                 'pv_individuel' => ['required', 'mimes:docx'],
                 'pv_global' => ['required', 'mimes:docx'],
             ]
-        );
-        if ($this->current_annee_univ() == $request->annee) {
+        );*/
+       if ($this->current_annee_univ() == $request->annee) {
             $an_exist = AnneeUniversitaire::where('annee', $request->annee)->first();
+            $etablissement = Etablissement::all()->first()->nom;
+              $path=$etablissement.'-'.$request->annee.'/fiches_modèles';
+
             if (!$an_exist) {
                 $lettre_affectation = Storage::disk('public')
-                    ->putFileAs('models_lettre_affectation', $request->file('lettre_affectation'), 'model_lettre_affectation_' . $request->annee . '.docx');
+                    ->putFileAs($path, $request->file('lettre_affectation'), 'modèle_lettre_affectation'. '.docx');
                 $fiche_encadrement = Storage::disk('public')
-                    ->putFileAs('models_fiche_encadrement', $request->file('fiche_encadrement'), 'model_fiche_encadrement_' . $request->annee . '.docx');
+                    ->putFileAs($path, $request->file('fiche_encadrement'), 'modèle_fiche_encadrement' . '.docx');
                 $attrayant = Storage::disk('public')
-                    ->putFileAs('model_attrayant', $request->file('attrayant'), 'model_attrayant_' . $request->annee . '.docx');
+                    ->putFileAs($path, $request->file('attrayant'), 'modèle_attrayant' . '.docx');
                 $grille_evaluation_licence = Storage::disk('public')
-                    ->putFileAs('models_grilles_evaluations', $request->file('grille_evaluation_licence'), 'model_grille_evaluation_licence_' . $request->annee . '.docx');
+                    ->putFileAs($path.'\modèles_grilles_évaluations', $request->file('grille_evaluation_licence'), 'modèle_grille_évaluation_licence' . '.docx');
+                //$grille_evaluation_licence = Storage::disk('public')
+                  //  ->putFileAs('models_grilles_evaluations', $request->file('grille_evaluation_licence'), 'model_grille_evaluation_licence_' . $request->annee . '.docx');
                 $grille_evaluation_info = Storage::disk('public')
-                    ->putFileAs('models_grilles_evaluations', $request->file('grille_evaluation_info'), 'model_grille_evaluation_info_' . $request->annee . '.docx');
+                    ->putFileAs($path.'\modèles_grilles_évaluations', $request->file('grille_evaluation_info'), 'modèle_grille_évaluation_info' . '.docx');
                 $grille_evaluation_master = Storage::disk('public')
-                    ->putFileAs('models_grilles_evaluations', $request->file('grille_evaluation_master'), 'model_grille_evaluation_master_' . $request->annee . '.docx');
+                    ->putFileAs($path.'\modèles_grilles_évaluations', $request->file('grille_evaluation_master'), 'modèle_grille_évaluation_master' . '.docx');
                 $pv_individuel = Storage::disk('public')
-                    ->putFileAs('models_pvs', $request->file('pv_individuel'), 'model_pv_individuel_' . $request->annee . '.docx');
+                    ->putFileAs($path.'\models_pvs', $request->file('pv_individuel'), 'modèle_pv_individuel'  . '.docx');
                 $pv_global = Storage::disk('public')
-                    ->putFileAs('models_pvs', $request->file('pv_global'), 'model_pv_global_' . $request->annee . '.docx');
+                    ->putFileAs($path.'\models_pvs', $request->file('pv_global'), 'modèle_pv_global'. '.docx');
                 $annee = new AnneeUniversitaire();
                 $annee->annee = $request->annee;
                 $annee->lettre_affectation = $lettre_affectation;
@@ -97,12 +104,12 @@ class AnneeUniversitaireController extends Controller
                 }
                 $annee->save();
                 return redirect()->action([AnneeUniversitaireController::class, 'index']);
-            } else
-                Session::flash("message", 'error exist');
-        } else {
-            Session::flash("message", 'error');
-            return view('admin.configuration.config_annee_universitaire');
-        }
+                } else
+                     Session::flash("message", 'error exist');
+           } else {
+                 Session::flash("message", 'error');
+                 return view('admin.configuration.config_annee_universitaire');
+             }
     }
 
     static function current_annee_univ()
@@ -118,17 +125,6 @@ class AnneeUniversitaireController extends Controller
         return $annee;
 
 
-    }
-
-    /**
-     * Display the specified resource.
-     *
-     * @param \App\Models\AnneeUniversitaire $anneeUniversitaire
-     * @return \Illuminate\Http\Response
-     */
-    public function show(AnneeUniversitaire $anneeUniversitaire)
-    {
-        //
     }
 
     /**
@@ -151,7 +147,7 @@ class AnneeUniversitaireController extends Controller
      */
     public function update(Request $request, AnneeUniversitaire $anneeUniversitaire)
     {
-        $attributs = $request->validate(
+        $request->validate(
             [
                 'lettre_affectation' => ['mimes:docx'],
                 'fiche_encadrement' => ['mimes:docx'],
@@ -164,45 +160,47 @@ class AnneeUniversitaireController extends Controller
             ]
         );
         $annee = $this->current_annee_univ();
+        $etablissement = Etablissement::all()->first()->nom;
+        $path=$etablissement.'-'.$request->annee.'/fiches_modèles';
         if (isset($request->lettre_affectation)) {
             $anneeUniversitaire->lettre_affectation = Storage::disk('public')
-                ->putFileAs('models_lettre_affectation', $request->file('lettre_affectation'), 'model_lettre_affectation_' . $annee . '.docx');
+                ->putFileAs($path, $request->file('lettre_affectation'), 'modèle_lettre_affectation'. '.docx');
             $anneeUniversitaire->update();
         }
         if (isset($request->fiche_encadrement)) {
             $anneeUniversitaire->fiche_encadrement = Storage::disk('public')
-                ->putFileAs('models_fiche_encadrement', $request->file('fiche_encadrement'), 'model_fiche_encadrement_' . $annee . '.docx');
+                ->putFileAs($path, $request->file('fiche_encadrement'), 'modèle_fiche_encadrement' . '.docx');
             $anneeUniversitaire->update();
         }
         if (isset($request->attrayant)) {
             $anneeUniversitaire->attrayant = Storage::disk('public')
-                ->putFileAs('model_attrayant', $request->file('attrayant'), 'model_attrayant_' . $annee . '.docx');
+                ->putFileAs($path, $request->file('attrayant'), 'modèle_attrayant' . '.docx');
             $anneeUniversitaire->update();
         }
         if (isset($request->grille_evaluation_licence)) {
             $anneeUniversitaire->grille_evaluation_licence = Storage::disk('public')
-                ->putFileAs('models_grilles_evaluations', $request->file('grille_evaluation_licence'), 'model_grille_evaluation_licence_' . $annee . '.docx');
+                ->putFileAs($path.'\modèles_grilles_évaluations', $request->file('grille_evaluation_licence'), 'modèle_grille_évaluation_licence' . '.docx');
             $anneeUniversitaire->update();
         }
         if (isset($request->grille_evaluation_info)) {
             $anneeUniversitaire->grille_evaluation_info = Storage::disk('public')
-                ->putFileAs('models_grilles_evaluations', $request->file('grille_evaluation_info'), 'model_grille_evaluation_info_' . $annee . '.docx');
+                ->putFileAs($path.'\modèles_grilles_évaluations', $request->file('grille_evaluation_info'), 'modèle_grille_évaluation_info' . '.docx');
             $anneeUniversitaire->update();
         }
         if (isset($request->grille_evaluation_master)) {
             $anneeUniversitaire->grille_evaluation_master = Storage::disk('public')
-                ->putFileAs('models_grilles_evaluations', $request->file('grille_evaluation_master'), 'model_grille_evaluation_master_' . $annee . '.docx');
+                ->putFileAs($path.'\modèles_grilles_évaluations', $request->file('grille_evaluation_master'), 'modèle_grille_évaluation_master' . '.docx');
             $anneeUniversitaire->update();
         }
         if (isset($request->pv_individuel)) {
             $anneeUniversitaire->pv_individuel = Storage::disk('public')
-                ->putFileAs('models_pvs', $request->file('pv_individuel'), 'model_pv_individuel_' . $annee . '.docx');
+                ->putFileAs($path.'\models_pvs', $request->file('pv_individuel'), 'modèle_pv_individuel'  . '.docx');
             //dd($anneeUniversitaire->pv_individuel);
             $anneeUniversitaire->update();
         }
         if (isset($request->pv_global)) {
             $anneeUniversitaire->pv_global = Storage::disk('public')
-                ->putFileAs('models_pvs', $request->file('pv_global'), 'model_pv_global_' . $annee . '.docx');
+                ->putFileAs($path.'\models_pvs', $request->file('pv_global'), 'modèle_pv_global'. '.docx');
             $anneeUniversitaire->update();
         }
         Session::flash('message', 'updateAU');
@@ -220,9 +218,15 @@ class AnneeUniversitaireController extends Controller
         //
     }
 
-    public function telecharger_lettre_affectation(string $lettre_affectation)
+    public function telecharger_lettre_affectation(string $lettre_affectation, AnneeUniversitaire $annee)
     {
-        $file_path = public_path() . '/storage/models_lettre_affectation' . '/' . $lettre_affectation;
+        $etablissement = Etablissement::all()->first()->nom;
+        //$path=$etablissement.'-'.$annee->annee.'/fiches_modèles';
+        $file_path = public_path() . '/storage/'.$etablissement.'-'.$annee->annee.'/fiches_modèles/' . $lettre_affectation;
+        dd(file_exists($file_path));
+        //$file_path =  public_path() . '/storage/'.$path  . $lettre_affectation;
+         //$file_path =   public_path() . '/storage/'. $annee->lettre_affectation;
+       // $file_path = public_path() . '/storage/models_lettre_affectation' . '/' . $lettre_affectation;
         if (file_exists($file_path)) {
             return Response::download($file_path, $lettre_affectation);
         } else {

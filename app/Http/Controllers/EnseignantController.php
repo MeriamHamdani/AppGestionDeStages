@@ -12,6 +12,7 @@ use App\Models\Etudiant;
 use App\Models\TypeStage;
 use App\Models\Enseignant;
 use Illuminate\Database\Eloquent\Collection;
+use Illuminate\Support\Facades\File;
 use Illuminate\Support\Facades\Response;
 use Illuminate\Http\Request;
 use App\Models\Etablissement;
@@ -124,17 +125,6 @@ class EnseignantController extends Controller
             Session::flash('message', 'ko');
         }
         return redirect()->action([EnseignantController::class, 'index']);
-    }
-
-    /**
-     * Display the specified resource.
-     *
-     * @param \App\Models\Enseignant $enseignant
-     * @return \Illuminate\Http\Response
-     */
-    public function show(Enseignant $enseignant)
-    {
-        //
     }
 
     /**
@@ -285,6 +275,7 @@ class EnseignantController extends Controller
             ->where('confirmation_admin', 1)
             ->where('confirmation_encadrant', 1)
             ->get(); //dd($stages_actifs);
+        $etablissement = Etablissement::all()->first()->nom;
         $stgLic = new Collection();
         $stgMas = new Collection();
         foreach($stages_actifs as $stg) {
@@ -297,11 +288,10 @@ class EnseignantController extends Controller
             }
         }//dd($stgLic,$stgMas);
         $annee = StageController::current_annee_univ();
-        $file_path = public_path() . '\storage\ ' . $annee->attrayant;//dd($file_path);
-        $file_path = str_replace(' ', '', $file_path);//dd($file_path);
-        $file_path = str_replace('/', '\\', $file_path);//dd($file_path);
+        $file_path = public_path() . '/storage/' . $annee->attrayant;//dd($file_path);
+        /*$file_path = str_replace(' ', '', $file_path);//dd($file_path);
+        $file_path = str_replace('/', '\\', $file_path);//dd($file_path);**/
         $templateProcessor = new TemplateProcessor($file_path);
-        //
         $templateProcessor->setValue('anne_univ', $annee->annee);
         $templateProcessor->setValue('nom_pren', ucwords($enseignant->nom) . ' ' . ucwords($enseignant->prenom));//dd($templateProcessor->getVariables());
         $templateProcessor->setValue('cin', $enseignant->user->numero_CIN);
@@ -377,15 +367,15 @@ class EnseignantController extends Controller
         // Get only table xml code
         $tablexml2 = preg_replace('/^[\s\S]*(<w:tbl\b.*<\/w:tbl>).*/', '$1', $fullxml2);
         $templateProcessor->setValue('table2', $tablexml2);
-
-        //$templateProcessor = Storage::disk('public')
-                  // ->putFileAs('attrayants_' . $annee->annee ,$file_path, 'attrayant_' . $enseignant->nom .'_'.  $enseignant->prenom . '.docx');
-        $templateProcessor->saveAs(public_path() . '\storage\attrayants_' . $annee->annee . '\attrayant_' . $enseignant->nom .'_'.  $enseignant->prenom . '.docx');
-        $file_path2 = public_path('\storage\attrayants_' . $annee->annee . '\attrayant_' .$enseignant->nom .'_'. $enseignant->prenom . '.docx');
-        //dd($file_path2);
+        $path= public_path() . '/storage/'.$etablissement.'-'.$annee->annee.'/fiches_suivi_stages/fiches_soutenances/attrayants';
+        if (!File::isDirectory($path)) {
+            File::makeDirectory($path, 0777, true, true);
+        }
+        $templateProcessor->saveAs($path. '\attrayant_' . $enseignant->nom .'-'.  $enseignant->prenom . '.docx');
+        $file_path2 = $path. '\attrayant_' . $enseignant->nom .'-'.  $enseignant->prenom . '.docx';
         if (file_exists($file_path2)) {
             Session::flash('message', 'download_OK');
-            return Response::download($file_path2, 'attrayant_'.$enseignant->nom .'_'. $enseignant->prenom .'.docx');
+            return Response::download($file_path2, 'attrayant_'.$enseignant->nom .'-'. $enseignant->prenom .'.docx');
         } else {
             Session::flash('message', 'attrayant_introuvable');
             exit('Pas d\'attrayant!');

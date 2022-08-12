@@ -55,10 +55,11 @@
                                 <tr>
                                     <td class="text-center">{{$annee->annee}}</td>
                                     <td class="text-center">
-                                        <a href="{{ route('telecharger_lettre_affectation',Str::after($annee->lettre_affectation, '/')) }}"
+                                        <a href="{{ route('telecharger_lettre_affectation',['lettre_affectation'=>Str::afterLast($annee->lettre_affectation, '/'),'annee'=>$annee]) }}"
                                                                 data-toggle="tooltip" title="Télécharger le model de la lettre d'affectation">
                                             <i style="font-size: 2em;color:#bf9168" class="icofont icofont-file-word icon-large"></i>
                                         </a></td>
+                                    <!--dd(public_path() . '/storage/'. $annee->lettre_affectation)-->
                                     <td class="text-center"> <a href="{{ route('telecharger_fiche_encadrement',Str::after($annee->fiche_encadrement, '/')) }}"
                                                                 data-toggle="tooltip" title="Télécharger le model de la fiche d'encadrement">
                                             <i style="font-size: 2em;color:#bf9168" class="icofont icofont-file-word icon-large"></i></i>

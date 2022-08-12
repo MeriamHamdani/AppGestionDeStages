@@ -89,7 +89,7 @@
                                     <th>Confirmation de l'encadrant</th>
                                     <th>Actions</th>
                                 </tr>
-                            </thead>
+                            </thead> <!--dd(App\Models\DepotMemoire::find(5)->memoire)-->
                             <tbody>
                             @foreach($demandesDepotC as $demande)
                                 <tr>
@@ -119,24 +119,24 @@
                                     @endif
                                     <td class="text-center">
                                         <a href="{{route('telecharger_memoire_adm',['memoire'=>$demande->memoire,
-                                                                                'code_classe'=>$demande->stage->etudiant->classe->code])}}" data-toggle="tooltip"
+                                                                                'code_classe'=>$demande->stage->etudiant->classe->code,'stage'=>$demande->stage])}}" data-toggle="tooltip"
                                             data-original-title="Télécharger le mémoire" title="Télécharger le mémoire">
                                             <i class="icofont icofont-papers icon-large" style="color: #8a6d3b"></i></a>
                                         <a href="{{route('telecharger_fiche_plagiat',['fiche_plagiat'=>$demande->fiche_plagiat,
-                                                                                'code_classe'=>$demande->stage->etudiant->classe->code])}}" data-toggle="tooltip"
+                                                                                'code_classe'=>$demande->stage->etudiant->classe->code,'stage'=>$demande->stage])}}" data-toggle="tooltip"
                                            data-original-title="Télécharger le fiche plagiat" title="Télécharger le fiche plagiat">
                                             <i class="icofont icofont-paper icon-large" style="color: #8a6d3b"></i></a>
                                         <a href="{{route('telecharger_fiche_biblio',['fiche_biblio'=>$demande->fiche_biblio,
-                                                                                'code_classe'=>$demande->stage->etudiant->classe->code])}}" data-toggle="tooltip"
+                                                                                'code_classe'=>$demande->stage->etudiant->classe->code,'stage'=>$demande->stage])}}" data-toggle="tooltip"
                                            data-original-title="Télécharger le fiche biblio" title="Télécharger le fiche biblio">
                                             <i class="icofont icofont-file-text icon-large" style="color: #8a6d3b"></i></a> <br>
                                         @if(isset($demande->attestation) && isset($demande->fiche_tech))
                                             <a href="{{route('telecharger_fiche_tech',['fiche_tech'=>$demande->fiche_tech,
-                                                                                'code_classe'=>$demande->stage->etudiant->classe->code])}}" data-toggle="tooltip"
+                                                                                'code_classe'=>$demande->stage->etudiant->classe->code,'stage'=>$demande->stage])}}" data-toggle="tooltip"
                                                data-original-title="Télécharger le fiche technique" title="Télécharger le fiche technique">
                                                 <i class="icofont icofont-ui-copy icon-large" style="color: #8a6d3b"></i></a>
                                             <a href="{{route('telecharger_attestation',['attestation'=>$demande->attestation,
-                                                                                'code_classe'=>$demande->stage->etudiant->classe->code])}}" data-toggle="tooltip"
+                                                                                'code_classe'=>$demande->stage->etudiant->classe->code,'stage'=>$demande->stage])}}" data-toggle="tooltip"
                                                data-original-title="Télécharger l'attestation" title="Télécharger l'attestation">
                                                 <i class="icofont icofont-ui-file icon-large" style="color: #8a6d3b"></i></a><br>
                                         @endif

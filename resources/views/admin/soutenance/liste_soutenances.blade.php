@@ -63,9 +63,6 @@
                                                         <div class="mb-2">
                                                             <select class="js-example-basic-single col-sm-12"
                                                                     id="classe_id" name="classe_id" required>
-                                                                <option disabled="disabled" selected="selected">
-                                                                    Sélectionnez la classe-spécialité
-                                                                </option>
                                                                 @foreach($classes as $classe)
                                                                     <option value="{{ $classe->id }}" {{
                                                                 old('classe_id')==$classe->id ? 'selected' :

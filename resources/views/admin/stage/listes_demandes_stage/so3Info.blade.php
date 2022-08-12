@@ -57,21 +57,21 @@
                                         </td>
                                         <td class="text-center">
                                             @if(isset($stage->fiche_demande))
-                                                <a href="{{ route('telechargement_fiche_demande',['fiche_demande'=>$stage->file,'code_classe'=>$stage->code_classe]) }}">
+                                                <a href="{{ route('telecharger_fiche_demande',['fiche_demande'=>$stage->file,'code_classe'=>$stage->code_classe,'stage'=>$stage]) }}">
                                                     <i class="icofont icofont-papers icon-large"
                                                        style="color:#bf9168 "></i>
                                                 </a>
                                             @endif
                                             @if(isset($stage->fiche_2Dinars))
                                                 <a href="{{route('telecharger_fiche_2Dinars',['fiche_2Dinars'=>Str::after($stage->fiche_2Dinars, '/'),
-                                                                                'code_classe'=>$stage->etudiant->classe->code])}}"
+                                                                                'code_classe'=>$stage->etudiant->classe->code,'stage'=>$stage])}}"
                                                    data-toggle="tooltip" title="Télécharger la fiche 2 dinars">
                                                     <i class="icofont icofont-ui-copy icon-large"
                                                        style="color: #8a6d3b"></i></a>
                                             @endif
                                             @if(isset($stage->fiche_assurance))
                                                 <a href="{{route('telecharger_fiche_assurance',['fiche_assurance'=>Str::after($stage->fiche_assurance, '/'),
-                                                                                'code_classe'=>$stage->etudiant->classe->code])}}"
+                                                                                'code_classe'=>$stage->etudiant->classe->code,'stage'=>$stage])}}"
                                                    data-toggle="tooltip" title="Télécharger la fiche assurance">
                                                     <i class="icofont icofont-paper icon-large"
                                                        style="color: #8a6d3b"></i></a>

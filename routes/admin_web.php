@@ -63,8 +63,9 @@ Route::middleware(['auth', 'role:admin|superadmin', 'clearClasse'])->group(funct
             Route::patch('modifier/{stage_id}', [StageController::class, 'edit'])->name('edit');
             Route::get('confirmer/{stage_id}', [StageController::class, 'confirmer_demande'])->name('confirmer_demande');
             Route::get('refuser/{stage_id}', [StageController::class, 'refuser_demande'])->name('refuser_demande');
-            Route::get('fiche2Dinars/{fiche_2Dinars}/{code_classe}', [StageController::class, 'telecharger_fiche_2Dinars'])->where('fiche_2Dinars', '[A-Za-z0-9\-\_\.]+')->name('telecharger_fiche_2Dinars');
-            Route::get('ficheAssurance/{fiche_assurance}/{code_classe}', [StageController::class, 'telecharger_fiche_assurance'])->where('fiche_assurance', '[A-Za-z0-9\-\_\.]+')->name('telecharger_fiche_assurance');
+            Route::get('ficheDemande/{stage}/{fiche_demande}/{code_classe}',[StageController::class, 'telecharger_fiche_demande'])->where('fiche_demande', '[A-Za-z0-9\-\_\.]+')->name('telecharger_fiche_demande');
+            Route::get('fiche2Dinars/{stage}/{fiche_2Dinars}/{code_classe}', [StageController::class, 'telecharger_fiche_2Dinars'])->where('fiche_2Dinars', '[A-Za-z0-9\-\_\.]+')->name('telecharger_fiche_2Dinars');
+            Route::get('ficheAssurance/{stage}/{fiche_assurance}/{code_classe}', [StageController::class, 'telecharger_fiche_assurance'])->where('fiche_assurance', '[A-Za-z0-9\-\_\.]+')->name('telecharger_fiche_assurance');
         });
         Route::get('stage/gerer-cahiers-stages', [CahierStageController::class, 'all_cahier_stage'])->name('gerer_cahiers_stages');
         Route::get('stage/cahier-stage/{cahier}', [CahierStageController::class, 'show'])->name('cahier_de_stage');
@@ -138,11 +139,11 @@ Route::middleware(['auth', 'role:admin|superadmin', 'clearClasse'])->group(funct
 
         Route::get('/depot/gerer-depots', [DepotMemoireController::class, 'liste_demandes_depot_admin'])->name('demande_depots');
         Route::get('/depot/gerer-depots/{demande_depot}/valider_depot', [DepotMemoireController::class, 'valider_par_admin'])->name('valider_par_admin');
-        Route::get('/depot/gerer-depots/memoire/{memoire}/{code_classe}', [DepotMemoireController::class, 'telecharger_memoire'])->where('memoire', '[A-Za-z0-9\-\_\.]+')->name('telecharger_memoire_adm');
-        Route::get('/depot/gerer-depots/fiche_plagiat/{fiche_plagiat}/{code_classe}', [DepotMemoireController::class, 'telecharger_fiche_plagiat'])->where('fiche_plagiat', '[A-Za-z0-9\-\_\.]+')->name('telecharger_fiche_plagiat');
-        Route::get('/depot/gerer-depots/fiche_biblio/{fiche_biblio}/{code_classe}', [DepotMemoireController::class, 'telecharger_fiche_biblio'])->where('fiche_biblio', '[A-Za-z0-9\-\_\.]+')->name('telecharger_fiche_biblio');
-        Route::get('/depot/gerer-depots/fiche_tech/{fiche_tech}/{code_classe}', [DepotMemoireController::class, 'telecharger_fiche_tech'])->where('fiche_tech', '[A-Za-z0-9\-\_\.]+')->name('telecharger_fiche_tech');
-        Route::get('/depot/gerer-depots/attestation/{attestation}/{code_classe}', [DepotMemoireController::class, 'telecharger_attestation'])->where('attestation', '[A-Za-z0-9\-\_\.]+')->name('telecharger_attestation');
+        Route::get('/depot/gerer-depots/memoire/{stage}/{memoire}/{code_classe}', [DepotMemoireController::class, 'telecharger_memoire'])->where('memoire', '[A-Za-z0-9\-\_\.]+')->name('telecharger_memoire_adm');
+        Route::get('/depot/gerer-depots/fiche_plagiat/{stage}/{fiche_plagiat}/{code_classe}', [DepotMemoireController::class, 'telecharger_fiche_plagiat'])->where('fiche_plagiat', '[A-Za-z0-9\-\_\.]+')->name('telecharger_fiche_plagiat');
+        Route::get('/depot/gerer-depots/fiche_biblio/{stage}/{fiche_biblio}/{code_classe}', [DepotMemoireController::class, 'telecharger_fiche_biblio'])->where('fiche_biblio', '[A-Za-z0-9\-\_\.]+')->name('telecharger_fiche_biblio');
+        Route::get('/depot/gerer-depots/fiche_tech/{stage}/{fiche_tech}/{code_classe}', [DepotMemoireController::class, 'telecharger_fiche_tech'])->where('fiche_tech', '[A-Za-z0-9\-\_\.]+')->name('telecharger_fiche_tech');
+        Route::get('/depot/gerer-depots/attestation/{stage}/{attestation}/{code_classe}', [DepotMemoireController::class, 'telecharger_attestation'])->where('attestation', '[A-Za-z0-9\-\_\.]+')->name('telecharger_attestation');
         Route::post('s/depot/gerer-depots/exporter-liste',[DepotMemoireController::class,'exporter_liste_depots'])->name('exporter_liste_depots');
 
 
@@ -205,25 +206,13 @@ Route::middleware(['auth', 'role:admin|superadmin', 'clearClasse'])->group(funct
         Route::post('configuration/ajouter-annee-universitaire', [AnneeUniversitaireController::class, 'store'])->name('ajouter_annee_universitaire');
         Route::get('configuration/modifier-annee-universitaire/{anneeUniversitaire}', [AnneeUniversitaireController::class, 'edit'])->name('modifier_annee_universitaire');
         Route::patch('configuration/modifier-annee-universitaire/{anneeUniversitaire}', [AnneeUniversitaireController::class, 'update'])->name('update_annee_universitaire');
-        Route::get('configuration/lettre-affectation/{lettre_affectation}', [AnneeUniversitaireController::class, 'telecharger_lettre_affectation'])->where('lettre_affectation', '[A-Za-z0-9\-\_\.]+')->name('telecharger_lettre_affectation');
+        Route::get('configuration/lettre-affectation/{lettre_affectation}/{annee}', [AnneeUniversitaireController::class, 'telecharger_lettre_affectation'])->where('lettre_affectation', '[A-Za-z0-9\-\_\.]+')->name('telecharger_lettre_affectation');
         Route::get('configuration/fiche-encadrement/{fiche_encadrement}', [AnneeUniversitaireController::class, 'telecharger_fiche_encadrement'])->where('fiche_encadrement', '[A-Za-z0-9\-\_\.]+')->name('telecharger_fiche_encadrement');
         Route::get('configuration/grille-evaluation-licence/{grille_evaluation_licence}', [AnneeUniversitaireController::class, 'telecharger_grille_licence'])->where('grille_evaluation_licence', '[A-Za-z0-9\-\_\.]+')->name('telecharger_grille_licence');
         Route::get('configuration/grille-evaluation-info/{grille_evaluation_info}', [AnneeUniversitaireController::class, 'telecharger_grille_info'])->where('grille_evaluation_info', '[A-Za-z0-9\-\_\.]+')->name('telecharger_grille_info');
         Route::get('configuration/grille-evaluation-master/{grille_evaluation_master}', [AnneeUniversitaireController::class, 'telecharger_grille_master'])->where('grille_evaluation_master', '[A-Za-z0-9\-\_\.]+')->name('telecharger_grille_master');
         Route::get('configuration/pv-individuel/{pv_individuel}', [AnneeUniversitaireController::class, 'telecharger_pv_individuel'])->where('pv_individuel', '[A-Za-z0-9\-\_\.]+')->name('telecharger_pv_individuel');
         Route::get('configuration/pv-global/{pv_global}', [AnneeUniversitaireController::class, 'telecharger_pv_global'])->where('pv_global', '[A-Za-z0-9\-\_\.]+')->name('telecharger_pv_global');
-
-        Route::get('{fiche_demande}/{code_classe}', function ($fiche_demande, $code_classe) {
-
-            $file_path = public_path() . '/storage/fiches_demande_' . $code_classe . '/' . $fiche_demande;
-            if (file_exists($file_path)) {
-                return Response::download($file_path, $fiche_demande);
-            } else {
-                //Error
-                exit('fiche de demande introuvable !');
-            }
-        })->where('fiche_demande', '[A-Za-z0-9\-\_\.]+')->name('telechargement_fiche_demande');
-
 
     });
     //--------------------------------------------------------------------------------------------

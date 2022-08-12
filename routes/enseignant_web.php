@@ -33,7 +33,7 @@ Route::middleware(['auth','role:enseignant'])->group(function(){
         Route::view('/encadrement/demandes', 'enseignant.encadrement.demandes')->name('demandes');
 
         Route::get('/depot/traiter-depot', [DepotMemoireController::class,'liste_demandes_depot_enseignant'])->name('depots');
-        Route::get('/depot/memoire/{memoire}/{code_classe}', [DepotMemoireController::class, 'telecharger_memoire'])->where('memoire', '[A-Za-z0-9\-\_\.]+')->name('telecharger_memoire_ens');
+        Route::get('/depot/memoire/{stage}/{memoire}/{code_classe}', [DepotMemoireController::class, 'telecharger_memoire'])->where('memoire', '[A-Za-z0-9\-\_\.]+')->name('telecharger_memoire_ens');
         Route::get('/depot/traiter-depot/details-depot/{demande_depot}',[CommentaireController::class, 'index'])->name('details_depot');
         Route::post('/depot/traiter-depot/details-depot/{demande_depot}/refuser',[CommentaireController::class, 'store'])->name('refuser_depot');
         Route::get('/depot/traiter-depot/details-depot/{demande_depot}/valider',[DepotMemoireController::class, 'valider_par_encadrant'])->name('valider_depot');

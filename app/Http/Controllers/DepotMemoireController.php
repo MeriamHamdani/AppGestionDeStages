@@ -116,6 +116,8 @@ class DepotMemoireController extends Controller
         $etudiant = Etudiant::where('user_id', Auth::user()->id)->latest()->first();
         $nomComplet = ucwords($etudiant->nom) . ucwords($etudiant->prenom);
         //$current_date = Carbon::now()->format('Y-m-d');
+        $etablissement = Etablissement::all()->first()->nom;
+        $anneeUniv = AnneeUniversitaire::findOrFail($stage->annee_universitaire_id)->annee;//dd($annee_univ);
         $current_date = Carbon::now();
         $classe = Classe::findOrFail($etudiant->classe_id);
         $depot_exists = DepotMemoire::where('stage_id', $stage_id)->exists();
@@ -125,20 +127,21 @@ class DepotMemoireController extends Controller
                     if (isset($request->fiche_plagiat)) {
                         $fiche_plagiat_name = 'FichePlagiat_' . $nomComplet . '.' . $request->file('fiche_plagiat')->extension();
                         $path = Storage::disk('public')
-                            ->putFileAs('fiches_plagiats_' . '.' . $classe->code, $request->file('fiche_plagiat'), $fiche_plagiat_name);
+                            //->putFileAs($etablissement.'-'.$anneeUniv.'\fiches_suivi_stages\fiches_demandes_stages\fiches_demandes\fiches_demande_' . $classe->code, $request->file('fiche_demande'), $fiche_demande_name);
+                            ->putFileAs($etablissement.'-'.$anneeUniv.'\fiches_suivi_stages\fiches_depots_memoires\fiches_plagiats\fiches_plagiats_'  . $classe->code, $request->file('fiche_plagiat'), $fiche_plagiat_name);
                         $attributs['fiche_plagiat'] = $path;
                     }
                     if (isset($request->fiche_biblio)) {
                         //dd($request);
                         $fiche_biblio_name = 'FicheBiblio_' . $nomComplet . '.' . $request->file('fiche_biblio')->extension();
                         $path2 = Storage::disk('public')
-                            ->putFileAs('fiches_biblios_' . $classe->code, $request->file('fiche_biblio'), $fiche_biblio_name);
+                            ->putFileAs($etablissement.'-'.$anneeUniv.'\fiches_suivi_stages\fiches_depots_memoires\fiches_biblios\fiches_biblios_'  . $classe->code, $request->file('fiche_biblio'), $fiche_biblio_name);
                         $attributs['fiche_biblio'] = $path2;
                     }
                     if (isset($request->memoire)) {
                         $memoire_name = 'Memoire_' . $nomComplet . '.' . $request->file('memoire')->extension();
                         $path3 = Storage::disk('public')
-                            ->putFileAs('memoires_' . $classe->code, $request->file('memoire'), $memoire_name);
+                            ->putFileAs($etablissement.'-'.$anneeUniv.'\fiches_suivi_stages\fiches_depots_memoires\mémoires\mémoires_'  . $classe->code, $request->file('memoire'), $memoire_name);
                         $attributs['memoire'] = $path3;
                     }
                     $mydate = Carbon::now();
@@ -179,34 +182,34 @@ class DepotMemoireController extends Controller
                             //dd($request);
                             $fiche_tech_name = 'FicheTechnique_' . $nomComplet . '.' . $request->file('fiche_tech')->extension();
                             $path4 = Storage::disk('public')
-                                ->putFileAs('fiches_techniques_' . $classe->code, $request->file('fiche_tech'), $fiche_tech_name);
+                                ->putFileAs($etablissement.'-'.$anneeUniv.'\fiches_suivi_stages\fiches_depots_memoires\fiches_techniques\fiches_techniques_'  . $classe->code, $request->file('fiche_tech'), $fiche_tech_name);
                             $attributs['fiche_tech'] = $path4;
                         }
                         if (isset($request->attestation)) {
                             //dd($request);
                             $attestation_name = 'Attestation_' . $nomComplet . '.' . $request->file('attestation')->extension();
                             $path5 = Storage::disk('public')
-                                ->putFileAs('attestations_' . $classe->code, $request->file('attestation'), $attestation_name);
+                                ->putFileAs($etablissement.'-'.$anneeUniv.'\fiches_suivi_stages\fiches_depots_memoires\attestations\attestations_'  . $classe->code, $request->file('attestation'), $attestation_name);
                             $attributs['attestation'] = $path5;
                         }
                     }
                     if (isset($request->fiche_plagiat)) {
                         $fiche_plagiat_name = 'FichePlagiat_' . $nomComplet . '.' . $request->file('fiche_plagiat')->extension();
                         $path = Storage::disk('public')
-                            ->putFileAs('fiches_plagiats_' . $classe->code, $request->file('fiche_plagiat'), $fiche_plagiat_name);
+                            ->putFileAs($etablissement.'-'.$anneeUniv.'\fiches_suivi_stages\fiches_depots_memoires\fiches_plagiats\fiches_plagiats_'  . $classe->code, $request->file('fiche_plagiat'), $fiche_plagiat_name);
                         $attributs['fiche_plagiat'] = $path;
                     }
                     if (isset($request->fiche_biblio)) {
                         //dd($request);
                         $fiche_biblio_name = 'FicheBiblio_' . $nomComplet . '.' . $request->file('fiche_biblio')->extension();
                         $path2 = Storage::disk('public')
-                            ->putFileAs('fiches_biblios_' . $classe->code, $request->file('fiche_biblio'), $fiche_biblio_name);
+                            ->putFileAs($etablissement.'-'.$anneeUniv.'\fiches_suivi_stages\fiches_depots_memoires\fiches_biblios\fiches_biblios_'  . $classe->code, $request->file('fiche_biblio'), $fiche_biblio_name);
                         $attributs['fiche_biblio'] = $path2;
                     }
                     if (isset($request->memoire)) {
                         $memoire_name = 'Memoire_' . $nomComplet . '.' . $request->file('memoire')->extension();
                         $path3 = Storage::disk('public')
-                            ->putFileAs('memoires_' . $classe->code, $request->file('memoire'), $memoire_name);
+                            ->putFileAs($etablissement.'-'.$anneeUniv.'\fiches_suivi_stages\fiches_depots_memoires\mémoires\mémoires_'  . $classe->code, $request->file('memoire'), $memoire_name);
                         $attributs['memoire'] = $path3;
                     }
                     $mydate = Carbon::now();
@@ -437,9 +440,12 @@ class DepotMemoireController extends Controller
         //
     }
 
-    public function telecharger_memoire(string $memoire, string $code_classe)
+    public function telecharger_memoire(Stage $stage,string $memoire, string $code_classe)
     {
-        $file_path = public_path() . '/storage/memoires_' . $code_classe . '/' . $memoire;
+        $etablissement = Etablissement::all()->first()->nom;
+        $anneeUniv = AnneeUniversitaire::findOrFail($stage->annee_universitaire_id)->annee;
+        $file_path = public_path() . '/storage/'.$etablissement.'-'.$anneeUniv.'/fiches_suivi_stages/fiches_depots_memoires/mémoires/mémoires_' . $code_classe . '/' . $memoire;
+       // dd($file_path,$memoire);
         if (file_exists($file_path)) {
             return Response::download($file_path, $memoire);
         } else {
@@ -447,9 +453,12 @@ class DepotMemoireController extends Controller
         }
     }
 
-    public function telecharger_fiche_plagiat(string $fichePlagiat, string $code_classe)
+    public function telecharger_fiche_plagiat(Stage $stage, string $fichePlagiat, string $code_classe)
     {
-        $file_path = public_path() . '/storage/fiches_plagiats_' . $code_classe . '/' . $fichePlagiat;
+        $etablissement = Etablissement::all()->first()->nom;
+        $anneeUniv = AnneeUniversitaire::findOrFail($stage->annee_universitaire_id)->annee;
+        $file_path = public_path() . '/storage/'.$etablissement.'-'.$anneeUniv.'/fiches_suivi_stages/fiches_depots_memoires/fiches_plagiats/fiches_plagiats_' . $code_classe . '/' . $fichePlagiat;
+        //$file_path = public_path() . '/storage/fiches_plagiats_' . $code_classe . '/' . $fichePlagiat;
         if (file_exists($file_path)) {
             return Response::download($file_path, $fichePlagiat);
         } else {
@@ -457,9 +466,12 @@ class DepotMemoireController extends Controller
         }
     }
 
-    public function telecharger_fiche_biblio(string $ficheBiblio, string $code_classe)
+    public function telecharger_fiche_biblio(Stage $stage,string $ficheBiblio, string $code_classe)
     {
-        $file_path = public_path() . '/storage/fiches_biblios_' . $code_classe . '/' . $ficheBiblio;
+        $etablissement = Etablissement::all()->first()->nom;
+        //$anneeUniv = $this->current_annee_univ()->annee; //dd($annee);
+        $anneeUniv = AnneeUniversitaire::findOrFail($stage->annee_universitaire_id)->annee;
+        $file_path = public_path() .  '/storage/'.$etablissement.'-'.$anneeUniv.'/fiches_suivi_stages/fiches_depots_memoires/fiches_biblios/fiches_biblios_' . $code_classe . '/' . $ficheBiblio;
         if (file_exists($file_path)) {
             return Response::download($file_path, $ficheBiblio);
         } else {
@@ -467,9 +479,12 @@ class DepotMemoireController extends Controller
         }
     }
 
-    public function telecharger_fiche_tech(string $ficheTech, string $code_classe)
+    public function telecharger_fiche_tech(Stage $stage,string $ficheTech, string $code_classe)
     {
-        $file_path = public_path() . '/storage/fiches_techniques_' . $code_classe . '/' . $ficheTech;
+        $etablissement = Etablissement::all()->first()->nom;
+        //$anneeUniv = $this->current_annee_univ()->annee; //dd($annee);
+        $anneeUniv = AnneeUniversitaire::findOrFail($stage->annee_universitaire_id)->annee;
+        $file_path = public_path() .  '/storage/'.$etablissement.'-'.$anneeUniv.'/fiches_suivi_stages/fiches_depots_memoires/fiches_techniques/fiches_techniques_' . $code_classe . '/' . $ficheTech;
         if (file_exists($file_path)) {
             return Response::download($file_path, $ficheTech);
         } else {
@@ -477,9 +492,12 @@ class DepotMemoireController extends Controller
         }
     }
 
-    public function telecharger_attestation(string $attestation, string $code_classe)
+    public function telecharger_attestation(Stage $stage,string $attestation, string $code_classe)
     {
-        $file_path = public_path() . '/storage/attestations_' . $code_classe . '/' . $attestation;
+        $etablissement = Etablissement::all()->first()->nom;
+        //$anneeUniv = $this->current_annee_univ()->annee; //dd($annee);
+        $anneeUniv = AnneeUniversitaire::findOrFail($stage->annee_universitaire_id)->annee;
+        $file_path = public_path() .  '/storage/'.$etablissement.'-'.$anneeUniv.'/fiches_suivi_stages/fiches_depots_memoires/attestations/attestations_' . $code_classe . '/' . $attestation;
         // dd($file_path);
         if (file_exists($file_path)) {
             return Response::download($file_path, $attestation);
