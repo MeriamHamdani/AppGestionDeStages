@@ -84,22 +84,6 @@
                             ['info_soutenance_membre']) ? 'active' : '' }}">
 
 
-                       <!-- <a class="nav-link menu-title link-nav"
-                            href="{{ route('list_soutenances',['pst'=>'president-de-jury']) }}">
-                            <i class="icofont icofont-users-alt-2"></i>&nbsp&nbsp&nbsp<span>En tant que président de
-                                jury
-                            </span></a>
-                    </li>
-                    <li class="dropdown">
-                        <a class="nav-link menu-title link-nav" href={{ route('list_soutenances',['pst'=>'rapporteur'])
-                            }}>
-                            <i class="icofont icofont-users-alt-2"></i>&nbsp&nbsp&nbsp<span>En tant que rapporteur
-                            </span></a>
-                    </li>
-                    <li class="dropdown">
-                        <a class="nav-link menu-title link-nav"
-                            href="{{ route('list_soutenances',['pst'=>'membre-de-jury']) }}"> -->
-
                             <i class="icofont icofont-users-alt-2"></i>&nbsp&nbsp&nbsp<span>En tant que membre de jury
                             </span></a>
                     </li>
@@ -112,7 +96,7 @@
                     </li>
                     <li class="dropdown">
                         <a class="nav-link menu-title link-nav {{ routeActive('liste_stages_a_paye') }}"
-                            href="{{ route('liste_stages_a_paye') }}" >
+                            href="{{ route('liste_stages_a_paye') }}">
                             <i class="icofont icofont-cur-dollar"></i>&nbsp&nbsp&nbsp<span>Stages
                                 et Frais d'encadrement</span></a>
 
