@@ -23,7 +23,7 @@
         <div class="col-sm-12">
             <div class="card">
                 <div class="card-header">
-                    <h5>Mes soutenances en tant qu'encadrant</h5>
+                    <h5>Mes soutenances en tant que président de jury</h5>
                 </div>
                 <div class="card-body">
                     <div class="table-responsive">
@@ -33,31 +33,37 @@
                                     <th>Titre de sujet</th>
                                     <th>Etudiant</th>
                                     <th>Informations sur la soutenance</th>
+                                    <th>Actions</th>
                                 </tr>
                             </thead>
 
                             <tbody>
-                                @foreach ($souts as $sout )
+                                @foreach ($souts as $sout)
                                 <tr>
                                     @php
                                     $stage=App\Models\Stage::find($sout->stage_id);
                                     $etudiant=App\Models\Etudiant::find($stage->etudiant_id);
                                     @endphp
                                     <td>{{ ucwords($stage->titre_sujet) }}</td>
-
                                     <td>{{ucwords($etudiant->nom)}}&nbsp;{{
                                         ucwords($etudiant->prenom) }}</td>
-                                    @php
 
-                                    @endphp
                                     <td><a class="btn btn-primary" href={{ Route('info_soutenance_ens',[$sout->id]) }}
                                             class="{{ routeActive('info_soutenance') }}">
                                             <i class="icofont icofont-hat-alt">
                                                 Infos sur la soutenance
-                                            </i></a></td>
+                                            </i></a>
+                                    </td>
+                                    <td>
+                                        <a href={{ route('telecharger_grille_eval') }}
+                                            data-title="Télécharger la grille d'évaluation" data-toggle="tooltip"
+                                            data-original-title="Télécharger la grille d'évaluation"
+                                            title="Télécharger la grille d'évaluation">
+                                            <i class="icofont icofont-prescription icon-large"
+                                                style="color:#bf9168 "></i></a>
+                                    </td>
                                 </tr>
                                 @endforeach
-
 
                             </tbody>
                             <tfoot>
@@ -65,6 +71,7 @@
                                     <th>Titre de sujet</th>
                                     <th>Etudiant</th>
                                     <th>Informations sur la soutenance</th>
+                                    <th>Actions</th>
                                 </tr>
                             </tfoot>
                         </table>

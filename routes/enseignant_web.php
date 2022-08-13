@@ -1,15 +1,16 @@
 <?php
 
+use App\Models\Soutenance;
+use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\StageController;
+use App\Http\Controllers\EnseignantController;
+use App\Http\Controllers\SoutenanceController;
+use App\Http\Controllers\CahierStageController;
 use App\Http\Controllers\CommentaireController;
 use App\Http\Controllers\DepotMemoireController;
-use App\Http\Controllers\EnseignantController;
 use App\Http\Controllers\PaiementEnseignantController;
-use App\Http\Controllers\StageController;
-use Illuminate\Support\Facades\Route;
-use App\Http\Controllers\CahierStageController;
 
-
-Route::middleware(['auth','role:enseignant'])->group(function(){
+Route::middleware(['auth','role:enseignant|encadrant'])->group(function(){
     Route::prefix('enseignant')->group(function () {
 
         Route::get('profil', [EnseignantController::class,'editProfil'])->name('profil_ens');
@@ -38,10 +39,12 @@ Route::middleware(['auth','role:enseignant'])->group(function(){
         Route::post('/depot/traiter-depot/details-depot/{demande_depot}/refuser',[CommentaireController::class, 'store'])->name('refuser_depot');
         Route::get('/depot/traiter-depot/details-depot/{demande_depot}/valider',[DepotMemoireController::class, 'valider_par_encadrant'])->name('valider_depot');
 
-
+        Route::get('/soutenance/liste-soutenances/{pst}',[SoutenanceController::class,'lister'])->name('list_soutenances');
         Route::view('/soutenance/liste-role-encadrant', 'enseignant.soutenance.role_encadrant')->name('role_encadrant');
         Route::view('/soutenance/liste-role-membre-jury', 'enseignant.soutenance.role_membre_jury')->name('role_membre_jury');
-        Route::view('/soutenance/info', 'enseignant.soutenance.info_soutenance')->name('info_soutenance_ens');
+        Route::get('/soutenance/info/{id}', [SoutenanceController::class,'info_soutenance'])->name('info_soutenance_ens');
         //Route::view('/stage/demande-refuse', 'etudiant.stage.demande_refuse')->name('demande_refuse');
+		Route::get('/soutenance/telechargement-grille-evaluation/{soutenance}',[SoutenanceController::class,'telecharger_grille_eval'])->name('telecharger_grille_eval');
+        Route::get('/soutenance/telechargement-memoire/{stage_id}',[SoutenanceController::class,'telecharger_memoire'])->name('telecharger_memoire');
     });
 });

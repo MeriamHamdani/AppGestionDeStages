@@ -102,8 +102,9 @@ class EnseignantController extends Controller
             $moisCourant = (int)$mydate->format('m');
             if ((6 < $moisCourant) && ($moisCourant < 12)) {
                 $annee = '20' . $mydate->format('y') . '-20' . strval(((int)$mydate->format('y')) + 1);
-            } else
+            } else{
                 $annee = '20' . strval(((int)$mydate->format('y')) - 1) . '-20' . $mydate->format('y');
+            }
             $annees = AnneeUniversitaire::all();
             foreach ($annees as $a) {
                 if ($a->annee == $annee) {
@@ -115,6 +116,7 @@ class EnseignantController extends Controller
             $user = User::create($attributs);
 
             $user->assignRole('enseignant');
+            dd($user->getRoleNames());
             $attributs2['user_id'] = $user->id;
             $enseignant = Enseignant::create($attributs2);
             $user->email = $enseignant->email;

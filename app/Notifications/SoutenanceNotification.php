@@ -2,24 +2,34 @@
 
 namespace App\Notifications;
 
+use App\Models\Etudiant;
+use App\Models\Soutenance;
 use App\Mail\SoutenanceMail;
 use Illuminate\Bus\Queueable;
+use Illuminate\Notifications\Notification;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Notifications\Messages\MailMessage;
-use Illuminate\Notifications\Notification;
 
 class SoutenanceNotification extends Notification
 {
     use Queueable;
-    public $data=[];
+    public Etudiant $etudiant;
+    public Soutenance $soutenance;
+    public String $post;
+    public String $encadrant;
+
     /**
      * Create a new notification instance.
      *
      * @return void
      */
-    public function __construct(Array $data)
+    public function __construct(Soutenance $soutenance,Etudiant $etudiant,String $encadrant,String $post)
     {
-        $this->data=$data;
+        $this->etudiant=$etudiant;
+        $this->soutenance=$soutenance;
+        $this->post=$post;
+        $this->encadrant=$encadrant;
+
     }
 
     /**
@@ -41,7 +51,7 @@ class SoutenanceNotification extends Notification
      */
     public function toMail($notifiable)
     {
-        return (new SoutenanceMail($this->data))
+        return (new SoutenanceMail($this->soutenance,$this->etudiant,$this->encadrant,$this->post,$notifiable))
                     ->to($notifiable->email);
     }
 
@@ -53,6 +63,11 @@ class SoutenanceNotification extends Notification
      */
     public function toArray($notifiable)
     {
-        return $this->data ;
+        return ['encadrant'=>$this->encadrant,
+                'etudiant'=>$this->etudiant->id,
+                'post'=>$this->post,
+                'soutenance'=>$this->soutenance->id,
+                'notifiable'=>$notifiable ] ;
     }
+
 }

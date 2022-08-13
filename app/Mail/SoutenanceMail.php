@@ -2,23 +2,36 @@
 
 namespace App\Mail;
 
+use App\Models\Etudiant;
+use App\Models\Soutenance;
 use Illuminate\Bus\Queueable;
-use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Mail\Mailable;
 use Illuminate\Queue\SerializesModels;
+use Illuminate\Contracts\Queue\ShouldQueue;
 
 class SoutenanceMail extends Mailable
 {
     use Queueable, SerializesModels;
-    public $data=[];
+    public Etudiant $etudiant;
+    public Soutenance $soutenance;
+    public String $post;
+    public String $encadrant;
+    public $notifiable;
+
     /**
      * Create a new message instance.
      *
      * @return void
      */
-    public function __construct(Array $data)
+    public function __construct(Soutenance $soutenance,Etudiant $etudiant,String $encadrant,String $post,$notifiable)
     {
-        $this->data=$data;
+
+        $this->etudiant=$etudiant;
+        $this->soutenance=$soutenance;
+        $this->post=$post;
+        $this->encadrant=$encadrant;
+        $this->notifiable=$notifiable;
+
     }
 
     /**
