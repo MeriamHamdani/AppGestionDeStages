@@ -23,7 +23,7 @@
             <div class="col-sm-12">
                 <div class="card">
                     <div class="card-header">
-                        <h5>Mes soutenances en tant qu'encadrant</h5>
+                        <h5>Mes soutenances en tant qu'Encadrant</h5>
                     </div>
                     <div class="card-body">
                         <div class="table-responsive">
@@ -35,43 +35,26 @@
                                     <th>Informations sur la soutenance</th>
                                 </tr>
                                 </thead>
-
-                                <tbody>
-                                <tr>
-                                    <td>Gavin Joyce</td>
-                                    <td>Developer</td>
-                                    <td><a class="btn btn-primary" href={{ Route('info_soutenance') }}
-                                            class="{{ routeActive('info_soutenance') }}">
-                                            <i class="icofont icofont-hat-alt">
-                                                Infos sur la soutenance
-                                            </i></a></td>
-                                </tr>
-                                <tr>
-                                    <td>Gavin Cortez</td>
-                                    <td>Team Leader</td>
-                                    <td><a class="btn btn-primary"  href={{ Route('info_soutenance') }}
-                                            class="{{ routeActive('info_soutenance') }}">
-                                            <i class="icofont icofont-hat-alt">
-                                                Infos sur la soutenance
-                                            </i></a></td>
-                                </tr>
-                                <tr>
-                                    <td>Martena Mccray</td>
-                                    <td>Post-Sales support</td>
-                                    <td><a class="btn btn-primary"  href={{ Route('info_soutenance') }}
-                                            class="{{ routeActive('info_soutenance') }}">
-                                            <i class="icofont icofont-hat-alt">
-                                                Infos sur la soutenance
-                                            </i></a></td>
-                                </tr>
-                                </tbody>
-                                <tfoot>
-                                <tr>
-                                    <th>Titre de sujet</th>
-                                    <th>Etudiant</th>
-                                    <th>Informations sur la soutenance</th>
-                                </tr>
-                                </tfoot>
+                                @foreach($soutenances as $stnc)
+                                    <tbody>
+                                    <tr>
+                                        <td>{{$stnc->stage->titre_sujet}}</td>
+                                        <td>{{ucwords($stnc->stage->etudiant->prenom)}} {{ucwords($stnc->stage->etudiant->nom)}}</td>
+                                        <td><a class="btn btn-primary" href={{ Route('info_soutenance_ens',$stnc) }}
+                                                class="{{ routeActive('info_soutenance_ens') }}">
+                                                <i class="icofont icofont-hat-alt">
+                                                    Infos sur la soutenance
+                                                </i></a></td>
+                                    </tr>
+                                    </tbody>
+                                @endforeach
+                                    <tfoot>
+                                    <tr>
+                                        <th>Titre de sujet</th>
+                                        <th>Etudiant</th>
+                                        <th>Informations sur la soutenance</th>
+                                    </tr>
+                                    </tfoot>
                             </table>
                         </div>
                     </div>

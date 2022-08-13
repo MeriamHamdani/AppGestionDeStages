@@ -70,14 +70,17 @@
                     </li>
                     <li class="dropdown">
 
-                        <a class="nav-link menu-title link-nav link-nav  {{routeActive('role_encadrant')}}"
-                            href="{{ route('role_encadrant') }}">
+                        <a href="{{ route('soutenance_role_encadrant') }}" class="nav-link menu-title link-nav  {{routeActive('soutenance_role_encadrant')}}
+                              {{ in_array(Route::currentRouteName(),
+                            ['info_soutenance_ens']) ? 'active' : '' }}">
                             <i class="icofont icofont-teacher"></i>&nbsp&nbsp&nbsp<span>En tant qu'Encadrant</span></a>
 
                     </li>
                     <li class="dropdown">
-                        <a class="nav-link menu-title link-nav {{routeActive('role_membre_jury')}}"
-                            href="{{ route('role_membre_jury') }}">
+                        <a href="{{ route('soutenance_role_membre_jury') }}" class="nav-link menu-title link-nav {{routeActive('soutenance_role_membre_jury')}}
+                          {{ in_array(Route::currentRouteName(),
+                            ['info_soutenance_membre']) ? 'active' : '' }}">
+
                             <i class="icofont icofont-users-alt-2"></i>&nbsp&nbsp&nbsp<span>En tant que membre de jury
                             </span></a>
 
@@ -92,7 +95,7 @@
                     </li>
                     <li class="dropdown">
                         <a class="nav-link menu-title link-nav {{ routeActive('liste_stages_a_paye') }}"
-                            href="{{ route('liste_stages_a_paye') }}">
+                            href="{{ route('liste_stages_a_paye') }}" >
                             <i class="icofont icofont-cur-dollar"></i>&nbsp&nbsp&nbsp<span>Stages
                                 et Frais d'encadrement</span></a>
 

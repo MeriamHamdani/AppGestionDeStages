@@ -30,7 +30,7 @@
                         <h5>Les demandes</h5>
                     </div>
                     <div class="card-body">
-                        <div class="dt-ext" style="font-size: 11px">
+                        <div class="dt-ext table-responsive" style="font-size: 11px">
                             <table class="display" id="auto-fill">
                                 <thead>
                                 <tr>

@@ -26,7 +26,7 @@
                         <h5>Stage & Dépôt</h5>
                     </div>
                     <div class="card-body">
-                        <div class="table">
+                        <div class="table-responsive">
                             <table class="display" id="basic-1">
                                 <thead>
                                 <tr>

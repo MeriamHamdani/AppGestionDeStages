@@ -56,7 +56,7 @@
                         <div class="col-md-6 footer-copyright">
                             <!--<p class="mb-0">Copyright {{date('Y')}}-{{date('y', strtotime('+1 year'))}} © viho All
                                 rights reserved.</p>-->
-                            <p class="mb-0"> Hyper-group 2021-2022 </p>
+                            <p class="mb-0"> Hyper-group 2021-2022 ©</p>
                         </div>
 
                     </div>

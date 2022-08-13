@@ -77,7 +77,7 @@
                     </i>
                 </a>
                 <div class="card-body">
-                    <div>
+                    <div class="table-responsive">
                         <table class="display" id="advance-1">
                             <thead>
                                 <tr>

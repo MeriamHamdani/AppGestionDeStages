@@ -1,6 +1,6 @@
 @extends('layouts.enseignant.master')
 
-@section('title')La soutenance
+@section('title')Ma soutenance
 {{ $title }}
 @endsection
 
@@ -10,7 +10,7 @@
 @section('content')
     @component('components.breadcrumb')
         @slot('breadcrumb_title')
-            <h3>La soutenance</h3>
+            <h3>Ma soutenance</h3>
         @endslot
         <li class="breadcrumb-item">Soutenance</li>
         <li class="breadcrumb-item active">Détails</li>
@@ -21,7 +21,7 @@
             <div class="col-sm-12 col-lg-8 mx-auto">
                 <div class="card">
                     <div class="card-header pb-0">
-                        <h5>Informations sur la soutenacne</h5>
+                        <h5>Informations sur ma soutenacne</h5>
                     </div>
                     <div class="card-body">
                         <div class="default-according style-1" id="accordionoc">
@@ -30,7 +30,7 @@
                                     <h5 class="mb-0">
                                         <button class="btn btn-link text-white" data-bs-toggle="collapse"
                                                 data-bs-target="#collapseicon" aria-expanded="true" aria-controls="collapse11">
-                                            <i class="icofont icofont-graduate-alt"></i> Informations générales sur l'étudiant
+                                            <i class="icofont icofont-graduate-alt"></i> Informations générales
                                         </button>
                                     </h5>
                                 </div>
@@ -68,11 +68,15 @@
                                     <div class="card-body">
                                         <ul>
                                             <li>
-                                                Président : <strong>{{ucwords($soutenance->president->nom)}} {{ucwords($soutenance->president->prenom)}}</strong>
+                                                Président : <strong>{{ucwords($soutenance->president->nom)}} {{ucwords($soutenance->president->prenom)}} </strong>
                                             </li>
                                             <li>
                                                 Rapporteur : <strong>{{ucwords($soutenance->rapporteur->nom)}} {{ucwords($soutenance->rapporteur->prenom)}}</strong>
                                             </li>
+                                            <li>
+                                                Encadrant: <strong>{{ucwords($soutenance->stage->enseignant->nom)}} {{ucwords($soutenance->stage->enseignant->prenom)}}</strong>
+                                            </li>
+
                                         </ul>
                                     </div>
                                 </div>
@@ -83,7 +87,7 @@
                                         <button class="btn btn-link collapsed text-white" data-bs-toggle="collapse"
                                                 data-bs-target="#collapseicon2" aria-expanded="false"
                                                 aria-controls="collapseicon2">
-                                            <i class="icofont icofont-tasks-alt"></i> Date et Lieu
+                                            <i class="icofont icofont-tasks-alt"></i> Date et Salle
                                         </button>
                                     </h5>
                                 </div>
@@ -97,7 +101,7 @@
                                                 Heure : <strong>{{$soutenance->start_time}}</strong>
                                             </li>
                                             <li>
-                                                Salle : <strong> {{$soutenance->salle}}</strong>
+                                                Salle :<strong> {{$soutenance->salle}}</strong>
                                             </li>
                                         </ul>
                                     </div>

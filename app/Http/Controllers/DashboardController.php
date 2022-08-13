@@ -8,6 +8,7 @@ use App\Models\Departement;
 use App\Models\Enseignant;
 use App\Models\Entreprise;
 use App\Models\Etudiant;
+use App\Models\Soutenance;
 use App\Models\Specialite;
 use App\Models\Stage;
 use Illuminate\Database\Eloquent\Collection;
@@ -30,6 +31,7 @@ class DashboardController extends Controller
             $nbre_classes = (Classe::all())->count();
             $nbre_entreprises = (Entreprise::all())->count();
             $nbre_stages = (Stage::where('annee_universitaire_id', $annee->id))->count();
+            $nbre_soutenances = (Soutenance::where('annee_universitaire_id', $annee->id))->count();
             $stages = (StageController::stages1ereLicMaster())->count(); //dd($stages);
             $data = DashboardController::encadrementChart(); //dd($ids);
             $dataset = DashboardController::typeSujetChart(); //dd($dataset);
@@ -39,7 +41,7 @@ class DashboardController extends Controller
             $tousEtds = DashboardController::etdsVsNiveauChart()[2];
             return view('admin.dashboard.dashboard', compact('annee', 'nbre_etudiants', 'nbre_enseignants',
                 'nbre_departements', 'nbre_specialites', 'nbre_classes', 'nbre_entreprises',
-                'nbre_stages', 'data', 'dataset', 'statVol', 'etdsLic', 'etdsMas', 'tousEtds'));
+                'nbre_stages', 'data', 'dataset', 'statVol', 'etdsLic', 'etdsMas', 'tousEtds','nbre_soutenances'));
         } else return redirect()->action([AdminController::class, 'index']);
     }
 

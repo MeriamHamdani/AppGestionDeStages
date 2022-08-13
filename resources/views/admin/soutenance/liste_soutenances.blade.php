@@ -26,9 +26,7 @@
                 <div class="card">
                     <div class="card-header pb-0">
                         <h5>Les soutenances</h5>
-
                     </div>
-
                     <div style="padding-bottom: 16px; padding-right: 30px;">
                         <!--------------------------------------------------------------------------------->
                         <a href="#">

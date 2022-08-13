@@ -84,7 +84,7 @@
                                     </div>
                                 @endif
                             @endif
-                            <div class="row">
+                         <!--   <div class="row">
                                 <div class="col">
                                     <div class="mb-3">
                                         <label class="form-label">La fiche de demande de stage</label>
@@ -95,10 +95,10 @@
                                     </div>
                                 </div>
                             </div>
+                        </div>-->
                         </div>
                         <div class="card-footer text-end">
-                            <button class="btn btn-primary" type="submit">Modifier</button>
-                            <input class="btn btn-light" type="reset" value="Annuler"/>
+                            <button class="btn btn-primary" type="submit">Valider</button>
                         </div>
                     </form>
                 </div>

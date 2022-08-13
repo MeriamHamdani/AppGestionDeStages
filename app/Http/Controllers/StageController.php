@@ -576,7 +576,7 @@ class StageController extends Controller
             if ($request->entreprise) {
                 $stage->entreprise_id = (int)$request->entreprise;
             }
-            if ($request->fiche_demande) {
+            /*if ($request->fiche_demande) {
                 $request->validate(['fiche_demande' => ['required', 'mimes:docx,jpg,jpeg,png,doc']]);
                 $etudiant = Etudiant::findOrFail($stage->etudiant_id);
                 $nom_pren = Str::upper($etudiant->nom . '_' . $etudiant->prenom);
@@ -588,7 +588,7 @@ class StageController extends Controller
                     ->putFileAs($dossier, $request->file('fiche_demande'), $fiche_demande_name);
 
                 $stage->fiche_demande = $path;
-            }
+            }*/
 
             $stage->update();
             return back();

@@ -58,7 +58,7 @@
                                 </li>
                                 <li class="bg-warning">
                                     <i class="icofont icofont-hat-alt icon-4x"></i>
-                                    <h3>22</h3>
+                                    <h3>{{$nbre_soutenances}}</h3>
                                     <h4>Soutenances</h4>
                                 </li>
                                 <li class="bg-secondary" style="width: 600px; text-align:center">

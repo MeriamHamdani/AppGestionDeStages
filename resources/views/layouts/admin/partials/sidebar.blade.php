@@ -63,7 +63,7 @@
                     <li class="dropdown">
                         <a class="nav-link menu-title  {{ in_array(Route::currentRouteName(),
                             ['demandes_stage.sv1lm','demandes_stage.so2l','demandes_stage.so3l',
-                            'demandes_stage.so3Info','demandes_stage.so2m']) ? 'active' : '' }}"
+                            'demandes_stage.so3Info','demandes_stage.so2m','edit','demandes_stage.modifier_demande']) ? 'active' : '' }}"
                             href="javascript:void(0)">
                             <i class="icofont icofont-listing-box"></i>&nbsp&nbsp<span>Les stages-Les
                                 demandes</span></a>
@@ -252,10 +252,9 @@
                         </ul>
                     </li>
                     <li class="dropdown">
-                        <a class="nav-link menu-title link-nav  {{ in_array(Route::currentRouteName(),
-                            ['config_annee_universitaire','modifier_annee_universitaire']) ? 'active' : '' }}" {{
-                            routeActive('liste_annee_universitaire') }}"
-                            href="{{ route('liste_annee_universitaire') }}">
+                        <a href="{{ route('liste_annee_universitaire') }}" class="nav-link menu-title link-nav {{routeActive('liste_annee_universitaire') }}
+                              {{ in_array(Route::currentRouteName(),
+                            ['config_annee_universitaire','modifier_annee_universitaire']) ? 'active' : '' }}">
                             <i class="icofont icofont-settings"></i>&nbsp&nbsp&nbsp<span>Configuration
                                 des années universitaires</span></a>
                     </li>

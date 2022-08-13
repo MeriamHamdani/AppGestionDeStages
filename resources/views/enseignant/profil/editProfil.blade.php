@@ -25,7 +25,8 @@
                         <h5>Modifier mes coordonnées</h5>
                     </div>
                     <div class="card-body">
-                        <form class="row g-3 needs-validation" novalidate="" method="POST" action="{{ route('update_profil_ens') }}">
+                        <form class="row g-3 needs-validation" novalidate="" method="POST"
+                              action="{{ route('update_profil_ens') }}">
                             @csrf
                             @method('PATCH')
                             @if($errors->any())
@@ -39,48 +40,59 @@
                             <div class="col-md-4 position-relative">
                                 <label class="form-label" for="validationTooltip01">Numero CIN</label>
                                 <input class="form-control" id="numero_CIN" name="numero_CIN" type="number"
-                                       value="{{$enseignant->user->numero_CIN}}" disabled />
+                                       value="{{$enseignant->user->numero_CIN}}" disabled/>
                                 <div class="invalid-tooltip">Entrez le N°CIN svp!</div>
                             </div>
                             <div class="col-md-4 position-relative">
                                 <label class="form-label" for="validationTooltip01">Nom</label>
                                 <input class="form-control" id="nom" name="nom" type="text"
-                                       value="{{$enseignant->nom}}" required="" />
+                                       value="{{$enseignant->nom}}" required=""/>
                                 <div class="invalid-tooltip">Entrez le nom svp!</div>
                             </div>
                             <div class="col-md-4 position-relative">
                                 <label class="form-label" for="validationTooltip01">Prénom</label>
                                 <input class="form-control" id="prenom" name="prenom" type="text"
-                                       value="{{$enseignant->prenom}}" required="" />
+                                       value="{{$enseignant->prenom}}" required=""/>
                                 <div class="invalid-tooltip">Entrez le prénom svp!</div>
                             </div>
 
                             <div class="col-md-6 position-relative">
                                 <label class="form-label" for="validationTooltip01">Numero de téléphone</label>
                                 <input class="form-control" id="numero_telephone" name="numero_telephone" type="number"
-                                       value="{{$enseignant->numero_telephone}}" required="" />
+                                       value="{{$enseignant->numero_telephone}}" required=""/>
                                 <div class="invalid-tooltip">Entrez le N° de téléphone svp!</div>
                             </div>
                             <div class="col-md-6 position-relative">
                                 <label class="form-label" for="validationTooltip01">Email</label>
                                 <input class="form-control" id="email" name="email" type="email"
-                                       value="{{$enseignant->email}}" required="" />
+                                       value="{{$enseignant->email}}" required=""/>
                                 <div class="invalid-tooltip">Entrez l'email svp!</div>
                             </div>
 
                             <div class="col-md-6 position-relative">
                                 <label class="form-label" for="validationTooltip01">Grade</label>
-                                <select class="js-example-basic-single col-sm-12" id="grade" name="grade"  value="{{$enseignant->grade}}" required>
+                                <select class="js-example-basic-single col-sm-12" id="grade" name="grade"
+                                        value="{{$enseignant->grade}}" required>
                                     <option disabled="disabled" selected="selected">Sélectionnez le grade</option>
-                                    <option value="maitre assistant" {{$enseignant->grade == "maitre assistant" ? 'selected' : '' }}>Maitre assistant</option>
-                                    <option value="maitre de conference"  {{$enseignant->grade == "maitre de conference" ? 'selected' : '' }}>Maitre de conférence</option>
-                                    <option value="professeur" {{$enseignant->grade == "professeur" ? 'selected' : '' }} >Professeur</option>
+                                    <option
+                                        value="maitre assistant" {{$enseignant->grade == "maitre assistant" ? 'selected' : '' }}>
+                                        Maitre assistant
+                                    </option>
+                                    <option
+                                        value="maitre de conference" {{$enseignant->grade == "maitre de conference" ? 'selected' : '' }}>
+                                        Maitre de conférence
+                                    </option>
+                                    <option
+                                        value="professeur" {{$enseignant->grade == "professeur" ? 'selected' : '' }} >
+                                        Professeur
+                                    </option>
                                 </select>
                                 <div class="invalid-tooltip">Séléctionnez le grade svp!</div>
                             </div>
                             <div class="col-md-6 position-relative">
                                 <label class="form-label" for="validationTooltip01">Département</label>
-                                <select class="js-example-basic-single col-sm-12" id="departement_id" name="departement_id" disabled="">
+                                <select class="js-example-basic-single col-sm-12" id="departement_id"
+                                        name="departement_id" disabled="">
                                     <option disabled="disabled" selected="selected">Sélectionnez le département</option>
                                     @foreach (\App\Models\Departement::all() as $departement)
                                         <option value="{{ $departement->id }}"
@@ -94,13 +106,13 @@
                             <div class="col-md-6 position-relative">
                                 <label class="form-label" for="validationTooltip01">RIB</label>
                                 <input class="form-control" id="rib" name="rib" type="number"
-                                       value="{{$enseignant->rib}}" required="" />
+                                       value="{{$enseignant->rib}}" required=""/>
                                 <div class="invalid-tooltip">Entrez le RIB svp!</div>
                             </div>
                             <div class="col-md-6 position-relative">
                                 <label class="form-label" for="validationTooltip01">Identifiant</label>
                                 <input class="form-control" id="identifiant" name="identifiant" type="number"
-                                       value="{{$enseignant->identifiant}}" required="" />
+                                       value="{{$enseignant->identifiant}}" required=""/>
                                 <div class="invalid-tooltip">Entrez l'identifiant svp!</div>
                             </div>
 
@@ -112,12 +124,14 @@
                     </div>
                 </div>
             </div>
+        </div>
+    </div>
 
 
-            @push('scripts')
-                <script src="{{ asset('assets/js/form-validation-custom.js') }}"></script>
-                <script src="{{ asset('assets/js/select2/select2.full.min.js') }}"></script>
-                <script src="{{ asset('assets/js/select2/select2-custom.js') }}"></script>
+    @push('scripts')
+        <script src="{{ asset('assets/js/form-validation-custom.js') }}"></script>
+        <script src="{{ asset('assets/js/select2/select2.full.min.js') }}"></script>
+        <script src="{{ asset('assets/js/select2/select2-custom.js') }}"></script>
     @endpush
 
 @endsection

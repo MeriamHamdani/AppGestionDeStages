@@ -270,117 +270,123 @@ class EnseignantController extends Controller
     public function telecharger_attrayant_ens(Request $request)
 
     {
-        $enseignant = Enseignant::findOrFail($request->enseignant);
-        $stages_actifs = Stage::where('enseignant_id', $enseignant->id)
-            ->where('confirmation_admin', 1)
-            ->where('confirmation_encadrant', 1)
-            ->get(); //dd($stages_actifs);
-        $etablissement = Etablissement::all()->first()->nom;
-        $stgLic = new Collection();
-        $stgMas = new Collection();
-        foreach($stages_actifs as $stg) {
-            $isMaster = strtoupper($stg->etudiant->classe->cycle) === strtoupper('master');
-            $isLicence = strtoupper($stg->etudiant->classe->cycle) === strtoupper('licence');
-            if($isLicence && $stg->etudiant->classe->niveau==3 ) {
-                $stgLic->push($stg);
-            } elseif ($isMaster && $stg->etudiant->classe->niveau==2 ) {
-                $stgMas->push($stg);
-            }
-        }//dd($stgLic,$stgMas);
-        $annee = StageController::current_annee_univ();
-        $file_path = public_path() . '/storage/' . $annee->attrayant;//dd($file_path);
-        /*$file_path = str_replace(' ', '', $file_path);//dd($file_path);
-        $file_path = str_replace('/', '\\', $file_path);//dd($file_path);**/
-        $templateProcessor = new TemplateProcessor($file_path);
-        $templateProcessor->setValue('anne_univ', $annee->annee);
-        $templateProcessor->setValue('nom_pren', ucwords($enseignant->nom) . ' ' . ucwords($enseignant->prenom));//dd($templateProcessor->getVariables());
-        $templateProcessor->setValue('cin', $enseignant->user->numero_CIN);
-        $templateProcessor->setValue('telf', $enseignant->numero_telephone);
-        $templateProcessor->setValue('id', $enseignant->identifiant);
-        $templateProcessor->setValue('email', $enseignant->email);
-        $templateProcessor->setValue('grade', ucwords($enseignant->grade));
-        $templateProcessor->setValue('etabliss', $enseignant->etablissement->nom);
-        $templateProcessor->setValue('rib', $enseignant->rib);
-        /*foreach ($stages_actifs as $stage) {
-            $templateProcessor->setValues(array('nom' => ucwords($stage->etudiant->nom), 'prenom'=> ucwords($stage->etudiant->nom),
-                'societe' => $stage->etudiant->nom ,'sujet' => $stage->etudiant->nom ));
-        }*/
-        //dd($templateProcessor->getVariables());
-        $document_with_table = new PhpWord();
-        $tableStyle = array(
-            'borderColor' => 'black',
-            'borderSize'  => 6,
-            'cellMargin'  => 400
-        );
-        //table licence
-        $section = $document_with_table->addSection();
-        $table = $section->addTable($tableStyle);
-        $table->addRow();
-        $table->addCell(100,array('bgColor'=> '198754'))->addText("Nom", array('bold' => true));
-        $table->addCell(100,array('bgColor'=> '198754'))->addText("Prénom", array('bold' => true));
-        $table->addCell(100,array('bgColor'=> '198754'))->addText("Société", array('bold' => true));
-        $table->addCell(100,array('bgColor'=> '198754'))->addText("Sujet", array('bold' => true));
-        foreach ($stgLic as $stg) {
+        if ($request->numeroCIN) {
+            $enseignant = Enseignant::findOrFail($request->enseignant);
+            $stages_actifs = Stage::where('enseignant_id', $enseignant->id)
+                ->where('confirmation_admin', 1)
+                ->where('confirmation_encadrant', 1)
+                ->get(); //dd($stages_actifs);
+            $etablissement = Etablissement::all()->first()->nom;
+            $stgLic = new Collection();
+            $stgMas = new Collection();
+            foreach ($stages_actifs as $stg) {
+                $isMaster = strtoupper($stg->etudiant->classe->cycle) === strtoupper('master');
+                $isLicence = strtoupper($stg->etudiant->classe->cycle) === strtoupper('licence');
+                if ($isLicence && $stg->etudiant->classe->niveau == 3) {
+                    $stgLic->push($stg);
+                } elseif ($isMaster && $stg->etudiant->classe->niveau == 2) {
+                    $stgMas->push($stg);
+                }
+            }//dd($stgLic,$stgMas);
+            $annee = StageController::current_annee_univ();
+            $file_path = public_path() . '/storage/' . $annee->attrayant;//dd($file_path);
+            /*$file_path = str_replace(' ', '', $file_path);//dd($file_path);
+            $file_path = str_replace('/', '\\', $file_path);//dd($file_path);**/
+            $templateProcessor = new TemplateProcessor($file_path);
+            $templateProcessor->setValue('anne_univ', $annee->annee);
+            $templateProcessor->setValue('nom_pren', ucwords($enseignant->nom) . ' ' . ucwords($enseignant->prenom));//dd($templateProcessor->getVariables());
+            $templateProcessor->setValue('cin', $enseignant->user->numero_CIN);
+            $templateProcessor->setValue('telf', $enseignant->numero_telephone);
+            $templateProcessor->setValue('id', $enseignant->identifiant);
+            $templateProcessor->setValue('email', $enseignant->email);
+            $templateProcessor->setValue('grade', ucwords($enseignant->grade));
+            $templateProcessor->setValue('etabliss', $enseignant->etablissement->nom);
+            $templateProcessor->setValue('rib', $enseignant->rib);
+            /*foreach ($stages_actifs as $stage) {
+                $templateProcessor->setValues(array('nom' => ucwords($stage->etudiant->nom), 'prenom'=> ucwords($stage->etudiant->nom),
+                    'societe' => $stage->etudiant->nom ,'sujet' => $stage->etudiant->nom ));
+            }*/
+            //dd($templateProcessor->getVariables());
+            $document_with_table = new PhpWord();
+            $tableStyle = array(
+                'borderColor' => 'black',
+                'borderSize' => 6,
+                'cellMargin' => 400
+            );
+            //table licence
+            $section = $document_with_table->addSection();
+            $table = $section->addTable($tableStyle);
             $table->addRow();
-            $table->addCell()->addText("{$stg->etudiant->nom}");
-            $table->addCell()->addText("{$stg->etudiant->prenom}");
-            if(isset($stg->entreprise_id)) {
-                $table->addCell()->addText("{$stg->entreprise->nom}");
-            } else $table->addCell()->addText("Pas d'entreprise");
-            $table->addCell()->addText("{$stg->titre_sujet}");
-        }
-        // Create writer to convert document to xml
-        $objWriter = \PhpOffice\PhpWord\IOFactory::createWriter($document_with_table, 'Word2007');
-        // Get all document xml code
-        $fullxml = $objWriter->getWriterPart('Document')->write();
-        // Get only table xml code
-        $tablexml = preg_replace('/^[\s\S]*(<w:tbl\b.*<\/w:tbl>).*/', '$1', $fullxml);
-        $templateProcessor->setValue('table', $tablexml);
+            $table->addCell(100, array('bgColor' => '198754'))->addText("Nom", array('bold' => true));
+            $table->addCell(100, array('bgColor' => '198754'))->addText("Prénom", array('bold' => true));
+            $table->addCell(100, array('bgColor' => '198754'))->addText("Société", array('bold' => true));
+            $table->addCell(100, array('bgColor' => '198754'))->addText("Sujet", array('bold' => true));
+            foreach ($stgLic as $stg) {
+                $table->addRow();
+                $table->addCell()->addText("{$stg->etudiant->nom}");
+                $table->addCell()->addText("{$stg->etudiant->prenom}");
+                if (isset($stg->entreprise_id)) {
+                    $table->addCell()->addText("{$stg->entreprise->nom}");
+                } else $table->addCell()->addText("Pas d'entreprise");
+                $table->addCell()->addText("{$stg->titre_sujet}");
+            }
+            // Create writer to convert document to xml
+            $objWriter = \PhpOffice\PhpWord\IOFactory::createWriter($document_with_table, 'Word2007');
+            // Get all document xml code
+            $fullxml = $objWriter->getWriterPart('Document')->write();
+            // Get only table xml code
+            $tablexml = preg_replace('/^[\s\S]*(<w:tbl\b.*<\/w:tbl>).*/', '$1', $fullxml);
+            $templateProcessor->setValue('table', $tablexml);
 
-        //table master
-        $document_with_table2 = new PhpWord();
-        $tableStyle2 = array(
-            'borderColor' => 'black',
-            'borderSize'  => 6,
-            'cellMargin'  => 400
-        );
-        $section2 = $document_with_table2->addSection();
-        $table2 = $section2->addTable($tableStyle2);
-        $table2->addRow();
-        $table2->addCell(100,array('bgColor'=> '198754'))->addText("Nom", array('bold' => true));
-        $table2->addCell(100,array('bgColor'=> '198754'))->addText("Prénom", array('bold' => true));
-        $table2->addCell(100,array('bgColor'=> '198754'))->addText("Société", array('bold' => true));
-        $table2->addCell(100,array('bgColor'=> '198754'))->addText("Sujet", array('bold' => true));
-        foreach ($stgMas as $stg) {
+            //table master
+            $document_with_table2 = new PhpWord();
+            $tableStyle2 = array(
+                'borderColor' => 'black',
+                'borderSize' => 6,
+                'cellMargin' => 400
+            );
+            $section2 = $document_with_table2->addSection();
+            $table2 = $section2->addTable($tableStyle2);
             $table2->addRow();
-            $table2->addCell()->addText("{$stg->etudiant->nom}");
-            $table2->addCell()->addText("{$stg->etudiant->prenom}");
-            if(isset($stg->entreprise_id)) {
-                $table2->addCell()->addText("{$stg->entreprise->nom}");
-            } else $table2->addCell()->addText("Pas d'entreprise");
-            $table2->addCell()->addText("{$stg->titre_sujet}");
-        }
-        // Create writer to convert document to xml
-        $objWriter2 = \PhpOffice\PhpWord\IOFactory::createWriter($document_with_table2, 'Word2007');
-        // Get all document xml code
-        $fullxml2 = $objWriter2->getWriterPart('Document')->write();
-        // Get only table xml code
-        $tablexml2 = preg_replace('/^[\s\S]*(<w:tbl\b.*<\/w:tbl>).*/', '$1', $fullxml2);
-        $templateProcessor->setValue('table2', $tablexml2);
-        $path= public_path() . '/storage/'.$etablissement.'-'.$annee->annee.'/fiches_suivi_stages/fiches_soutenances/attrayants';
-        if (!File::isDirectory($path)) {
-            File::makeDirectory($path, 0777, true, true);
-        }
-        $templateProcessor->saveAs($path. '\attrayant_' . $enseignant->nom .'-'.  $enseignant->prenom . '.docx');
-        $file_path2 = $path. '\attrayant_' . $enseignant->nom .'-'.  $enseignant->prenom . '.docx';
-        if (file_exists($file_path2)) {
-            Session::flash('message', 'download_OK');
-            return Response::download($file_path2, 'attrayant_'.$enseignant->nom .'-'. $enseignant->prenom .'.docx');
-        } else {
-            Session::flash('message', 'attrayant_introuvable');
-            exit('Pas d\'attrayant!');
+            $table2->addCell(100, array('bgColor' => '198754'))->addText("Nom", array('bold' => true));
+            $table2->addCell(100, array('bgColor' => '198754'))->addText("Prénom", array('bold' => true));
+            $table2->addCell(100, array('bgColor' => '198754'))->addText("Société", array('bold' => true));
+            $table2->addCell(100, array('bgColor' => '198754'))->addText("Sujet", array('bold' => true));
+            foreach ($stgMas as $stg) {
+                $table2->addRow();
+                $table2->addCell()->addText("{$stg->etudiant->nom}");
+                $table2->addCell()->addText("{$stg->etudiant->prenom}");
+                if (isset($stg->entreprise_id)) {
+                    $table2->addCell()->addText("{$stg->entreprise->nom}");
+                } else $table2->addCell()->addText("Pas d'entreprise");
+                $table2->addCell()->addText("{$stg->titre_sujet}");
+            }
+            // Create writer to convert document to xml
+            $objWriter2 = \PhpOffice\PhpWord\IOFactory::createWriter($document_with_table2, 'Word2007');
+            // Get all document xml code
+            $fullxml2 = $objWriter2->getWriterPart('Document')->write();
+            // Get only table xml code
+            $tablexml2 = preg_replace('/^[\s\S]*(<w:tbl\b.*<\/w:tbl>).*/', '$1', $fullxml2);
+            $templateProcessor->setValue('table2', $tablexml2);
+            $path = public_path() . '/storage/' . $etablissement . '-' . $annee->annee . '/fiches_suivi_stages/fiches_soutenances/attrayants';
+            if (!File::isDirectory($path)) {
+                File::makeDirectory($path, 0777, true, true);
+            }
+            $templateProcessor->saveAs($path . '\attrayant_' . $enseignant->nom . '-' . $enseignant->prenom . '.docx');
+            $file_path2 = $path . '\attrayant_' . $enseignant->nom . '-' . $enseignant->prenom . '.docx';
+            if (file_exists($file_path2)) {
+                Session::flash('message', 'download_OK');
+                return Response::download($file_path2, 'attrayant_' . $enseignant->nom . '-' . $enseignant->prenom . '.docx');
+            } else {
+                Session::flash('message', 'attrayant_introuvable');
+                exit('Pas d\'attrayant!');
 
+            }
+            return back();
+        } else {
+            Session::flash('message', 'ens_vide');
+            return back();
         }
-        return back();
     }
+
 }

@@ -26,7 +26,7 @@
                         <h5>Mes soutenances</h5>
                     </div>
                     <div class="card-body">
-                        <div class="table">
+                        <div class="table-responsive">
                             <table class="display" id="basic-1">
                                 <thead>
                                 <tr>
@@ -45,6 +45,7 @@
                                             <i class="icofont icofont-hat-alt">
                                                 Infos sur ma soutenance
                                             </i></a></td>
+
                                 </tr>
                                 </tbody>
                                 @endforeach

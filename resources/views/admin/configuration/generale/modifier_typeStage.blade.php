@@ -181,7 +181,7 @@
                                                             </div>
                                                             @if($typeStage->fiche_demande)
                                                             <div class="alert alert-primary dark rounded-2" role="alert">
-                                                                <p><a href="{{ route('fiche_demande', Str::afterLast($typeStage->fiche_demande, '/') }}">
+                                                                <p><a href="{{ route('fiche_demande', Str::afterLast($typeStage->fiche_demande, '/')) }}">
                                                                         <u style="color:rgb(255, 255, 255)"><i class="icofont icofont-download-alt"> Télécharger la fiche de demande de stage</i></u>
                                                                     </a>
                                                                 </p>

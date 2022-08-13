@@ -27,7 +27,7 @@
                     <h5>Mes Stages</h5>
                 </div>
                 <div class="card-body">
-                    <div class="dt-ext table">
+                    <div class="dt-ext table-responsive">
                         <table class="display" id="auto-fill">
                             <thead>
                                 <tr>

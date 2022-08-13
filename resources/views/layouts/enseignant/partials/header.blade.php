@@ -49,8 +49,8 @@
                                             <div class="media-body">
                                                 <p> Fiche d'encadrement </p>
                                                 <a href={{ route('liste_stages_actifs') }}>
-                                        <span style="color: #ba895d"><strong>
-                                                Le stage de l'étudiant {{ $notification->data['etudiant'] }} est confirmé par l'administration, vous pouvez télécharger la fiche d'encadrement </span></a>
+                                        <strong style="color: #ba895d"><span>
+                                                Le stage de l'étudiant {{ $notification->data['etudiant'] }} est confirmé par l'administration, vous pouvez télécharger la fiche d'encadrement </span> </strong></a>
                                                 <hr>
                                                 <span>{{ $notification->data['date'] }}</span>
                                             </div>
@@ -101,8 +101,7 @@
                         @csrf
                         <button class="btn btn-primary-light" type="button"
                                 href={{ route('deconnexion') }} onclick="event.preventDefault();
-                                this.closest(
-                        'form').submit();"><i data-feather="log-out"></i>Se Déconnecter</button>
+                                this.closest('form').submit();"><i data-feather="log-out"></i>Se Déconnecter</button>
                     </form>
 
                 </li>

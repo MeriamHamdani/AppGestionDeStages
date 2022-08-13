@@ -29,7 +29,7 @@
                 </div>
                 <div class="card-body">
                    <!-- <div class="dt-ext table-responsive"> -->
-                    <div class="dt-ext">
+                    <div class="dt-ext table-responsive">
                         <table class="display" id="auto-fill">
                             <thead>
                                 <tr>
