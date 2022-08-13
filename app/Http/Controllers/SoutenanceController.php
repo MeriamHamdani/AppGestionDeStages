@@ -572,7 +572,7 @@ class SoutenanceController extends Controller
             if ($st->stage->enseignant->id == $encadrant->id) {
                 $soutenances->push($st);
             }
-        }
+        } //dd($soutenances);
         return view('enseignant.soutenance.role_encadrant', compact('soutenances'));
     }
 
@@ -624,10 +624,22 @@ class SoutenanceController extends Controller
     {
         //dd($request);
         $soutenance = Soutenance::find($request->stnc);
-        $soutenance->note = $request->note;
-        dd($soutenance);
+       $request->validate(['note' => 'required|numeric|min:0|max:20']);
+            $soutenance->note = $request->note;
+            //dd($request);
+        return back();
 
 
+
+
+    }
+
+    public function soutenance_membre_jury()
+    {
+        $ens = Enseignant::where('user_id', Auth::user()->id)->first(); //dd($encadrant);
+        $soutenances = Soutenance::where('rapporteur_id', $ens->id)->orWhere('president_id', $ens->id)->orWhere('deuxieme_membre_id', $ens->id)->get();
+        //dd($ens->id,$soutenances);
+        return view('enseignant.soutenance.role_membre_jury', compact('soutenances', 'ens'));
     }
 
 	/*public function telecharger_grille_eval($soutenance){

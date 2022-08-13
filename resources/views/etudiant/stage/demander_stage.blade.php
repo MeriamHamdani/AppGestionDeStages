@@ -29,7 +29,7 @@
                     <div class="card-header pb-0">
                         <h5>Demander un Stage</h5>
                     </div>
-                    <form class="form theme-form" action={{ route('demander_stage') }} method="POST"
+                    <form class="form theme-form" action="{{ route('demander_stage') }}" method="POST"
                           enctype="multipart/form-data">
                         @csrf
                         <div class="card-body">

@@ -24,7 +24,7 @@
                 <ul class="nav-menu custom-scrollbar">
                     <li class="back-btn">
                         <div class="mobile-back text-end"><span>Back</span><i class="fa fa-angle-right ps-2"
-                                aria-hidden="true"></i></div>
+                                                                              aria-hidden="true"></i></div>
                     </li>
                     <li class="sidebar-main-title">
                         <div>
@@ -33,14 +33,14 @@
                     </li>
                     <li class="dropdown">
                         <a class="nav-link menu-title link-nav {{routeActive('liste_demandes')}}"
-                            href="{{ route('liste_demandes') }}" class="">
+                           href="{{ route('liste_demandes') }}" class="">
                             <i class="icofont icofont-list"></i>&nbsp&nbsp&nbsp<span>La liste des demandes
                                 d'encadrement</span></a>
 
                     </li>
                     <li class="dropdown">
                         <a class="nav-link menu-title link-nav  {{ routeActive('liste_stages_actifs') }}"
-                            href="{{ route('liste_stages_actifs') }}">
+                           href="{{ route('liste_stages_actifs') }}">
                             <i class="icofont icofont-listine-dots"></i>&nbsp&nbsp&nbsp<span>La liste des stages
                                 actifs</span></a>
 
@@ -71,37 +71,20 @@
                     <li class="dropdown">
 
                         <a href="{{ route('soutenance_role_encadrant') }}" class="nav-link menu-title link-nav  {{routeActive('soutenance_role_encadrant')}}
-                              {{ in_array(Route::currentRouteName(),
-                            ['info_soutenance_ens']) ? 'active' : '' }}">
-
+                        {{ in_array(Route::currentRouteName(),
+                      ['info_soutenance_ens']) ? 'active' : '' }}">
                             <i class="icofont icofont-teacher"></i>&nbsp&nbsp&nbsp<span>En tant qu'Encadrant</span></a>
 
                     </li>
                     <li class="dropdown">
-
                         <a href="{{ route('soutenance_role_membre_jury') }}" class="nav-link menu-title link-nav {{routeActive('soutenance_role_membre_jury')}}
-                          {{ in_array(Route::currentRouteName(),
-                            ['info_soutenance_membre']) ? 'active' : '' }}">
-
-
-                       <!-- <a class="nav-link menu-title link-nav"
-                            href="{{ route('list_soutenances',['pst'=>'president-de-jury']) }}">
-                            <i class="icofont icofont-users-alt-2"></i>&nbsp&nbsp&nbsp<span>En tant que président de
-                                jury
-                            </span></a>
-                    </li>
-                    <li class="dropdown">
-                        <a class="nav-link menu-title link-nav" href={{ route('list_soutenances',['pst'=>'rapporteur'])
-                            }}>
-                            <i class="icofont icofont-users-alt-2"></i>&nbsp&nbsp&nbsp<span>En tant que rapporteur
-                            </span></a>
-                    </li>
-                    <li class="dropdown">
-                        <a class="nav-link menu-title link-nav"
-                            href="{{ route('list_soutenances',['pst'=>'membre-de-jury']) }}"> -->
+                        {{ in_array(Route::currentRouteName(),
+                          ['info_soutenance_membre']) ? 'active' : '' }}">
 
                             <i class="icofont icofont-users-alt-2"></i>&nbsp&nbsp&nbsp<span>En tant que membre de jury
                             </span></a>
+
+
                     </li>
 
 
@@ -112,7 +95,7 @@
                     </li>
                     <li class="dropdown">
                         <a class="nav-link menu-title link-nav {{ routeActive('liste_stages_a_paye') }}"
-                            href="{{ route('liste_stages_a_paye') }}" >
+                           href="{{ route('liste_stages_a_paye') }}" >
                             <i class="icofont icofont-cur-dollar"></i>&nbsp&nbsp&nbsp<span>Stages
                                 et Frais d'encadrement</span></a>
 
@@ -124,4 +107,3 @@
         </div>
     </nav>
 </header>
-

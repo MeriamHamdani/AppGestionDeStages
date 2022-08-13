@@ -5,19 +5,18 @@
 @endsection
 
 @push('css')
-<link rel="stylesheet" type="text/css" href="{{ asset('assets/css/datatables.css') }}">
+    <link rel="stylesheet" type="text/css" href="{{ asset('assets/css/datatables.css') }}">
 @endpush
 
 @section('content')
-@component('components.breadcrumb')
-@slot('breadcrumb_title')
-<h3>Soutenances</h3>
-@endslot
-<li class="breadcrumb-item">Soutenance</li>
-<li class="breadcrumb-item">Mes soutenances</li>
-@endcomponent
+    @component('components.breadcrumb')
+        @slot('breadcrumb_title')
+            <h3>Soutenances</h3>
+        @endslot
+        <li class="breadcrumb-item">Soutenance</li>
+        <li class="breadcrumb-item">Mes soutenances</li>
+    @endcomponent
 
-<<<<<<< HEAD
     <div class="container-fluid">
         <div class="row">
             <!-- Ajax Generated content for a column start-->
@@ -28,32 +27,26 @@
                     </div>
                     <div style="padding-bottom: 16px; padding-right: 30px;">
                         <!--------------------------------------------------------------------------------->
-
+                        @if($errors->any())
+                            @foreach ($errors->all() as $err )
+                                <div class="alert alert-danger"
+                                     role="alert">
+                                    {{ $err }}
+                                </div>
+                            @endforeach
+                        @endif
                     </div>
                     <div class="card-body">
                         <div class="table-responsive">
                             <table class="display" id="basic-1">
                                 <thead>
-=======
-<div class="container-fluid">
-    <div class="row">
-        <!-- Ajax Generated content for a column start-->
-        <div class="col-sm-12">
-            <div class="card">
-                <div class="card-header">
-                    <h5>Mes soutenances en tant que membre de jury</h5>
-                </div>
-                <div class="card-body">
-                    <div class="table-responsive">
-                        <table class="display" id="basic-1">
-                            <thead>
                                 <tr>
                                     <th>Titre de sujet</th>
                                     <th>Etudiant</th>
+                                    <th>Rôle</th>
                                     <th>Informations sur la soutenance</th>
                                     <th>Actions</th>
                                 </tr>
-
                                 </thead>
                                 @foreach($soutenances as $stnc)
                                     <tbody>
@@ -104,22 +97,14 @@
                                                                 <form method="POST"
                                                                       action="{{route('evaluer_soutenance_par_president')}}">
                                                                     @csrf
-                                                                    @if($errors->any())
-                                                                        @foreach ($errors->all() as $err )
-                                                                            <div class="alert alert-danger"
-                                                                                 role="alert">
-                                                                                {{ $err }}
-                                                                            </div>
-                                                                        @endforeach
-                                                                    @endif
                                                                     <div class="modal-body">
                                                                         <div class="col-md-12 position-relative">
                                                                             <label class="control-label">Note
                                                                                 finale</label>
                                                                             <div class="input-group">
                                                                                 <input class="touchspin" name="note"
-                                                                                       id="note" type="number"
-                                                                                       value="" required/>
+                                                                                       id="note" required type="number"
+                                                                                       value="" />
                                                                             </div>
                                                                         </div>
                                                                         <br/>
@@ -128,7 +113,6 @@
                                                                             <div class="input-group">
                                                                                 <input class="form-control" id="mention"
                                                                                        name="mention" type="text"
-                                                                                       required
                                                                                        disabled value=""/>
                                                                             </div>
                                                                         </div>
@@ -154,25 +138,24 @@
                                     </tbody>
                                 @endforeach
                                 <tfoot>
-
                                 <tr>
                                     <th>Titre de sujet</th>
                                     <th>Etudiant</th>
+                                    <th>Rôle</th>
                                     <th>Informations sur la soutenance</th>
                                     <th>Actions</th>
                                 </tr>
-                            </tfoot>
-                        </table>
+                                </tfoot>
+                            </table>
+                        </div>
                     </div>
                 </div>
             </div>
+            <!-- Ajax Generated content for a column end-->
         </div>
-        <!-- Ajax Generated content for a column end-->
     </div>
-</div>
 
 
-<<<<<<< HEAD
     @push('scripts')
         <script src="{{ asset('assets/js/touchspin/vendors.min.js') }}"></script>
         <script src="{{ asset('assets/js/touchspin/touchspin.js') }}"></script>
@@ -180,16 +163,17 @@
         <script src="{{ asset('assets/js/datatable/datatables/jquery.dataTables.min.js') }}"></script>
         <script src="{{ asset('assets/js/datatable/datatables/datatable.custom.js') }}"></script>
         <script type="text/javascript">
-            var input = document.getElementById('note');
-            input.addEventListener('oninput', function(){
-                console.log('oninput event ');
-            }, false);
-            var input2 = document.getElementById('mention');
-            input.addEventListener('oninput', function(){
-                console.log('oninput event ');
-            }, false);
+            $("#note").change(function () {
+                if ($(this).val() == 20 ) {
+                    $('#mention').value() == "Excellent";
+                } else {
+                    $('#mention').value() == "c";
+                }
+            });
+            $("#note").trigger("change");
         </script>
 
     @endpush
+
 @endsection
 
