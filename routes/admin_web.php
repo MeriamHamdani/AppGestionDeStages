@@ -150,7 +150,7 @@ Route::middleware(['auth', 'role:admin|superadmin', 'clearClasse'])->group(funct
         //-----------------------------------------SOUTENANCE----------------------------
 
         //Route::view('soutenance/planifier', 'admin.soutenance.planifier_soutenance')->name('planifier_soutenance');
-        Route::get('soutenances/liste', [SoutenanceController::class,'list_stnc'])->name('list_soutenances');
+        Route::get('soutenances/liste', [SoutenanceController::class,'list_stnc'])->name('list_soutenances_admin');
         Route::view('soutenance/evaluer', 'admin.soutenance.evaluer_soutenance')->name('evaluer_soutenance');
         Route::get('soutenance/planifier', [SoutenanceController::class, 'index'])->name('planifier_soutenance');
         Route::post('soutenance/store', [SoutenanceController::class, 'store'])->name('creer_soutenance');
@@ -163,6 +163,7 @@ Route::middleware(['auth', 'role:admin|superadmin', 'clearClasse'])->group(funct
         Route::get('soutenance/liste/grilleEvalInfo/{grilleLicInfo}',[SoutenanceController::class,'telecharger_grille_lic_info'])->name('telecharger_grille_lic_info');
         Route::get('soutenance/liste/grilleEvalMaster/{grilleMas}',[SoutenanceController::class,'telecharger_grille_mastere'])->name('telecharger_grille_mastere');
         Route::get('soutenance/liste/evaluerSoutenance/{soutenance}',[SoutenanceController::class,'evaluer_soutenance'])->name('evaluer_soutenance');
+        Route::post('soutenance/notifier-soutenance/{id}',[SoutenanceController::class,'notifier'])->name('notifierSoutenance');
         //---------------------------------------PAIEMENT-------------------------------------
 
         Route::view('paiement/details-paiement-ens', 'admin.paiement.details_paiement_ens')->name('details_paiement_ens');

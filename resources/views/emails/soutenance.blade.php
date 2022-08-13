@@ -19,7 +19,9 @@
                                                         <img class="me-3 rounded-circle"
                                                             src="{{asset('assets/images/user/user.png')}}" alt="" />
                                                         <div class="media-body">
-                                                            <h6 class="d-block">{{ $data['nom_ens'] }}</h6>
+
+                                                            <h6 class="d-block">{{ ucwords($notifiable->nom) }}&nbsp;{{
+                                                                ucwords($notifiable->prenom) }}</h6>
 
                                                         </div>
                                                     </div>
@@ -33,31 +35,58 @@
 
                                                 </div>
 
-                                                @if($data['post']!='')
+                                                @if($post!='etudiant')
                                                 <div class="read-group">
 
                                                     <p>
-
-                                                        Vous etes affecté(e) comme {{ $data['post'] }} <br>
-                                                        Planning de soutenance : <br>
-
-                                                        Le planning de soutenance de l'étudiant {{ $data['etud'] }}
+                                                        @if($post!='encadrant')
 
 
-                                                        Date : {{ $data['date'] }} <br>
-                                                        Salle : {{ $data['salle'] }}<br>
-                                                        Heure : {{ $data['heure'] }}<br>
-                                                        @if ($date['post']!='encadrant')
-                                                        Encadrant : {{ $data['encadrant'] }}<br>
+                                                        Vous etes affecté(e) comme {{ $post}} pour la soutenance de
+                                                        l'étudiant(e) "{{ucwords($etudiant->nom)}}&nbsp;{{
+                                                        ucwords($etudiant->prenom) }}"", inscrit au "{{
+                                                        App\Models\Classe::find($etudiant->classe_id)->nom }}".<br>
+                                                        <hr>
+                                                        Le planning est comme suit:
+
+                                                        @else
+                                                        Le planning de soutenance de l'étudiant(e) "
+                                                        {{ucwords($etudiant->nom)}}&nbsp;{{
+                                                        ucwords($etudiant->prenom) }}" qui vous le supervise et qui est
+                                                        inscrit au {{
+                                                        App\Models\Classe::find($etudiant->classe_id)->nom }}, est comme
+                                                        suit:
                                                         @endif
-                                                        @if ($date['post']!='president')
-                                                        Président de jury : {{ $data['president'] }}<br>
+                                                        <br>
+                                                        <strong>Date : </strong>{{ $soutenance->date }} <br>
+                                                        <strong> Salle :</strong> {{ $soutenance->salle }}<br>
+                                                        <strong>Heure : </strong>{{ $soutenance->start_time }}<br>
+                                                        @if ($post!='encadrant')
+                                                        <strong>Encadrant :</strong> {{
+                                                        $encadrant }}<br>
                                                         @endif
-                                                        @if ($date['post']!='rapporteur')
-                                                        Rapporteur : {{ $data['rapporteur'] }}<br>
+                                                        @if ($post!='president')
+                                                        @php
+                                                        $pres=App\Models\Enseignant::find($soutenance->president_id);
+                                                        @endphp
+                                                        <strong>Président de jury :</strong> {{ ucwords($pres->nom)
+                                                        }}&nbsp;{{
+                                                        ucwords($pres->prenom)
+                                                        }}<br>
                                                         @endif
-                                                        @if ($date['post']!='membre')
-                                                        Le 2ème membre : {{ $data['membre'] }}
+                                                        @if ($post!='rapporteur')
+                                                        @php
+                                                        $rap=App\Models\Enseignant::find($soutenance->rapporteur_id);
+                                                        @endphp
+                                                        <strong>Rapporteur :</strong> {{
+                                                        ucwords($rap->nom) }}&nbsp;{{ucwords( $rap->prenom )}}<br>
+                                                        @endif
+                                                        @if ($post!='membre')
+                                                        @php
+                                                        $mem=App\Models\Enseignant::find($soutenance->deuxieme_membre_id);
+                                                        @endphp
+                                                        <strong>Le 2ème membre :</strong> {{
+                                                        ucwords($mem->nom) }}&nbsp;{{ ucwords($mem->prenom) }}
                                                         @endif
                                                     </p>
 
@@ -67,18 +96,27 @@
                                                 </div>
                                                 @else
                                                 <div class="read-group">
-
+                                                    @php
+                                                    $mem=App\Models\Enseignant::find($soutenance->deuxieme_membre_id);
+                                                    $rap=App\Models\Enseignant::find($soutenance->rapporteur_id);
+                                                    $pres=App\Models\Enseignant::find($soutenance->president_id);
+                                                    @endphp
                                                     <p>
 
                                                         Le Planning de votre soutenance est comme suit : <br>
 
-                                                        Date : {{ $data['date'] }} <br>
-                                                        Salle : {{ $data['salle'] }}<br>
-                                                        Heure : {{ $data['heure'] }}<br>
-                                                        Encadrant : {{ $data['encadrant'] }}<br>
-                                                        Président de jury : {{ $data['president'] }}<br>
-                                                        Rapporteur : {{ $data['rapporteur'] }}<br>
-                                                        Le 2ème membre : {{ $data['membre'] }}
+                                                        Date : {{ $soutenance->date }} <br>
+                                                        Salle : {{ $soutenance->salle }}<br>
+                                                        Heure : {{ $soutenance->start_time }}<br>
+                                                        <strong>Encadrant : </strong>{{
+                                                        $encadrant }}<br>
+
+                                                        <strong>Président de jury : </strong>{{
+                                                        ucwords($rap->nom) }}&nbsp;{{ucwords( $pres->prenom )}}<br>
+                                                        <strong>Rapporteur :</strong> {{
+                                                        ucwords($rap->nom) }}&nbsp;{{ ucwords($rap->prenom) }}<br>
+                                                        <strong>Le 2ème membre : </strong>{{
+                                                        ucwords($mem->nom) }}&nbsp;{{ ucwords($mem->prenom) }}
                                                     </p>
 
                                                     <p class="m-t-10">

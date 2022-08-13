@@ -1,18 +1,19 @@
 <header class="main-nav">
     <div class="sidebar-user text-center">
-        <a class="setting-primary" href="{{route('profil_ens')}}"><i data-feather="settings"></i></a><img
-            class="img-90 rounded-circle" src="{{asset('assets/images/dashboard/1.png')}}" alt="" />
+        <a class="setting-primary" href="<?php echo e(route('profil_ens')); ?>"><i data-feather="settings"></i></a><img
+            class="img-90 rounded-circle" src="<?php echo e(asset('assets/images/dashboard/1.png')); ?>" alt="" />
         <div class="badge-bottom"><span class="badge badge-primary">Enseignant(e)</span></div>
         <a href="">
             <h6 class="mt-3 f-14 f-w-600">
-                {{ucwords(App\Models\Enseignant::where('user_id',auth()->id())->first()->prenom)}}
-                {{ucwords(App\Models\Enseignant::where('user_id',auth()->id())->first()->nom)}}</h6>
+                <?php echo e(ucwords(App\Models\Enseignant::where('user_id',auth()->id())->first()->prenom)); ?>
+
+                <?php echo e(ucwords(App\Models\Enseignant::where('user_id',auth()->id())->first()->nom)); ?></h6>
         </a>
         <p class="mb-0 font-roboto" style="color: #ba895d">
-            <strong>{{ucwords(App\Models\Enseignant::where('user_id',auth()->id())->first()->grade)}}</strong>
+            <strong><?php echo e(ucwords(App\Models\Enseignant::where('user_id',auth()->id())->first()->grade)); ?></strong>
         </p>
         <p class="mb-0 font-roboto" style="color: #ba895d">
-            <strong>{{ucwords(App\Models\Enseignant::where('user_id',auth()->id())->first()->departement->nom)}}</strong>
+            <strong><?php echo e(ucwords(App\Models\Enseignant::where('user_id',auth()->id())->first()->departement->nom)); ?></strong>
         </p>
 
 
@@ -32,15 +33,15 @@
                         </div>
                     </li>
                     <li class="dropdown">
-                        <a class="nav-link menu-title link-nav {{routeActive('liste_demandes')}}"
-                            href="{{ route('liste_demandes') }}" class="">
+                        <a class="nav-link menu-title link-nav <?php echo e(routeActive('liste_demandes')); ?>"
+                            href="<?php echo e(route('liste_demandes')); ?>" class="">
                             <i class="icofont icofont-list"></i>&nbsp&nbsp&nbsp<span>La liste des demandes
                                 d'encadrement</span></a>
 
                     </li>
                     <li class="dropdown">
-                        <a class="nav-link menu-title link-nav  {{ routeActive('liste_stages_actifs') }}"
-                            href="{{ route('liste_stages_actifs') }}">
+                        <a class="nav-link menu-title link-nav  <?php echo e(routeActive('liste_stages_actifs')); ?>"
+                            href="<?php echo e(route('liste_stages_actifs')); ?>">
                             <i class="icofont icofont-listine-dots"></i>&nbsp&nbsp&nbsp<span>La liste des stages
                                 actifs</span></a>
 
@@ -52,7 +53,7 @@
                         </div>
                     </li>
                     <li class="dropdown">
-                        <a class="nav-link menu-title link-nav  {{routeActive('depots')}}" href="{{ route('depots') }}">
+                        <a class="nav-link menu-title link-nav  <?php echo e(routeActive('depots')); ?>" href="<?php echo e(route('depots')); ?>">
                             <i class="icofont icofont-papers"></i>&nbsp&nbsp&nbsp<span>La liste des demandes de dépôt
                                 de memoire </span></a>
 
@@ -70,38 +71,23 @@
                     </li>
                     <li class="dropdown">
 
-                        <a href="{{ route('soutenance_role_encadrant') }}" class="nav-link menu-title link-nav  {{routeActive('soutenance_role_encadrant')}}
-                              {{ in_array(Route::currentRouteName(),
-                            ['info_soutenance_ens']) ? 'active' : '' }}">
+                        <a href="<?php echo e(route('soutenance_role_encadrant')); ?>" class="nav-link menu-title link-nav  <?php echo e(routeActive('soutenance_role_encadrant')); ?>
 
+                              <?php echo e(in_array(Route::currentRouteName(),
+                            ['info_soutenance_ens']) ? 'active' : ''); ?>">
                             <i class="icofont icofont-teacher"></i>&nbsp&nbsp&nbsp<span>En tant qu'Encadrant</span></a>
 
                     </li>
                     <li class="dropdown">
+                        <a href="<?php echo e(route('soutenance_role_membre_jury')); ?>" class="nav-link menu-title link-nav <?php echo e(routeActive('soutenance_role_membre_jury')); ?>
 
-                        <a href="{{ route('soutenance_role_membre_jury') }}" class="nav-link menu-title link-nav {{routeActive('soutenance_role_membre_jury')}}
-                          {{ in_array(Route::currentRouteName(),
-                            ['info_soutenance_membre']) ? 'active' : '' }}">
-
-
-                       <!-- <a class="nav-link menu-title link-nav"
-                            href="{{ route('list_soutenances',['pst'=>'president-de-jury']) }}">
-                            <i class="icofont icofont-users-alt-2"></i>&nbsp&nbsp&nbsp<span>En tant que président de
-                                jury
-                            </span></a>
-                    </li>
-                    <li class="dropdown">
-                        <a class="nav-link menu-title link-nav" href={{ route('list_soutenances',['pst'=>'rapporteur'])
-                            }}>
-                            <i class="icofont icofont-users-alt-2"></i>&nbsp&nbsp&nbsp<span>En tant que rapporteur
-                            </span></a>
-                    </li>
-                    <li class="dropdown">
-                        <a class="nav-link menu-title link-nav"
-                            href="{{ route('list_soutenances',['pst'=>'membre-de-jury']) }}"> -->
+                          <?php echo e(in_array(Route::currentRouteName(),
+                            ['info_soutenance_membre']) ? 'active' : ''); ?>">
 
                             <i class="icofont icofont-users-alt-2"></i>&nbsp&nbsp&nbsp<span>En tant que membre de jury
                             </span></a>
+
+
                     </li>
 
 
@@ -111,8 +97,8 @@
                         </div>
                     </li>
                     <li class="dropdown">
-                        <a class="nav-link menu-title link-nav {{ routeActive('liste_stages_a_paye') }}"
-                            href="{{ route('liste_stages_a_paye') }}" >
+                        <a class="nav-link menu-title link-nav <?php echo e(routeActive('liste_stages_a_paye')); ?>"
+                            href="<?php echo e(route('liste_stages_a_paye')); ?>" >
                             <i class="icofont icofont-cur-dollar"></i>&nbsp&nbsp&nbsp<span>Stages
                                 et Frais d'encadrement</span></a>
 
@@ -125,3 +111,4 @@
     </nav>
 </header>
 
+<?php /**PATH C:\Users\Lenovo\Desktop\stageApp\AppGestionDeStages\resources\views/layouts/enseignant/partials/sidebar.blade.php ENDPATH**/ ?>

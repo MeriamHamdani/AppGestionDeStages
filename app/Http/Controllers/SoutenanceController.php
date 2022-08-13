@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Etablissement;
 use DateTime;
+use Notification;
 use App\Models\User;
 use App\Models\Stage;
 use App\Models\Classe;
@@ -105,14 +106,12 @@ class SoutenanceController extends Controller
             return response()->json(['error' => 'soutenance exist']);
         }
 
-
         $stage = Stage::find($request->stage);
         $etd = Etudiant::find($stage->etudiant_id);
 
-
         $un = $request->rapporteur == $request->deuxieme_membre;
         $deux = $request->rapporteur == $stage->enseignant_id;
-        $trois = $request->rapporteur == $stage->president;
+        $trois = ($request->rapporteur == $stage->president);
         $quatre = $request->deuxieme_membre == $stage->enseignant_id;
         $cinq = $request->deuxieme_membre == $stage->president;
         $six = $request->president == $stage->enseignant_id;
@@ -138,8 +137,8 @@ class SoutenanceController extends Controller
             return response()->json(['error' => "six"]);
             //Le président de jury ne peut pas etre  l'encadrant de l'étudiant'
         }
-        $encadrant = Enseignant::find($stage->enseignant_id);
 
+        $encadrant = Enseignant::find($stage->enseignant_id);
         $stnc = new Soutenance();
         $stnc->salle = $request->salle;
         $stnc->start_time = $request->heure;
@@ -153,25 +152,24 @@ class SoutenanceController extends Controller
         $stage->soutenance_id = $stnc->id;
         $stage->save();
 
-        //$stnc->membres()->sync($ids);
-
-
-        $encadrant = Enseignant::find($request->encadrant);
+        $encadrant=Enseignant::find($stage->enseignant_id);
         $president = Enseignant::find($request->president);
         $membre = Enseignant::find($request->deuxieme_membre);
         $rapporteur = Enseignant::find($request->rapporteur);
-        $data = ['etud' => ucwords($etd->nom . ' ' . $etd->prenom),
-            'post' => '',
-            'encadrant' => ucwords($encadrant->nom . ' ' . $encadrant->prenom),
-            'president' => ucwords($president->nom . ' ' . $president->prenom),
-            'date' => DateTime::createFromFormat('d-m-Y', $request->date)->format('Y-m-d'),
-            'membre' => ucwords($membre->nom . ' ' . $membre->prenom),
-            'rapporteur' => ucwords($rapporteur->nom . ' ' . $rapporteur->prenom)
-        ];
+
 
         //$president->notify(new SoutenanceNotification($data) );
         //$etd->notify(new SoutenanceNotification($data));
+
+        $enc_name=ucwords($encadrant->nom . ' ' . $encadrant->prenom);
+        $etd->notify(new SoutenanceNotification($stnc,$etd,$enc_name,'etudiant'));
+        $president->notify(new SoutenanceNotification($stnc,$etd,$enc_name,'president de jury'));
+        $membre->notify(new SoutenanceNotification($stnc,$etd,$enc_name,'membre de jury'));
+        $rapporteur->notify(new SoutenanceNotification($stnc,$etd,$enc_name,'rapporteur'));
+        $encadrant->notify(new SoutenanceNotification($stnc,$etd,$enc_name,'encadrant'));
+
         return response()->json($stnc);
+
     }
 
     public function occupee(string $t1, string $t2)
@@ -234,15 +232,16 @@ class SoutenanceController extends Controller
 
     }
 
-    /*public function create(Request $request)
-    {
-        $insertArr = [ 'title' => $request->title,
-                       'start' => $request->start,
-                       'end' => $request->end
-                    ];
-        $event = Soutenance::insert($insertArr);
-        return Response::json($event);
-    }*/
+    public function notifier($id, Request $request){
+
+        $etudiant=Etudiant::find($request->etudiant_id);
+
+        $soutenance=Soutenance::find($id);
+        Notification::send($etudiant,new SoutenanceNotification($soutenance,$etudiant,$request->encadrant,$request->post));
+        //$etudiant->notify(new SoutenanceNotification($soutenance,$etudiant,$request->encadrant,$request->post));
+        return true;
+
+    }
 
 
     public function update($id, Request $request)
@@ -583,13 +582,7 @@ class SoutenanceController extends Controller
         return view('enseignant.soutenance.info_soutenance', compact('soutenance', 'date'));
     }
 
-    public function soutenance_membre_jury()
-    {
-        $ens = Enseignant::where('user_id', Auth::user()->id)->first(); //dd($encadrant);
-        $soutenances = Soutenance::where('rapporteur_id', $ens->id)->orWhere('president_id', $ens->id)->orWhere('deuxieme_membre_id', $ens->id)->get();
-        //dd($ens->id,$soutenances);
-        return view('enseignant.soutenance.role_membre_jury', compact('soutenances', 'ens'));
-    }
+
 
     public function details_soutenance_membre(Soutenance $soutenance)
     {
@@ -637,5 +630,23 @@ class SoutenanceController extends Controller
 
     }
 
+	/*public function telecharger_grille_eval($soutenance){
+		$soutenance=Soutenance::find($soutenance);
+		$stage=Stage::find($soutenance->stage_id);
+		$etudiant=Etudiant::find($stage->etudiant_id);
+		$classe=Classe::find($etudiant->classe_id);
+		switch ($this->TypeFormation($classe)){
+			case 'mastere':
+			$this->telecharger_grille_mastere($soutenance);
+			break;
 
+			case 'licenceInfo':
+			$this->telecharger_grille_lic_info($soutenance);
+			break;
+
+			case 'licenceNonInfo':
+			$this->telecharger_grille_lic_non_info($soutenance);
+			break;
+		}
+	}*/
 }
