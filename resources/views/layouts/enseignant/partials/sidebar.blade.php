@@ -78,6 +78,7 @@
                     </li>
                     <li class="dropdown">
                         <a href="{{ route('soutenance_role_membre_jury') }}" class="nav-link menu-title link-nav {{routeActive('soutenance_role_membre_jury')}}
+
                         {{ in_array(Route::currentRouteName(),
                           ['info_soutenance_membre']) ? 'active' : '' }}">
 
