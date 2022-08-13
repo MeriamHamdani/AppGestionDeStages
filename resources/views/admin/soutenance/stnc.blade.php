@@ -153,7 +153,13 @@
     events: soutenances,
     selectable: true,
     selectHelper: true,
+
+
     select: function(start, end, allDays) {
+        var myDate = new Date();
+        if(start <= myDate){
+            swal("","Vous ne pouvez pas planifier une soutenance à une date antérieure!","error");
+        }else{
         $('#stncModal').modal('toggle');
 
         $('#saveBtn').click(function(){
@@ -172,7 +178,7 @@
 
                 data: {salle, date, heure, president, deuxieme_membre, stage, rapporteur },
                 success:function(response){
-                console.log(response);
+               // console.log(response);
                 if(response.error=='so'){
                     swal("oups!", "La salle entrée est occupée pour une autre soutenance .", "error");
                 }
@@ -192,16 +198,15 @@
                             button: "réessayer"
                         });
                     }
-
+                    window.location.reload();
                     $('#stncModal').modal('hide');
 
                     $('#calendar').fullCalendar('renderEvent',{
-                    'title': response.title,
-                    'start': response.date,
-                    'end': response.date,
-                    'color' : response.color
+                    'title': response.stnc.title,
+                    'start': response.stnc.date,
+                    'end': response.stnc.date,
+                    'color' : response.stnc.color
                    });
-                   window.location.reload();
 
                 },
 
@@ -215,7 +220,7 @@
                     }
                 }
             });
-        });
+        });}
     },
     editable: true,
     eventDrop: function(event){
@@ -260,6 +265,9 @@
                 },
 
 
+    selectAllow: function(event){
+                    return moment(event.start).utcOffset(false).isSame(moment(event.end).subtract(1, 'second').utcOffset(false), 'day');
+                },
    });
             $("#stncModal").on("hidden.bs.modal", function () {
                 $('#saveBtn').unbind();

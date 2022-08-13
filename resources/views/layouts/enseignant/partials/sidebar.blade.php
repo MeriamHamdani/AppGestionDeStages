@@ -70,18 +70,29 @@
                     </li>
                     <li class="dropdown">
 
-                        <a class="nav-link menu-title link-nav link-nav  {{routeActive('role_encadrant')}}"
-                            href="{{ route('role_encadrant') }}">
+                        <a class="nav-link menu-title link-nav link-nav "
+                            href="{{ route('list_soutenances',['pst'=>'encadrant']) }}">
                             <i class="icofont icofont-teacher"></i>&nbsp&nbsp&nbsp<span>En tant qu'Encadrant</span></a>
 
                     </li>
                     <li class="dropdown">
-                        <a class="nav-link menu-title link-nav {{routeActive('role_membre_jury')}}"
-                            href="{{ route('role_membre_jury') }}">
+                        <a class="nav-link menu-title link-nav"
+                            href="{{ route('list_soutenances',['pst'=>'president-de-jury']) }}">
+                            <i class="icofont icofont-users-alt-2"></i>&nbsp&nbsp&nbsp<span>En tant que président de
+                                jury
+                            </span></a>
+                    </li>
+                    <li class="dropdown">
+                        <a class="nav-link menu-title link-nav" href={{ route('list_soutenances',['pst'=>'rapporteur'])
+                            }}>
+                            <i class="icofont icofont-users-alt-2"></i>&nbsp&nbsp&nbsp<span>En tant que rapporteur
+                            </span></a>
+                    </li>
+                    <li class="dropdown">
+                        <a class="nav-link menu-title link-nav"
+                            href="{{ route('list_soutenances',['pst'=>'membre-de-jury']) }}">
                             <i class="icofont icofont-users-alt-2"></i>&nbsp&nbsp&nbsp<span>En tant que membre de jury
                             </span></a>
-
-
                     </li>
 
 

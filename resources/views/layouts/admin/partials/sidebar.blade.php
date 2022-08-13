@@ -208,8 +208,8 @@
                                 soutenance</span></a>
                     </li>
                     <li class="dropdown">
-                        <a class="nav-link menu-title link-nav {{ routeActive('list_soutenances') }}"
-                            href="{{ route('list_soutenances') }}">
+                        <a class="nav-link menu-title link-nav {{ routeActive('list_soutenances_admin') }}"
+                            href="{{ route('list_soutenances_admin') }}">
                             <i class="icofont icofont-graduate"></i>&nbsp&nbsp&nbsp<span>La liste des
                                 soutenances</span></a>
                     </li>
@@ -266,3 +266,4 @@
         </div>
     </nav>
 </header>
+

@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use DateTime;
+use Notification;
 use App\Models\User;
 use App\Models\Stage;
 use App\Models\Classe;
@@ -105,14 +106,12 @@ class SoutenanceController extends Controller
             return response()->json(['error' => 'soutenance exist']);
         }
 
-
         $stage = Stage::find($request->stage);
         $etd = Etudiant::find($stage->etudiant_id);
 
-
         $un = $request->rapporteur == $request->deuxieme_membre;
         $deux = $request->rapporteur == $stage->enseignant_id;
-        $trois = $request->rapporteur == $stage->president;
+        $trois = ($request->rapporteur == $stage->president);
         $quatre = $request->deuxieme_membre == $stage->enseignant_id;
         $cinq = $request->deuxieme_membre == $stage->president;
         $six = $request->president == $stage->enseignant_id;
@@ -139,7 +138,6 @@ class SoutenanceController extends Controller
             return response()->json(['error' => "six"]);
             //Le président de jury ne peut pas etre  l'encadrant de l'étudiant'
         }
-        $encadrant=Enseignant::find($stage->enseignant_id);
 
         $stnc = new Soutenance();
         $stnc->salle = $request->salle;
@@ -154,25 +152,19 @@ class SoutenanceController extends Controller
         $stage->soutenance_id = $stnc->id;
         $stage->save();
 
-        //$stnc->membres()->sync($ids);
-
-
-        $encadrant = Enseignant::find($request->encadrant);
+        $encadrant=Enseignant::find($stage->enseignant_id);
         $president = Enseignant::find($request->president);
         $membre = Enseignant::find($request->deuxieme_membre);
         $rapporteur = Enseignant::find($request->rapporteur);
-        $data = ['etud' => ucwords($etd->nom . ' ' . $etd->prenom),
-            'post' => '',
-            'encadrant' => ucwords($encadrant->nom . ' ' . $encadrant->prenom),
-            'president' => ucwords($president->nom . ' ' . $president->prenom),
-            'date' => DateTime::createFromFormat('d-m-Y', $request->date)->format('Y-m-d'),
-            'membre' => ucwords($membre->nom . ' ' . $membre->prenom),
-            'rapporteur' => ucwords($rapporteur->nom . ' ' . $rapporteur->prenom)
-        ];
 
-         //$president->notify(new SoutenanceNotification($data) );
-         //$etd->notify(new SoutenanceNotification($data));
+        $enc_name=ucwords($encadrant->nom . ' ' . $encadrant->prenom);
+        $etd->notify(new SoutenanceNotification($stnc,$etd,$enc_name,'etudiant'));
+        $president->notify(new SoutenanceNotification($stnc,$etd,$enc_name,'president de jury'));
+        $membre->notify(new SoutenanceNotification($stnc,$etd,$enc_name,'membre de jury'));
+        $rapporteur->notify(new SoutenanceNotification($stnc,$etd,$enc_name,'rapporteur'));
+        $encadrant->notify(new SoutenanceNotification($stnc,$etd,$enc_name,'encadrant'));
         return response()->json($stnc);
+
     }
 
     public function occupee(String  $t1, String $t2)
@@ -235,15 +227,16 @@ class SoutenanceController extends Controller
 
     }
 
-    /*public function create(Request $request)
-    {
-        $insertArr = [ 'title' => $request->title,
-                       'start' => $request->start,
-                       'end' => $request->end
-                    ];
-        $event = Soutenance::insert($insertArr);
-        return Response::json($event);
-    }*/
+    public function notifier($id, Request $request){
+
+        $etudiant=Etudiant::find($request->etudiant_id);
+
+        $soutenance=Soutenance::find($id);
+        Notification::send($etudiant,new SoutenanceNotification($soutenance,$etudiant,$request->encadrant,$request->post));
+        //$etudiant->notify(new SoutenanceNotification($soutenance,$etudiant,$request->encadrant,$request->post));
+        return true;
+
+    }
 
 
     public function update($id, Request $request)
@@ -545,5 +538,98 @@ class SoutenanceController extends Controller
         $date = Arr::first((TypeStageController::decouper_nom($soutenance->date)));
         return view('etudiant.soutenance.info_soutenance',compact('soutenance','date'));
     }
+
+    public function lister(string $pst){
+
+		$user=Auth::user();
+        $ens=Enseignant::where('user_id',$user->id)->get()[0];
+        $souts=array();
+		//dd(strtoupper($pst));
+		switch (strtoupper($pst)) {
+                    case strtoupper('encadrant'):
+                        $stages=Stage::where('enseignant_id',$ens->id)->get();
+		                $soutenances=Soutenance::where('annee_universitaire_id',Session::get('annee')->id)->get();
+		                foreach($soutenances as $s){
+			                foreach($stages as $stg){
+				                if($s->stage_id==$stg->id){
+					                //$souts->push($s);
+                                    $souts[]=$s;
+				                    }
+			                    }
+		                    }
+                           //dd($souts);
+                        return view('enseignant.soutenance.role_encadrant',compact('souts'));
+                        break;
+                    case strtoupper('rapporteur'):
+                        $souts=Soutenance::where(['annee_universitaire_id'=>Session::get('annee')->id,
+										'rapporteur_id'=>$ens->id])->get();
+						//$souts=$soutenances;
+						//dd($souts);
+						return view('enseignant.soutenance.role_rapporteur',compact('souts'));
+                        break;
+                    case strtoupper('president-de-jury'):
+
+                        $souts=Soutenance::where(['annee_universitaire_id'=>Session::get('annee')->id,
+										'president_id'=>$ens->id])->get();
+										//dd($souts);
+						//$souts=$soutenances;
+						return view('enseignant.soutenance.role_president',compact('souts'));
+                        break;
+                    case strtoupper('membre-de-jury'):
+                        $souts=Soutenance::where(['annee_universitaire_id'=>Session::get('annee')->id,
+										'deuxieme_membre_id'=>$ens->id])->get();
+						//$souts=$soutenances;
+						//dd($souts);
+						return view('enseignant.soutenance.role_membre_jury',compact('souts'));
+                        break;
+
+
+                }
+
+	}
+
+	public function info_soutenance($id)
+	{
+		$soutenance=Soutenance::find($id);
+		$stage=Stage::find($soutenance->stage_id);
+		$etudiant=Etudiant::find($stage->etudiant_id);
+		return view('enseignant.soutenance.info_soutenance',compact('soutenance','etudiant','stage'));
+    }
+	public function telecharger_memoire($stage_id){
+		dd($stage_id);
+	}
+	public function TypeFormation(Classe $classe){
+		if(strtoupper($classe->cycle)===strtoupper("licence")){
+			$specialite=Specialite::find($classe->specialite_id);
+			$departement=Departement::find($specialite->departement_id);
+			if(strpos(strtoupper($departement->nom),strtoupper('informatique'))){
+				return 'licenceInfo';
+			}else{
+				return 'licenceNonInfo';
+			}
+		}else{
+			return 'mastere';
+		}
+	}
+	public function telecharger_grille_eval($soutenance){
+		$soutenance=Soutenance::find($soutenance);
+		$stage=Stage::find($soutenance->stage_id);
+		$etudiant=Etudiant::find($stage->etudiant_id);
+		$classe=Classe::find($etudiant->classe_id);
+		switch ($this->TypeFormation($classe)){
+			case 'mastere':
+			$this->telecharger_grille_mastere($soutenance);
+			break;
+
+			case 'licenceInfo':
+			$this->telecharger_grille_lic_info($soutenance);
+			break;
+
+			case 'licenceNonInfo':
+			$this->telecharger_grille_lic_non_info($soutenance);
+			break;
+		}
+
+	}
 
 }
