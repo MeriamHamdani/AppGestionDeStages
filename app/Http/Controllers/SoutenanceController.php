@@ -43,8 +43,8 @@ class SoutenanceController extends Controller
         foreach ($stages as $stage) {
             $tps = TypeStage::find($stage->type_stage_id);
             $cls = Classe::find($tps->classe_id);
-
-            if ($stage->confirmation_admin == 1 && $stage->confirmation_encadrant == 1 && $stage->soutenance_id == null && AnneeUniversitaire::find($stage->annee_universitaire_id) == $this->current_annee_univ()) {
+            //$stage->confirmation_admin == 1 && $stage->confirmation_encadrant == 1
+            if ($stage->validation_admin == 1 && $stage->soutenance_id == null && AnneeUniversitaire::find($stage->annee_universitaire_id) == $this->current_annee_univ()) {
 
                 if (((strtoupper($cls->cycle) == strtoupper('licence') && $cls->niveau == 3)) || ((strtoupper($cls->cycle) == strtoupper('master') && $cls->niveau == 2))) {
                     $etd = Etudiant::find($stage->etudiant_id);
@@ -55,7 +55,6 @@ class SoutenanceController extends Controller
             }
 
         }
-
 
         $enseignants = Enseignant::all();
         $soutenances = Soutenance::all();

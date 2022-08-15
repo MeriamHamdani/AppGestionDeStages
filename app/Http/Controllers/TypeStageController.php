@@ -2,22 +2,24 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Stage;
 use App\Models\Classe;
 use App\Models\Etudiant;
 use App\Models\TypeStage;
-use App\Notifications\SessionDepotModifieNotification;
-use App\Notifications\SessionDepotOuverteNotification;
+use App\Models\CahierStage;
 use Illuminate\Support\Arr;
-use Illuminate\Support\Facades\Response;
 use Illuminate\Support\Str;
 use Illuminate\Http\Request;
 use Illuminate\Support\File;
 use App\Rules\dateDebFinRule;
 use Illuminate\Support\Carbon;
 use App\Models\AnneeUniversitaire;
-use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Support\Facades\Session;
 use Illuminate\Support\Facades\Storage;
+use Illuminate\Support\Facades\Response;
+use Illuminate\Database\Eloquent\Collection;
+use App\Notifications\SessionDepotModifieNotification;
+use App\Notifications\SessionDepotOuverteNotification;
 
 class TypeStageController extends Controller
 {
@@ -217,7 +219,7 @@ class TypeStageController extends Controller
             $dateLimite = Carbon::createFromFormat('m/d/Y', $request->date_fin)->format('Y-m-d');
             $nbre_mois = StageController::diff_date_en_mois($dateDebut, $dateLimite);
             if ($dateDebut < $dateLimite) {
-                if ($request->duree_stage_min < $request->duree_stage_max) {
+                if ($request->duree_stage_min <= $request->duree_stage_max) {
                     if ($nbre_mois >= $request->duree_stage_max) {
                         $typeStage->date_debut_periode = $dateDebut;
                         $typeStage->date_limite_periode = $dateLimite;
@@ -332,6 +334,18 @@ class TypeStageController extends Controller
             $typeStage->fiche_demande = $path;
             $typeStage->update();
         }
+        if($request->cahier_stage_type!=$typeStage->cahier_stage_type && strtoupper($request->cahier_stage_type)==strtoupper("requis"))
+		{
+			$stages=Stage::where(['type_stage_id'=>$typeStage->id/*,'anne_universitaire_id'=>StageController::current_annee_univ()->id*/])->get();
+			foreach($stages as $stage){
+					$cahier_stage = new CahierStage();
+                    $cahier_stage->stage_id = $stage->id;
+                    $cahier_stage->annee_universitaire_id = $stage->annee_universitaire_id;
+                    $cahier_stage->save();
+                    $stage->cahier_stage_id = $cahier_stage->id;
+                    $stage->update();
+			}
+		}
         $typeStage_nom = Str::upper($code_classe) . ' ' . $request->type;
         $typeStage->classe_id = $classe->id;
         $typeStage->nom = $typeStage_nom;

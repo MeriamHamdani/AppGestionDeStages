@@ -3,6 +3,7 @@
 namespace App\Http;
 
 use App\Http\Middleware\EnsureUserIsActive;
+use \App\Http\Middleware\hasCahierMiddleware;
 use Illuminate\Foundation\Http\Kernel as HttpKernel;
 
 class Kernel extends HttpKernel
@@ -70,5 +71,6 @@ class Kernel extends HttpKernel
         'superadmin' => \App\Http\Middleware\SuperadminMiddleware::class,
         'clearClasse' => \App\Http\Middleware\ClearClasse::class,
         'verifierAU'=> \App\Http\Middleware\VerifierAUEtudiant::class,
+        'hasCahier'=>hasCahierMiddleware::class,
     ];
 }

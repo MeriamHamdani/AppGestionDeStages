@@ -323,7 +323,9 @@ class StageController extends Controller
     public function liste_demandes_pour_enseignant()
     {
         $user_id = Auth::user()->id;
+
         $ens = Enseignant::all()->where('user_id', $user_id)->first();
+
         $stages = (Stage::where('enseignant_id', $ens->id))
             ->where('confirmation_encadrant', null)
             ->where('confirmation_admin', 0)

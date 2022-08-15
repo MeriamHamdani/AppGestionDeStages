@@ -74,8 +74,10 @@
                                         $cahier_req=strtoupper(App\Models\TypeStage::find($stage_actif->type_stage_id)->cahier_stage_type)
                                         === strtoupper('requis');
                                         $cahier=App\Models\CahierStage::find($stage_actif->cahier_stage_id);
+										
+										//dd($cahier_req);
                                         @endphp
-                                        @if($cahier_req)
+                                        @if($cahier_req && $cahier!=null)
                                         <a data-title="Consulter le cahier de stage" data-toggle="tooltip"
                                             title="Consulter le cahier de stage" href={{
                                             route('detail_cahier_stage',['cahier'=>$cahier]) }}>
