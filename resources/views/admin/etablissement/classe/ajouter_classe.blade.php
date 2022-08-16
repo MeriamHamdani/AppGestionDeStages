@@ -17,7 +17,9 @@
 @slot('breadcrumb_title')
 <h3>Ajouter une classe</h3>
 @endslot
-<li class="breadcrumb-item">Administration</li>
+<li class="breadcrumb-item">Etablissement</li>
+<li class="breadcrumb-item">Gestion des classes</li>
+<li class="breadcrumb-item">Gérer les classes</li>
 <li class="breadcrumb-item">Ajouter une classe</li>
 @endcomponent
 
@@ -25,9 +27,9 @@
     <div class="row">
         <div class="col-sm-12">
             <div class="card">
-                <div class="card-header pb-0">
+                <!--<div class="card-header pb-0">
                     <h5>Ajouter une classe</h5>
-                </div>
+                </div>-->
                 <div>@foreach ($errors as $err)
                     <div>{{ $err }}</div>
                     @endforeach

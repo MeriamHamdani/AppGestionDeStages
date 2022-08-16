@@ -37,7 +37,6 @@ class AnneeUniversitaireController extends Controller
      */
     public function create()
     {
-
         return view('admin.configuration.config_annee_universitaire');
     }
 
@@ -49,25 +48,27 @@ class AnneeUniversitaireController extends Controller
      */
     public function store(Request $request)
     {
-       /*$request->validate(
-            [
-                'annee' => 'required',
-                'lettre_affectation' => ['required', 'mimes:docx'],
-                'fiche_encadrement' => ['required', 'mimes:docx'],
-                'attrayant' => ['required', 'mimes:docx'],
-                'grille_evaluation_licence' => ['required', 'mimes:docx'],
-                'grille_evaluation_info' => ['required', 'mimes:docx'],
-                'grille_evaluation_master' => ['required', 'mimes:docx'],
-                'pv_individuel' => ['required', 'mimes:docx'],
-                'pv_global' => ['required', 'mimes:docx'],
-            ]
-        );*/
-       if ($this->current_annee_univ() == $request->annee) {
+        /*$request->validate(
+             [
+                 'annee' => 'required',
+                 'lettre_affectation' => ['required', 'mimes:docx'],
+                 'fiche_encadrement' => ['required', 'mimes:docx'],
+                 'attrayant' => ['required', 'mimes:docx'],
+                 'grille_evaluation_licence' => ['required', 'mimes:docx'],
+                 'grille_evaluation_info' => ['required', 'mimes:docx'],
+                 'grille_evaluation_master' => ['required', 'mimes:docx'],
+                 'pv_individuel' => ['required', 'mimes:docx'],
+                 'pv_global' => ['required', 'mimes:docx'],
+             ]
+         );*/
+        if ($this->current_annee_univ() == $request->annee)
+        {
             $an_exist = AnneeUniversitaire::where('annee', $request->annee)->first();
             $etablissement = Etablissement::all()->first()->nom;
-              $path=$etablissement.'-'.$request->annee.'/fiches_modèles';
+            $path=$etablissement.'-'.$request->annee.'/fiches_modèles';
 
-            if (!$an_exist) {
+            if (!$an_exist)
+            {
                 $lettre_affectation = Storage::disk('public')
                     ->putFileAs($path, $request->file('lettre_affectation'), 'modèle_lettre_affectation'. '.docx');
                 $fiche_encadrement = Storage::disk('public')
@@ -77,7 +78,7 @@ class AnneeUniversitaireController extends Controller
                 $grille_evaluation_licence = Storage::disk('public')
                     ->putFileAs($path.'\modèles_grilles_évaluations', $request->file('grille_evaluation_licence'), 'modèle_grille_évaluation_licence' . '.docx');
                 //$grille_evaluation_licence = Storage::disk('public')
-                  //  ->putFileAs('models_grilles_evaluations', $request->file('grille_evaluation_licence'), 'model_grille_evaluation_licence_' . $request->annee . '.docx');
+                //  ->putFileAs('models_grilles_evaluations', $request->file('grille_evaluation_licence'), 'model_grille_evaluation_licence_' . $request->annee . '.docx');
                 $grille_evaluation_info = Storage::disk('public')
                     ->putFileAs($path.'\modèles_grilles_évaluations', $request->file('grille_evaluation_info'), 'modèle_grille_évaluation_info' . '.docx');
                 $grille_evaluation_master = Storage::disk('public')
@@ -96,7 +97,7 @@ class AnneeUniversitaireController extends Controller
                 $annee->grille_evaluation_master = $grille_evaluation_master;
                 $annee->pv_individuel = $pv_individuel;
                 $annee->pv_global = $pv_global;
-               // dd($annee);
+                // dd($annee);
                 $typesStage = TypeStage::whereNotNull('date_debut_depot')->whereNotNull('date_limite_depot')->get();
                 foreach ($typesStage as $ts) {
                     $ts->date_debut_depot = null;
@@ -105,27 +106,13 @@ class AnneeUniversitaireController extends Controller
                 }
                 $annee->save();
                 return redirect()->action([AnneeUniversitaireController::class, 'index']);
-                } else
-                     Session::flash("message", 'error exist');
-           } else {
-                 Session::flash("message", 'error');
-                 return view('admin.configuration.config_annee_universitaire');
-             }
-    }
-
-    static function current_annee_univ()
-    {
-
-        $mydate = Carbon::now();
-        $moisCourant = (int)$mydate->format('m');
-        if ((6 < $moisCourant) && ($moisCourant < 12)) {
-            $annee = '20' . $mydate->format('y') . '-20' . strval(((int)$mydate->format('y')) + 1);
+            } else {
+                Session::flash("message", 'error exist');
+            }
         } else {
-            $annee = '20' . strval(((int)$mydate->format('y')) - 1) . '-20' . $mydate->format('y');
+            Session::flash("message", 'error');
+            return view('admin.configuration.config_annee_universitaire');
         }
-        return $annee;
-
-
     }
 
     /**
@@ -141,7 +128,7 @@ class AnneeUniversitaireController extends Controller
 
     /**
      * Update the specified resource in storage.
-     *
+     * 
      * @param \Illuminate\Http\Request $request
      * @param \App\Models\AnneeUniversitaire $anneeUniversitaire
      * @return \Illuminate\Http\Response
@@ -348,4 +335,17 @@ class AnneeUniversitaireController extends Controller
         }
         return back();
     }
+
+    public static function current_annee_univ()
+    {
+        $mydate = Carbon::now();
+        $moisCourant = (int)$mydate->format('m');
+        if ((6 < $moisCourant) && ($moisCourant < 12)) {
+            $annee = '20' . $mydate->format('y') . '-20' . strval(((int)$mydate->format('y')) + 1);
+        } else {
+            $annee = '20' . strval(((int)$mydate->format('y')) - 1) . '-20' . $mydate->format('y');
+        }
+        return $annee;
+    }
+
 }
