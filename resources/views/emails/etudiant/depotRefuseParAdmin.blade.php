@@ -19,7 +19,7 @@
                                                         <img class="me-3 rounded-circle"
                                                              src="{{asset('assets/images/user/user.png')}}" alt="" />
                                                         <div class="media-body">
-                                                            <h6 class="d-block">{{ $data['nom_etud'] }}</h6>
+                                                            <h6 class="d-block">{{$data['nom_etud'] }}</h6>
 
                                                         </div>
                                                     </div>
@@ -31,30 +31,17 @@
                                                 <div class="read-group">
 
                                                     <p>
-                                                        L'enseignant {{ $data['nom_ens'] }} a accepté votre demande d'encadrement.
+                                                       Le dépôt de votre mémoire n'est pas validé.
 
                                                     </p>
                                                     <p class="m-t-10">
-                                                       Votre demande de stage sera acceptée dès l'acception de la part de l'administration.</p>
+                                                     L'administration a refusé votre demande de dépôt de mémoire.</p>
+                                                    <p class="m-t-10">
+                                                       Veuillez redépôser votre mémoire et les fichiers nécessaires.</p>
                                                     <p>Cordialement</p>
                                                 </div>
                                             </div>
 
-                                            <!--<div class="emailread-group">
-                                                <div class="action-wrapper">
-                                                    <ul class="actions">
-                                                        <li>
-                                                            <a class="btn btn-primary" href="javascript:void(0)"><i
-                                                                    class="fa fa-reply me-2"></i>confirmer</a>
-                                                        </li>
-
-                                                        <li>
-                                                            <a class="btn btn-danger" href="javascript:void(0)"><i
-                                                                    class="fa fa-share me-2"></i>refuser</a>
-                                                        </li>
-                                                    </ul>
-                                                </div>
-                                            </div>-->
                                         </div>
                                     </div>
                                 </div>

@@ -29,7 +29,7 @@
                         <h5>Les demandes</h5>
                     </div>
                     <div class="card-body">
-                        <div class="dt-ext table-responsive" style="font-size: 10.75px">
+                        <div class="dt-ext table-responsive" style="font-size: 10.6px">
                             <table class="display" id="auto-fill">
                                 <thead>
                                 <tr>
@@ -323,6 +323,22 @@
                     swal('C\'est interdit', 'Il faut que l\'encadrant confirme la demande d\'abord', 'warning', {
                         button: 'error'
                     })
+                </script>
+            @endif
+            @if (Session::get('message')=='demande_confirmé')
+                <script>
+                    swal('Demande de stage acceptée', '', 'success', {
+                        button: 'OK'
+                    })
+                </script>
+            @endif
+            @if (Session::get('message')=='demande_refusé')
+
+                <script>
+                    swal('Demande de stage refusée', '', 'warning', {
+                        button: 'OK'
+                    })
+
                 </script>
             @endif
         @endif

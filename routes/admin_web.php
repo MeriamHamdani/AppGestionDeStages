@@ -54,6 +54,8 @@ Route::middleware(['auth', 'role:admin|superadmin', 'clearClasse'])->group(funct
         Route::prefix('stage/demandes-stage')->group(function () {
             Route::post('filtre', [AnneeUniversitaireController::class, 'filtre_par_an'])->name('filtre_par_an');
             Route::get('1ere-licence-master', [StageController::class, 'list_vol_1ere_licence_1ere_master'])->name('demandes_stage.sv1lm');
+            Route::get('stage/valider/{stage}', [StageController::class, 'valider_stage_non_terminale'])->name('valider_stage_non_terminale');
+            Route::get('stage/invalider/{stage}', [StageController::class, 'invalider_stage_non_terminale'])->name('invalider_stage_non_terminale');
             Route::get('2eme-licence-info', [StageController::class, 'list_oblig_2eme_licence_info'])->name('demandes_stage.so2lInfo');
             Route::get('2eme-licence', [StageController::class, 'list_oblig_2eme_licence_non_info'])->name('demandes_stage.so2l');
             Route::get('3eme-licence', [StageController::class, 'list_oblig_3eme_licence_non_info'])->name('demandes_stage.so3l');
@@ -139,7 +141,8 @@ Route::middleware(['auth', 'role:admin|superadmin', 'clearClasse'])->group(funct
 
         Route::get('/depot/gerer-depots', [DepotMemoireController::class, 'liste_demandes_depot_admin'])->name('demande_depots');
         Route::get('/depot/gerer-depots/{demande_depot}/valider_depot', [DepotMemoireController::class, 'valider_par_admin'])->name('valider_par_admin');
-        Route::get('/depot/gerer-depots/memoire/{stage}/{memoire}/{code_classe}', [DepotMemoireController::class, 'telecharger_memoire'])->where('memoire', '[A-Za-z0-9\-\_\.]+')->name('telecharger_memoire_adm');
+        Route::get('/depot/gerer-depots/{demande_depot}/refuser_depot', [DepotMemoireController::class, 'refuser_par_admin'])->name('refuser_par_admin');
+        Route::get('/depot/gerer-depots/memoire/{stage}/{memoire}/{code_classe}', [DepotMemoireController::class, 'telecharger_memoire'])->name('telecharger_memoire_adm');
         Route::get('/depot/gerer-depots/fiche_plagiat/{stage}/{fiche_plagiat}/{code_classe}', [DepotMemoireController::class, 'telecharger_fiche_plagiat'])->where('fiche_plagiat', '[A-Za-z0-9\-\_\.]+')->name('telecharger_fiche_plagiat');
         Route::get('/depot/gerer-depots/fiche_biblio/{stage}/{fiche_biblio}/{code_classe}', [DepotMemoireController::class, 'telecharger_fiche_biblio'])->where('fiche_biblio', '[A-Za-z0-9\-\_\.]+')->name('telecharger_fiche_biblio');
         Route::get('/depot/gerer-depots/fiche_tech/{stage}/{fiche_tech}/{code_classe}', [DepotMemoireController::class, 'telecharger_fiche_tech'])->where('fiche_tech', '[A-Za-z0-9\-\_\.]+')->name('telecharger_fiche_tech');

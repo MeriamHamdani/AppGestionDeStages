@@ -140,10 +140,13 @@
                                                data-original-title="Télécharger l'attestation" title="Télécharger l'attestation">
                                                 <i class="icofont icofont-ui-file icon-large" style="color: #8a6d3b"></i></a><br>
                                         @endif
-                                        @if($demande->validation_admin !=1)
+                                        @if($demande->validation_admin == -1)
                                         <a href="{{route('valider_par_admin',['demande_depot'=>$demande])}}" data-title="Valider le dépôt du mémoire" data-toggle="tooltip"
                                             title="Valider le dépôt du mémoire">
                                             <i class="icofont icofont-checked icon-large"></i></a>
+                                            <a href="{{route('refuser_par_admin',['demande_depot'=>$demande])}}" data-title="Refuser le dépôt du mémoire" data-toggle="tooltip"
+                                               title="Refuser le dépôt du mémoire" style="color: darkred">
+                                                <i class="icofont icofont-close-squared icon-large"></i></a>
 
                                        <!-- <a href="#" data-title="Refuser le dépôt du mémoire" data-toggle="tooltip"
                                             title="Refuser le dépôt du mémoire" style="color: darkred">

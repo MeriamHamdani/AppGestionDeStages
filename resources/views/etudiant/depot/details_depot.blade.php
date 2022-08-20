@@ -39,7 +39,7 @@
                                         <tr>
                                             <td>{{$depotMemoire->titre}}</td>
 
-                                            <td> <a class="btn btn-secondary btn-sm" href="{{route('telecharger_memoire',['memoire'=>$mem, 'code_classe'=>$depotMemoire->stage->etudiant->classe->code])}}" data-title="Consulter le mémoire" data-toggle="tooltip" data-original-title="Consulter le mémoire" title="Télécharger le mémoire">
+                                            <td> <a class="btn btn-secondary btn-sm" href="{{route('telecharger_memoire',['stage'=> $depotMemoire->stage,'memoire'=>$mem, 'code_classe'=>$depotMemoire->stage->etudiant->classe->code])}}" data-title="Consulter le mémoire" data-toggle="tooltip" data-original-title="Consulter le mémoire" title="Télécharger le mémoire">
                                                     <i class="fa fa-file-text-o large" style="color:whitesmoke "></i></a>
                                             </td>
                                         </tr>
