@@ -134,7 +134,7 @@
                             <select class="js-example-basic-single col-sm-12" id="cycle" name="cycle">
                                 <option disabled="disabled" selected="selected">Séléctionnez le cycle/type de formation
                                 </option>
-                                <option value="license" {{ $classe->cycle == "licence" ? 'selected' : '' }}>Licence
+                                <option value="licence" {{ $classe->cycle == "licence" ? 'selected' : '' }}>Licence
                                 </option>
                                 <option value="master" {{ $classe->cycle == "master" ? 'selected' : '' }}>Mastère
                                 </option>

@@ -13,6 +13,7 @@ use App\Models\CahierStage;
 use Illuminate\Http\Request;
 use Illuminate\Support\Carbon;
 use Illuminate\Support\Collection;
+use Illuminate\Support\Facades\Session;
 
 class CahierStageController extends Controller
 {
@@ -24,7 +25,7 @@ class CahierStageController extends Controller
     public function index()
     {
         $cahiers_stage=new Collection();
-        $etudiant=Etudiant::where('user_id',Auth::user()->id)->get()[0];
+        $etudiant=Etudiant::where(['user_id'=>Auth::user()->id,'annee_universitaire_id'=>Session::get('annee')->id])->get()[0];
         $cahiers=CahierStage::all();
 
         foreach($cahiers as $cahier){
@@ -51,7 +52,7 @@ class CahierStageController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function create(Stage $stage)
+    public static function create(Stage $stage)
     {
 
         $cahier=CahierStage::findOrFail($stage->cahier_stage_id);

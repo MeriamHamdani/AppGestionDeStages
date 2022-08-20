@@ -106,7 +106,7 @@ class DepotMemoireController extends Controller
             [
                 'fiche_plagiat' => ['mimes:docx,jpeg,jpg,png'],
                 'fiche_biblio' => ['mimes:docx,jpeg,jpg,png'],
-                'memoire' => ['mimes:docx'],
+                'memoire' => ['mimes:docx,pdf'],
                 'fiche_tech' => [ 'mimes:docx,jpeg,jpg,png'],
                 'attestation' => [ 'mimes:docx,jpeg,jpg,png'],
             ]
@@ -548,6 +548,7 @@ class DepotMemoireController extends Controller
         }
         return redirect()->action([DepotMemoireController::class, 'liste_demandes_depot_admin']);
     }
+
     public function refuser_par_admin(DepotMemoire $demande_depot)
     {
         $etudiant = $demande_depot->stage->etudiant;
@@ -565,3 +566,4 @@ class DepotMemoireController extends Controller
     }
 
 }
+

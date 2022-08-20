@@ -176,7 +176,7 @@ class ClasseController extends Controller
             'cycle' => ['required', 'string', 'max:255'],
             'specialite_id' => ['required', Rule::exists('specialites', 'id')],
         ]);
-
+//dd($request->cycle);
         $specialite=Specialite::find($request->specialite_id);
         $code=$request->niveau.strtoupper(substr($request->cycle,0,1)).$specialite->code;
         $attributs['code']=$code;

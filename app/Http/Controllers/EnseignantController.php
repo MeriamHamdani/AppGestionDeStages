@@ -117,7 +117,7 @@ class EnseignantController extends Controller
             $user = User::create($attributs);
 
             $user->assignRole('enseignant');
-            dd($user->getRoleNames());
+
             $attributs2['user_id'] = $user->id;
             $enseignant = Enseignant::create($attributs2);
             $user->email = $enseignant->email;
@@ -236,7 +236,7 @@ class EnseignantController extends Controller
             ->where('confirmation_admin', 1)
             ->where('confirmation_encadrant', 1)
             ->get();
-
+//dd($stages_actifs);
         foreach ($stages_actifs as $sa) {
             $etudiant = Etudiant::findOrFail($sa->etudiant_id);
             $classe = Classe::find($etudiant->classe_id);

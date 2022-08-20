@@ -37,21 +37,22 @@
                             <div class="stepwizard-step"><a class="btn btn-light" href="#step-3">3</a>
                                 <p>Mémoire</p>
                             </div>
-                            @if($stage->type_sujet == "PFE"  && $etudiant->classe->cycle =="licence")
+                            @if($stage->type_sujet == "PFE" && $etudiant->classe->cycle =="licence")
                             <div class="stepwizard-step"><a class="btn btn-light" href="#step-4">4</a>
                                 <p>Fichiers nécessaires 2</p>
                             </div>
                             @endif
                         </div>
                     </div>
-                    <form action="{{route('deposer_memoire',['stage_id'=>$stage->id])}}" method="POST"  enctype="multipart/form-data">
+                    <form action="{{route('deposer_memoire',['stage_id'=>$stage->id])}}" method="POST"
+                        enctype="multipart/form-data">
                         @csrf
                         @if($errors->any())
-                            @foreach ($errors->all() as $err )
-                                <div class="alert alert-danger" role="alert">
-                                    {{ $err }}
-                                </div>
-                            @endforeach
+                        @foreach ($errors->all() as $err )
+                        <div class="alert alert-danger" role="alert">
+                            {{ $err }}
+                        </div>
+                        @endforeach
                         @endif
                         <div class="setup-content" id="step-1">
                             <div class="col-xs-12">
@@ -74,16 +75,16 @@
                                                     <label class="col-sm-3 col-form-label">Fiche de bibliothèque</label>
                                                     <div class="col-sm-9">
                                                         <input class="form-control" type="file" name="fiche_biblio"
-                                                               id="fiche_biblio" accept=".docx,.jpeg,.jpg,.png"
-                                                               required="required"/>
+                                                            id="fiche_biblio" accept=".docx,.jpeg,.jpg,.png"
+                                                            required="required" />
                                                     </div>
                                                 </div>
                                                 <div class="mb-3 row">
                                                     <label class="col-sm-3 col-form-label">Rapport de plagiat</label>
                                                     <div class="col-sm-9">
                                                         <input class="form-control" type="file" name="fiche_plagiat"
-                                                               id="fiche_plagiat" accept=".docx,.jpeg,.jpg,.png"
-                                                               required="required" />
+                                                            id="fiche_plagiat" accept=".docx,.jpeg,.jpg,.png"
+                                                            required="required" />
                                                     </div>
                                                 </div>
                                             </div>
@@ -102,26 +103,26 @@
                                                 <div class="mb-3 row">
                                                     <label class="col-sm-3 col-form-label">Le mémoire</label>
                                                     <div class="col-sm-9">
-                                                        <input class="form-control" type="file" name="memoire" id="memoire" accept=".docx" required />
+                                                        <input class="form-control" type="file" name="memoire"
+                                                            id="memoire" accept=".pdf,.docx" required />
                                                     </div>
                                                 </div>
                                             </div>
                                         </div>
                                     </div>
 
-                                    @if($stage->type_sujet == "Projet Tutoré" || $stage->type_sujet == "Business Plan" || $etudiant->classe->cycle =="master")
-                                        <button class="btn btn-secondary pull-right"
-                                                type="submit">Términer!
-                                        </button>
+                                    @if($stage->type_sujet == "Projet Tutoré" || $stage->type_sujet == "Business Plan"
+                                    || $etudiant->classe->cycle =="master")
+                                    <button class="btn btn-secondary pull-right" type="submit">Términer!
+                                    </button>
                                     @else
-                                        <button class="btn btn-primary nextBtn pull-right"
-                                                type="button">Suivant
-                                        </button>
+                                    <button class="btn btn-primary nextBtn pull-right" type="button">Suivant
+                                    </button>
                                     @endif
                                 </div>
                             </div>
                         </div>
-                        @if($stage->type_sujet == "PFE"  && $etudiant->classe->cycle =="licence")
+                        @if($stage->type_sujet == "PFE" && $etudiant->classe->cycle =="licence")
                         <div class="setup-content" id="step-4">
                             <div class="col-xs-12">
                                 <div class="col-md-12">
@@ -131,13 +132,15 @@
                                                 <div class="mb-3 row">
                                                     <label class="col-sm-3 col-form-label">Attestation</label>
                                                     <div class="col-sm-9">
-                                                        <input class="form-control" type="file" name="attestation" id="attestation" accept=".docx,.jpeg,.jpg,.png"/>
+                                                        <input class="form-control" type="file" name="attestation"
+                                                            id="attestation" accept=".docx,.jpeg,.jpg,.png" />
                                                     </div>
                                                 </div>
                                                 <div class="mb-3 row">
                                                     <label class="col-sm-3 col-form-label">Fiche technique</label>
                                                     <div class="col-sm-9">
-                                                        <input class="form-control" type="file" name="fiche_tech" id="fiche_tech" accept=".docx,.jpeg,.jpg,.png" required/>
+                                                        <input class="form-control" type="file" name="fiche_tech"
+                                                            id="fiche_tech" accept=".docx,.jpeg,.jpg,.png" required />
                                                     </div>
                                                 </div>
                                             </div>
@@ -148,7 +151,7 @@
                                 </div>
                             </div>
                         </div>
-                            @endif
+                        @endif
                     </form>
                 </div>
             </div>
