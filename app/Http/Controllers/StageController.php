@@ -335,7 +335,7 @@ class StageController extends Controller
 
     public function confirmer_demande_enseignant(Stage $stage)
     {
-        if ($stage->confirmation_encadrant == null && $stage->date_fin > Carbon::now()) {
+       if ($stage->confirmation_encadrant == null && $stage->date_fin > Carbon::now()) {
             $stage->confirmation_encadrant = 1;
             $user = Auth::user();
             $user->assignRole('encadrant');
@@ -351,7 +351,7 @@ class StageController extends Controller
                 'date' => 'Le ' . $current_date->day . '-' . $current_date->month . '-' . $current_date->year . ' à ' . $current_date->hour . ':' . $current_date->minute];
             $etudiant->notify(new EncadrementAccepteNotifiaction($data));
             return back();
-        } else abort(404);
+        } else return back();
     }
 
     public function refuser_demande_enseignant(Stage $stage)

@@ -12,7 +12,7 @@
 @section('content')
     @component('components.breadcrumb')
         @slot('breadcrumb_title')
-            <h3>Configurer le type de stages selon la classe</h3>
+            <h3>Configurer le type de stages de la classe <span style="color: #0F794F">{{ $classe->nom }}</span></h3>
         @endslot
         <li class="breadcrumb-item">Gestion des classes</li>
         <li class="breadcrumb-item active">configuration type de stage selon la classe</li>
