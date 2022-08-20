@@ -39,7 +39,8 @@
                                     <th>Date début stage</th>
                                     <th>Date fin stage</th>
                                     <th>Confirmation de l'administration</th>
-                                    <th>Actions</th>
+                                    <th>Actions pour la demande</th>
+                                    <th>Valider le stage</th>
                                     <th>Etat</th>
                                 </tr>
                                 </thead>
@@ -70,8 +71,8 @@
                                                        style="color: #8a6d3b"></i></a>
                                             @endif
                                         </td>
-                                        <td style="font-size:13px">{{$stage->date_debut}}</td>
-                                        <td style="font-size:13px">{{$stage->date_fin}}</td>
+                                        <td style="font-size:12px">{{$stage->date_debut}}</td>
+                                        <td style="font-size:11.5px">{{$stage->date_fin}}</td>
                                         <!--else
                                             <td class="text-center">
                                                 <i class="icofont icofont-exclamation-tringle" style="font-size: 1.3em"></i>
@@ -130,6 +131,29 @@
                                                    style="font-size: 1.3em"></i>
                                             </td>
                                         @endif
+                                        <td class="text-center">
+                                            @if($stage->validation_admin==null)
+                                                <a href="{{ route('valider_stage_non_terminale',$stage)}}">
+                                                    <i class="icofont icofont-check-circled"
+                                                       style="font-size: 1.6em;color:darkgreen"></i> </a>
+                                            @elseif(($stage->validation_admin==1))
+                                                <button class="btn btn-primary btn-sm" data-toggle="tooltip"
+                                                        style="font-size: 0.6em"> Stage
+                                                    Validé
+                                                </button>
+                                            @endif
+                                            @if($stage->validation_admin==null)
+                                                <a href="{{ route('invalider_stage_non_terminale',$stage)}}">
+                                                    <i class="icofont icofont-close-circled"
+                                                       style="font-size: 1.6em;color:darkred"></i> </a>
+                                            @elseif(($stage->validation_admin==-1))
+                                                <button class="btn btn-dark-gradien btn-sm" data-toggle="tooltip"
+                                                        style="font-size: 0.6em"> Stage
+                                                    NON Validé
+                                                </button>
+                                            @endif
+
+                                        </td>
                                         <td> @if($stage->date_fin >= $current_date)
                                                 @if($stage->confirmation_admin == 0)
                                                     <button class="btn btn-warning btn-sm" data-toggle="tooltip"
@@ -174,7 +198,8 @@
                                     <th>Date début stage</th>
                                     <th>Date fin stage</th>
                                     <th>Confirmation de l'administration</th>
-                                    <th>Actions</th>
+                                    <th>Actions pour la demande</th>
+                                    <th>Valider le stage</th>
                                     <th>Etat</th>
                                 </tr>
                                 </tfoot>
@@ -280,6 +305,48 @@
                     swal('C\'est interdit', 'Il faut que l\'encadrant confirme la demande d\'abord', 'warning', {
                         button: 'error'
                     })
+
+                </script>
+            @endif
+            @if (Session::get('message')=='demande_confirmé')
+                <script>
+                    swal('Demande de stage acceptée', '', 'success', {
+                        button: 'OK'
+                    })
+                </script>
+            @endif
+            @if (Session::get('message')=='dure_stage_inacheve')
+
+                <script>
+                    swal('Durée stage inachevée', 'Vous ne pouvez pas valider/invalider un stage dont la durée n\'est pas encore achevée', 'warning', {
+                        button: 'OK'
+                    })
+
+                </script>
+            @endif
+            @if (Session::get('message')=='stage_valide')
+                <script>
+                    swal('Stage Validé', '', 'success', {
+                        button: 'OK'
+                    })
+                </script>
+            @endif
+            @if (Session::get('message')=='stage_invalide')
+
+                <script>
+                    swal('Stage NON Validé', '', 'warning', {
+                        button: 'OK'
+                    })
+
+                </script>
+            @endif
+            @if (Session::get('message')=='demande_en_attente')
+
+                <script>
+                    swal('Demande pas encore acceptée', 'Vous ne pouvez pas valider/invalider un stage dont la demande de stage n\'est pas encore acceptée', 'warning', {
+                        button: 'OK'
+                    })
+
 
                 </script>
             @endif

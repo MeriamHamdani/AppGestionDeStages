@@ -1,6 +1,6 @@
 @extends('layouts.enseignant.master')
 
-@section('title')Mes soutenances
+@section('title')Les soutenances
 {{ $title }}
 @endsection
 
@@ -14,7 +14,7 @@
             <h3>Soutenances</h3>
         @endslot
         <li class="breadcrumb-item">Soutenance</li>
-        <li class="breadcrumb-item">Mes soutenances</li>
+        <li class="breadcrumb-item">Les soutenances</li>
     @endcomponent
 
     <div class="container-fluid">
@@ -23,7 +23,7 @@
             <div class="col-sm-12">
                 <div class="card">
                     <div class="card-header">
-                        <h5>Mes soutenances en tant que membre de jury</h5>
+                        <h5>Les soutenances en tant que membre de jury</h5>
                     </div>
                     <div style="padding-bottom: 16px; padding-right: 30px;">
                         <!--------------------------------------------------------------------------------->
@@ -61,7 +61,7 @@
                                             <td>Membre</td>
                                         @endif
                                         <td><a class="btn btn-primary" href={{ Route('info_soutenance_membre',$stnc) }}
-                                                class="{{ routeActive('info_soutenance_membre',$stnc) }}">
+                                                class="{{ routeActive('info_soutenance_membre') }}">
                                                 <i class="icofont icofont-hat-alt">
                                                     Infos sur la soutenance
                                                 </i></a>
@@ -73,14 +73,23 @@
                                                title="Télécharger la grille d'évaluation">
                                                 <i class="icofont icofont-prescription icon-large"
                                                    style="color:#bf9168 "></i></a>
-
-                                            @if($stnc->president_id==$ens->id)
+                                            @if(isset($stnc->stage->depotMemoire->memoire))
+                                            <a href="{{route('telecharger_memoire_soutenance',['memoire'=>Str::afterLast($stnc->stage->depotMemoire->memoire,'/'),
+                                                                                'code_classe'=>$stnc->stage->etudiant->classe->code,'stage'=>$stnc->stage])}}"
+                                               data-title="Télécharger le memoire" data-toggle="tooltip"
+                                               data-original-title="Télécharger le mémoire"
+                                               title="Télécharger le mémoire">
+                                                <i class="icofont icofont-papers icon-large"
+                                                   style="color:#bf9168 "></i></a>
+                                            @endif
+                                            @if($stnc->president_id==$ens->id && $stnc->note == null)
                                                 <a href="#"
                                                    data-bs-toggle="modal" data-bs-target="#{{$stnc->id}}"
                                                    data-whatever="@getbootstrap"> <i
                                                         class="icofont icofont-tick-mark icon-large"></i></a>
                                                 <a href="#">
-                                                    <div class="modal fade" id="{{$stnc->id}}" tabindex="-1" role="dialog"
+                                                    <div class="modal fade" id="{{$stnc->id}}" tabindex="-1"
+                                                         role="dialog"
                                                          aria-labelledby="exampleModalLabel" style="display: none;"
                                                          aria-hidden="true">
 
@@ -94,6 +103,31 @@
                                                                             data-bs-dismiss="modal"
                                                                             aria-label="Fermez"></button>
                                                                 </div>
+                                                                <script type="text/javascript">
+                                                                    function assignMention(value) {
+                                                                        var a = (Math.round(parseFloat(value)*10000000)/10000000);
+                                                                        console.log(typeof a,a );
+                                                                        if (a == null ) {
+                                                                            document.getElementById('mention').value = "";
+                                                                        }
+                                                                        else if (a >= 0  && a < 10) {
+                                                                            document.getElementById('mention').value = "Refusé";
+                                                                            @php(request()->mention = "Refusé")
+                                                                        } else if (a >= 10 && a < 12) {
+                                                                            document.getElementById('mention').value = "Passable";
+                                                                        } else if (a >= 12 && a < 14) {
+                                                                            document.getElementById('mention').value = "Assez-Bien";
+                                                                        } else if (a >= 14 && a < 16) {
+                                                                            document.getElementById('mention').value = "Bien";
+                                                                        } else if (a >= 16 && a < 18) {
+                                                                            document.getElementById('mention').value = "Très Bien";
+                                                                        } else if (a >= 18 && a <= 20) {
+                                                                            document.getElementById('mention').value = "Excellent";
+                                                                        } else if (a > 20 ) {
+                                                                            document.getElementById('mention').value = "";
+                                                                        }
+                                                                    }
+                                                                </script>
                                                                 <form method="POST"
                                                                       action="{{route('evaluer_soutenance_par_president')}}">
                                                                     @csrf
@@ -102,9 +136,9 @@
                                                                             <label class="control-label">Note
                                                                                 finale</label>
                                                                             <div class="input-group">
-                                                                                <input class="touchspin" name="note"
-                                                                                       id="note" required type="number"
-                                                                                       value="" />
+                                                                                <input class="form-control" name="note"
+                                                                                       id="note" required
+                                                                                       onkeyup="assignMention(this.value);"/>
                                                                             </div>
                                                                         </div>
                                                                         <br/>
@@ -113,10 +147,11 @@
                                                                             <div class="input-group">
                                                                                 <input class="form-control" id="mention"
                                                                                        name="mention" type="text"
-                                                                                       disabled value=""/>
+                                                                                       disabled />
                                                                             </div>
                                                                         </div>
-                                                                        <input id="stnc" name="stnc" value="{{$stnc->id}}" type="hidden"/>
+                                                                        <input id="stnc" name="stnc"
+                                                                               value="{{$stnc->id}}" type="hidden"/>
                                                                     </div>
                                                                     <div class="modal-footer">
 
@@ -162,16 +197,6 @@
         <script src="{{ asset('assets/js/touchspin/input-groups.min.js') }}"></script>
         <script src="{{ asset('assets/js/datatable/datatables/jquery.dataTables.min.js') }}"></script>
         <script src="{{ asset('assets/js/datatable/datatables/datatable.custom.js') }}"></script>
-        <script type="text/javascript">
-            $("#note").change(function () {
-                if ($(this).val() == 20 ) {
-                    $('#mention').value() == "Excellent";
-                } else {
-                    $('#mention').value() == "c";
-                }
-            });
-            $("#note").trigger("change");
-        </script>
 
     @endpush
 

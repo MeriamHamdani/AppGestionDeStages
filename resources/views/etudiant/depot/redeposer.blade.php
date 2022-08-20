@@ -26,6 +26,7 @@
                     <div class="card-body">
                         <form action="{{route('update_depot',$depotMemoire)}}" method="POST"  enctype="multipart/form-data">
                             @csrf
+                            @method('PATCH')
                             @if($errors->any())
                                 @foreach ($errors->all() as $err )
                                     <div class="alert alert-danger" role="alert">

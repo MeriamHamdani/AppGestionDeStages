@@ -34,19 +34,20 @@ Route::middleware(['auth','role:enseignant'])->group(function(){
         Route::view('/encadrement/demandes', 'enseignant.encadrement.demandes')->name('demandes');
 
         Route::get('/depot/traiter-depot', [DepotMemoireController::class,'liste_demandes_depot_enseignant'])->name('depots');
-        Route::get('/depot/memoire/{stage}/{memoire}/{code_classe}', [DepotMemoireController::class, 'telecharger_memoire'])->where('memoire', '[A-Za-z0-9\-\_\.]+')->name('telecharger_memoire_ens');
+        Route::get('/depot/memoire/{stage}/{memoire}/{code_classe}', [DepotMemoireController::class, 'telecharger_memoire'])->name('telecharger_memoire_ens');
         Route::get('/depot/traiter-depot/details-depot/{demande_depot}',[CommentaireController::class, 'index'])->name('details_depot');
         Route::post('/depot/traiter-depot/details-depot/{demande_depot}/refuser',[CommentaireController::class, 'store'])->name('refuser_depot');
-        Route::get('/depot/traiter-depot/details-depot/{demande_depot}/valider',[DepotMemoireController::class, 'valider_par_encadrant'])->name('valider_depot');
         Route::get('/depot/traiter-depot/details-depot/{demande_depot}/valider',[DepotMemoireController::class, 'valider_par_encadrant'])->name('valider_depot');
 
 
         Route::get('/soutenance/liste-role-encadrant',  [SoutenanceController::class,'soutenance_encadrant'])->name('soutenance_role_encadrant');
         Route::get('/soutenance/liste-role-membre-jury', [SoutenanceController::class,'soutenance_membre_jury'])->name('soutenance_role_membre_jury');
         Route::get('/soutenance/liste-role-membre-jury/grille-evaluation/{soutenance}', [SoutenanceController::class,'telecharger_grille_evaluation'])->name('telecharger_grille_evaluation');
+        Route::get('/soutenance/liste-role-membre-jury/memoire/{stage}/{memoire}/{code_classe}', [DepotMemoireController::class,'telecharger_memoire'])->name('telecharger_memoire_soutenance');
         Route::post('/soutenance/liste-role-membre-jury/evaluer', [SoutenanceController::class,'evaluer_soutenance_par_president'])->name('evaluer_soutenance_par_president');
         Route::get('/soutenance/info-role-encadrant/{soutenance}', [SoutenanceController::class,'details_soutenance_encadrant'])->name('info_soutenance_ens');
         Route::get('/soutenance/info-role-membre-jury/{soutenance}', [SoutenanceController::class,'details_soutenance_membre'])->name('info_soutenance_membre');
+        Route::get('/soutenance/role-pres/evaluer', [EnseignantController::class, 'assigner_mention'])->name('assigner_mention');
         //Route::view('/stage/demande-refuse', 'etudiant.stage.demande_refuse')->name('demande_refuse');
        // Route::get('/soutenance/telechargement-memoire/{stage_id}',[SoutenanceController::class,'telecharger_memoire'])->name('telecharger_memoire');
     });

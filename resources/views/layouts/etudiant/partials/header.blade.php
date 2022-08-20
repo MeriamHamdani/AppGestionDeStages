@@ -170,6 +170,25 @@ fd<div class="page-main-header">
                                         </div>
                                     </li>
                                 @endif
+                                @if ($notification->type==='App\Notifications\DepotMemoireRefuseParAdminNotification')
+
+                                    <li class="noti-secondary">
+                                        <div class="media">
+                                        <span class="notification-bg bg-light-danger"><i
+                                                data-feather="activity"> </i></span>
+                                            <div class="media-body">
+                                                <p> Dépôt refusée par l'administration! </p>
+                                                <a href={{ route('depot') }}>
+                                        <span style="color: #ba895d"><strong>
+                                                Demande de dépôt refusée par l'administration.</strong><br/> L'administration a refusé votre demande de dépôt de mémoire déposé
+                                        <br> Veuillez redépôser votre mémoire et les fichiers nécessaires.</span></a>
+                                                <hr>
+                                                <span>{{ $notification->data['date'] }}</span>
+                                            </div>
+                                        </div>
+                                    </li>
+                                @endif
+
                         @endforeach
                     </ul>
                 </li>

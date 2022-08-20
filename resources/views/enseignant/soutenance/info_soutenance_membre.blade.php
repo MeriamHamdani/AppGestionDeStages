@@ -1,6 +1,6 @@
 @extends('layouts.enseignant.master')
 
-@section('title')Ma soutenance
+@section('title')Soutenance
 {{ $title }}
 @endsection
 
@@ -10,7 +10,7 @@
 @section('content')
 @component('components.breadcrumb')
 @slot('breadcrumb_title')
-<h3>Ma soutenance</h3>
+<h3>Soutenance</h3>
 @endslot
 <li class="breadcrumb-item">Soutenance</li>
 <li class="breadcrumb-item active">Détails</li>
@@ -21,7 +21,7 @@
         <div class="col-sm-12 col-lg-8 mx-auto">
             <div class="card">
                 <div class="card-header pb-0">
-                    <h5>Informations sur ma soutenacne</h5>
+                    <h5>Informations sur la soutenacne</h5>
                 </div>
                 <div class="card-body">
                     <div class="default-according style-1" id="accordionoc">

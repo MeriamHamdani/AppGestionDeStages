@@ -43,6 +43,7 @@ class SoutenanceController extends Controller
         foreach ($stages as $stage) {
             $tps = TypeStage::find($stage->type_stage_id);
             $cls = Classe::find($tps->classe_id);
+
             //$stage->confirmation_admin == 1 && $stage->confirmation_encadrant == 1
             if ($stage->validation_admin == 1 && $stage->soutenance_id == null && AnneeUniversitaire::find($stage->annee_universitaire_id) == $this->current_annee_univ()) {
 
@@ -625,7 +626,24 @@ class SoutenanceController extends Controller
         $soutenance = Soutenance::find($request->stnc);
         $request->validate(['note' => 'required|numeric|min:0|max:20']);
         $soutenance->note = $request->note;
-        //dd($request);
+        //dd($request, $request->note);
+        if ($request->note == null) {
+            $soutenance->mention = "";
+        } else if ($request->note >= 0 && $request->note < 10) {
+            $soutenance->mention = "Refusé";
+        } else if ($request->note >= 10 && $request->note < 12) {
+            $soutenance->mention = "Passable";
+        } else if ($request->note >= 12 && $request->note < 14) {
+            $soutenance->mention = "Assez-Bien";
+        } else if ($request->note >= 14 && $request->note < 16) {
+            $soutenance->mention = "Bien";
+        } else if ($request->note >= 16 && $request->note < 18) {
+            $soutenance->mention = "Très Bien";
+        } else if ($request->note >= 18 && $request->note <= 20) {
+            $soutenance->mention = "Excellent";
+        }
+        $soutenance->update();
+        // dd($soutenance);
         return back();
 
 

@@ -54,17 +54,17 @@ Route::middleware(['auth', 'role:etudiant'])->group(function () {
         Route::get('/depot/deposer/', [DepotMemoireController::class, 'create'])->name('deposer');
         Route::post('/depot/gerer-depot/deposer-memoire/deposer', [DepotMemoireController::class, 'store'])->name('deposer_memoire');
         Route::get('/depot/gerer-depot/afficher-details-depot/{depotMemoire}', [DepotMemoireController::class, 'show'])->name('afficher_details');
-        Route::get('/depot/gerer-depot/{memoire}/{code_classe}', [DepotMemoireController::class, 'telecharger_memoire'])->where('memoire', '[A-Za-z0-9\-\_\.]+')->name('telecharger_memoire');
+        Route::get('/depot/gerer-depot/{stage}/{memoire}/{code_classe}', [DepotMemoireController::class, 'telecharger_memoire'])->name('telecharger_memoire');
 
-        Route::get('/depot/gerer-depot/redeposer-memoire/memoire/{depotMemoire}', [DepotMemoireController::class, 'edit'])->name('redeposer');
-        Route::post('/depot/gerer-depot/redeposer-memoire/memoire/{depotMemoire}', [DepotMemoireController::class, 'update'])->name('update_depot');
-        Route::get('/depot/gerer-depot/remarques-encadrant/memoire/{depotMemoire}', [DepotMemoireController::class, 'remarques_encadrant'])->name('remarques_encadrant');
+        Route::get('/depot/gerer-depot/redeposer/{depotMemoire}', [DepotMemoireController::class, 'edit'])->name('redeposer');
+        Route::patch('/depot/gerer-depot/redeposer-memoire/memoire/{depotMemoire}', [DepotMemoireController::class, 'update'])->name('update_depot');
+        Route::get('/depot/gerer-depot/remarques-encadrant/{depotMemoire}', [DepotMemoireController::class, 'remarques_encadrant'])->name('remarques_encadrant');
 
 
         Route::get('/soutenance/liste-soutenances', [SoutenanceController::class,'soutenance_etudiant'])->name('soutenance_etudiant');
         Route::get('/soutenance/info/{soutenance}', [SoutenanceController::class,'details_soutenance_etudiant'])->name('info_soutenance');
 
-        Route::get('/stage/fiche_demande/{fiche_demande}', [StageController::class, 'telecharger_modele_fiche_demande'])->where('fiche_demande', '[A-Za-z0-9\-\_\.]+')->name('telecharger_modele_fiche_demande');
+        Route::get('/stage/fiche_demande/{fiche_demande}', [StageController::class, 'telecharger_modele_fiche_demande'])->name('telecharger_modele_fiche_demande');
       /*  Route::get('/stage/fiche_assurance/{fiche_assurance}', [StageController::class, 'telecharger_fiche_assurance'])->where('fiche_assurance', '[A-Za-z0-9\-\_\.]+')->name('telecharger_fiche_assurance');
         Route::get('/stage/fiche_2Dinars/{fiche_2Dinars}', [StageController::class, 'telecharger_fiche_2Dinars'])->where('fiche_2Dinars', '[A-Za-z0-9\-\_\.]+')->name('telecharger_fiche_2Dinars');*/
 

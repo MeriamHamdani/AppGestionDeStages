@@ -1,6 +1,6 @@
 @extends('layouts.enseignant.master')
 
-@section('title')La soutenance
+@section('title')Soutenance
 {{ $title }}
 @endsection
 

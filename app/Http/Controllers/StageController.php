@@ -123,7 +123,7 @@ class StageController extends Controller
             $stages_volontaires = $this->stages1ereLicMaster()->where('annee_universitaire_id', $ann->id);
             return view('admin.stage.listes_demandes_stage.sv1lm', compact(['stages_volontaires', 'current_date']));
         }
-        $an=$this->current_annee_univ();
+        $an = $this->current_annee_univ();
         $stages_volontaires = $this->stages1ereLicMaster()->where('annee_universitaire_id', $an->id);
         //dd($stages_volontaires);
 
@@ -161,7 +161,7 @@ class StageController extends Controller
             return view('admin.stage.listes_demandes_stage.so2lInfo', compact(['stages_2lInfo', 'current_date']));
         }
 
-        $an =$this->current_annee_univ();
+        $an = $this->current_annee_univ();
         $stages_2lInfo = $this->stages2emeLicInfo()->where('annee_universitaire_id', $an->id);
 
         return view('admin.stage.listes_demandes_stage.so2lInfo', compact(['stages_2lInfo', 'current_date']));
@@ -202,7 +202,7 @@ class StageController extends Controller
             return view('admin.stage.listes_demandes_stage.so2l', compact(['stages', 'current_date']));
         }
 
-        $an =  $this->current_annee_univ();
+        $an = $this->current_annee_univ();
 
         $stages = $this->stages2emeLic()->where('annee_universitaire_id', $an->id);
         return view('admin.stage.listes_demandes_stage.so2l', compact(['stages', 'current_date']));
@@ -279,7 +279,7 @@ class StageController extends Controller
             $stages = $this->stages3emeLicInfo()->where('annee_universitaire_id', $ann->id);
             return view('admin.stage.listes_demandes_stage.so3Info', compact(['stages', 'current_date']));
         }
-        $an =$this->current_annee_univ();
+        $an = $this->current_annee_univ();
         $stages = $this->stages3emeLicInfo()->where('annee_universitaire_id', $an->id);
         return view('admin.stage.listes_demandes_stage.so3Info', compact(['stages', 'current_date']));
     }
@@ -487,27 +487,27 @@ class StageController extends Controller
         if ($etudiant->classe->typeStage->fiche_demande_type == "requis") {
             if (isset($request->fiche_demande)) {
                 $request->validate(['fiche_demande' => ['required', 'mimes:docx,jpg,jpeg,png,doc']]);
-                $fiche_demande_name = 'FicheDemande_' . $cin .'_'.$etudiant->nom.'-'.$etudiant->prenom . '.' . $request->file('fiche_demande')->extension();
+                $fiche_demande_name = 'FicheDemande_' . $cin . '_' . $etudiant->nom . '-' . $etudiant->prenom . '.' . $request->file('fiche_demande')->extension();
                 $path = Storage::disk('public')
-                    ->putFileAs($etablissement.'-'.$anneeUniv.'\fiches_suivi_stages\fiches_demandes_stages\fiches_demandes\fiches_demande_' . $classe->code, $request->file('fiche_demande'), $fiche_demande_name);
+                    ->putFileAs($etablissement . '-' . $anneeUniv . '\fiches_suivi_stages\fiches_demandes_stages\fiches_demandes\fiches_demande_' . $classe->code, $request->file('fiche_demande'), $fiche_demande_name);
                 $stage->fiche_demande = $path;
             }
         }
         if ($etudiant->classe->typeStage->fiche_2Dinars_type == "requis") {
             if (isset($request->fiche_2Dinars)) {
                 $request->validate(['fiche_2Dinars' => ['required', 'mimes:docx,jpg,jpeg,png,doc']]);
-                $fiche_2Dinars_name = 'Fiche2Dinars_' . $cin .'_'.$etudiant->nom.'-'.$etudiant->prenom .'.' . $request->file('fiche_2Dinars')->extension();
+                $fiche_2Dinars_name = 'Fiche2Dinars_' . $cin . '_' . $etudiant->nom . '-' . $etudiant->prenom . '.' . $request->file('fiche_2Dinars')->extension();
                 $path2 = Storage::disk('public')
-                    ->putFileAs($etablissement.'-'.$anneeUniv.'\fiches_suivi_stages\fiches_demandes_stages\fiches_2dinars\fiches_2dinars_' . $classe->code, $request->file('fiche_2Dinars'), $fiche_2Dinars_name);
+                    ->putFileAs($etablissement . '-' . $anneeUniv . '\fiches_suivi_stages\fiches_demandes_stages\fiches_2dinars\fiches_2dinars_' . $classe->code, $request->file('fiche_2Dinars'), $fiche_2Dinars_name);
                 $stage->fiche_2Dinars = $path2;
             }
         }
         if ($etudiant->classe->typeStage->fiche_assurance_type == "requis") {
             if (isset($request->fiche_assurance)) {
                 $request->validate(['fiche_assurance' => ['required', 'mimes:docx,jpg,jpeg,png,doc']]);
-                $fiche_assurance_name = 'FicheAssurance_' . $cin .'_'.$etudiant->nom.'-'.$etudiant->prenom . '.' . $request->file('fiche_assurance')->extension();
+                $fiche_assurance_name = 'FicheAssurance_' . $cin . '_' . $etudiant->nom . '-' . $etudiant->prenom . '.' . $request->file('fiche_assurance')->extension();
                 $path3 = Storage::disk('public')
-                    ->putFileAs($etablissement.'-'.$anneeUniv.'\fiches_suivi_stages\fiches_demandes_stages\fiches_assurances\fiches_assurances_' . $classe->code, $request->file('fiche_assurance'), $fiche_assurance_name);
+                    ->putFileAs($etablissement . '-' . $anneeUniv . '\fiches_suivi_stages\fiches_demandes_stages\fiches_assurances\fiches_assurances_' . $classe->code, $request->file('fiche_assurance'), $fiche_assurance_name);
                 $stage->fiche_assurance = $path3;
             }
         }
@@ -671,11 +671,12 @@ class StageController extends Controller
                         $cahier_stage->save();
                         $stage->cahier_stage_id = $cahier_stage->id;
                         $stage->update();
+
                     }
                     $grade = $stage->enseignant->grade;
                     $cycle = $stage->etudiant->classe->cycle; //dd($grade,$cycle);
                     $lignefrais = (FraisEncadrement::where('cycle', $cycle)->where('grade', $grade)->first());
-                    if(isset($lignefrais)) {
+                    if (isset($lignefrais)) {
                         $frais = $lignefrais->frais;
                         $paiementEncadrement = new PaiementEnseignant();
                         $paiementEncadrement->enseignant_id = $stage->enseignant->id;
@@ -696,12 +697,12 @@ class StageController extends Controller
                     $templateProcessor2->setValue('email', $etudiant->email);
                     $templateProcessor2->setValue('classe', $etudiant->classe->nom);
                     $templateProcessor2->setValue('an', $annee->annee);
-                    $pth=public_path() . '/storage/'.$etablissement.'-'.$anneeUniv.'/fiches_suivi_stages/fiches_confirmation_stages/fiches_encadrements';
+                    $pth = public_path() . '/storage/' . $etablissement . '-' . $anneeUniv . '/fiches_suivi_stages/fiches_confirmation_stages/fiches_encadrements';
                     //$pth=public_path() . '\storage\fiches_encadrements_' . $annee->annee ;
-                        if(!File::isDirectory($pth)){
-                          File::makeDirectory($pth, 0777, true, true);
-                        }
-                    $templateProcessor2->saveAs($pth. '\fiche_encadrement_' . $enseignant->nom . '_' . $enseignant->prenom .'-'.$etudiant->nom . '_' . $etudiant->prenom . '.docx');
+                    if (!File::isDirectory($pth)) {
+                        File::makeDirectory($pth, 0777, true, true);
+                    }
+                    $templateProcessor2->saveAs($pth . '\fiche_encadrement_' . $enseignant->nom . '_' . $enseignant->prenom . '-' . $etudiant->nom . '_' . $etudiant->prenom . '.docx');
                     $details2 = ['etudiant' => ucwords($etudiant->nom . ' ' . $etudiant->prenom),
                         'classe' => $etudiant->classe->nom,
                         'annee' => $annee->annee,
@@ -717,7 +718,7 @@ class StageController extends Controller
                     ];
                     $file_path = public_path() . '/storage/' . $annee->lettre_affectation;
                     //$file_path = str_replace(' ', '', $file_path);
-                   // $file_path = str_replace('/', '\\', $file_path);
+                    // $file_path = str_replace('/', '\\', $file_path);
                     $templateProcessor = new TemplateProcessor($file_path);//dd($templateProcessor->getVariables());
                     $templateProcessor->setValue('nom', ucwords($etudiant->nom . ' ' . $etudiant->prenom));
                     $templateProcessor->setValue('CIN', $user->numero_CIN);
@@ -725,13 +726,14 @@ class StageController extends Controller
                     $templateProcessor->setValue('date_fin', $stage->date_fin);
                     $templateProcessor->setValue('type_stage', $ts);
                     $templateProcessor->setValue('classe', $classe->nom);
-                    $p=public_path() . '/storage/'.$etablissement.'-'.$anneeUniv.'/fiches_suivi_stages/fiches_confirmation_stages/lettres_affectations/lettres_affectations_' . $classe->code ;
-                   // $p=public_path() . '\storage\lettres_affectation_' . $annee->annee ;
-                    if(!File::isDirectory($p)){
-                          File::makeDirectory($p, 0777, true, true);
-                        }
-                    $templateProcessor->saveAs($p. '\lettre_aff_' . $user->numero_CIN . '_' . $stage->etudiant->nom .'-'.$stage->etudiant->prenom. '.docx');
+                    $p = public_path() . '/storage/' . $etablissement . '-' . $anneeUniv . '/fiches_suivi_stages/fiches_confirmation_stages/lettres_affectations/lettres_affectations_' . $classe->code;
+                    // $p=public_path() . '\storage\lettres_affectation_' . $annee->annee ;
+                    if (!File::isDirectory($p)) {
+                        File::makeDirectory($p, 0777, true, true);
+                    }
+                    $templateProcessor->saveAs($p . '\lettre_aff_' . $user->numero_CIN . '_' . $stage->etudiant->nom . '-' . $stage->etudiant->prenom . '.docx');
                     $etudiant->notify(new DownloadLettreAffectationNotification($details));
+                    Session::flash('message', 'demande_confirmé');
                     return back();
                 } elseif ($stage->confirmation_encadrant == -1) {
                     Session::flash('message', 'encadrant refuse');
@@ -750,7 +752,7 @@ class StageController extends Controller
                     $stage->cahier_stage_id = $cahier_stage->id;
                     $stage->update();
                 }
-                $file_path = public_path() . '/storage/'  . $annee->lettre_affectation;
+                $file_path = public_path() . '/storage/' . $annee->lettre_affectation;
                 //$file_path = str_replace(' ', '', $file_path);
                 //$file_path = str_replace('/', '\\', $file_path);
                 $templateProcessor = new TemplateProcessor($file_path);//dd($templateProcessor->getVariables());
@@ -760,20 +762,21 @@ class StageController extends Controller
                 $templateProcessor->setValue('date_fin', $stage->date_fin);
                 $templateProcessor->setValue('type_stage', $ts);
                 $templateProcessor->setValue('classe', $classe->nom);
-                $path=public_path() . '/storage/'.$etablissement.'-'.$anneeUniv.'/fiches_suivi_stages/fiches_confirmation_stages/lettres_affectations/lettres_affectations_' . $classe->code ;
+                $path = public_path() . '/storage/' . $etablissement . '-' . $anneeUniv . '/fiches_suivi_stages/fiches_confirmation_stages/lettres_affectations/lettres_affectations_' . $classe->code;
                 //$path=public_path() . '\storage\ '.$etablissement.'-'.$anneeUniv.'\fiches_suivi_stages\fiches_confirmation_stages\lettres_affectations\lettres_affectations_' . $classe->code ;
                 //$path=public_path().'\storage\lettres_affectation_'.$annee->annee;//.'\lettre_aff_'.$user->numero_CIN.'_'.$stage->id.'.docx';
-                if(!File::isDirectory($path)){
+                if (!File::isDirectory($path)) {
                     File::makeDirectory($path, 0777, true, true);
                 }
-                  //dd($path);
-                $templateProcessor->saveAs($path. '\lettre_aff_' . $user->numero_CIN . '_' . $stage->etudiant->nom .'-'.$stage->etudiant->prenom. '.docx');
+                //dd($path);
+                $templateProcessor->saveAs($path . '\lettre_aff_' . $user->numero_CIN . '_' . $stage->etudiant->nom . '-' . $stage->etudiant->prenom . '.docx');
                 $stage->update();
                 $details = ['etudiant' => $etudiant->nom . ' ' . $etudiant->prenom,
                     'annee' => $annee->annee_universitaire,
                     'type_stage' => $type,
                     'date' => 'Le ' . $current_date->day . '-' . $current_date->month . '-' . $current_date->year . ' à ' . $current_date->hour . ':' . $current_date->minute];
                 $etudiant->notify(new DownloadLettreAffectationNotification($details));
+                Session::flash('message', 'demande_confirmé');
                 return back();
             }
         } else abort(404);
@@ -829,6 +832,7 @@ class StageController extends Controller
             $details = ['etudiant' => ucwords($etudiant->nom . ' ' . $etudiant->prenom),
                 'date' => 'Le ' . $current_date->day . '-' . $current_date->month . '-' . $current_date->year . ' à ' . $current_date->hour . ':' . $current_date->minute];
             $etudiant->notify(new DemandeStageRefuseNotification($details));
+            Session::flash('message', 'demande_refusé');
             return back();
         }
     }
@@ -841,19 +845,20 @@ class StageController extends Controller
         $fiche_demande = $typeStage->fiche_demande;
         //$fiche_demande_name = substr($fiche_demande, 15);
         $fiche_demande_name = Str::afterLast($fiche_demande, '/');
-        $file_path = public_path() . '/storage/'  . $fiche_demande;
+        $file_path = public_path() . '/storage/' . $fiche_demande;
         if (file_exists($file_path)) {
             return Response::download($file_path, $fiche_demande_name);
         } else {
             exit('fiche demande waw inexistante !');
         }
     }
+
     public function telecharger_fiche_demande(Stage $stage, string $fiche_demande, string $code_classe)
     {
         $etablissement = Etablissement::all()->first()->nom;
         //$anneeUniv = $this->current_annee_univ()->annee; //dd($annee);
         $anneeUniv = AnneeUniversitaire::findOrFail($stage->annee_universitaire_id)->annee;
-        $file_path = public_path() . '/storage/'.$etablissement.'-'.$anneeUniv.'/fiches_suivi_stages/fiches_demandes_stages/fiches_demandes/fiches_demande_' . $code_classe . '/' . $fiche_demande;
+        $file_path = public_path() . '/storage/' . $etablissement . '-' . $anneeUniv . '/fiches_suivi_stages/fiches_demandes_stages/fiches_demandes/fiches_demande_' . $code_classe . '/' . $fiche_demande;
         if (file_exists($file_path)) {
             return Response::download($file_path, $fiche_demande);
         } else {
@@ -862,13 +867,13 @@ class StageController extends Controller
         }
     }
 
-    public function telecharger_fiche_2Dinars(Stage $stage,string $fiche_2Dinars, string $code_classe)
+    public function telecharger_fiche_2Dinars(Stage $stage, string $fiche_2Dinars, string $code_classe)
     {
         $etablissement = Etablissement::all()->first()->nom;
         $anneeUniv = AnneeUniversitaire::findOrFail($stage->annee_universitaire_id)->annee;
         //$anneeUniv = $this->current_annee_univ()->annee; //dd($annee);
         $fiche_2Dinars = Str::after($fiche_2Dinars, '/');
-        $file_path = public_path() . '/storage/'.$etablissement.'-'.$anneeUniv.'/fiches_suivi_stages/fiches_demandes_stages/fiches_2dinars/fiches_2dinars_' . $code_classe . '/' . $fiche_2Dinars;
+        $file_path = public_path() . '/storage/' . $etablissement . '-' . $anneeUniv . '/fiches_suivi_stages/fiches_demandes_stages/fiches_2dinars/fiches_2dinars_' . $code_classe . '/' . $fiche_2Dinars;
         if (file_exists($file_path)) {
             return Response::download($file_path, $fiche_2Dinars);
         } else {
@@ -876,12 +881,12 @@ class StageController extends Controller
         }
     }
 
-    public function telecharger_fiche_assurance(Stage $stage,string $fiche_assurance, string $code_classe)
+    public function telecharger_fiche_assurance(Stage $stage, string $fiche_assurance, string $code_classe)
     {
         $etablissement = Etablissement::all()->first()->nom;
         $anneeUniv = AnneeUniversitaire::findOrFail($stage->annee_universitaire_id)->annee;
         $fiche_assurance = Str::after($fiche_assurance, '/');
-        $file_path = public_path() . '/storage/'.$etablissement.'-'.$anneeUniv.'/fiches_suivi_stages/fiches_demandes_stages/fiches_assurances/fiches_assurances_' . $code_classe . '/' . $fiche_assurance;
+        $file_path = public_path() . '/storage/' . $etablissement . '-' . $anneeUniv . '/fiches_suivi_stages/fiches_demandes_stages/fiches_assurances/fiches_assurances_' . $code_classe . '/' . $fiche_assurance;
         if (file_exists($file_path)) {
             return Response::download($file_path, $fiche_assurance);
         } else {
@@ -894,9 +899,9 @@ class StageController extends Controller
         $etablissement = Etablissement::all()->first()->nom;
         $anneeUniv = AnneeUniversitaire::findOrFail($demande->annee_universitaire_id)->annee;//dd($annee_univ);
         $cin = Auth::user()->numero_CIN;
-       // $file_path = public_path('\storage\lettres_affectation_' . $annee_univ . '\lettre_aff_' . $cin . '_' . $demande->id . '.docx');
-        $file_path =public_path() . '/storage/'.$etablissement.'-'.$anneeUniv.'/fiches_suivi_stages/fiches_confirmation_stages/lettres_affectations/lettres_affectations_' . $demande->etudiant->classe->code .'/lettre_aff_' . $cin . '_' . $demande->etudiant->nom .'-'.$demande->etudiant->prenom. '.docx';
-       //dd($file_path);
+        // $file_path = public_path('\storage\lettres_affectation_' . $annee_univ . '\lettre_aff_' . $cin . '_' . $demande->id . '.docx');
+        $file_path = public_path() . '/storage/' . $etablissement . '-' . $anneeUniv . '/fiches_suivi_stages/fiches_confirmation_stages/lettres_affectations/lettres_affectations_' . $demande->etudiant->classe->code . '/lettre_aff_' . $cin . '_' . $demande->etudiant->nom . '-' . $demande->etudiant->prenom . '.docx';
+        //dd($file_path);
         if (file_exists($file_path)) {
             Session::flash('message', 'download_OK');
             return Response::download($file_path, 'lettre d\'affectation.docx');
@@ -912,7 +917,7 @@ class StageController extends Controller
         $etablissement = Etablissement::all()->first()->nom;
         $enseignant = Enseignant::where('user_id', Auth::user()->id)->first();
         $anneeUniv = AnneeUniversitaire::findOrFail($stage->annee_universitaire_id)->annee;
-        $file_path =public_path() . '/storage/'.$etablissement.'-'.$anneeUniv.'/fiches_suivi_stages/fiches_confirmation_stages/fiches_encadrements/fiche_encadrement_' . $enseignant->nom . '_' . $enseignant->prenom . '-'.$stage->etudiant->nom . '_' . $stage->etudiant->prenom . '.docx';
+        $file_path = public_path() . '/storage/' . $etablissement . '-' . $anneeUniv . '/fiches_suivi_stages/fiches_confirmation_stages/fiches_encadrements/fiche_encadrement_' . $enseignant->nom . '_' . $enseignant->prenom . '-' . $stage->etudiant->nom . '_' . $stage->etudiant->prenom . '.docx';
         //$file_path = public_path('\storage\fiches_encadrements_' . $anneeUniv . '\fiche_encadrement_' . $enseignant->nom . '_' . $enseignant->prenom . '.docx');
         if (file_exists($file_path)) {
             return Response::download($file_path, 'fiche d\'encadrement.docx');
@@ -923,4 +928,45 @@ class StageController extends Controller
         }
     }
 
-}
+
+    public function valider_stage_non_terminale(Stage $stage)
+    {
+        if ($stage->date_fin <= Carbon::now()) {
+            if ($stage->validation_admin == null && $stage->confirmation_admin == 1) {
+                $stage->validation_admin = 1;
+                $stage->update();
+                Session::flash('message', 'stage_valide');
+                return back();
+            } else {
+                Session::flash('message', 'demande_en_attente');
+                return back();
+            }
+        } else {
+            Session::flash('message', 'dure_stage_inacheve');
+            return back();
+        }
+    }
+
+    public function invalider_stage_non_terminale(Stage $stage)
+    {
+        if ($stage->date_fin <= Carbon::now()) {
+            if ($stage->validation_admin == null && $stage->confirmation_admin == 1) {
+                $stage->validation_admin = -1;
+                $stage->update();
+                Session::flash('message', 'stage_invalide');
+                return back();
+            } else {
+                Session::flash('message', 'demande_en_attente');
+                return back();
+            }
+        }
+        else {
+                Session::flash('message', 'dure_stage_inacheve');
+                return back();
+            }
+        }
+
+    }
+
+
+

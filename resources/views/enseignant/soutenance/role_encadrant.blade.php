@@ -1,6 +1,6 @@
 @extends('layouts.enseignant.master')
 
-@section('title')Mes soutenances
+@section('title')Les soutenances
 {{ $title }}
 @endsection
 
@@ -14,7 +14,7 @@
             <h3>Soutenances</h3>
         @endslot
         <li class="breadcrumb-item">Soutenance</li>
-        <li class="breadcrumb-item">Mes soutenances</li>
+        <li class="breadcrumb-item">Les soutenances</li>
     @endcomponent
 
     <div class="container-fluid">
@@ -23,7 +23,7 @@
             <div class="col-sm-12">
                 <div class="card">
                     <div class="card-header">
-                        <h5>Mes soutenances en tant qu'Encadrant</h5>
+                        <h5>Les soutenances en tant qu'Encadrant</h5>
                     </div>
                     <div class="card-body">
                         <div class="table-responsive">

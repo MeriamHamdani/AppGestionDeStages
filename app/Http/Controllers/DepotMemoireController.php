@@ -18,6 +18,7 @@ use App\Models\TypeStage;
 use App\Notifications\DemandeDepotMemoireNotification;
 use App\Notifications\DemandeEncadrementNotification;
 use App\Notifications\DemandeRedepotMemoireNotification;
+use App\Notifications\DepotMemoireRefuseParAdminNotification;
 use App\Notifications\DepotMemoireValideParAdminNotification;
 use App\Notifications\DepotMemoireValideParEncadrantNotification;
 use Illuminate\Database\Eloquent\Collection;
@@ -164,6 +165,7 @@ class DepotMemoireController extends Controller
                     $attributs['stage_id'] = $stage_id;
                     $depot = DepotMemoire::create($attributs);
                     $stage->depot_memoire_id = $depot->id;
+                    $stage->titre_sujet = $depot->titre;
                     $stage->update();
                     $enseignant = $depot->stage->enseignant;
                     $data = ['nom_etud' => ucwords($etudiant->nom . ' ' . $etudiant->prenom),
@@ -403,17 +405,18 @@ class DepotMemoireController extends Controller
                 'memoire' => ['mimes:docx'],
             ]
         );
-        $user_id = Auth::user()->id;
         $etudiant = Etudiant::where('user_id', Auth::user()->id)->latest()->first();
         $nomComplet = ucwords($etudiant->nom) . ucwords($etudiant->prenom);
         $classe = Classe::findOrFail($etudiant->classe_id);
+        $etablissement = Etablissement::all()->first()->nom;
+        $anneeUniv = AnneeUniversitaire::findOrFail($depotMemoire->stage->annee_universitaire_id)->annee;//dd($annee_univ);
         $current_date = Carbon::now();
         //dd($depotMemoire->stage->etudiant->user->id == Auth::user()->id ,$depotMemoire->stage->typeStage->date_limite_depot > $current_date);
         if ($depotMemoire->stage->etudiant->user->id == Auth::user()->id && $depotMemoire->stage->typeStage->date_limite_depot > $current_date) {
             if (isset($request->memoire)) {
                 $memoire_name = 'Memoire_' . $nomComplet . '.' . $request->file('memoire')->extension();
                 $path = Storage::disk('public')
-                    ->putFileAs('memoires_' . $classe->code, $request->file('memoire'), $memoire_name);
+                    ->putFileAs($etablissement.'-'.$anneeUniv.'\fiches_suivi_stages\fiches_depots_memoires\mémoires\mémoires_' . $classe->code, $request->file('memoire'), $memoire_name);
                 $depotMemoire->memoire = $path;
                 $depotMemoire->update();
                 $enseignant = $depotMemoire->stage->enseignant;
@@ -528,6 +531,10 @@ class DepotMemoireController extends Controller
     {
         if ($demande_depot->validation_encadrant == 1) {
             $demande_depot->validation_admin = 1;
+            $stage = Stage::find($demande_depot->stage_id);
+            $stage->validation_admin = 1;
+            $stage ->validation_encadrant = 1;
+            $stage->update();
             $demande_depot->update();
             $etudiant = $demande_depot->stage->etudiant;
             $enseignant = $demande_depot->stage->enseignant;
@@ -541,4 +548,22 @@ class DepotMemoireController extends Controller
         }
         return redirect()->action([DepotMemoireController::class, 'liste_demandes_depot_admin']);
     }
+
+    public function refuser_par_admin(DepotMemoire $demande_depot)
+    {
+        $etudiant = $demande_depot->stage->etudiant;
+        $current_date = Carbon::now();
+        $data = ['nom_etud' => ucwords($etudiant->nom . ' ' . $etudiant->prenom),
+            'date' => 'Le ' . $current_date->day . '-' . $current_date->month . '-' . $current_date->year . ' à ' . $current_date->hour . ':' . $current_date->minute];
+        $etudiant->notify(new DepotMemoireRefuseParAdminNotification($data));
+        $stage= Stage::find($demande_depot->stage_id);
+        $stage->depot_memoire_id = null;
+        $stage->update();
+        $demande_depot->stage_id = null;
+        $demande_depot->update();
+        $demande_depot->delete();
+        return redirect()->action([DepotMemoireController::class, 'liste_demandes_depot_admin']);
+    }
+
 }
+

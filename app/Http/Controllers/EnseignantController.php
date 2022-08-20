@@ -274,9 +274,11 @@ class EnseignantController extends Controller
     {
         if ($request->numeroCIN) {
             $enseignant = Enseignant::findOrFail($request->enseignant);
+            $an = StageController::current_annee_univ();
             $stages_actifs = Stage::where('enseignant_id', $enseignant->id)
                 ->where('confirmation_admin', 1)
                 ->where('confirmation_encadrant', 1)
+               ->where('annee_universitaire_id', $an->id)
                 ->get(); //dd($stages_actifs);
             $etablissement = Etablissement::all()->first()->nom;
             $stgLic = new Collection();
