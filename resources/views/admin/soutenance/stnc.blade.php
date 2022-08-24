@@ -412,9 +412,9 @@
                             button: "réessayer"
                         });
                     }
-                                console.log(response);
-                                /* $('#stncModal').modal('hide');
-                                 window.location.reload();*/
+
+                                 $('#stncModal').modal('hide');
+                                 window.location.reload();
                             },
                             error: function(error){
 
