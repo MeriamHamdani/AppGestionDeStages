@@ -85,8 +85,12 @@
                                                         @php
                                                         $mem=App\Models\Enseignant::find($soutenance->deuxieme_membre_id);
                                                         @endphp
-                                                        <strong>Le 2ème membre :</strong> {{
-                                                        ucwords($mem->nom) }}&nbsp;{{ ucwords($mem->prenom) }}
+                                                        <strong>Le 2ème membre :</strong>
+                                                        @if($soutenance->deuxieme_membre_id!=null)
+                                                        {{ucwords($mem->nom) }}&nbsp;{{ ucwords($mem->prenom) }}
+                                                        @else
+                                                        -----
+                                                        @endif
                                                         @endif
                                                     </p>
 
@@ -115,8 +119,12 @@
                                                         ucwords($rap->nom) }}&nbsp;{{ucwords( $pres->prenom )}}<br>
                                                         <strong>Rapporteur :</strong> {{
                                                         ucwords($rap->nom) }}&nbsp;{{ ucwords($rap->prenom) }}<br>
-                                                        <strong>Le 2ème membre : </strong>{{
-                                                        ucwords($mem->nom) }}&nbsp;{{ ucwords($mem->prenom) }}
+                                                        <strong>Le 2ème membre :
+                                                        </strong>@if($soutenance->deuxieme_membre_id!=null)
+                                                        {{ucwords($mem->nom) }}&nbsp;{{ ucwords($mem->prenom) }}
+                                                        @else
+                                                        -----
+                                                        @endif
                                                     </p>
 
                                                     <p class="m-t-10">
@@ -142,4 +150,3 @@
 <script src="{{asset('assets/js/editor/ckeditor/adapters/jquery.js')}}"></script>
 <script src="{{asset('assets/js/email-app.js')}}"></script>
 @endpush
-

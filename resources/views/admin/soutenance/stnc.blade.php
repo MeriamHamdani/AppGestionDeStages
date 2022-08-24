@@ -89,7 +89,7 @@
 
                         <label class="form-label" for="validationTooltip01">2éme membre de jury </label>
                         <select class="js-example-basic-single col-sm-12" name="2eme_membre" id="2eme_membre">
-                            <option>Voulez vous choisissez un deuxieme membre ?</option>
+                            <option value=null></option>
                             @foreach ($enseignants as $ens )
                             <option value={{ $ens->id }}>{{ ucwords($ens->nom) }}&nbsp;{{ ucwords($ens->prenom) }}
                             </option>

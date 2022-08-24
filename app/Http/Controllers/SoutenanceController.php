@@ -110,7 +110,7 @@ class SoutenanceController extends Controller
             'rapporteur' => "required",
             'stage' => "required",
         ]);
-return $request->deuxieme_membre;
+//return $request->deuxieme_membre;
         $s = Soutenance::where('stage_id', $request->stage)->exists();
         //return response()->json(['error'=>$s]);
         if ($s) {
@@ -120,11 +120,14 @@ return $request->deuxieme_membre;
         $stage = Stage::find($request->stage);
         $etd = Etudiant::find($stage->etudiant_id);
 
-        $un = $request->rapporteur == $request->deuxieme_membre;
+        if($request->deuxieme_membre != 'null'){
+            $un = $request->rapporteur == $request->deuxieme_membre;
+            $quatre = $request->deuxieme_membre == $stage->enseignant_id;
+             $cinq = $request->deuxieme_membre == $stage->president;
+        }
+
         $deux = $request->rapporteur == $stage->enseignant_id;
         $trois = ($request->rapporteur == $stage->president);
-        $quatre = $request->deuxieme_membre == $stage->enseignant_id;
-        $cinq = $request->deuxieme_membre == $stage->president;
         $six = $request->president == $stage->enseignant_id;
 
         $soutenances = Soutenance::where(['salle' => $request->salle, 'date' => DateTime::createFromFormat('d-m-Y', $request->date)->format('Y-m-d')])->get();
@@ -137,13 +140,19 @@ return $request->deuxieme_membre;
                 }
             }
         }
-        if ($un || $deux || $trois) {
+        if ( $deux || $trois) {
             return response()->json(['error' => "udt"]);
             //Le rapporteur ne peut pas etre ni le président de jury ni le 2éme membre de jury ni l'encadrant de l'étudiant
         }
-        if ($quatre || $cinq) {
+        if($request->deuxieme_membre!='null')
+        {
+            if ($quatre || $cinq) {
             return response()->json(['error' => "qc"]);
             //Le deuxieme membre de jury ne peut pas etre ni le président de jury ni l'encadrant de l'étudiant'
+            }
+            if($un){
+                return response()->json(['error' => "udt"]);
+            }
         }
         if ($six) {
             return response()->json(['error' => "six"]);
@@ -157,7 +166,10 @@ return $request->deuxieme_membre;
         $stnc->date = DateTime::createFromFormat('d-m-Y', $request->date)->format('Y-m-d');
         $stnc->stage_id = (int)$request->stage;
         $stnc->president_id = $request->president;
-        $stnc->deuxieme_membre_id = $request->deuxieme_membre;
+        if($request->deuxieme_membre!='null'){
+            $stnc->deuxieme_membre_id = $request->deuxieme_membre;
+        }
+
         $stnc->rapporteur_id = $request->rapporteur;
         $stnc->annee_universitaire_id = $this->current_annee_univ()->id;
         $stnc->save();
@@ -166,7 +178,10 @@ return $request->deuxieme_membre;
 
         $encadrant = Enseignant::find($stage->enseignant_id);
         $president = Enseignant::find($request->president);
+        if($request->deuxieme_membre!='null')
+        {
         $membre = Enseignant::find($request->deuxieme_membre);
+        }
         $rapporteur = Enseignant::find($request->rapporteur);
 
 
@@ -176,7 +191,9 @@ return $request->deuxieme_membre;
         $enc_name = ucwords($encadrant->nom . ' ' . $encadrant->prenom);
         $etd->notify(new SoutenanceNotification($stnc, $etd, $enc_name, 'etudiant'));
         $president->notify(new SoutenanceNotification($stnc, $etd, $enc_name, 'president de jury'));
+        if ($request->deuxieme_membre!='null') {
         $membre->notify(new SoutenanceNotification($stnc, $etd, $enc_name, 'membre de jury'));
+        }
         $rapporteur->notify(new SoutenanceNotification($stnc, $etd, $enc_name, 'rapporteur'));
         $encadrant->notify(new SoutenanceNotification($stnc, $etd, $enc_name, 'encadrant'));
 
