@@ -28,6 +28,7 @@ use Illuminate\Support\Facades\File;
 use Maatwebsite\Excel\Facades\Excel;
 use Illuminate\Support\Facades\Session;
 use App\Exports\SoutenanceParSpecExport;
+use App\Notifications\EditSoutenanceNotification;
 use PhpOffice\PhpWord\TemplateProcessor;
 use Illuminate\Database\Eloquent\Collection;
 use App\Notifications\SoutenanceNotification;
@@ -72,11 +73,21 @@ class SoutenanceController extends Controller
 
                 $color = '#FA58AC';
             }
-            $etdNP = Etudiant::find(Stage::find($soutenance->stage_id)->etudiant_id)->nom . ' ' . Etudiant::find(Stage::find($soutenance->stage_id)->etudiant_id)->prenom;
+            $etud=Etudiant::find(Stage::find($soutenance->stage_id)->etudiant_id);
+            $etdNP = $etud->nom . ' ' . Etudiant::find(Stage::find($soutenance->stage_id)->etudiant_id)->prenom;
+            
+            $sttg=Stage::find($soutenance->stage_id);
+            $etud->stage_id=$sttg->id;
             $stnc[] = [
                 'date' => $soutenance->date,
                 'start' => $soutenance->start,
                 'salle' => $soutenance->salle,
+                'heure'=>$soutenance->start_time,
+				'president'=>Enseignant::find($soutenance->president_id),
+				'president'=>Enseignant::find($soutenance->rapporteur_id),
+				'president'=>Enseignant::find($soutenance->deuxieme_membre_id),
+                'etudiant'=>$etud,
+                'stage'=>$sttg,
                 'id' => $soutenance->id,
                 'color' => $color,
                 'title' => $etdNP . ' : ' . $classe->code
@@ -95,11 +106,11 @@ class SoutenanceController extends Controller
             'salle' => "required",
             'heure' => "required",
             'president' => "required",
-            'deuxieme_membre' => "required",
+            //'deuxieme_membre' => "required",
             'rapporteur' => "required",
             'stage' => "required",
         ]);
-
+return $request->deuxieme_membre;
         $s = Soutenance::where('stage_id', $request->stage)->exists();
         //return response()->json(['error'=>$s]);
         if ($s) {
@@ -231,7 +242,89 @@ class SoutenanceController extends Controller
         }
 
     }
-
+	
+	public function edit($id, Request $request){
+		$soutenance = Soutenance::find($id);
+        $stage=Stage::find($soutenance->stage_id);
+        $etudiant=Etudiant::find($stage->etudiant_id);
+        $nouveauPr=null;
+        $nouveauRap=null;
+        $nouveau2m=null;
+        //return response()->json($soutenance->president_id!=$request->presidentE);
+		
+        if($soutenance->president_id!=$request->presidentE)
+        {return 'hfhfh';
+            $ancienPr=Enseignant::find($soutenance->president_id);
+			$nouveauPr=Enseignant::find($request->presidentE);
+            $soutenance->president_id=$nouveauPr->id;
+			$soutenance->update();
+			$ancienPr->notify(new EditSoutenanceNotification($soutenance,'ancien','president',$etudiant));
+		}
+        if($soutenance->rapporteur_id!=$request->rapporteurE){
+             $ancienRap=Enseignant::find($soutenance->rapporteur_id);
+			$nouveauRap=Enseignant::find($request->rapporteurE);
+            $soutenance->rapporteur_id=$nouveauRap->id;
+			$soutenance->update();
+			$ancienRap->notify(new EditSoutenanceNotification($soutenance,'ancien','rapporteur',$etudiant));
+        }
+        //return $soutenance;
+        //return $request; 
+        //return($request->deuxieme_membreE);
+		if($soutenance->deuxieme_membre_id==null)
+		{
+            
+			if($request->deuxieme_membreE!='null'){
+				$nouveau2m=Enseignant::find($request->deuxieme_membreE);
+			}
+			
+		}else{
+			$ancien2m=Enseignant::find($soutenance->deuxieme_membre_id);
+			if($request->deuxieme_membreE!='null'){
+                //return gettype($request->deuxieme_membreE);
+                if($request->deuxieme_membreE!=$soutenance->deuxieme_membre_id){
+                    
+                //$ancien2m=Enseignant::find($soutenance->deuxieme_membre_id);
+				$nouveau2m=Enseignant::find($request->deuxieme_membreE);
+                //return ($nouveau2m);
+				$soutenance->deuxieme_membre_id=$request->deuxieme_membreE;
+				$soutenance->update();
+                }
+                
+			}else{
+                $soutenance->deuxieme_membre_id=null;
+                $soutenance->update();
+                $ancien2m->notify(new EditSoutenanceNotification($soutenance,'ancien','deuxieme membre',$etudiant));
+            }
+            	//$ancien2m->notify(new EditSoutenanceNotification($soutenance,'ancien','president',$etudiant));
+		}
+		
+        if($soutenance->date!=$request->dateE){
+            $soutenance->date=$request->dateE;
+            $soutenance->update();
+        }
+        if($soutenance->start_time!=$request->heureE){
+            $soutenance->start_time=$request->heureE;
+            $soutenance->update();
+        }
+        
+        
+        
+            if($nouveauPr!=null)
+			{
+				$nouveauPr->notify(new EditSoutenanceNotification($soutenance,'nouveau','president de jury',$etudiant));
+			}
+			 if($nouveauRap!=null)
+			{
+				$nouveauRap->notify(new EditSoutenanceNotification($soutenance,'nouveau','rapporteur',$etudiant));
+			}
+			if($nouveau2m!=null)
+			{
+				$nouveau2m->notify(new EditSoutenanceNotification($soutenance,'nouveau','deuxième membre de jury',$etudiant));
+			}
+            return $soutenance;
+		return response()->json('Event edited');
+	}
+	
     public function notifier($id, Request $request)
     {
 

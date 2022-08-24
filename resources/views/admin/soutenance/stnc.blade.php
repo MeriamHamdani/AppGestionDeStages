@@ -42,6 +42,7 @@
                     </div>
                     @endforeach
                     @endif
+
                     <div class="col-md-16 position-relative">
                         <label class="form-label" for="validationTooltip01">Heure</label>
                         <input class="form-control" id="heure" type="time" required>
@@ -88,7 +89,7 @@
 
                         <label class="form-label" for="validationTooltip01">2éme membre de jury </label>
                         <select class="js-example-basic-single col-sm-12" name="2eme_membre" id="2eme_membre">
-
+                            <option>Voulez vous choisissez un deuxieme membre ?</option>
                             @foreach ($enseignants as $ens )
                             <option value={{ $ens->id }}>{{ ucwords($ens->nom) }}&nbsp;{{ ucwords($ens->prenom) }}
                             </option>
@@ -109,7 +110,94 @@
         </div>
     </div>
 </div>
+<!---------------------------------------------------------------------------------------->
+<div class="modal fade" id="EditStncModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel">Modifier une Planification d'une nouvelle soutenance</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <form class="row g-3 needs-validation" novalidate="">
+                    @if($errors->any())
+                    @foreach ($errors->all() as $err )
+                    <div class="alert alert-danger" role="alert">
+                        {{ $err }}
+                    </div>
+                    @endforeach
+                    @endif
+                    <div class="col-md-16 position-relative">
+                        <label class="form-label" for="validationTooltip01">Date</label>
+                        <input class="form-control" id="dateE" type="date" required>
 
+                    </div>
+                    <div class="col-md-16 position-relative">
+                        <label class="form-label" for="validationTooltip01">Heure</label>
+                        <input class="form-control" id="heureEdit" type="time" required>
+                        <div id="heurError" class="invalid-tooltip">Entrez l'heure de soutenance svp!</div>
+                    </div>
+                    <div class="col-md-16 position-relative">
+                        <label class="form-label" for="validationTooltip01">Salle</label>
+                        <input class="form-control" type="text" id="salleEdit" required>
+                        <span id="salleError" class="text-danger"></span>
+                        <div id="salleError" class="invalid-tooltip">Entrez la salle svp !</div><br>
+                    </div>
+                    <div class="col-md-16 position-relative">
+                        <label class="form-label" for="validationTooltip01">Etudiant</label><br>
+                        <input style="height: 30px;
+                        width: 450px;
+                        " type=text id="stageEdit" name='stageEdit' disabled>
+                        <div id="etudiantError" class="invalid-tooltip">Sélectionnez l'étudiant svp!</div><br>
+                    </div>
+                    <div class="col-md-16 position-relative">
+                        <label class="form-label" for="validationTooltip01">Président de jury</label>
+                        <select class="js-example-basic-single col-sm-12" id="presidentEdit" name="presidentEdit">
+                            @foreach ($enseignants as $ens )
+                            <option value={{ $ens->id }} > {{ ucwords($ens->nom) }}&nbsp;{{
+                                ucwords($ens->prenom) }}</option>
+                            @endforeach
+                        </select>
+                        <div id="presidentError" class="invalid-tooltip">Sélectionnez le président de jury svp!</div>
+                        <br>
+                    </div>
+                    <div class="col-md-16 position-relative">
+
+                        <label class="form-label" for="validationTooltip01">Rapporteur </label>
+                        <select class="js-example-basic-single col-sm-12" name="rapporteurEdit" id="rapporteurEdit">
+                            @foreach ($enseignants as $ens )
+                            <option value={{ $ens->id }}>{{ ucwords($ens->nom) }}&nbsp;{{ ucwords($ens->prenom) }}
+                            </option>
+                            @endforeach
+                        </select>
+                        <div id="rapporteurError" class="invalid-tooltip">Sélèctionnez les membres de jury svp!
+                        </div>
+
+                        <label class="form-label" for="validationTooltip01">2éme membre de jury </label>
+                        <select class="js-example-basic-single col-sm-12" name="2eme_membreEdit" id="2eme_membreEdit">
+                            <option value=null>Voulez vous choisissez un deuxieme membre ?</option>
+                            @foreach ($enseignants as $ens )
+                            <option value={{ $ens->id }}>{{ ucwords($ens->nom) }}&nbsp;{{ ucwords($ens->prenom) }}
+                            </option>
+                            @endforeach
+                        </select>
+                        <div id="2eme_membreError" class="invalid-tooltip">Sélèctionnez les membres de jury svp!
+                        </div>
+
+                    </div>
+                    <div id="selectionError" class="invalid-tooltip"></div>
+
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Annuler</button>
+                <button type="button" id="btnEdit" class="btn btn-primary">Modifier</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!---------------------------------------------------------------------------------------->
 <div class="container">
     <div class="response"></div>
     <div id='calendar'></div>
@@ -144,11 +232,19 @@
 
    var calendar = $('#calendar').fullCalendar({
     editable:true,
+    locale: 'fr',
     header:{
      left:'prev,next today',
      center:'title',
      right:'month,agendaWeek,agendaDay',
 
+    },
+    buttonText:{
+        today: 'Aujoud\'hui',
+        month: 'Mois',
+        week: 'semaine',
+        day: 'jour',
+        list: 'Liste'
     },
     events: soutenances,
     selectable: true,
@@ -215,6 +311,7 @@
                         $("#salleError").html(error.responseJSON.errors.salle);
                         $("#heureError").html(error.responseJSON.errors.heure);
                         $("#presidentError").html(error.responseJSON.errors.president);
+                        
 
 
                     }
@@ -245,6 +342,7 @@
     },
     eventClick: function(event){
                     var id = event.id;
+
                     if(confirm('Êtes-vous sur de vouloir supprimer cette soutenance !')){
                         $.ajax({
                             url:"{{ route('supprimer_soutenance', '') }}" +'/'+ id,
@@ -261,6 +359,35 @@
                                 console.log(error)
                             },
                         });
+                    }else{
+                        $('#EditStncModal').modal('toggle');
+                        document.getElementById('salleEdit').value=event.salle;
+                        document.getElementById('heureEdit').value=event.heure;
+                        document.getElementById('stageEdit').value=event.etudiant.nom + ' ' +event.etudiant.prenom + ' : ' + event.stage.titre_sujet;
+                        $('#btnEdit').click(function(){
+                            var salleE= $('#salleEdit').val();
+                        var heureE =$('#heureEdit').val();
+                        var presidentE =$('#presidentEdit').val();
+                        var rapporteurE=$('#rapporteurEdit').val();
+                        var deuxieme_membreE=$('#2eme_membreEdit').val();
+                        var dateE=$('#dateE').val();
+                        //var date=moment(start).format('DD-MM-YYYY');
+                        //var id=event.id;
+                        $.ajax({
+                            url: "{{ route('editer_soutenance', '') }}" +'/'+ id,
+                            type: "PATCH",
+                            dataType: "JSON",
+                            data: { salleE, heureE, presidentE, deuxieme_membreE,  rapporteurE, dateE },
+                            success: function(response){
+                                console.log(response);
+                            },
+                            error: function(error){
+                                console.log(error);
+                            }
+                        
+                        });
+                        });
+                       
                     }
                 },
 
@@ -278,4 +405,3 @@
 @endpush
 
 @endsection
-

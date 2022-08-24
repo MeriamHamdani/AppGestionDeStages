@@ -157,7 +157,8 @@ Route::middleware(['auth', 'role:admin|superadmin', 'clearClasse'])->group(funct
         Route::view('soutenance/evaluer', 'admin.soutenance.evaluer_soutenance')->name('evaluer_soutenance');
         Route::get('soutenance/planifier', [SoutenanceController::class, 'index'])->name('planifier_soutenance');
         Route::post('soutenance/store', [SoutenanceController::class, 'store'])->name('creer_soutenance');
-        Route::patch('soutenance/update/{id}', [SoutenanceController::class, 'update'])->name('dragNdDrop');;
+        Route::patch('soutenance/update/{id}', [SoutenanceController::class, 'update'])->name('dragNdDrop');
+        Route::patch('soutenance/edit/{id}', [SoutenanceController::class, 'edit'])->name('editer_soutenance');
         Route::delete('soutenance/delete/{id}', [SoutenanceController::class, 'destroy'])->name('supprimer_soutenance');
         Route::post('soutenance/PV',[SoutenanceController::class,'telecharger_pv_stnc'])->name('telecharger_pv_stnc');
         Route::post('soutenance/liste',[SoutenanceController::class,'telecharger_liste_stnc'])->name('telecharger_liste_stnc');
