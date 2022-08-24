@@ -17,7 +17,8 @@
 <h3>Cahier de stage de : <span class="f-w-600 d-block" style="color:#bf9168  "> {{
         $etudiant->nom }}&nbsp;{{ $etudiant->prenom }}</span></h3>
 @endslot
-
+<a class="f-w-600" href={{ route('download_cs_etudiant',['cahier'=>$cahier]) }}><i class="me-2" data-feather="download"
+        class="text-primary"></i>Télécharger la cahier</a>
 @endcomponent
 
 <div class="container-fluid  text-center" style="display: flex;
@@ -114,4 +115,3 @@ align-items: center;">
 @endpush
 
 @endsection
-

@@ -16,6 +16,8 @@
 <h3>Cahier de stage de : </h3>
 <h5><span class="f-w-600 d-block" style="color:#bf9168  ">{{ $etudiant->nom }}&nbsp;{{ $etudiant->prenom }}</span></h3>
     @endslot
+    <a class="f-w-600" href={{ route('download_all_cs',['cahier'=>$cahier]) }}><i class="me-2" data-feather="download"
+            class="text-primary"></i>Télécharger toute la cahier</a>
     <!--<li class="breadcrumb-item">Application web de gestion des stages</li>-->
     <!--<li class="breadcrumb-item active">Cahier de stage</li>-->
     @endcomponent
@@ -48,12 +50,12 @@
                                                 if($t->semaine==$i)
                                                 {$tcs=$tcs.'-'.$t->id;}
                                                 }
-                                               // dd($tcs);
+                                                // dd($tcs);
                                                 @endphp
                                                 <a class="f-w-600" href={{
                                                     route('telecharger_cahier',['semaine'=>$i,'taches'=>$tcs])
                                                     }}><i class="me-2" data-feather="download"
-                                                        class="text-primary"></i>Télécharger</a>
+                                                        class="text-primary"></i>Télécharger cette semaine</a>
                                             </div>
                                             <div class="card-body p-0">
                                                 <div class="taskadd">

@@ -37,6 +37,7 @@
                                     <th>Date début</th>
                                     <th>Date fin</th>
                                     <th>Fiche d'encadrement</th>
+                                    <th>Etat de cahier de stage</th>
                                     <th>Actions</th>
                                 </tr>
                             </thead>
@@ -49,15 +50,35 @@
                                     @if(isset($stage_actif->titre_sujet))
                                     <td>{{ $stage_actif->titre_sujet }} </td>
                                     @else
-                                        <td class="text-center">
-                                            <i class="icofont icofont-exclamation-tringle" style="font-size: 1.3em"></i>
-                                        </td>
+                                    <td class="text-center">
+                                        <i class="icofont icofont-exclamation-tringle" style="font-size: 1.3em"></i>
+                                    </td>
                                     @endif
                                     <td>{{ $stage_actif->date_debut }}</td>
                                     <td>{{ $stage_actif->date_fin }}</td>
-                                    <td class="text-center"><a href={{ route('telecharger_fiche_enc',['stage'=>$stage_actif]) }}>
+                                    <td class="text-center"><a href={{
+                                            route('telecharger_fiche_enc',['stage'=>$stage_actif]) }}>
                                             <i style="font-size: 2em;" class="icofont icofont-file-pdf icon-large"></i>
                                         </a>
+                                    </td>
+                                    <td>
+                                        @php
+                                        $cahier_req=strtoupper(App\Models\TypeStage::find($stage_actif->type_stage_id)->cahier_stage_type)
+                                        === strtoupper('requis');
+                                        $cahier=App\Models\CahierStage::find($stage_actif->cahier_stage_id);
+
+                                        @endphp
+                                        @if($cahier_req && $cahier!=null)
+                                        @if($stage_actif->etatCS==1)
+                                        <span>Partiellement éditée <progress stype="width:100px;height:10px" value="45"
+                                                max="100"></progress></span>
+                                        @else
+                                        <span>Pas encore éditée <progress stype="width:100px;height:10px" value="0"
+                                                max="100"></progress></span>
+                                        @endif
+                                        @else
+                                        Cahier de stage non requis
+                                        @endif
                                     </td>
                                     <td class="text-center">
                                         <!-- <a href="#" data-title="Télécharger la lettre d'affectation"
@@ -68,14 +89,15 @@
                                                 style="color:#bf9168 "></i></a>-->
                                         <a data-title="Consulter les détails de stage" data-toggle="tooltip"
                                             data-original-title="Consulter les détails de stage"
-                                            title="Consulter les détails de stage" href={{route('details_stage',['stage'=>$stage_actif]) }}>
+                                            title="Consulter les détails de stage"
+                                            href={{route('details_stage',['stage'=>$stage_actif]) }}>
                                             <i class="icofont icofont-info-square icon-large"></i></a>
                                         @php
                                         $cahier_req=strtoupper(App\Models\TypeStage::find($stage_actif->type_stage_id)->cahier_stage_type)
                                         === strtoupper('requis');
                                         $cahier=App\Models\CahierStage::find($stage_actif->cahier_stage_id);
-										
-										//dd($cahier_req);
+
+                                        //dd($cahier_req);
                                         @endphp
                                         @if($cahier_req && $cahier!=null)
                                         <a data-title="Consulter le cahier de stage" data-toggle="tooltip"
@@ -98,6 +120,7 @@
                                     <th>Date début</th>
                                     <th>Date fin</th>
                                     <th>Fiche d'encadrement</th>
+                                    <th>Etat de cahier de stage</th>
                                     <th>Actions</th>
                                 </tr>
                             </tfoot>
@@ -140,4 +163,3 @@
 @endpush
 
 @endsection
-

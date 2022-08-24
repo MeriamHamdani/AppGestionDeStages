@@ -8,11 +8,13 @@ use DatePeriod;
 use DateInterval;
 use App\Models\Stage;
 use App\Models\Tache;
+use App\Models\Classe;
 use App\Models\Etudiant;
 use App\Models\CahierStage;
 use Illuminate\Http\Request;
 use Illuminate\Support\Carbon;
 use Illuminate\Support\Collection;
+use Barryvdh\DomPDF\Facade\Pdf as PDF;
 use Illuminate\Support\Facades\Session;
 
 class CahierStageController extends Controller
@@ -146,6 +148,18 @@ $l=1;
 public function all_cahier_stage(){
 
 	$cahiers=CahierStage::All();
+    foreach($cahiers as $cahier){
+        $cahier->etat=0;
+        $taches=Tache::where('cahier_stage_id',$cahier->id)->get();
+        if($taches->count()>0){
+            foreach ($taches as $tache){
+                if($tache->contenu!=null){
+                    $cahier->etat=1;
+                    break;
+                }
+            }
+        }
+    }
 	return view('admin.stage.gerer_cahiers_stages',compact('cahiers'));
 }
     /**
@@ -198,7 +212,7 @@ public function all_cahier_stage(){
         }
 
         $nbr_semaines=(int)round($nb_days/7);
-	    return view('admin.stage.cahier_de_stage',compact('taches','nbr_semaines','etudiant'));
+	    return view('admin.stage.cahier_de_stage',compact('taches','nbr_semaines','etudiant','cahier'));
 
         }
         else
@@ -251,8 +265,26 @@ public function show_for_enc(CahierStage $cahier)
 
 
 		$taches=Tache::where('cahier_stage_id',$cahier->id)->get();
-	return view('enseignant.encadrement.cahier_stage_etud',compact('taches','nbr_semaines','etudiant'));
+	return view('enseignant.encadrement.cahier_stage_etud',compact('taches','nbr_semaines','etudiant','cahier'));
     }
+    
+    public function download_all_cs(CahierStage $cahier){
+        
+        $taches=Tache::where('cahier_stage_id',$cahier->id)->get();
+        $stage=Stage::find($cahier->stage_id);
+        $etudiant=Etudiant::find($stage->etudiant_id);
+        //dd($taches);
+        $data=[ 'etudiant'=>ucwords($etudiant->nom).' '.ucwords($etudiant->prenom),
+        'classe'=>Classe::find($etudiant->classe_id)->nom,'taches'=>$taches ];
+        $view = view('admin.stage.telecharger_cahier_stage', compact('data'))->render();
+
+        $pdf = PDF::loadHtml($view);
+        $s='cahier-stage-'.$etudiant->nom.'-'.$etudiant->prenom.'.pdf';
+        return $pdf->download($s);
+        
+        //dd($cahier);
+    }
+    
     /**
      * Show the form for editing the specified resource.
      *

@@ -71,6 +71,7 @@ Route::middleware(['auth', 'role:admin|superadmin', 'clearClasse'])->group(funct
         });
         Route::get('stage/gerer-cahiers-stages', [CahierStageController::class, 'all_cahier_stage'])->name('gerer_cahiers_stages');
         Route::get('stage/cahier-stage/{cahier}', [CahierStageController::class, 'show'])->name('cahier_de_stage');
+        Route::get('stage/gerer-cahier-stage/telecharger/{cahier}', [CahierStageController::class, 'download_all_cs'])->name('download_all_cs');
         Route::get('/stage/gerer-cahier-stage/telecharger/{semaine}/{taches}', [TacheController::class, 'telecharger'])->name('telecharger_cahier');
         //---------------------------------- ETABLISSEMENT--------------------------
 

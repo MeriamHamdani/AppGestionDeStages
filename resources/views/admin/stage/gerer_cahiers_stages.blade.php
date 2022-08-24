@@ -36,6 +36,7 @@
                                     <th>Etudiant</th>
 
                                     <th>Année universitaire</th>
+                                    <th>Etat de cahier de stage</th>
                                     <th>Action</th>
 
                                 </tr>
@@ -50,6 +51,15 @@
                                     <td>{{
                                         App\Models\AnneeUniversitaire::find($cahierStg->stage->annee_universitaire_id)->annee
                                         }}</td>
+                                    <td>
+                                        @if($cahierStg->etat==1)
+                                        <span>Partiellement éditée <progress stype="width:100px;height:10px" value="45"
+                                            max="100"></progress></span>
+                                        @else
+                                        <span>Pas encore éditée <progress stype="width:100px;height:10px" value="0"
+                                                max="100"></progress></span>
+                                        @endif
+                                    </td>
                                     <td>
                                         <div class="col-sm-6 col-md-6 col-lg-4"
                                             style="display: table-cell;text-align: center; vertical-align:middle;"><a
@@ -70,6 +80,7 @@
                                     <th>Type de sujet</th>
                                     <th>Etudiant</th>
                                     <th>Année universitaire</th>
+                                    <th>Etat de cahier de stage</th>
                                     <th>Action</th>
                                 </tr>
                                 </tr>
@@ -126,4 +137,3 @@
 @endpush
 
 @endsection
-

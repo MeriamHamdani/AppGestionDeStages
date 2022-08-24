@@ -75,7 +75,7 @@ class SoutenanceController extends Controller
             }
             $etud=Etudiant::find(Stage::find($soutenance->stage_id)->etudiant_id);
             $etdNP = $etud->nom . ' ' . Etudiant::find(Stage::find($soutenance->stage_id)->etudiant_id)->prenom;
-            
+
             $sttg=Stage::find($soutenance->stage_id);
             $etud->stage_id=$sttg->id;
             $stnc[] = [
@@ -126,6 +126,7 @@ return $request->deuxieme_membre;
         $quatre = $request->deuxieme_membre == $stage->enseignant_id;
         $cinq = $request->deuxieme_membre == $stage->president;
         $six = $request->president == $stage->enseignant_id;
+
         $soutenances = Soutenance::where(['salle' => $request->salle, 'date' => DateTime::createFromFormat('d-m-Y', $request->date)->format('Y-m-d')])->get();
         // return($soutenances->count());
         if ($soutenances->count() > 0) {
@@ -242,89 +243,156 @@ return $request->deuxieme_membre;
         }
 
     }
-	
+
 	public function edit($id, Request $request){
 		$soutenance = Soutenance::find($id);
         $stage=Stage::find($soutenance->stage_id);
         $etudiant=Etudiant::find($stage->etudiant_id);
+        $encadrant=Enseignant::find($stage->enseignant_id);
         $nouveauPr=null;
         $nouveauRap=null;
         $nouveau2m=null;
+
+        $ancienPr=null;
+        $ancienRap=null;
+        $ancien2m=null;
+
+        $nvDate=null;
+        $nvHeure=null;
+        $nvSalle=null;
         //return response()->json($soutenance->president_id!=$request->presidentE);
-		
+
         if($soutenance->president_id!=$request->presidentE)
-        {return 'hfhfh';
+        {
             $ancienPr=Enseignant::find($soutenance->president_id);
 			$nouveauPr=Enseignant::find($request->presidentE);
-            $soutenance->president_id=$nouveauPr->id;
-			$soutenance->update();
-			$ancienPr->notify(new EditSoutenanceNotification($soutenance,'ancien','president',$etudiant));
+           // $soutenance->president_id=$nouveauPr->id;
+			//$soutenance->update();
+			//$ancienPr->notify(new EditSoutenanceNotification($soutenance,'ancien','president',$etudiant));
 		}
         if($soutenance->rapporteur_id!=$request->rapporteurE){
              $ancienRap=Enseignant::find($soutenance->rapporteur_id);
 			$nouveauRap=Enseignant::find($request->rapporteurE);
-            $soutenance->rapporteur_id=$nouveauRap->id;
-			$soutenance->update();
-			$ancienRap->notify(new EditSoutenanceNotification($soutenance,'ancien','rapporteur',$etudiant));
+            //$soutenance->rapporteur_id=$nouveauRap->id;
+			//$soutenance->update();
+			//$ancienRap->notify(new EditSoutenanceNotification($soutenance,'ancien','rapporteur',$etudiant));
         }
-        //return $soutenance;
-        //return $request; 
-        //return($request->deuxieme_membreE);
+
 		if($soutenance->deuxieme_membre_id==null)
 		{
-            
+
 			if($request->deuxieme_membreE!='null'){
 				$nouveau2m=Enseignant::find($request->deuxieme_membreE);
 			}
-			
+
 		}else{
 			$ancien2m=Enseignant::find($soutenance->deuxieme_membre_id);
 			if($request->deuxieme_membreE!='null'){
                 //return gettype($request->deuxieme_membreE);
                 if($request->deuxieme_membreE!=$soutenance->deuxieme_membre_id){
-                    
+
                 //$ancien2m=Enseignant::find($soutenance->deuxieme_membre_id);
 				$nouveau2m=Enseignant::find($request->deuxieme_membreE);
                 //return ($nouveau2m);
 				$soutenance->deuxieme_membre_id=$request->deuxieme_membreE;
 				$soutenance->update();
                 }
-                
+
 			}else{
                 $soutenance->deuxieme_membre_id=null;
-                $soutenance->update();
-                $ancien2m->notify(new EditSoutenanceNotification($soutenance,'ancien','deuxieme membre',$etudiant));
+                //$soutenance->update();
+                //$ancien2m->notify(new EditSoutenanceNotification($soutenance,'ancien','deuxieme membre',$etudiant));
             }
-            	//$ancien2m->notify(new EditSoutenanceNotification($soutenance,'ancien','president',$etudiant));
+
 		}
-		
-        if($soutenance->date!=$request->dateE){
-            $soutenance->date=$request->dateE;
-            $soutenance->update();
+
+//---------------------------------------------------------------*****-------------------------------------------------------
+
+        if($request->dateE!=null && $soutenance->date!=$request->dateE){
+            $nvDate=$request->dateE;
+            //$soutenance->date=$request->dateE;
+            //$soutenance->update();
         }
-        if($soutenance->start_time!=$request->heureE){
-            $soutenance->start_time=$request->heureE;
-            $soutenance->update();
+
+        if($soutenance->start_time!=$request->heureE || $soutenance->salle!=$request->salleE || $soutenance->date!=$request->dateE)
+        {
+
+            if($request->dateE!=null){$d=$request->dateE;}else{$d=$soutenance->date;}
+            //return $d;
+            $soutenances = Soutenance::where(['salle' => $request->salleE, 'date' => $d])->where('id','!=',$soutenance->id)->get();
+            //return $soutenances;
+            if ($soutenances->count() > 0) {
+                foreach ($soutenances as $st) {
+                    if ($this->occupee($st->start_time, $request->heureE)) {
+                    //return $st->start_time;
+                    return response()->json(['error' => 'salle-occ']);
+                        }
+
+                    }
+            }
+                    $today=date('Y-m-d');
+                    //return $today;
+                    if($request->dateE!=null){
+                        $time_input = strtotime($request->dateE);
+                        $date_input = getDate($time_input);
+                        if($date_input <= $today){return response()->json(['error'=>'date_invalide']);}
+						else
+                        {$nvDate=$request->dateE;}
+                    }
+                    $nvHeure=$request->heureE;
+                    $nvSalle=$request->salleE;
+
         }
-        
-        
-        
+        $un = $request->rapporteurE == $request->deuxieme_membreE;
+        $deux = $request->rapporteurE == $stage->enseignant_id;
+        $trois = ($request->rapporteurE == $request->presidentE);
+        $quatre = $request->deuxieme_membreE == $stage->enseignant_id;
+        $cinq = $request->deuxieme_membreE == $request->presidentE;
+        $six = $request->presidentE == $stage->enseignant_id;
+
+        if ($un || $deux || $trois) {
+            return response()->json(['error' => "udt"]);
+            //Le rapporteur ne peut pas etre ni le président de jury ni le 2éme membre de jury ni l'encadrant de l'étudiant
+        }
+        if ($quatre || $cinq) {
+            return response()->json(['error' => "qc"]);
+            //Le deuxieme membre de jury ne peut pas etre ni le président de jury ni l'encadrant de l'étudiant'
+        }
+        if ($six) {
+            return response()->json(['error' => "six"]);
+            //Le président de jury ne peut pas etre  l'encadrant de l'étudiant'
+        }
+
+			if($nvDate!=null){$soutenance->date=$nvDate;}
+			if($nvHeure!=null){$soutenance->start_time=$nvHeure;}
+			if($nvSalle!=null){$soutenance->salle=$nvSalle;}
+
             if($nouveauPr!=null)
 			{
+				$soutenance->president_id=$nouveauPr->id;
+                $ancienPr->notify(new EditSoutenanceNotification($soutenance,'ancien','president',$etudiant));
 				$nouveauPr->notify(new EditSoutenanceNotification($soutenance,'nouveau','president de jury',$etudiant));
 			}
 			 if($nouveauRap!=null)
 			{
+				$soutenance->rapporteur_id=$nouveauRap->id;
 				$nouveauRap->notify(new EditSoutenanceNotification($soutenance,'nouveau','rapporteur',$etudiant));
-			}
+                $ancienRap->notify(new EditSoutenanceNotification($soutenance,'ancien','rapporteur',$etudiant));
+            }
 			if($nouveau2m!=null)
 			{
+				$soutenance->deuxieme_membre_id=$nouveau2m->id;
 				$nouveau2m->notify(new EditSoutenanceNotification($soutenance,'nouveau','deuxième membre de jury',$etudiant));
 			}
-            return $soutenance;
+            if($ancien2m!=null){
+                $ancien2m->notify(new EditSoutenanceNotification($soutenance,'ancien','deuxieme membre',$etudiant));
+            }
+            $soutenance->update();
+            $etudiant->notify(new EditSoutenanceNotification($soutenance,'--','etudiant',$etudiant));
+			$encadrant->notify(new EditSoutenanceNotification($soutenance,'--','encadrant',$etudiant));
 		return response()->json('Event edited');
 	}
-	
+
     public function notifier($id, Request $request)
     {
 
@@ -769,5 +837,7 @@ return $request->deuxieme_membre;
             $this->telecharger_grille_lic_non_info($soutenance);
             break;
         }
-    }*/
+
+
+  }*/
 }

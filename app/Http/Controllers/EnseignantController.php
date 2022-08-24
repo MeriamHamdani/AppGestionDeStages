@@ -3,33 +3,34 @@
 namespace App\Http\Controllers;
 
 
-use App\Exports\EnseignantToutExport;
-use App\Models\Departement;
 use App\Models\User;
 use App\Models\Stage;
+use App\Models\Tache;
 use App\Models\Classe;
 use App\Models\Etudiant;
 use App\Models\TypeStage;
 use App\Models\Enseignant;
-use Illuminate\Database\Eloquent\Collection;
-use Illuminate\Support\Facades\File;
-use Illuminate\Support\Facades\Response;
+use App\Models\Departement;
 use Illuminate\Http\Request;
 use App\Models\Etablissement;
 use Illuminate\Support\Carbon;
-use Illuminate\Support\Facades\Storage;
+use PhpOffice\PhpWord\PhpWord;
 use Illuminate\Validation\Rule;
 use App\Exports\EnseignantExport;
 use App\Imports\EnseignantsImport;
 use App\Models\AnneeUniversitaire;
-use Illuminate\Support\Facades\Auth;
-use Maatwebsite\Excel\Facades\Excel;
-use Illuminate\Support\Facades\Session;
-use PhpOffice\PhpWord\Element\Table;
-use PhpOffice\PhpWord\PhpWord;
-use PhpOffice\PhpWord\SimpleType\TblWidth;
-use PhpOffice\PhpWord\TemplateProcessor;
 use function GuzzleHttp\Promise\all;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\File;
+use Maatwebsite\Excel\Facades\Excel;
+use PhpOffice\PhpWord\Element\Table;
+use App\Exports\EnseignantToutExport;
+use Illuminate\Support\Facades\Session;
+use Illuminate\Support\Facades\Storage;
+use Illuminate\Support\Facades\Response;
+use PhpOffice\PhpWord\TemplateProcessor;
+use PhpOffice\PhpWord\SimpleType\TblWidth;
+use Illuminate\Database\Eloquent\Collection;
 
 
 class EnseignantController extends Controller
@@ -238,9 +239,19 @@ class EnseignantController extends Controller
             ->get();
 //dd($stages_actifs);
         foreach ($stages_actifs as $sa) {
+            $sa->etatCS=0;
             $etudiant = Etudiant::findOrFail($sa->etudiant_id);
             $classe = Classe::find($etudiant->classe_id);
             $type_stage = TypeStage::findOrFail($classe->type_stage_id);
+            if($sa->cahier_stage_id){
+                $taches=Tache::where('cahier_stage_id',$sa->cahier_stage_id)->get();
+                foreach($taches as $tache){
+                    if($tache->contenu != null){
+                        $sa->etatCS=1;
+                        break;
+                    }
+                }
+            }
             $sa->type_stage = $type_stage->nom;
         }
         //dd($stages_actifs);

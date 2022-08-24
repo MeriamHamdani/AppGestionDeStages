@@ -115,7 +115,7 @@
     <div class="modal-dialog">
         <div class="modal-content">
             <div class="modal-header">
-                <h5 class="modal-title" id="exampleModalLabel">Modifier une Planification d'une nouvelle soutenance</h5>
+                <h5 class="modal-title" id="exampleModalLabel">Modifier la Planification de la soutenance</h5>
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
             <div class="modal-body">
@@ -175,7 +175,7 @@
 
                         <label class="form-label" for="validationTooltip01">2éme membre de jury </label>
                         <select class="js-example-basic-single col-sm-12" name="2eme_membreEdit" id="2eme_membreEdit">
-                            <option value=null>Voulez vous choisissez un deuxieme membre ?</option>
+                            <option value=null>-------------</option>
                             @foreach ($enseignants as $ens )
                             <option value={{ $ens->id }}>{{ ucwords($ens->nom) }}&nbsp;{{ ucwords($ens->prenom) }}
                             </option>
@@ -311,7 +311,7 @@
                         $("#salleError").html(error.responseJSON.errors.salle);
                         $("#heureError").html(error.responseJSON.errors.heure);
                         $("#presidentError").html(error.responseJSON.errors.president);
-                        
+
 
 
                     }
@@ -342,8 +342,153 @@
     },
     eventClick: function(event){
                     var id = event.id;
+                    swal("Voulez-vous supprimer ou editer cette soutenance ?", {
+                    buttons: {
+                    cancel: "Annuler",
+                    catch: {
+                        text: "Editer",
+                        value: "editer",
+                            },
+                    defeat: "Supprimer",
+                    },
+                    })
+                    .then((value) => {
+                         switch (value) {
 
-                    if(confirm('Êtes-vous sur de vouloir supprimer cette soutenance !')){
+                        case "defeat":
+                        $.ajax({
+                            url:"{{ route('supprimer_soutenance', '') }}" +'/'+ id,
+                            type:"DELETE",
+                            dataType:'json',
+                            success:function(response)
+                            {
+                                $('#calendar').fullCalendar('removeEvents', response);
+                                // swal("Good job!", "Event Deleted!", "success");
+                                window.location.reload();
+                            },
+                            error:function(error)
+                            {
+                                console.log(error)
+                            },
+                        });
+                        break;
+
+                        case "editer":
+                        $('#EditStncModal').modal('toggle');
+                        document.getElementById('salleEdit').value=event.salle;
+                        document.getElementById('heureEdit').value=event.heure;
+                        document.getElementById('stageEdit').value=event.etudiant.nom + ' ' +event.etudiant.prenom + ' : ' + event.stage.titre_sujet;
+                        $('#btnEdit').click(function(){
+                            var salleE= $('#salleEdit').val();
+                        var heureE =$('#heureEdit').val();
+                        var presidentE =$('#presidentEdit').val();
+                        var rapporteurE=$('#rapporteurEdit').val();
+                        var deuxieme_membreE=$('#2eme_membreEdit').val();
+                        var dateE=$('#dateE').val();
+                        //var date=moment(start).format('DD-MM-YYYY');
+                        //var id=event.id;
+                        $.ajax({
+                            url: "{{ route('editer_soutenance', '') }}" +'/'+ id,
+                            type: "PATCH",
+                            dataType: "JSON",
+                            data: { salleE, heureE, presidentE, deuxieme_membreE,  rapporteurE, dateE },
+                            success: function(response){
+                                if(response.error=='salle-occ'){
+                                    swal("oups!", "La salle entrée est occupée pour une autre soutenance .", "error");
+                                }
+                                if(response.error=='date_invalide'){
+                        swal("oups!", "vous ne pouvez pas choisir une date passée", "error");
+                    }
+                    if(response.error=='udt'){
+                        swal("Echec", "Le rapporteur ne peut pas être ni le président de jury ni le 2éme membre de jury ni l'encadrant de l'étudiant", "error",{
+                            button: "réessayer"
+                        });
+                    }
+                    if(response.error=='qc'){
+                        swal("Echec","Le deuxieme membre de jury ne peut pas être ni le président de jury ni l'encadrant de l'étudiant","error");
+                    }
+                    if(response.error=='six'){
+                        swal("Echec","Le président de jury ne peut pas être l'encadrant de l'étudiant","error",{
+                            button: "réessayer"
+                        });
+                    }
+                                console.log(response);
+                                /* $('#stncModal').modal('hide');
+                                 window.location.reload();*/
+                            },
+                            error: function(error){
+
+                                console.log(error);
+                            }
+
+                        });
+                        });
+                        break;
+
+                        default:
+                        swal("Action annulée");
+  }
+});
+//-------------------------------------------------------------------------------------------
+         /*           swal({
+            title: "Vouler vous editer ou supprimer cette soutenance ? " ,
+            icon: "warning",
+            buttons: {cancel: 'Editer'},
+            buttons: true,
+            dangerMode: true,
+        })
+            .then((willDelete) => {
+                if (willDelete) {
+                    $.ajax({
+                            url:"{{ route('supprimer_soutenance', '') }}" +'/'+ id,
+                            type:"DELETE",
+                            dataType:'json',
+                            success:function(response)
+                            {
+                                $('#calendar').fullCalendar('removeEvents', response);
+                                // swal("Good job!", "Event Deleted!", "success");
+                                window.location.reload();
+                            },
+                            error:function(error)
+                            {
+                                console.log(error)
+                            },
+                        });
+                } else {
+                    $('#EditStncModal').modal('toggle');
+                        document.getElementById('salleEdit').value=event.salle;
+                        document.getElementById('heureEdit').value=event.heure;
+                        document.getElementById('stageEdit').value=event.etudiant.nom + ' ' +event.etudiant.prenom + ' : ' + event.stage.titre_sujet;
+                        $('#btnEdit').click(function(){
+                            var salleE= $('#salleEdit').val();
+                        var heureE =$('#heureEdit').val();
+                        var presidentE =$('#presidentEdit').val();
+                        var rapporteurE=$('#rapporteurEdit').val();
+                        var deuxieme_membreE=$('#2eme_membreEdit').val();
+                        var dateE=$('#dateE').val();
+                        //var date=moment(start).format('DD-MM-YYYY');
+                        //var id=event.id;
+                        $.ajax({
+                            url: "{{ route('editer_soutenance', '') }}" +'/'+ id,
+                            type: "PATCH",
+                            dataType: "JSON",
+                            data: { salleE, heureE, presidentE, deuxieme_membreE,  rapporteurE, dateE },
+                            success: function(response){
+                                console.log(response);
+                            },
+                            error: function(error){
+                                console.log(error);
+                            }
+
+                        });
+                        });
+                }
+            })
+*/
+
+//------------------------------------------------------------------------------------------
+
+                    /*if(confirm('Êtes-vous sur de vouloir supprimer cette soutenance !')){
                         $.ajax({
                             url:"{{ route('supprimer_soutenance', '') }}" +'/'+ id,
                             type:"DELETE",
@@ -384,11 +529,11 @@
                             error: function(error){
                                 console.log(error);
                             }
-                        
+
                         });
                         });
-                       
-                    }
+
+                    }*/
                 },
 
 
