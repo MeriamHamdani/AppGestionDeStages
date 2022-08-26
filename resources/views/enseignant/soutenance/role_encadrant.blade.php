@@ -32,7 +32,9 @@
                                 <tr>
                                     <th>Titre de sujet</th>
                                     <th>Etudiant</th>
-                                    <th>Les détails de la soutenance</th>
+                                    <th>Date</th>
+                                    <th>Salle</th>
+                                    <th>Plus de détails sur la soutenance</th>
                                 </tr>
                             </thead>
                             @foreach($soutenances as $stnc)
@@ -41,6 +43,8 @@
                                     <td>{{$stnc->stage->titre_sujet}}</td>
                                     <td>{{ucwords($stnc->stage->etudiant->prenom)}}
                                         {{ucwords($stnc->stage->etudiant->nom)}}</td>
+                                    <td>{{Arr::first((App\Http\Controllers\TypeStageController::decouper_nom($stnc->date)))}} à {{$stnc->start_time}}</td>
+                                    <td>{{$stnc->salle}}</td>
                                     <td><a class="btn btn-primary" href={{ route('info_soutenance_ens',$stnc) }}
                                             class="{{ routeActive('info_soutenance_ens') }}">
                                             <i class="icofont icofont-hat-alt">
@@ -53,7 +57,9 @@
                                 <tr>
                                     <th>Titre de sujet</th>
                                     <th>Etudiant</th>
-                                    <th>Informations sur la soutenance</th>
+                                    <th>Date</th>
+                                    <th>Salle</th>
+                                    <th>Plus de détails sur la soutenance</th>
                                 </tr>
                             </tfoot>
                         </table>

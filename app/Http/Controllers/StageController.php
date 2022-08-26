@@ -486,7 +486,7 @@ class StageController extends Controller
         $cin = Auth::user()->numero_CIN;
         if ($etudiant->classe->typeStage->fiche_demande_type == "requis") {
             if (isset($request->fiche_demande)) {
-                $request->validate(['fiche_demande' => ['required', 'mimes:docx,jpg,jpeg,png,doc']]);
+                $request->validate(['fiche_demande' => ['required', 'mimes:docx,jpg,jpeg,png,doc,pdf']]);
                 $fiche_demande_name = 'FicheDemande_' . $cin . '_' . $etudiant->nom . '-' . $etudiant->prenom . '.' . $request->file('fiche_demande')->extension();
                 $path = Storage::disk('public')
                     ->putFileAs($etablissement . '-' . $anneeUniv . '\fiches_suivi_stages\fiches_demandes_stages\fiches_demandes\fiches_demande_' . $classe->code, $request->file('fiche_demande'), $fiche_demande_name);
@@ -495,7 +495,7 @@ class StageController extends Controller
         }
         if ($etudiant->classe->typeStage->fiche_2Dinars_type == "requis") {
             if (isset($request->fiche_2Dinars)) {
-                $request->validate(['fiche_2Dinars' => ['required', 'mimes:docx,jpg,jpeg,png,doc']]);
+                $request->validate(['fiche_2Dinars' => ['required', 'mimes:docx,jpg,jpeg,png,doc,pdf']]);
                 $fiche_2Dinars_name = 'Fiche2Dinars_' . $cin . '_' . $etudiant->nom . '-' . $etudiant->prenom . '.' . $request->file('fiche_2Dinars')->extension();
                 $path2 = Storage::disk('public')
                     ->putFileAs($etablissement . '-' . $anneeUniv . '\fiches_suivi_stages\fiches_demandes_stages\fiches_2dinars\fiches_2dinars_' . $classe->code, $request->file('fiche_2Dinars'), $fiche_2Dinars_name);
@@ -504,7 +504,7 @@ class StageController extends Controller
         }
         if ($etudiant->classe->typeStage->fiche_assurance_type == "requis") {
             if (isset($request->fiche_assurance)) {
-                $request->validate(['fiche_assurance' => ['required', 'mimes:docx,jpg,jpeg,png,doc']]);
+                $request->validate(['fiche_assurance' => ['required', 'mimes:docx,jpg,jpeg,png,doc,pdf']]);
                 $fiche_assurance_name = 'FicheAssurance_' . $cin . '_' . $etudiant->nom . '-' . $etudiant->prenom . '.' . $request->file('fiche_assurance')->extension();
                 $path3 = Storage::disk('public')
                     ->putFileAs($etablissement . '-' . $anneeUniv . '\fiches_suivi_stages\fiches_demandes_stages\fiches_assurances\fiches_assurances_' . $classe->code, $request->file('fiche_assurance'), $fiche_assurance_name);

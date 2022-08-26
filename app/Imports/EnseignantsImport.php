@@ -53,7 +53,7 @@ class EnseignantsImport implements ToModel, WithStartRow, WithCustomCsvSettings
         $attributs = [
             'numero_CIN'     => $row[0],
             'email'=>  $row[3],
-            'password' => bcrypt($row[0]),
+            'password' => bcrypt($row[5]),
             'is_active' => '1' ];
 
         $attributs2 = [

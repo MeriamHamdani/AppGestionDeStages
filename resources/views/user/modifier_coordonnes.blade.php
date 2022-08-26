@@ -127,20 +127,30 @@
                         action="{{route('modifier_coordonnes')}}">
                         @csrf
                         @method('PATCH')
-
+                        @foreach ($errors as $err)
+                            <div>{{ $err }}</div>
+                        @endforeach
                         <div class="col-md-8 offset-md-2">
                             <h3>Veuillez changer votre mot de passe et activer votre compte afin de pouvoir accéder à
                                 votre espace </h3>
                             <div class="row">
+                                @if($errors->any())
+                                    @foreach ($errors->all() as $err )
+                                        <div class="alert alert-danger" role="alert">
+                                            {{ $err }}
+                                        </div>
+                                    @endforeach
+                                @endif
                                 <div class="col-md-6 position-left">
                                     <label class="form-label">Le nouveau mot de passe</label>
-                                    <input class="form-control" type="password" name="new_password" id="motdepasse" />
+                                    <input class="form-control" type="password" name="nouveau_mot_de_passe" id="motdepasse" />
                                     <!--<i class="far fa-eye" onclick="afficher()"></i>-->
+
                                 </div>
 
                                 <div class="col-md-6 position-right">
                                     <label class="form-label">Retapez le nouveau mot de passe</label>
-                                    <input class="form-control" type="password" name="new_password2" id="motdepasse2" />
+                                    <input class="form-control" type="password" name="nouveau_mot_de_passe2" id="motdepasse2" />
                                     <!--<i class="far fa-eye" onclick="afficher()"></i>-->
                                 </div>
                                 <div class="col-md-6 position-left">

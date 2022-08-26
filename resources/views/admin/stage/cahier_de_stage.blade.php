@@ -14,10 +14,10 @@
 @component('components.breadcrumb')
 @slot('breadcrumb_title')
 <h3>Cahier de stage de : </h3>
-<h5><span class="f-w-600 d-block" style="color:#bf9168  ">{{ $etudiant->nom }}&nbsp;{{ $etudiant->prenom }}</span></h3>
+<h5><span class="f-w-600 d-block" style="color:#bf9168  ">{{ $etudiant->nom }}&nbsp;{{ $etudiant->prenom }}</span></h5>
     @endslot
     <a class="f-w-600" href={{ route('download_all_cs',['cahier'=>$cahier]) }}><i class="me-2" data-feather="download"
-            class="text-primary"></i>Télécharger toute la cahier</a>
+            class="text-primary"></i>Télécharger tout le cahier</a>
     <!--<li class="breadcrumb-item">Application web de gestion des stages</li>-->
     <!--<li class="breadcrumb-item active">Cahier de stage</li>-->
     @endcomponent

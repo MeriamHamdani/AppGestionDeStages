@@ -37,7 +37,7 @@
                         @endif
 
                         <div class="col-md-4 position-relative">
-                            <label class="form-label" for="validationTooltip01">Numero CIN</label>
+                            <label class="form-label" for="validationTooltip01">Numéro CIN</label>
                             <input class="form-control" id="numero_CIN" name="numero_CIN" type="number"
                                 value="{{old('numero_CIN')}}" required="" placeholder="entrez le num cin..." />
                             <div class="invalid-tooltip">Entrez le N°CIN svp!</div>
@@ -56,7 +56,7 @@
                         </div>
 
                         <div class="col-md-6 position-relative">
-                            <label class="form-label" for="validationTooltip01">Numero de téléphone</label>
+                            <label class="form-label" for="validationTooltip01">Numéro de téléphone</label>
                             <input class="form-control" id="numero_telephone" name="numero_telephone" type="number"
                                 value="{{old('numero_telephone')}}" required=""
                                 placeholder="entrez le numéro de téléphone..." />

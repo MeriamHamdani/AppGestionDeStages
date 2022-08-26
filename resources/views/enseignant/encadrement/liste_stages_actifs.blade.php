@@ -51,7 +51,7 @@
                                     <td>{{ $stage_actif->titre_sujet }} </td>
                                     @else
                                     <td class="text-center">
-                                        <i class="icofont icofont-exclamation-tringle" style="font-size: 1.3em"></i>
+
                                     </td>
                                     @endif
                                     <td>{{ $stage_actif->date_debut }}</td>

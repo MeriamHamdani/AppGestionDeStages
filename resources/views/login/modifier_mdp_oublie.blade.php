@@ -127,10 +127,12 @@
                         action={{route('modifier_mdp_oublie')}}>
                         @csrf
                         @method('PATCH')
-
+                        @foreach ($errors as $err)
+                            <div>{{ $err }}</div>
+                        @endforeach
                         <div class="col-md-8 offset-md-2">
                             <h3>Tapez un nouveau mot de passe avec le code de réinitialisation que vous avez reçu par
-                                couriel </h3>
+                                courriel </h3>
                             <div class="row">
                                 <div class="col-md-6 position-left">
                                     <label class="form-label">Le nouveau mot de passe</label>
@@ -156,8 +158,8 @@
                                     <!--<i class="far fa-eye" onclick="afficher()"></i>-->
                                 </div>
                             </div>
-                            <input type="hidden" value={{ Session::get('code') }} name="code" id="code">
-                            <input type="hidden" value={{ $user->id}} name="user_id" id="user_id">
+                            <input type="hidden" value="{{ Session::get('code') }}" name="code" id="code">
+                            <input type="hidden" value="{{ $user->id}}" name="user_id" id="user_id">
 
                             <button class="btn btn-primary btn-lg" type="submit">Modifier</button>
                         </div>
@@ -189,7 +191,7 @@
             button: 'Reéssayer'
         })
 </script>
-@else
+@elseif (Session::get('message')=='code_invalide')
 <script>
     swal('Oups','Le code est invalide, vérifier bien votre courriel !',{
             icon: 'error',

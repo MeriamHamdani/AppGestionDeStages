@@ -44,7 +44,9 @@
                                     <th>Titre de sujet</th>
                                     <th>Etudiant</th>
                                     <th>Rôle</th>
-                                    <th>Informations sur la soutenance</th>
+                                    <th>Date</th>
+                                    <th>Salle</th>
+                                    <th>Plus de détails sur la soutenance</th>
                                     <th>Actions</th>
                                 </tr>
                                 </thead>
@@ -60,6 +62,8 @@
                                         @elseif($stnc->deuxieme_membre_id==$ens->id)
                                             <td>Membre</td>
                                         @endif
+                                        <td>{{Arr::first((App\Http\Controllers\TypeStageController::decouper_nom($stnc->date)))}} à {{$stnc->start_time}}</td>
+                                        <td>{{$stnc->salle}}</td>
                                         <td><a class="btn btn-primary" href={{ Route('info_soutenance_membre',$stnc) }}
                                                 class="{{ routeActive('info_soutenance_membre') }}">
                                                 <i class="icofont icofont-hat-alt">
@@ -177,7 +181,9 @@
                                     <th>Titre de sujet</th>
                                     <th>Etudiant</th>
                                     <th>Rôle</th>
-                                    <th>Informations sur la soutenance</th>
+                                    <th>Date</th>
+                                    <th>Salle</th>
+                                    <th>Plus de détails sur la soutenance</th>
                                     <th>Actions</th>
                                 </tr>
                                 </tfoot>

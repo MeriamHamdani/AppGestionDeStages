@@ -87,6 +87,7 @@
                                     <th>Déposé le</th>
                                     <th>Encadrant</th>
                                     <th>Confirmation de l'encadrant</th>
+                                    <th>Confirmation de l'administration</th>
                                     <th>Actions</th>
                                 </tr>
                             </thead> <!--dd(App\Models\DepotMemoire::find(5)->memoire)-->
@@ -111,6 +112,25 @@
                                             </button>
                                         </td>
                                     @elseif($demande->validation_encadrant == 1)
+                                        <td class="text-center">
+                                            <button class="buttonload btn btn-primary btn-sm" data-toggle="tooltip" title="demande validée">
+                                                <i class="icofont icofont-checked icon-large"></i>
+                                            </button>
+                                        </td>
+                                    @endif
+                                    @if($demande->validation_admin == -1)
+                                        <td class="text-center">
+                                            <button class="buttonload btn btn-warning btn-sm" data-toggle="tooltip" title="demande en attente">
+                                                <i class="fa fa-spinner fa-spin"></i>
+                                            </button>
+                                        </td>
+                                    @elseif($demande->validation_admin == 0)
+                                        <td class="text-center">
+                                            <button class="buttonload btn btn-danger btn-sm" data-toggle="tooltip" title="demande refusée en attente de mise à jour">
+                                                <i class="icofont icofont-close-squared icon-large"></i>
+                                            </button>
+                                        </td>
+                                    @elseif($demande->validation_admin == 1)
                                         <td class="text-center">
                                             <button class="buttonload btn btn-primary btn-sm" data-toggle="tooltip" title="demande validée">
                                                 <i class="icofont icofont-checked icon-large"></i>
@@ -164,6 +184,7 @@
                                     <th>Déposé le</th>
                                     <th>Encadrant</th>
                                     <th>Confirmation de l'encadrant</th>
+                                    <th>Confirmation de l'administration</th>
                                     <th>Actions</th>
                                 </tr>
                             </tfoot>

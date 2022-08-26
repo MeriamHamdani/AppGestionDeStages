@@ -22,7 +22,7 @@
             <div class="col-sm-12">
                 <div class="card">
                     <div class="card-header pb-0">
-                        <h5>Modifier les informations de l'etudiant <strong>{{$etudiant->prenom}} {{$etudiant->nom}}</strong></h5>
+                        <h5>Modifier les informations de l'étudiant <strong>{{$etudiant->prenom}} {{$etudiant->nom}}</strong></h5>
                     </div>
                     <div class="card-body">
                         <form class="row g-3 needs-validation" novalidate="" method="POST" action="{{ route('update_etudiant', $etudiant) }}">
@@ -37,7 +37,7 @@
                                 @endif
 
                             <div class="col-md-4 position-relative">
-                                <label class="form-label" for="validationTooltip01">Numero CIN</label>
+                                <label class="form-label" for="validationTooltip01">Numéro CIN</label>
                                 <input class="form-control" id="numero_CIN" name="numero_CIN" type="number"
                                        value="{{$etudiant->user->numero_CIN}}" required="" />
                                 <div class="invalid-tooltip">Entrez le N°CIN svp!</div>
@@ -62,7 +62,7 @@
                                 <div class="invalid-tooltip">Entrez l'email svp!</div>
                             </div>
                             <div class="col-md-4 position-relative">
-                                <label class="form-label" for="validationTooltip01">Numero de téléphone</label>
+                                <label class="form-label" for="validationTooltip01">Numéro de téléphone</label>
                                 <input class="form-control" id="numero_telephone" name="numero_telephone" type="number"
                                        value="{{$etudiant->numero_telephone}}" required="" />
                                 <div class="invalid-tooltip">Entrez le N° de téléphone svp!</div>

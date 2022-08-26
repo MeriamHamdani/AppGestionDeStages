@@ -35,6 +35,7 @@ Route::get('/mot-de-passe-oublie',function(){
 })->name('mot_de_passe_oublie');
 
 
+
 Route::post('mdp-oublie',[UserController::class,'mdp_oublie'])->name('mdp_oublie');
 Route::patch('mdp-oublie/modifier',[UserController::class,'modifier_mdp_oublie'])->name('modifier_mdp_oublie');
 Route::post('/connexion',[AuthenticatedSessionController::class, 'store'])->name('connexion');
