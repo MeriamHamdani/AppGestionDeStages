@@ -8,6 +8,7 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Session;
 use App\Notifications\MdpOublieNotification;
 use App\Notifications\FirstLoginNotification;
+use Illuminate\Validation\Rules\Password;
 
 class UserController extends Controller
 {
@@ -63,11 +64,11 @@ class UserController extends Controller
     public function edit(Request $request)
     {
         $user=Auth::user();
-        //dd($request->new_password,$request->new_password2);
         if($request->aVerifier===(string)$request->code){
-            if($request->new_password==$request->new_password2)
+            $request->validate(['nouveau_mot_de_passe' => 'required|string|min:6|regex:/^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9])(?=.*?[#?!@$%^&*-]).{6,}$/']);
+            if($request->nouveau_mot_de_passe==$request->nouveau_mot_de_passe2)
         {
-            $user->password=bcrypt($request->new_password);
+            $user->password=bcrypt($request->nouveau_mot_de_passe);
             $user->is_active=1;
             $user->update();
             if($user->hasRole('superadmin')||$user->hasRole('admin')){
@@ -124,27 +125,25 @@ class UserController extends Controller
     }
 
     public function mdp_oublie(Request $request){
-        //dd($request->numero_CIN);
         if(User::where('numero_CIN',$request->numero_CIN)->exists()){
             $user=User::where('numero_CIN',$request->numero_CIN)->get()[0];
             $code = random_int(100000, 999999);
                 session(['code' => $code,'msg'=> 'ok']);
                 $user->notify(new MdpOublieNotification($code));
                 return view('login.modifier_mdp_oublie',compact('user'));
-
-
         }else{
             Session::flash('message','CIN introuvable');
             return view('login.mot_de_passe_oublie');
         }
     }
     public function modifier_mdp_oublie(Request $request){
-//dd($request->user_id);
+        //dd($request->new_password);
+
+        //$request->validate(['new_password' => 'required|string|min:6|confirmed|regex:/^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9])(?=.*?[#?!@$%^&*-]).{6,}$/']);
         if($request->aVerifier === $request->code){
             if($request->new_password==$request->new_password2){
                 $user=User::find($request->user_id);
                 $user->password=bcrypt($request->new_password);
-
                 $user->update();
             return redirect('/');
             }else{

@@ -104,9 +104,9 @@ class TypeStageController extends Controller
             return view('admin.configuration.generale.typeStage_classe', compact(["classe", "error_message"]));
         }
         if (($request->fiche_demande_type == "requis")) {
-            $request->validate(['fiche_demande' => ['required', 'mimes:docx,jpg,jpeg,png,doc']]);
+            $request->validate(['fiche_demande' => ['required', 'mimes:docx,jpg,jpeg,png,doc,pdf']]);
             if (isset($request->fiche_demande)) {
-                $fiche_demande_name = 'FicheDemande_' . Str::upper(str_replace(' ', '', $code_classe)) . '_' . $request->type . '.' . $request->file('fiche_demande')->extension();//dd($fiche_demande_name)
+                $fiche_demande_name = 'FicheDemande_' . Str::upper(str_replace(' ', '', $code_classe)) . '.' . $request->file('fiche_demande')->extension();//dd($fiche_demande_name)
                 $path = Storage::disk('public')
                     ->putFileAs('fiches_demande', $request->file('fiche_demande'), $fiche_demande_name);
                 $type_stage->fiche_demande = $path;
@@ -114,7 +114,7 @@ class TypeStageController extends Controller
         }
         $type_stage->type_sujet = $request->type_sujet;
         $typesSujet = new Collection();
-        if( isset($type_stage->type_sujet)) {
+        if (isset($type_stage->type_sujet)) {
             foreach ($type_stage->type_sujet as $ts) {
                 // dd($ts);
                 $typesSujet->push($ts);
@@ -133,9 +133,9 @@ class TypeStageController extends Controller
         return redirect()->action([ClasseController::class, 'index']);
     }
     /**static function typesSujet(TypeStage $typeStage)
-    {
-
-    }**/
+     * {
+     *
+     * }**/
 
     /**
      * Display the specified resource.
@@ -319,33 +319,32 @@ class TypeStageController extends Controller
         }
 
         if (($request->fiche_demande_type == "requis") && ($typeStage->fiche_demande == null)) {
-            $request->validate(['fiche_demande' => ['required', 'mimes:docx,jpg,jpeg,png,doc']]);
-            $fiche_demande_name = 'FicheDemande_' . Str::upper(str_replace(' ', '', $code_classe)) . '_' . $request->type . '.' . $request->file('fiche_demande')->extension();//dd($fiche_demande_name)
+            $request->validate(['fiche_demande' => ['required', 'mimes:docx,jpg,jpeg,png,doc,pdf']]);
+            $fiche_demande_name = 'FicheDemande_' . Str::upper(str_replace(' ', '', $code_classe)) .  '.' . $request->file('fiche_demande')->extension();//dd($fiche_demande_name)
             $path = Storage::disk('public')
                 ->putFileAs('fiches_demande', $request->file('fiche_demande'), $fiche_demande_name);
             $typeStage->fiche_demande = $path;
             $typeStage->update();
         }
         if (isset($request->fiche_demande)) {
-            $request->validate(['fiche_demande' => ['required', 'mimes:docx,jpg,jpeg,png,doc']]);
+            $request->validate(['fiche_demande' => ['required', 'mimes:docx,jpg,jpeg,png,doc,pdf']]);
             $fiche_demande_name = 'FicheDemande_' . Str::upper(str_replace(' ', '', $code_classe)) . '_' . $request->type . '.' . $request->file('fiche_demande')->extension();//dd($fiche_demande_name)
             $path = Storage::disk('public')
                 ->putFileAs('fiches_demande', $request->file('fiche_demande'), $fiche_demande_name);
             $typeStage->fiche_demande = $path;
             $typeStage->update();
         }
-        if($request->cahier_stage_type!=$typeStage->cahier_stage_type && strtoupper($request->cahier_stage_type)==strtoupper("requis"))
-		{
-			$stages=Stage::where(['type_stage_id'=>$typeStage->id/*,'anne_universitaire_id'=>StageController::current_annee_univ()->id*/])->get();
-			foreach($stages as $stage){
-					$cahier_stage = new CahierStage();
-                    $cahier_stage->stage_id = $stage->id;
-                    $cahier_stage->annee_universitaire_id = $stage->annee_universitaire_id;
-                    $cahier_stage->save();
-                    $stage->cahier_stage_id = $cahier_stage->id;
-                    $stage->update();
-			}
-		}
+        if ($request->cahier_stage_type != $typeStage->cahier_stage_type && strtoupper($request->cahier_stage_type) == strtoupper("requis")) {
+            $stages = Stage::where(['type_stage_id' => $typeStage->id/*,'anne_universitaire_id'=>StageController::current_annee_univ()->id*/])->get();
+            foreach ($stages as $stage) {
+                $cahier_stage = new CahierStage();
+                $cahier_stage->stage_id = $stage->id;
+                $cahier_stage->annee_universitaire_id = $stage->annee_universitaire_id;
+                $cahier_stage->save();
+                $stage->cahier_stage_id = $cahier_stage->id;
+                $stage->update();
+            }
+        }//dd($typeStage->fiche_demande,$request->type,$type,$request->type!=$type);
         $typeStage_nom = Str::upper($code_classe) . ' ' . $request->type;
         $typeStage->classe_id = $classe->id;
         $typeStage->nom = $typeStage_nom;
@@ -369,6 +368,8 @@ class TypeStageController extends Controller
     public function destroy(TypeStage $typeStage)
     {
         $typeStage->delete();
+        $classe = Classe::where('type_stage_id', $typeStage->id)->get();
+        dd($classe);
         return redirect()->action([TypeStageController::class, 'index']);
     }
 
@@ -510,7 +511,8 @@ class TypeStageController extends Controller
             $typeStage = TypeStage::findOrFail($session->id);
             $classe = Classe::where('type_stage_id', $typeStage->id)->get();
             //ajouter where('anne_universitaire_id', $anneeActuelle)
-            $etudiants = Etudiant::where('classe_id', $classe[0]->id)->get();
+            $anneeActuelle = StageController::current_annee_univ();
+            $etudiants = Etudiant::where('classe_id', $classe[0]->id)->where('anne_universitaire_id', $anneeActuelle->id)->get();
             foreach ($etudiants as $etudiant) {
                 $data = ['nom_etud' => ucwords($etudiant->nom . ' ' . $etudiant->prenom),
                     'date_debut_depot' => $session->date_debut_depot,
@@ -519,19 +521,20 @@ class TypeStageController extends Controller
                 $etudiant->notify(new SessionDepotModifieNotification($data));
             }
         }
-        return  redirect()->action([TypeStageController::class, 'listeSessions']);
+        return redirect()->action([TypeStageController::class, 'listeSessions']);
     }
+
     /**
      * Remove the specified resource from storage.
-     * @param  \App\Models\TypeStage  $session
+     * @param \App\Models\TypeStage $session
      * @return \Illuminate\Http\Response
      */
-    public function destroySession(TypeStage  $session)
+    public function destroySession(TypeStage $session)
     {
         $session->date_debut_depot = null;
         $session->date_limite_depot = null;
         $session->update();
-        return  redirect()->action([TypeStageController::class, 'listeSessions']);
+        return redirect()->action([TypeStageController::class, 'listeSessions']);
     }
 
 }

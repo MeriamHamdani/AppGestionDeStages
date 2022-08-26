@@ -80,11 +80,6 @@
                                         </td>
                                         <td style="font-size:8.5px">{{$stage->date_debut}}</td>
                                         <td style="font-size:8.5px">{{$stage->date_fin}}</td>
-                                        <!--else
-                                        <td class="text-center">
-                                            <i class="icofont icofont-exclamation-tringle" style="font-size: 1.3em"></i>
-                                        </td>
-                                        endif-->
                                         <td class="text-center">
                                             @if ($stage->confirmation_encadrant==null)
                                                 <button class="buttonload" data-toggle="tooltip"
@@ -159,8 +154,6 @@
                                             </td>
                                         @else
                                             <td class="text-center">
-                                                <i class="icofont icofont-exclamation-tringle"
-                                                   style="font-size: 1.3em"></i>
                                             </td>
                                         @endif
                                         <td> @if($stage->date_fin >= $current_date)

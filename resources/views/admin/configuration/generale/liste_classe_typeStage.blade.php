@@ -125,7 +125,7 @@
                 })
                     .then((willDelete) => {
                         if (willDelete) {
-                            window.location = "supprimer-typeStage/" + dataId + "";
+                            window.location = "typeStage-classe/supprimer-typeStage/" + dataId + "";
                             swal("Poof! Le type de stage est bien supprimé!", {
                                 icon: "success",
                             });

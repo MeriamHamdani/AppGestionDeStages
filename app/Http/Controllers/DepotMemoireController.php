@@ -104,11 +104,11 @@ class DepotMemoireController extends Controller
     {
         $request->validate(
             [
-                'fiche_plagiat' => ['mimes:docx,jpeg,jpg,png'],
-                'fiche_biblio' => ['mimes:docx,jpeg,jpg,png'],
+                'fiche_plagiat' => ['mimes:docx,jpeg,jpg,png,pdf'],
+                'fiche_biblio' => ['mimes:docx,jpeg,jpg,png,pdf'],
                 'memoire' => ['mimes:docx,pdf'],
-                'fiche_tech' => [ 'mimes:docx,jpeg,jpg,png'],
-                'attestation' => [ 'mimes:docx,jpeg,jpg,png'],
+                'fiche_tech' => [ 'mimes:docx,jpeg,jpg,png,pdf'],
+                'attestation' => [ 'mimes:docx,jpeg,jpg,png,pdf'],
             ]
         );
         $stage_id = request()->get('stage_id');
@@ -402,7 +402,7 @@ class DepotMemoireController extends Controller
     {
         $request->validate(
             [
-                'memoire' => ['mimes:docx'],
+                'memoire' => ['mimes:docx,pdf'],
             ]
         );
         $etudiant = Etudiant::where('user_id', Auth::user()->id)->latest()->first();

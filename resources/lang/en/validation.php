@@ -98,7 +98,7 @@ return [
     'numeric' => ':attribute doit être une valeur numérique.',
     'password' => 'The password is incorrect.',
     'present' => 'The :attribute field must be present.',
-    'regex' => 'Le format du champs :attribute est invalide.',
+    'regex' => 'Le format du champs :attribute est invalide. Votre mot de passe doit comporter plus de 8 caractères et contenir au moins 1 majuscule, 1 minuscule, 1 numérique et 1 caractère spécial',
     'required' => 'Le champs :attribute est requis.',
     'required_if' => 'The :attribute field is required when :other is :value.',
     'required_unless' => 'The :attribute field is required unless :other is in :values.',

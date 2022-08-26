@@ -154,7 +154,7 @@
                         <label class="form-label" for="validationTooltip01">Président de jury</label>
                         <select class="js-example-basic-single col-sm-12" id="presidentEdit" name="presidentEdit">
                             @foreach ($enseignants as $ens )
-                            <option value={{ $ens->id }} > {{ ucwords($ens->nom) }}&nbsp;{{
+                            <option value={{ $ens->id }} {{ old('enseignant_id')}}> {{ ucwords($ens->nom) }}&nbsp;{{
                                 ucwords($ens->prenom) }}</option>
                             @endforeach
                         </select>
@@ -162,7 +162,6 @@
                         <br>
                     </div>
                     <div class="col-md-16 position-relative">
-
                         <label class="form-label" for="validationTooltip01">Rapporteur </label>
                         <select class="js-example-basic-single col-sm-12" name="rapporteurEdit" id="rapporteurEdit">
                             @foreach ($enseignants as $ens )
@@ -378,6 +377,7 @@
                         document.getElementById('salleEdit').value=event.salle;
                         document.getElementById('heureEdit').value=event.heure;
                         document.getElementById('stageEdit').value=event.etudiant.nom + ' ' +event.etudiant.prenom + ' : ' + event.stage.titre_sujet;
+                        document.getElementById('presidentEdit').value=event.president.nom + ' ' +event.president.prenom;
                         $('#btnEdit').click(function(){
                             var salleE= $('#salleEdit').val();
                         var heureE =$('#heureEdit').val();

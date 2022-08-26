@@ -49,16 +49,12 @@
                                             <td>{{ App\Models\Entreprise::find($demande->entreprise_id)->nom}}</td>
                                         @else
                                             <td class="text-center">
-                                                <i class="icofont icofont-exclamation-tringle"
-                                                   style="font-size: 1.3em"></i>
                                             </td>
                                         @endif
                                         @if(isset($demande->enseignant->prenom))
                                             <td>{{ucwords($demande->enseignant->prenom)}} {{ucwords($demande->enseignant->nom)}}</td>
                                         @else
                                             <td class="text-center">
-                                                <i class="icofont icofont-exclamation-tringle"
-                                                   style="font-size: 1.3em"></i>
                                             </td>
                                         @endif
                                         <td>{{ $demande->date_debut }}</td>

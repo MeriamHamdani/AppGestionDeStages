@@ -14,9 +14,11 @@
                 alt="looginpage" /></div>
         <div class="col-xl-7 p-0">
             <div class="login-card">
-                <form class="theme-form login-form needs-validation" novalidate="" method="POST" action={{
-                    route('mdp_oublie') }}>
+                <form class="theme-form login-form needs-validation" novalidate="" method="POST" action={{route('mdp_oublie') }}>
                     @csrf
+                    @foreach ($errors as $err)
+                        <div>{{ $err }}</div>
+                    @endforeach
                     <h4 style="text-align: center;color: #24695c">Mot de passe oublié</h4>
                     <div class="form-group">
                         <label>Numéro de CIN</label>

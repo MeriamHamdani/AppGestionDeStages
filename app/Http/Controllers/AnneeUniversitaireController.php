@@ -48,7 +48,7 @@ class AnneeUniversitaireController extends Controller
      */
     public function store(Request $request)
     {
-        /*$request->validate(
+        $request->validate(
              [
                  'annee' => 'required',
                  'lettre_affectation' => ['required', 'mimes:docx'],
@@ -60,7 +60,7 @@ class AnneeUniversitaireController extends Controller
                  'pv_individuel' => ['required', 'mimes:docx'],
                  'pv_global' => ['required', 'mimes:docx'],
              ]
-         );*/
+         );
         if ($this->current_annee_univ() == $request->annee)
         {
             $an_exist = AnneeUniversitaire::where('annee', $request->annee)->first();
