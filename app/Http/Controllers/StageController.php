@@ -322,6 +322,7 @@ class StageController extends Controller
 
     public function liste_demandes_pour_enseignant()
     {
+        $current_date = Carbon::now();
         $user_id = Auth::user()->id;
 
         $ens = Enseignant::all()->where('user_id', $user_id)->first();
@@ -330,7 +331,7 @@ class StageController extends Controller
             ->where('confirmation_encadrant', null)
             ->where('confirmation_admin', 0)
             ->get();
-        return view('enseignant.encadrement.Liste_demandes_encadrement', compact(['stages']));
+        return view('enseignant.encadrement.Liste_demandes_encadrement', compact(['stages','current_date']));
     }
 
     public function confirmer_demande_enseignant(Stage $stage)
@@ -409,121 +410,125 @@ class StageController extends Controller
             'date_debut' => ['required', 'date'],
             'date_fin' => ['required', 'date'],
         ]);
+
         $etablissement = Etablissement::all()->first()->nom;
         $anneeUniv = $this->current_annee_univ()->annee; //dd($annee);
-        $stage = new Stage();
-        $stage->titre_sujet = $request->titre_sujet;
         $etudiant = Etudiant::where('user_id', Auth::user()->id)->latest()->first();
-        $stage->etudiant_id = $etudiant->id;
-        if (($etudiant->classe->niveau == 1) || ($etudiant->classe->niveau == 2 && $etudiant->classe->cycle == "licence")) {
-            $request->validate(['entreprise' => ['required']]);
-            $entreprise = Entreprise::findOrFail($request->entreprise);
-            $stage->entreprise_id = $entreprise->id;
-        }
-        if (($etudiant->classe->niveau == 3 && $etudiant->classe->cycle == "licence") || ($etudiant->classe->niveau == 2 && $etudiant->classe->cycle == "master")) {
-            $request->validate(['type_sujet' => ['required'],
-                'enseignant_id' => ['required']]);
-            $stage->type_sujet = $request->type_sujet;
-            $stage->enseignant_id = $request->enseignant_id;
-            if ($request->type_sujet == "PFE") {
-                $request->validate([
-                    'enseignant_id' => ['required'],
-                    'entreprise' => ['required']
-                ]);
-                $stage->enseignant_id = $request->enseignant_id;
+
+        $stagesExt=Stage::where(['etudiant_id'=>$etudiant->id,])->where('confirmation_admin','!=',1)->get()->count();
+        //dd($etudiant->classe->cycle);
+        $termLic=strtoupper($etudiant->classe->cycle)==strtoupper('licence') && $etudiant->classe->niveau==3;
+        $termMast=strtoupper($etudiant->classe->cycle)==strtoupper('master') && $etudiant->classe->niveau==2;
+        if(!(($termLic||$termMast) && $stagesExt>0)){
+            $stage = new Stage();
+            $stage->titre_sujet = $request->titre_sujet;
+            $stage->etudiant_id = $etudiant->id;
+
+
+            if (($etudiant->classe->niveau == 1) || ($etudiant->classe->niveau == 2 && $etudiant->classe->cycle == "licence")) {
+                $request->validate(['entreprise' => ['required']]);
                 $entreprise = Entreprise::findOrFail($request->entreprise);
                 $stage->entreprise_id = $entreprise->id;
             }
-        }
-        /*if ($etudiant->classe->niveau == 2 && $etudiant->classe->cycle == "master") {
-            $request->validate([
-                'enseignant_id' => ['required'],
-                'entreprise' => ['required']
-            ]);
-            $stage->enseignant_id = $request->enseignant_id;
-            $entreprise = Entreprise::findOrFail($request->entreprise);
-            $stage->entreprise_id = $entreprise->id;
-            $stage->type_sujet = "PFE";
-        }*/
-        $current_date = Carbon::now();
-        $stage->date_demande = $current_date->format('Y-m-d');
-        $moisCourant = (int)$current_date->format('m');
-        if ((6 < $moisCourant) && ($moisCourant < 12)) {
-            $annee = '20' . $current_date->format('y') . '-20' . strval(((int)$current_date->format('y')) + 1);
-        } else
-            $annee = '20' . strval(((int)$current_date->format('y')) - 1) . '-20' . $current_date->format('y');
-        $annees = AnneeUniversitaire::all();
-        foreach ($annees as $a) {
-            if ($a->annee == $annee) {
-                $stage->annee_universitaire_id = $a->id;
-                break;
+            if (($etudiant->classe->niveau == 3 && $etudiant->classe->cycle == "licence") || ($etudiant->classe->niveau == 2 && $etudiant->classe->cycle == "master")) {
+                $request->validate(['type_sujet' => ['required'],
+                    'enseignant_id' => ['required']]);
+                $stage->type_sujet = $request->type_sujet;
+                $stage->enseignant_id = $request->enseignant_id;
+                if ($request->type_sujet == "PFE") {
+                    $request->validate([
+                        'enseignant_id' => ['required'],
+                        'entreprise' => ['required']
+                    ]);
+                    $stage->enseignant_id = $request->enseignant_id;
+                    $entreprise = Entreprise::findOrFail($request->entreprise);
+                    $stage->entreprise_id = $entreprise->id;
+                }
             }
-        }
-        $classe = Classe::findOrFail($etudiant->classe_id);
-        $type_stage = TypeStage::findOrFail($classe->type_stage_id);
 
-        $date_debut = Carbon::createFromFormat('m/d/Y', $request->date_debut)->format('Y-m-d');
-        $date_fin = Carbon::createFromFormat('m/d/Y', $request->date_fin)->format('Y-m-d');
-        $nbre_mois = $this->diff_date_en_mois($date_debut, $date_fin);
-        if ($request->date_debut < $request->date_fin) {
+            $current_date = Carbon::now();
+            $stage->date_demande = $current_date->format('Y-m-d');
+            $moisCourant = (int)$current_date->format('m');
+            if ((6 < $moisCourant) && ($moisCourant < 12)) {
+                $annee = '20' . $current_date->format('y') . '-20' . strval(((int)$current_date->format('y')) + 1);
+            } else
+                $annee = '20' . strval(((int)$current_date->format('y')) - 1) . '-20' . $current_date->format('y');
+            $annees = AnneeUniversitaire::all();
+            foreach ($annees as $a) {
+                if ($a->annee == $annee) {
+                    $stage->annee_universitaire_id = $a->id;
+                    break;
+                }
+            }
+            $classe = Classe::findOrFail($etudiant->classe_id);
+            $type_stage = TypeStage::findOrFail($classe->type_stage_id);
 
-            if ($date_debut < $type_stage->date_debut_periode || $date_fin > $type_stage->date_limite_periode) {
-                return Redirect::back()->withErrors(['La période de votre stage est hors limite !']);
+            $date_debut = Carbon::createFromFormat('m/d/Y', $request->date_debut)->format('Y-m-d');
+            $date_fin = Carbon::createFromFormat('m/d/Y', $request->date_fin)->format('Y-m-d');
+            $nbre_mois = $this->diff_date_en_mois($date_debut, $date_fin);
+            if ($request->date_debut < $request->date_fin) {
+
+                if ($date_debut < $type_stage->date_debut_periode || $date_fin > $type_stage->date_limite_periode) {
+                    return Redirect::back()->withErrors(['La période de votre stage est hors limite !']);
+                } else {
+                    $stage->date_debut = $date_debut;
+                    $stage->date_fin = $date_fin;
+                }
+
             } else {
-                $stage->date_debut = $date_debut;
-                $stage->date_fin = $date_fin;
+                return Redirect::back()->withErrors(['La date de fin de votre période de stage doit etre ultérieure à la date de debut !']);
             }
+            if ($nbre_mois < $type_stage->duree_stage_min) {
+                return Redirect::back()->withErrors(['la période de stage devrait être au minimum de ' . $type_stage->duree_stage_min . ' mois !']);
+            }
+            if ($nbre_mois > $type_stage->duree_stage_max) {
+                return Redirect::back()->withErrors(['la période de stage devrait être au maximaum de ' . $type_stage->duree_stage_max . ' mois !']);
+            }
+            $cin = Auth::user()->numero_CIN;
+            if ($etudiant->classe->typeStage->fiche_demande_type == "requis") {
+                if (isset($request->fiche_demande)) {
+                    $request->validate(['fiche_demande' => ['required', 'mimes:jpg,jpeg,png,pdf']]);
+                    $fiche_demande_name = 'FicheDemande_' . $cin . '_' . $etudiant->nom . '-' . $etudiant->prenom . '.' . $request->file('fiche_demande')->extension();
+                    $path = Storage::disk('public')
+                        ->putFileAs($etablissement . '-' . $anneeUniv . '\fiches_suivi_stages\fiches_demandes_stages\fiches_demandes\fiches_demande_' . $classe->code, $request->file('fiche_demande'), $fiche_demande_name);
+                    $stage->fiche_demande = $path;
+                }
+            }
+            if ($etudiant->classe->typeStage->fiche_2Dinars_type == "requis") {
+                if (isset($request->fiche_2Dinars)) {
+                    $request->validate(['fiche_2Dinars' => ['required', 'mimes:jpg,jpeg,png,pdf']]);
+                    $fiche_2Dinars_name = 'Fiche2Dinars_' . $cin . '_' . $etudiant->nom . '-' . $etudiant->prenom . '.' . $request->file('fiche_2Dinars')->extension();
+                    $path2 = Storage::disk('public')
+                        ->putFileAs($etablissement . '-' . $anneeUniv . '\fiches_suivi_stages\fiches_demandes_stages\fiches_2dinars\fiches_2dinars_' . $classe->code, $request->file('fiche_2Dinars'), $fiche_2Dinars_name);
+                    $stage->fiche_2Dinars = $path2;
+                }
+            }
+            if ($etudiant->classe->typeStage->fiche_assurance_type == "requis") {
+                if (isset($request->fiche_assurance)) {
+                    $request->validate(['fiche_assurance' => ['required', 'mimes:jpg,jpeg,png,pdf']]);
+                    $fiche_assurance_name = 'FicheAssurance_' . $cin . '_' . $etudiant->nom . '-' . $etudiant->prenom . '.' . $request->file('fiche_assurance')->extension();
+                    $path3 = Storage::disk('public')
+                        ->putFileAs($etablissement . '-' . $anneeUniv . '\fiches_suivi_stages\fiches_demandes_stages\fiches_assurances\fiches_assurances_' . $classe->code, $request->file('fiche_assurance'), $fiche_assurance_name);
+                    $stage->fiche_assurance = $path3;
+                }
+            }
+            $stage->confirmation_admin = 0;
+            $stage->type_stage_id = $etudiant->classe->typeStage->id;
+            $stage->save();
+            if (isset($request->enseignant_id)) {
+                $enseignant = Enseignant::findOrFail($request->enseignant_id);
+                $data = ['nom_etud' => ucwords($etudiant->nom . ' ' . $etudiant->prenom),
+                    'classe_etud' => $classe->nom,
+                    'nom_ens' => ucwords($enseignant->nom . ' ' . $enseignant->prenom),
+                    'etablissement' => Etablissement::findOrFail($enseignant->etablissement_id)->nom,
+                    'date' => 'Le ' . $current_date->day . '-' . $current_date->month . '-' . $current_date->year . ' à ' . $current_date->hour . ':' . $current_date->minute];
 
-        } else {
-            return Redirect::back()->withErrors(['La date de fin de votre période de stage doit etre ultérieure à la date de debut !']);
-        }
-        if ($nbre_mois < $type_stage->duree_stage_min) {
-            return Redirect::back()->withErrors(['la période de stage devrait être au minimum de ' . $type_stage->duree_stage_min . ' mois !']);
-        }
-        if ($nbre_mois > $type_stage->duree_stage_max) {
-            return Redirect::back()->withErrors(['la période de stage devrait être au maximaum de ' . $type_stage->duree_stage_max . ' mois !']);
-        }
-        $cin = Auth::user()->numero_CIN;
-        if ($etudiant->classe->typeStage->fiche_demande_type == "requis") {
-            if (isset($request->fiche_demande)) {
-                $request->validate(['fiche_demande' => ['required', 'mimes:docx,jpg,jpeg,png,doc,pdf']]);
-                $fiche_demande_name = 'FicheDemande_' . $cin . '_' . $etudiant->nom . '-' . $etudiant->prenom . '.' . $request->file('fiche_demande')->extension();
-                $path = Storage::disk('public')
-                    ->putFileAs($etablissement . '-' . $anneeUniv . '\fiches_suivi_stages\fiches_demandes_stages\fiches_demandes\fiches_demande_' . $classe->code, $request->file('fiche_demande'), $fiche_demande_name);
-                $stage->fiche_demande = $path;
+                $enseignant->notify(new DemandeEncadrementNotification($data));
             }
+        }else{
+            Session::flash('message', 'stage exist');
         }
-        if ($etudiant->classe->typeStage->fiche_2Dinars_type == "requis") {
-            if (isset($request->fiche_2Dinars)) {
-                $request->validate(['fiche_2Dinars' => ['required', 'mimes:docx,jpg,jpeg,png,doc,pdf']]);
-                $fiche_2Dinars_name = 'Fiche2Dinars_' . $cin . '_' . $etudiant->nom . '-' . $etudiant->prenom . '.' . $request->file('fiche_2Dinars')->extension();
-                $path2 = Storage::disk('public')
-                    ->putFileAs($etablissement . '-' . $anneeUniv . '\fiches_suivi_stages\fiches_demandes_stages\fiches_2dinars\fiches_2dinars_' . $classe->code, $request->file('fiche_2Dinars'), $fiche_2Dinars_name);
-                $stage->fiche_2Dinars = $path2;
-            }
-        }
-        if ($etudiant->classe->typeStage->fiche_assurance_type == "requis") {
-            if (isset($request->fiche_assurance)) {
-                $request->validate(['fiche_assurance' => ['required', 'mimes:docx,jpg,jpeg,png,doc,pdf']]);
-                $fiche_assurance_name = 'FicheAssurance_' . $cin . '_' . $etudiant->nom . '-' . $etudiant->prenom . '.' . $request->file('fiche_assurance')->extension();
-                $path3 = Storage::disk('public')
-                    ->putFileAs($etablissement . '-' . $anneeUniv . '\fiches_suivi_stages\fiches_demandes_stages\fiches_assurances\fiches_assurances_' . $classe->code, $request->file('fiche_assurance'), $fiche_assurance_name);
-                $stage->fiche_assurance = $path3;
-            }
-        }
-        $stage->confirmation_admin = 0;
-        $stage->type_stage_id = $etudiant->classe->typeStage->id;
-        $stage->save();
-        if (isset($request->enseignant_id)) {
-            $enseignant = Enseignant::findOrFail($request->enseignant_id);
-            $data = ['nom_etud' => ucwords($etudiant->nom . ' ' . $etudiant->prenom),
-                'classe_etud' => $classe->nom,
-                'nom_ens' => ucwords($enseignant->nom . ' ' . $enseignant->prenom),
-                'etablissement' => Etablissement::findOrFail($enseignant->etablissement_id)->nom,
-                'date' => 'Le ' . $current_date->day . '-' . $current_date->month . '-' . $current_date->year . ' à ' . $current_date->hour . ':' . $current_date->minute];
 
-            $enseignant->notify(new DemandeEncadrementNotification($data));
-        }
         return redirect()->action([EtudiantController::class, 'mes_demandes_stages']);
     }
 
@@ -578,19 +583,6 @@ class StageController extends Controller
             if ($request->entreprise) {
                 $stage->entreprise_id = (int)$request->entreprise;
             }
-            /*if ($request->fiche_demande) {
-                $request->validate(['fiche_demande' => ['required', 'mimes:docx,jpg,jpeg,png,doc']]);
-                $etudiant = Etudiant::findOrFail($stage->etudiant_id);
-                $nom_pren = Str::upper($etudiant->nom . '_' . $etudiant->prenom);
-                $fiche_demande_name = 'FicheDemande_' . $nom_pren . '.' . $request->file('fiche_demande')->extension();
-
-                $dossier = substr($stage->fiche_demande, 0, strpos($stage->fiche_demande, '/') - 1);
-
-                $path = Storage::disk('public')
-                    ->putFileAs($dossier, $request->file('fiche_demande'), $fiche_demande_name);
-
-                $stage->fiche_demande = $path;
-            }*/
 
             $stage->update();
             return back();
@@ -967,6 +959,3 @@ class StageController extends Controller
         }
 
     }
-
-
-

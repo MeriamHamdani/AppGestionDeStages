@@ -58,6 +58,7 @@ class DepotMemoireController extends Controller
         foreach ($typeStagesUniq as $tsu) {
             $type = Arr::last((TypeStageController::decouper_nom($tsu->nom)));
             if ($type == 'Obligatoire') {
+                //dd($tsu->date_debut_depot . $current_date);
                 if ($tsu->date_debut_depot <= $current_date) {
                     $stages = Stage::where('type_stage_id', $tsu->id)->where('etudiant_id', $etudiant->id)->where('confirmation_admin', 1)->get();
                     //$stage = Stage::where('type_stage_id', $tsu->id)->where('etudiant_id', $etudiant->id)->get();
@@ -65,12 +66,11 @@ class DepotMemoireController extends Controller
                         if (($stage->etudiant->classe->niveau !== 2 && $stage->etudiant->classe->cycle !== 'master') ||
                             ($stage->etudiant->classe->niveau !== 3 && $stage->etudiant->classe->cycle !== 'licence')) {//dd(\App\Models\DepotMemoire::where('stage_id',$stage->id)->first(), $stage->typeStage->date_limite_depot);
                             $stagesAdeposer->push($stage);
-                            //dd($stage);
-                        }//dd($stagesAdeposer);
+                        }
                     }
                 }
             }
-        }//dd($stagesAdeposer);
+        }
 
         return view('etudiant.depot.depot_memoire', ['stagesAdeposer' => $stagesAdeposer, 'current_date' => $current_date]);
     }
@@ -566,4 +566,3 @@ class DepotMemoireController extends Controller
     }
 
 }
-

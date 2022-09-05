@@ -25,7 +25,7 @@
         href="https://fonts.googleapis.com/css2?family=Rubik:ital,wght@0,400;0,500;0,600;0,700;0,800;0,900;1,300;1,400;1,500;1,600;1,700;1,800;1,900&amp;display=swap"
         rel="stylesheet">
     <!-- Font Awesome-->
-    <?php if ($__env->exists('layouts.admin.partials.css')) echo $__env->make('layouts.admin.partials.css', \Illuminate\Support\Arr::except(get_defined_vars(), ['__data', '__path']))->render(); ?>
+    <?php if ($__env->exists('layouts.etudiant.partials.css')) echo $__env->make('layouts.etudiant.partials.css', \Illuminate\Support\Arr::except(get_defined_vars(), ['__data', '__path']))->render(); ?>
 </head>
 
 <body>
@@ -37,12 +37,12 @@
     <!-- page-wrapper Start-->
     <div class="page-wrapper compact-sidebar" id="pageWrapper">
         <!-- Page Header Start-->
-        <?php if ($__env->exists('layouts.admin.partials.header')) echo $__env->make('layouts.admin.partials.header', \Illuminate\Support\Arr::except(get_defined_vars(), ['__data', '__path']))->render(); ?>
+        <?php if ($__env->exists('layouts.etudiant.partials.header')) echo $__env->make('layouts.etudiant.partials.header', \Illuminate\Support\Arr::except(get_defined_vars(), ['__data', '__path']))->render(); ?>
         <!-- Page Header Ends -->
         <!-- Page Body Start-->
         <div class="page-body-wrapper sidebar-icon">
             <!-- Page Sidebar Start-->
-            <?php if ($__env->exists('layouts.admin.partials.sidebar')) echo $__env->make('layouts.admin.partials.sidebar', \Illuminate\Support\Arr::except(get_defined_vars(), ['__data', '__path']))->render(); ?>
+            <?php if ($__env->exists('layouts.etudiant.partials.sidebar')) echo $__env->make('layouts.etudiant.partials.sidebar', \Illuminate\Support\Arr::except(get_defined_vars(), ['__data', '__path']))->render(); ?>
             <!-- Page Sidebar Ends-->
             <div class="page-body">
                 <!-- Container-fluid starts-->
@@ -51,23 +51,25 @@
             </div>
             <!-- footer start-->
             <footer class="footer">
-                <div class="container-fluid">
+                <!--<div class="container-fluid">
                     <div class="row">
                         <div class="col-md-6 footer-copyright">
-                            <!--<p class="mb-0">Copyright <?php echo e(date('Y')); ?>-<?php echo e(date('y', strtotime('+1 year'))); ?> © viho All
-                                rights reserved.</p>-->
-                            <p class="mb-0"> Hyper-group 2021-2022 ©</p>
+                            <p class="mb-0">Copyright <?php echo e(date('Y')); ?>-<?php echo e(date('y', strtotime('+1 year'))); ?> © viho All
+                                rights reserved.</p>
                         </div>
-
+                        <div class="col-md-6">
+                            <p class="pull-right mb-0">Hand crafted & made with <i
+                                    class="fa fa-heart font-secondary"></i></p>
+                        </div>
                     </div>
-                </div>
+                </div>-->
             </footer>
         </div>
     </div>
     <!-- latest jquery-->
-    <?php if ($__env->exists('layouts.admin.partials.js')) echo $__env->make('layouts.admin.partials.js', \Illuminate\Support\Arr::except(get_defined_vars(), ['__data', '__path']))->render(); ?>
+    <?php if ($__env->exists('layouts.etudiant.partials.js')) echo $__env->make('layouts.etudiant.partials.js', \Illuminate\Support\Arr::except(get_defined_vars(), ['__data', '__path']))->render(); ?>
 </body>
 
 </html>
 
-<?php /**PATH C:\laragon\www\AppGestionDesStages\AppGestionDeStages\resources\views/layouts/admin/master.blade.php ENDPATH**/ ?>
+<?php /**PATH C:\laragon\www\AppGestionDesStages\AppGestionDeStages\resources\views/layouts/etudiant/master.blade.php ENDPATH**/ ?>

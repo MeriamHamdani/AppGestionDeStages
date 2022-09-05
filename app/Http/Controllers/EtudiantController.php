@@ -121,6 +121,7 @@ class EtudiantController extends Controller
             $attributs2['user_id'] = $user->id;
             $etudiant = Etudiant::create($attributs2);
             $user->email = $etudiant->email;
+            $user->update();
             Session::flash('message', 'ok1');
         } else {
             Session::flash('message', 'ko1');
