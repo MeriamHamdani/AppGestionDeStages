@@ -512,7 +512,7 @@ class TypeStageController extends Controller
             $classe = Classe::where('type_stage_id', $typeStage->id)->get();
             //ajouter where('anne_universitaire_id', $anneeActuelle)
             $anneeActuelle = StageController::current_annee_univ();
-            $etudiants = Etudiant::where('classe_id', $classe[0]->id)->where('anne_universitaire_id', $anneeActuelle->id)->get();
+            $etudiants = Etudiant::where('classe_id', $classe[0]->id)->where('annee_universitaire_id', $anneeActuelle->id)->get();
             foreach ($etudiants as $etudiant) {
                 $data = ['nom_etud' => ucwords($etudiant->nom . ' ' . $etudiant->prenom),
                     'date_debut_depot' => $session->date_debut_depot,
