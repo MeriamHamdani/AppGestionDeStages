@@ -28,7 +28,7 @@
             $f=7;
             @endphp
 
-            @for($i=1;$i<=$nbr_semaines;$i++) <div class="col-xl-9 col-md-12 box-col-8">
+            @for($i=1;$i<$nbr_semaines;$i++) <div class="col-xl-9 col-md-12 box-col-8">
                 <div class="email-right-aside bookmark-tabcontent">
                     <div class="card email-body radius-left">
                         <div class="ps-0">
@@ -47,7 +47,6 @@
                                             if($t->semaine==$i)
                                             {$tcs=$tcs.'-'.$t->id;}
                                             }
-
                                             @endphp
                                             <a class="f-w-600" href={{
                                                 route('telecharger_cahier_stage',['semaine'=>$i,'taches'=>$tcs])
@@ -122,3 +121,4 @@
 @endpush
 
 @endsection
+

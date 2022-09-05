@@ -61,7 +61,7 @@
                                             <i style="font-size: 2em;" class="icofont icofont-file-pdf icon-large"></i>
                                         </a>
                                     </td>
-                                    <td>
+                                    <td class="text-center">
                                         @php
                                         $cahier_req=strtoupper(App\Models\TypeStage::find($stage_actif->type_stage_id)->cahier_stage_type)
                                         === strtoupper('requis');
@@ -77,7 +77,7 @@
                                                 max="100"></progress></span>
                                         @endif
                                         @else
-                                        Cahier de stage non requis
+                                        Non Requis
                                         @endif
                                     </td>
                                     <td class="text-center">
@@ -163,3 +163,4 @@
 @endpush
 
 @endsection
+

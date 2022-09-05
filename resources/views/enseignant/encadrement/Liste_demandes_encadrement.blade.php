@@ -51,39 +51,23 @@
                                     @if(isset($stage->entreprise))
                                     <td>{{$stage->entreprise->nom}}</td>
                                     @else
-                                        <td class="text-center">
+                                    <td class="text-center">
 
-                                        </td>
+                                    </td>
                                     @endif
                                     <td>{{$stage->date_debut}}</td>
                                     <td>{{$stage->date_fin}}</td>
+                                    @if($stage->date_fin > $current_date)
                                     <td>
                                         <div style="align-content: center">
-                                            {{--<a href="#" data-title="confirmer-demande" data-toggle="tooltip"
-                                                title="confirmer la demande" onclick="this.disabled = true">
-                                                <i style="background-position: 0 -90px;
-                                                            height: 30px;
-                                                            width: 23px;
-                                                            display:block;
-                                                            margin:0 auto;" class="icofont icofont-ui-check"></i>
-                                            </a>
-                                            <a href="#" data-title='refuser-demande' data-toggle='tooltip'
-                                                title="refuser la demande">
 
-                                                <i style="background-position: 0 -90px;
-                                                height: 30px;
-                                                width: 23px;
-                                                display:block;
-                                                margin:0 auto;" class="icofont icofont-ui-close"></i>
-                                            </a>
-                                            --}}
                                             <a href="{{route('confirmer_demande_enseignant',$stage)}}">
                                                 <button class="btn btn-primary btn-sm" data-toggle="tooltip"
                                                     title="confirmer la demande">
                                                     <i class="icofont icofont-ui-check"></i>
                                                 </button>
                                             </a>
-                                            <a href="{{route('refuser_demande_enseignant',$stage)}}">
+                                            <a href={{route('refuser_demande_enseignant',$stage)}}>
                                                 <button class="btn btn-danger btn-sm" data-toggle="tooltip"
                                                     title="refuser la demande">
                                                     <i class="icofont icofont-ui-close"></i>
@@ -92,6 +76,9 @@
 
                                         </div>
                                     </td>
+                                    @else
+                                    <td class="text-center"> <u>Hors date</u></td>
+                                    @endif
                                 </tr>
                                 @endif
                                 @endforeach

@@ -161,7 +161,7 @@
                                         d'encadrement)</label>
                                     <div class="mb-3">
                                         <input class="form-control" type="file" name="fiche_demande" id="fiche_demande"
-                                            required="required" accept=".jpg,.jpeg,.png,.doc,.docx" />
+                                            required="required" accept=".jpg,.jpeg,.png,.pdf" />
                                     </div>
                                 </div>
                             </div>
@@ -173,7 +173,7 @@
                                         <label class="form-label">La fiche d'assurance</label>
                                         <div class="mb-3">
                                             <input class="form-control" type="file" name="fiche_assurance"
-                                                id="fiche_assurance" required accept=".jpg,.jpeg,.png,.doc,.docx" />
+                                                id="fiche_assurance" required accept=".jpg,.jpeg,.png,.pdf" />
                                         </div>
                                     </div>
                                 </div>
@@ -187,7 +187,7 @@
                                     <label class="form-label">Fiche 2 Dinars</label>
                                     <div class="mb-3">
                                         <input class="form-control" type="file" name="fiche_2Dinars" id="fiche_2Dinars"
-                                            required accept=".jpg,.jpeg,.png,.doc,.docx" />
+                                            required accept=".jpg,.jpeg,.png,.pdf" />
                                     </div>
                                 </div>
                             </div>

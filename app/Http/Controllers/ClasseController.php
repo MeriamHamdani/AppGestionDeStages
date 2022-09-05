@@ -247,23 +247,9 @@ class ClasseController extends Controller
      */
     public function destroy(Classe $classe)
     {
-
+        $typeStage=TypeStage::find($classe->type_stage_id);
+        $typeStage->delete();
         $classe->delete();
         return redirect()->action([ClasseController::class,'index']);
     }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 }

@@ -37,7 +37,7 @@
                             <li class="bg-secondary" style="width: 600px; text-align:center">
                                 <i class="icofont icofont-building icon-4x"></i>
                                 <h3>{{$nbre_departements}}</h3>
-                                <h4>Déparetements</h4>
+                                <h4>Départements</h4>
                             </li>
                             <li class="bg-danger">
                                 <i class="icofont icofont-abacus-alt icon-4x"></i>

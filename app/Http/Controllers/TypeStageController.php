@@ -387,8 +387,12 @@ class TypeStageController extends Controller
             'date_debut_depot' => ['required', 'date'],
             'date_limite_depot' => ['required', 'date']
         ]);
+        $ko="";
         foreach ($request->type_stages as $ts_id) {
             $typeStage = TypeStage::findOrFail($ts_id);
+//dd($request->date_limite_depot .' '. $typeStage->date_limite_periode);
+            if(Carbon::createFromFormat('m/d/Y', $request->date_limite_depot)->format('Y-m-d') >= $typeStage->date_limite_periode)
+            {
             $classe = Classe::where('type_stage_id', $typeStage->id)->get();
             $etudiants = Etudiant::where('classe_id', $classe[0]->id)->get();
             if ($typeStage->date_debut_depot || $typeStage->date_limite_depot) {
@@ -416,7 +420,12 @@ class TypeStageController extends Controller
                 }
                 $typeStage->update();
             }
+            }else{
+                $ko=$typeStage->nom.", ".$ko;
+            }
         }
+       
+        Session::flash('message',$ko);
         return redirect()->action([TypeStageController::class, 'ts_cette_annee']);
     }
 
@@ -432,13 +441,12 @@ class TypeStageController extends Controller
         }
         $types_stages = TypeStage::all();
         foreach ($types_stages as $ts) {
-            $classe = Classe::findOrFail($ts->classe_id);
+            $classe = Classe::find($ts->classe_id);
+
             //$anneeUni = AnneeUniversitaire::findOrFail($classe->annee_universitaire_id);
             $isMaster_term = ((strtoupper($classe->cycle) === strtoupper('master')) && ($classe->niveau == 2));
             $isLicence_term = ((strtoupper($classe->cycle) === strtoupper('licence')) && ($classe->niveau == 3));
-            /*if ($anneeUni->annee === $annee && ($isMaster_term || $isLicence_term)) {
-                $tpStg->push($ts);
-            } */
+
             if ($isMaster_term || $isLicence_term) {
                 $tpStg->push($ts);
             }
