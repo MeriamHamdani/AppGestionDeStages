@@ -514,6 +514,7 @@ class StageController extends Controller
             }
             $stage->confirmation_admin = 0;
             $stage->type_stage_id = $etudiant->classe->typeStage->id;
+            $stage->codeStage = "stg/".random_int(10000, 99999);
             $stage->save();
             if (isset($request->enseignant_id)) {
                 $enseignant = Enseignant::findOrFail($request->enseignant_id);
@@ -681,6 +682,7 @@ class StageController extends Controller
                     //$file_path2 = str_replace(' ', '', $file_path2);
                     //$file_path2 = str_replace('/', '\\', $file_path2); dd($pathh,$annee->fiche_encadrement);
                     $templateProcessor2 = new TemplateProcessor($file_path2);//dd($templateProcessor2->getVariables());
+                    $templateProcessor2->setValue('codeStage', $stage->codeStage);
                     $templateProcessor2->setValue('nom_etud', ucwords($etudiant->nom . ' ' . $etudiant->prenom));
                     $templateProcessor2->setValue('nom_ens', ucwords($enseignant->nom . ' ' . $enseignant->prenom));
                     $templateProcessor2->setValue('cin', $etudiant->user->numero_CIN);
@@ -712,6 +714,7 @@ class StageController extends Controller
                     //$file_path = str_replace(' ', '', $file_path);
                     // $file_path = str_replace('/', '\\', $file_path);
                     $templateProcessor = new TemplateProcessor($file_path);//dd($templateProcessor->getVariables());
+                    $templateProcessor->setValue('codeStage', $stage->codeStage);
                     $templateProcessor->setValue('nom', ucwords($etudiant->nom . ' ' . $etudiant->prenom));
                     $templateProcessor->setValue('CIN', $user->numero_CIN);
                     $templateProcessor->setValue('date_debut', $stage->date_debut);
@@ -748,6 +751,7 @@ class StageController extends Controller
                 //$file_path = str_replace(' ', '', $file_path);
                 //$file_path = str_replace('/', '\\', $file_path);
                 $templateProcessor = new TemplateProcessor($file_path);//dd($templateProcessor->getVariables());
+                $templateProcessor->setValue('codeStage', $stage->codeStage);
                 $templateProcessor->setValue('nom', ucwords($etudiant->nom . ' ' . $etudiant->prenom));
                 $templateProcessor->setValue('CIN', $user->numero_CIN);
                 $templateProcessor->setValue('date_debut', $stage->date_debut);

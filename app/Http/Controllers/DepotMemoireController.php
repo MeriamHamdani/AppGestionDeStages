@@ -109,6 +109,7 @@ class DepotMemoireController extends Controller
                 'memoire' => ['mimes:docx,pdf'],
                 'fiche_tech' => [ 'mimes:docx,jpeg,jpg,png,pdf'],
                 'attestation' => [ 'mimes:docx,jpeg,jpg,png,pdf'],
+                'questionnaire' => [ 'mimes:docx,jpeg,jpg,png,pdf'],
             ]
         );
         $stage_id = request()->get('stage_id');
@@ -145,6 +146,13 @@ class DepotMemoireController extends Controller
                             ->putFileAs($etablissement.'-'.$anneeUniv.'\fiches_suivi_stages\fiches_depots_memoires\mémoires\mémoires_'  . $classe->code, $request->file('memoire'), $memoire_name);
                         $attributs['memoire'] = $path3;
                     }
+                    /*if (isset($request->questionnaire)) {
+                        $questionnaire_name = 'Questionnaire_' . $nomComplet . '.' . $request->file('questionnaire')->extension();
+                        $path = Storage::disk('public')
+                            //->putFileAs($etablissement.'-'.$anneeUniv.'\fiches_suivi_stages\fiches_demandes_stages\fiches_demandes\fiches_demande_' . $classe->code, $request->file('fiche_demande'), $fiche_demande_name);
+                            ->putFileAs($etablissement.'-'.$anneeUniv.'\fiches_suivi_stages\fiches_depots_memoires\questionnaires\questionnaire_'  . $classe->code, $request->file('questionnaire'), $questionnaire_name);
+                        $attributs['questionnaire'] = $path;
+                    }*/
                     $mydate = Carbon::now();
                     $moisCourant = (int)$mydate->format('m');
                     if ((6 < $moisCourant) && ($moisCourant < 12)) {
@@ -179,6 +187,7 @@ class DepotMemoireController extends Controller
                         $attributs = $request->validate([
                             'fiche_tech' => ['required'],
                             'attestation' => ['required'],
+                            'questionnaire' => ['required'],
                         ]);
                         if (isset($request->fiche_tech)) {
                             //dd($request);
@@ -213,6 +222,13 @@ class DepotMemoireController extends Controller
                         $path3 = Storage::disk('public')
                             ->putFileAs($etablissement.'-'.$anneeUniv.'\fiches_suivi_stages\fiches_depots_memoires\mémoires\mémoires_'  . $classe->code, $request->file('memoire'), $memoire_name);
                         $attributs['memoire'] = $path3;
+                    }
+                    if (isset($request->questionnaire)) {
+                        $questionnaire_name = 'Questionnaire_' . $nomComplet . '.' . $request->file('questionnaire')->extension();
+                        $pathQ = Storage::disk('public')
+                            //->putFileAs($etablissement.'-'.$anneeUniv.'\fiches_suivi_stages\fiches_demandes_stages\fiches_demandes\fiches_demande_' . $classe->code, $request->file('fiche_demande'), $fiche_demande_name);
+                            ->putFileAs($etablissement.'-'.$anneeUniv.'\fiches_suivi_stages\fiches_depots_memoires\questionnaires\questionnaire_'  . $classe->code, $request->file('questionnaire'), $questionnaire_name);
+                        $attributs['questionnaire'] = $pathQ;
                     }
                     $mydate = Carbon::now();
                     $moisCourant = (int)$mydate->format('m');
@@ -292,9 +308,10 @@ class DepotMemoireController extends Controller
                 $d->memoire = Str::after($d->memoire, '/');
                 $d->fiche_plagiat = Str::after($d->fiche_plagiat, '/');
                 $d->fiche_biblio = Str::after($d->fiche_biblio, '/');
-                if (isset($d->attestation) && isset($d->fiche_tech)) {
+                if (isset($d->attestation) && isset($d->fiche_tech) && isset($d->questionnaire)) {
                     $d->attestation = Str::after($d->attestation, '/');
                     $d->fiche_tech = Str::after($d->fiche_tech, '/');
+                    $d->questionnaire = Str::after($d->questionnaire, '/');
                 }
                 $demandesDepotC->push($d);
             }
@@ -316,9 +333,10 @@ class DepotMemoireController extends Controller
                 $d->memoire = Str::after($d->memoire, '/');
                 $d->fiche_plagiat = Str::after($d->fiche_plagiat, '/');
                 $d->fiche_biblio = Str::after($d->fiche_biblio, '/');
-                if (isset($d->attestation) && isset($d->fiche_tech)) {
+                if (isset($d->attestation) && isset($d->fiche_tech) && isset($d->questionnaire)) {
                     $d->attestation = Str::after($d->attestation, '/');
                     $d->fiche_tech = Str::after($d->fiche_tech, '/');
+                    $d->questionnaire = Str::after($d->questionnaire, '/');
                 }
                 $demandesDepotC->push($d);
             }
@@ -506,6 +524,19 @@ class DepotMemoireController extends Controller
             return Response::download($file_path, $attestation);
         } else {
             exit('attestaion inexistante !');
+        }
+    }
+    public function telecharger_questionnaire(Stage $stage,string $questionnaire, string $code_classe)
+    {
+        $etablissement = Etablissement::all()->first()->nom; //dd($questionnaire);
+        //$anneeUniv = $this->current_annee_univ()->annee; //dd($annee);
+        $anneeUniv = AnneeUniversitaire::findOrFail($stage->annee_universitaire_id)->annee;
+        $file_path = public_path() .  '/storage/'.$etablissement.'-'.$anneeUniv.'/fiches_suivi_stages/fiches_depots_memoires/questionnaires/questionnaire_' . $code_classe . '/' . $questionnaire;
+        //dd($file_path);
+        if (file_exists($file_path)) {
+            return Response::download($file_path, $questionnaire);
+        } else {
+            exit('questionnaire inexistante !');
         }
     }
 

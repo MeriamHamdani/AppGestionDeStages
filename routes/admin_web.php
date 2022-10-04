@@ -148,6 +148,7 @@ Route::middleware(['auth', 'role:admin|superadmin', 'clearClasse'])->group(funct
         Route::get('/depot/gerer-depots/fiche_biblio/{stage}/{fiche_biblio}/{code_classe}', [DepotMemoireController::class, 'telecharger_fiche_biblio'])->where('fiche_biblio', '[A-Za-z0-9\-\_\.]+')->name('telecharger_fiche_biblio');
         Route::get('/depot/gerer-depots/fiche_tech/{stage}/{fiche_tech}/{code_classe}', [DepotMemoireController::class, 'telecharger_fiche_tech'])->where('fiche_tech', '[A-Za-z0-9\-\_\.]+')->name('telecharger_fiche_tech');
         Route::get('/depot/gerer-depots/attestation/{stage}/{attestation}/{code_classe}', [DepotMemoireController::class, 'telecharger_attestation'])->where('attestation', '[A-Za-z0-9\-\_\.]+')->name('telecharger_attestation');
+        Route::get('/depot/gerer-depots/questionnaire/{stage}/{questionnaire}/{code_classe}', [DepotMemoireController::class, 'telecharger_questionnaire'])->name('telecharger_questionnaire');
         Route::post('/depot/gerer-depots/exporter-liste',[DepotMemoireController::class,'exporter_liste_depots'])->name('exporter_liste_depots');
 
 

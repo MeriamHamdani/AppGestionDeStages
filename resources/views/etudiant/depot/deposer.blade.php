@@ -143,6 +143,13 @@
                                                             id="fiche_tech" accept=".docx,.jpeg,.jpg,.png" required />
                                                     </div>
                                                 </div>
+                                                <div class="mb-3 row">
+                                                    <label class="col-sm-3 col-form-label">Questionnaire</label>
+                                                    <div class="col-sm-9">
+                                                        <input class="form-control" type="file" name="questionnaire"
+                                                               id="questionnaire" accept=".docx,.jpeg,.jpg,.png" required />
+                                                    </div>
+                                                </div>
                                             </div>
                                         </div>
                                     </div>

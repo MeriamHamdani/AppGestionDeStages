@@ -150,7 +150,7 @@
                                                                                 'code_classe'=>$demande->stage->etudiant->classe->code,'stage'=>$demande->stage])}}" data-toggle="tooltip"
                                            data-original-title="Télécharger le fiche biblio" title="Télécharger le fiche biblio">
                                             <i class="icofont icofont-file-text icon-large" style="color: #8a6d3b"></i></a> <br>
-                                        @if(isset($demande->attestation) && isset($demande->fiche_tech))
+                                        @if(isset($demande->attestation) && isset($demande->fiche_tech) && isset($demande->questionnaire))
                                             <a href="{{route('telecharger_fiche_tech',['fiche_tech'=>$demande->fiche_tech,
                                                                                 'code_classe'=>$demande->stage->etudiant->classe->code,'stage'=>$demande->stage])}}" data-toggle="tooltip"
                                                data-original-title="Télécharger le fiche technique" title="Télécharger le fiche technique">
@@ -159,6 +159,10 @@
                                                                                 'code_classe'=>$demande->stage->etudiant->classe->code,'stage'=>$demande->stage])}}" data-toggle="tooltip"
                                                data-original-title="Télécharger l'attestation" title="Télécharger l'attestation">
                                                 <i class="icofont icofont-ui-file icon-large" style="color: #8a6d3b"></i></a><br>
+                                            <a href="{{route('telecharger_questionnaire',['questionnaire'=>$demande->questionnaire,
+                                                                                'code_classe'=>$demande->stage->etudiant->classe->code,'stage'=>$demande->stage])}}" data-toggle="tooltip"
+                                               data-original-title="Télécharger le questionnaire" title="Télécharger le questionnaire">
+                                                <i class="icofont icofont-letter icon-large" style="color: #8a6d3b"></i></a><br>
                                         @endif
                                         @if($demande->validation_admin == -1)
                                         <a href="{{route('valider_par_admin',['demande_depot'=>$demande])}}" data-title="Valider le dépôt du mémoire" data-toggle="tooltip"
